@@ -157,12 +157,29 @@ must sit side by side.** Three things cross the boundary:
 |---|---|---|
 | the measurement corpus (`corpus.csv`) | IMWUT | relative path |
 | `laser_labels_cleaned.csv` (37,811 labels) | IMWUT — it is an input to that repo's bundle-adjustment simulation | relative path, set in `annotation_analysis/laser_label_analysis.ipynb` |
-| `fishsense_imwut.camera.reconstruct_points` | IMWUT | `sys.path` shim, first cell of `annotation_analysis/reconstruction.ipynb` |
+| `fishsense_imwut.calibration.load_rows` | IMWUT | `sys.path`, for §5 item 1 — see below |
 
-The `sys.path` shim rather than a uv path dependency is deliberate and explained in
-`pyproject.toml`: the IMWUT repo depends on `fishsense-meta` (git), which needs a C/Rust
-toolchain and is why that repo carries a `flake.nix`. Declaring it as a path source makes
-`uv sync` here fail outright. `camera.py` is pure numpy, so the shim imports nothing heavy.
+`sys.path` rather than a uv path dependency is deliberate and explained in `pyproject.toml`:
+the IMWUT repo depends on `fishsense-meta` (git), which needs a C/Rust toolchain and is why
+that repo carries a `flake.nix`. Declaring it as a path source makes `uv sync` here fail
+outright. `calibration.py` is pure numpy/scipy, so importing it that way pulls in nothing
+heavy:
+
+```python
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path.cwd().parent.parent / "imwut_2026_fishsense_lite"))
+from fishsense_imwut import calibration as cal
+```
+
+**What is *not* here:** the pixel-error → reconstruction-error sensitivity study. It briefly
+moved here with the rest of `labeling_analysis/`, on the reading that "what pixel accuracy
+must an annotator hit" is P2's contract question. It went back, as
+`../imwut_2026_fishsense_lite/reconstruction_analysis/pixel_sensitivity.ipynb`: by content
+it is a reconstruction simulation on the same synthetic harness as that repo's others, and
+P1's error budget is what cites it. P2 still *uses* its result — the tolerable pixel
+displacement per range is the acceptance criterion a detector has to meet — so cite the
+number, do not rebuild the study.
 
 The cost of not vendoring is that this repo's results move when the IMWUT corpus is
 re-pulled. If P2 needs a frozen snapshot for a submission, copy it into `data/` at that
