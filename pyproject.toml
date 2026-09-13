@@ -1,0 +1,38 @@
+[project]
+name = "fishsense_cscw"
+version = "0.1.0"
+description = "Deployability of FishSense Lite for citizen scientists (CSCW)"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "ipykernel>=7.1.0",
+    "ipympl>=0.9.8",
+    "matplotlib>=3.10.7",
+    "numpy>=2.1",
+    "pandas>=2.3.3",
+    "scipy>=1.16.3",
+    "tqdm>=4.67.1",
+]
+
+# No fishsense-core dependency yet. P4's repo pins the prebuilt PyO3 wheel
+# because it runs the laser detector; nothing here needs it so far. Add it the
+# same way (see ../wuwnet-fishsense2026/pyproject.toml) if the detector work
+# lands in this repo rather than in fishsense-lite.
+#
+# The P1 corpus is NOT vendored. `annotation_analysis/` reads it by relative
+# path from ../imwut_2026_fishsense_lite/fish_model_analysis/data/corpus.csv,
+# so the two repos must sit side by side. See HANDOFF.md section 6.
+
+[dependency-groups]
+dev = [
+    "black>=25.12.0",
+    "pytest>=8.3",
+]
+
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+module-name = "fishsense_cscw"
