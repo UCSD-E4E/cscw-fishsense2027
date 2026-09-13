@@ -150,12 +150,23 @@ trained per platform — determines whether the contribution is *domain robustne
 `<topic>_analysis/` folders, matching `../imwut_2026_fishsense_lite` and
 `../wuwnet-fishsense2026`.
 
-**The P1 corpus is not vendored.** `annotation_analysis/` reads it by relative path from
-`../imwut_2026_fishsense_lite/`, so the repos must sit side by side. That is a deliberate
-choice against copying a 2,927-row export that is still being re-pulled as prod changes —
-but it does mean this repo's results move when P1's corpus moves. If P2 needs a frozen
-snapshot for a submission, vendor it into `data/` at that point and record which commit of
-the P1 repo it came from.
+**Nothing from the IMWUT repo is vendored; this repo reads it by relative path, so the two
+must sit side by side.** Three things cross the boundary:
+
+| what | where it lives | how this repo reaches it |
+|---|---|---|
+| the measurement corpus (`corpus.csv`) | IMWUT | relative path |
+| `laser_labels_cleaned.csv` (37,811 labels) | IMWUT — it is an input to that repo's bundle-adjustment simulation | relative path, set in `annotation_analysis/laser_label_analysis.ipynb` |
+| `fishsense_imwut.camera.reconstruct_points` | IMWUT | `sys.path` shim, first cell of `annotation_analysis/reconstruction.ipynb` |
+
+The `sys.path` shim rather than a uv path dependency is deliberate and explained in
+`pyproject.toml`: the IMWUT repo depends on `fishsense-meta` (git), which needs a C/Rust
+toolchain and is why that repo carries a `flake.nix`. Declaring it as a path source makes
+`uv sync` here fail outright. `camera.py` is pure numpy, so the shim imports nothing heavy.
+
+The cost of not vendoring is that this repo's results move when the IMWUT corpus is
+re-pulled. If P2 needs a frozen snapshot for a submission, copy it into `data/` at that
+point and record which commit of the IMWUT repo it came from.
 
 Corpus CSVs are `|`-delimited with JSON geometry columns; read them with
 `fishsense_imwut.calibration.load_rows`, not bare `csv.reader`.

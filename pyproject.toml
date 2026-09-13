@@ -14,6 +14,15 @@ dependencies = [
     "tqdm>=4.67.1",
 ]
 
+# NOT a path dependency on ../imwut_2026_fishsense_lite, deliberately. That repo
+# depends on fishsense-meta (git), which needs a C/Rust toolchain to build and
+# is why it carries a flake.nix -- taking it as a path source makes `uv sync`
+# here fail with "does not appear to be a Python project". The two notebooks
+# that need `fishsense_imwut.camera.reconstruct_points` put the sibling repo on
+# sys.path instead (see the first cell of annotation_analysis/reconstruction.ipynb);
+# camera.py is pure numpy, so nothing heavy is imported. Revisit if this repo
+# ever needs fishsense-core itself. See HANDOFF.md section 6.
+
 # No fishsense-core dependency yet. P4's repo pins the prebuilt PyO3 wheel
 # because it runs the laser detector; nothing here needs it so far. Add it the
 # same way (see ../wuwnet-fishsense2026/pyproject.toml) if the detector work
