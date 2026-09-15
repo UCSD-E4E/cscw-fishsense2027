@@ -191,3 +191,66 @@ Corpus CSVs are `|`-delimited with JSON geometry columns; read them with
 Prod is read-only from the analysis environment and **prod writes are the user's** — write
 the SQL, hand it over, verify afterwards read-only. The read-only psql recipe and the
 NAS/Garage layout are in the P1 handoff §1.
+
+---
+
+## 7. P4 → P2 note, 2026-09-13: the laser needs no target
+
+Written after P4's per-dive laser work (`../wuwnet-fishsense2026/fishsense_wuwnet/laser.py`,
+`refraction_analysis/laser_per_dive.ipynb`) and a check of it on the P1 corpus
+(`annotation_analysis/scalefree_laser_selfcal.ipynb` here). It changes §1 and §2 and
+gives §4.1 an experiment; it does not touch §4.2/§4.3.
+
+**The result.** The in-plane laser angle φ — invisible to the dots, per P1 §3.3 — is
+recoverable with no known length from any rigid object the dot lands on in two or more
+frames at different ranges: apparent size is ∝ 1/Z, so dot position along the locus is
+linear in apparent size and the intercept is the beam's vanishing point. P4 calls this
+Tier 3 (`close_with_apparent_size`). On the P1 corpus it reproduces P1's known-length
+calibration (`fit_phi_joint`) to **0.003° median / 0.016° MAD over ten Box dives**, and it
+is biased on solid fish models by exactly P1's half-thickness parallax (§6.4 there),
+ordering by `b`. So the size must be measured at the dot's surface — body height at the
+dot, or a slab.
+
+**§1 rows affected.**
+- *calibration target must be fabricated by measurement*: for the laser, no target at
+  all. The checkerboard survives only for the camera, in air, once per unit (P4). A brick
+  target is a slab, so for the laser it needs no known dimension — the laser half of the
+  §4.1 grading disappears rather than needing to be run.
+- *calibration performed at depth*: the slate leaves the dive; the dive's own rigid
+  objects are the calibration.
+- *mount dimensional stability*: quantified. Worst-case 15 % on length needs `|O|` to
+  15 mm and nothing on `D` (self-calibrated per dive). Any printed mount meets 15 mm.
+
+**§2, the acceptance test.** Tier 3 is P1's range-trend statistic used as the estimator
+instead of the residual — same physics, same rigidity assumption, no known length. The
+guardrail P2 must state: **calibrate on one object, test on another**; an object used
+for Tier 3 passes `range_trend` on itself by construction.
+
+**§4.1.** The gap experiment (recalibrate every dive target-free, see if the
+checkerboard-vs-slate gap survives) is set up in the notebook but *not* clean on this
+corpus: the two groups carry different model sets with different parallax. It needs a
+parallax-free size on both sides. Two things P2 should carry into that discussion
+regardless: an in-air calibration on the E4E board carries a 0.7 % fx/fy anisotropy of
+unresolved origin, and P1 has since shown it is **fleet-wide** — all seven production
+cameras read fx/fy = 0.99141 ± 0.00044, never straddling 1. It is therefore **not** a
+candidate for the checkerboard-vs-slate gap: it is common to both groups, so it cannot
+make a difference between them, and §6.3's "systematic in corner detection" stays open
+with this not being it. It is still P2's business for another reason. The leading
+hypothesis is that the E4E board's *printed pitch* is anisotropic — inside the ±1.2 %
+tolerance §4.1 already quotes, with printer feed-axis scaling as the mechanism — and both
+P4's and production's code model the pitch as a single scalar `square_size_m`, which
+cannot express it. If that is the cause, a moulded brick target is *better* than a printed
+board on this axis, and the fix elsewhere is to caliper targets per axis on receipt.
+Undecided until one unit is calibrated landscape and portrait; the exchange is P1's
+`p4_reply_anisotropy.md` and P4's `p4_response_anisotropy.md`. Separately, P1's SAM3
+head/tail stage segments the P4 decoy cleanly, so the annotation barrier and this
+calibration share a backend.
+
+**For P1, not P2:** thickness parallax puts a genuine positive range trend on solid models
+under a *correct* calibration — `length(z) = L + b/z`, so the Theil-Sen pairwise slope is
+`-b/(z_i z_j)`, always positive for `b < 0`. Computed per corpus cell against P1's own
+gates: Box +0.4 to +0.9 %/m, Weasly Fish +0.9 to +2.3 %/m, the one Snook cell +2.4 %/m,
+against a 2.0 %/m flag — 4 of 22 cells at or over it on parallax alone. No Grouper cell
+passes the gates. Small next to the observed spread (-6 to +5.5 %/m), so it is a one-sided
+bias on the audit statistic rather than its dominant term, but not zero, and the Box is
+the only model free of it.
