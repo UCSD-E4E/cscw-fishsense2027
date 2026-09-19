@@ -207,8 +207,12 @@ frames at different ranges: apparent size is ∝ 1/Z, so dot position along the 
 linear in apparent size and the intercept is the beam's vanishing point. P4 calls this
 Tier 3 (`close_with_apparent_size`). On the P1 corpus it reproduces P1's known-length
 calibration (`fit_phi_joint`) to **0.003° median / 0.016° MAD over ten Box dives**, and it
-is biased on solid fish models by exactly P1's half-thickness parallax (§6.4 there),
-ordering by `b`. So the size must be measured at the dot's surface — body height at the
+disagrees on the solid fish models, ordering with thickness. **Do not call that
+half-thickness parallax:** P1's own PAPER.md §4.3 declines the attribution, because each
+target is measured on its own sessions so a per-target `1/z` term cannot be separated
+from those sessions' residual calibration drift -- and the numbers do not fit a pure
+thickness story anyway (the solid trout's coefficient is ~5x smaller than its 58.7 mm
+predicts; a flat plate's is larger). So the size must be measured at the dot's surface — body height at the
 dot, or a slab.
 
 **§1 rows affected.**
@@ -228,8 +232,8 @@ for Tier 3 passes `range_trend` on itself by construction.
 
 **§4.1.** The gap experiment (recalibrate every dive target-free, see if the
 checkerboard-vs-slate gap survives) is set up in the notebook but *not* clean on this
-corpus: the two groups carry different model sets with different parallax. It needs a
-parallax-free size on both sides. Two things P2 should carry into that discussion
+corpus: the two groups carry different model sets with different per-target range
+dependence, whatever its cause. It needs a size measure free of that on both sides. Two things P2 should carry into that discussion
 regardless: an in-air calibration on the E4E board carries a 0.7 % fx/fy anisotropy of
 unresolved origin, and P1 has since shown it is **fleet-wide** — all seven production
 cameras read fx/fy = 0.99141 ± 0.00044, never straddling 1. It is therefore **not** a
@@ -246,8 +250,8 @@ Undecided until one unit is calibrated landscape and portrait; the exchange is P
 head/tail stage segments the P4 decoy cleanly, so the annotation barrier and this
 calibration share a backend.
 
-**For P1, not P2:** thickness parallax puts a genuine positive range trend on solid models
-under a *correct* calibration — `length(z) = L + b/z`, so the Theil-Sen pairwise slope is
+**For P1, not P2 (and see the retraction sent 2026-09-19):** *if* the per-target `1/z`
+coefficients were thickness, they would put a positive range trend on solid models — `length(z) = L + b/z`, so the Theil-Sen pairwise slope is
 `-b/(z_i z_j)`, always positive for `b < 0`. Computed per corpus cell against P1's own
 gates: Box +0.4 to +0.9 %/m, Weasly Fish +0.9 to +2.3 %/m, the one Snook cell +2.4 %/m,
 against a 2.0 %/m flag — 4 of 22 cells at or over it on parallax alone. No Grouper cell
