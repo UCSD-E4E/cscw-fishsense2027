@@ -1,0 +1,70 @@
+kind,stage,dive,A,B,worst,med
+slate,1 human corners+dots,436,accepted,accepted,2.253950945885208e-05,8.688316959712328
+slate,"2 human corners, detector dots",436,accepted,accepted,0.029659012184568567,8.717998511406355
+slate,"3 predicted corners (ECC>=0.8), detector dots",436,accepted,accepted,6.565107026730188,2.1232324724915985
+slate,1 human corners+dots,62,accepted,accepted,1.574886145938592e-05,1.2473748099649216
+slate,"2 human corners, detector dots",62,accepted,accepted,0.2787320292433004,1.2536836027095077
+slate,"3 predicted corners (ECC>=0.8), detector dots",62,accepted,accepted,2.055573558561663,2.627592476343316
+slate,1 human corners+dots,94,accepted,accepted,0.23159596357461254,2.73798657807269
+slate,"2 human corners, detector dots",94,accepted,accepted,0.2790647474857746,3.248647289133077
+slate,"3 predicted corners (ECC>=0.8), detector dots",94,CalibrationUnderdeterminedError,CalibrationUnderdeterminedError,0.7146928578714444,2.254889683775858
+slate,1 human corners+dots,87,accepted,accepted,0.04859008010676247,1.9114648485000392
+slate,"2 human corners, detector dots",87,accepted,accepted,0.7454364515620937,2.6083112199553704
+slate,"3 predicted corners (ECC>=0.8), detector dots",87,CalibrationImplausibleError,CalibrationImplausibleError,28.069018957787907,26.20614418939463
+slate,1 human corners+dots,107,CalibrationUnderdeterminedError,CalibrationUnderdeterminedError,9.247406208112707e-05,2.5357631808590924
+slate,"2 human corners, detector dots",107,CalibrationUnderdeterminedError,CalibrationUnderdeterminedError,0.6396877929479996,1.8959829138490116
+slate,"3 predicted corners (ECC>=0.8), detector dots",107,CalibrationUnderdeterminedError,CalibrationUnderdeterminedError,0.5011159602830095,2.0345547465140017
+checkerboard,1 human corners+dots,502,accepted,accepted,0.07854700769340367,0.5673014345219303
+checkerboard,"2 human corners, detector dots",502,accepted,accepted,0.0784886210843983,0.5672977337728442
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",502,accepted,accepted,0.0784886210843983,0.5672977337728442
+slate,1 human corners+dots,63,accepted,accepted,0.00019014627375080195,4.9425104153713875
+slate,"2 human corners, detector dots",63,accepted,accepted,0.15964364328292957,5.026757949702997
+slate,"3 predicted corners (ECC>=0.8), detector dots",63,CalibrationUnderdeterminedError,CalibrationUnderdeterminedError,1.135175140207573,4.417801738152363
+slate,1 human corners+dots,65,accepted,accepted,0.00013762555716612113,2.0059910891362667
+slate,"2 human corners, detector dots",65,accepted,accepted,0.6251559839226117,2.3757320472390795
+slate,"3 predicted corners (ECC>=0.8), detector dots",65,accepted,accepted,0.965536590585403,2.0701771599510543
+slate,1 human corners+dots,71,accepted,accepted,0.0004164461493227911,4.847231438845981
+slate,"2 human corners, detector dots",71,accepted,accepted,0.055562247065539694,4.902655812286348
+slate,"3 predicted corners (ECC>=0.8), detector dots",71,accepted,accepted,1.922179516764868,6.769273081985676
+slate,1 human corners+dots,77,accepted,accepted,0.12030313715571506,1.1403947749788772
+slate,"2 human corners, detector dots",77,CalibrationInconsistentError,CalibrationInconsistentError,3.6496642754632616,2.5411170400082135
+slate,"3 predicted corners (ECC>=0.8), detector dots",77,CalibrationInconsistentError,CalibrationInconsistentError,2.403556804488507,1.5152769682758578
+slate,1 human corners+dots,80,accepted,accepted,2.21644497355733e-05,0.5974327274087587
+slate,"2 human corners, detector dots",80,accepted,accepted,0.05324080440307216,0.6435715874899273
+slate,"3 predicted corners (ECC>=0.8), detector dots",80,accepted,accepted,0.8952488123598346,0.3167973102165278
+slate,1 human corners+dots,83,accepted,accepted,0.00010301030232584552,4.019253728345645
+slate,"2 human corners, detector dots",83,accepted,accepted,0.14973088813098556,3.9775233257850724
+slate,"3 predicted corners (ECC>=0.8), detector dots",83,accepted,accepted,0.8235262362210154,3.2811234521838166
+slate,1 human corners+dots,114,accepted,accepted,0.0027773379611795157,2.8639968528441195
+slate,"2 human corners, detector dots",114,CalibrationInconsistentError,CalibrationInconsistentError,0.945243532760609,3.806463047643549
+slate,"3 predicted corners (ECC>=0.8), detector dots",114,CalibrationUnderdeterminedError,CalibrationUnderdeterminedError,72.40749375192388,69.54627423704093
+checkerboard,1 human corners+dots,505,accepted,accepted,0.1311736288248153,2.2189830576641145
+checkerboard,"2 human corners, detector dots",505,accepted,accepted,0.1314468374703992,2.2187098490185306
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",505,accepted,accepted,0.1314468374703992,2.2187098490185306
+checkerboard,1 human corners+dots,489,accepted,accepted,0.23709568278235565,0.4872328872450367
+checkerboard,"2 human corners, detector dots",489,accepted,accepted,0.23702764734933496,0.4873009226780574
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",489,accepted,accepted,0.23702764734933496,0.4873009226780574
+checkerboard,1 human corners+dots,499,accepted,accepted,0.20951578145900074,1.5404521710314705
+checkerboard,"2 human corners, detector dots",499,accepted,accepted,0.20871946058159185,1.5402012713790012
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",499,accepted,accepted,0.20871946058159185,1.5402012713790012
+checkerboard,1 human corners+dots,493,accepted,accepted,0.027686404572791368,3.5886511620628987
+checkerboard,"2 human corners, detector dots",493,accepted,accepted,0.027686404572791368,3.5886511620628987
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",493,accepted,accepted,0.027686404572791368,3.5886511620628987
+checkerboard,1 human corners+dots,490,accepted,accepted,0.03901604088859667,6.024807790186106
+checkerboard,"2 human corners, detector dots",490,accepted,accepted,0.03895926488733181,6.024767973081179
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",490,accepted,accepted,0.03895926488733181,6.024767973081179
+checkerboard,1 human corners+dots,518,accepted,accepted,0.12104258174615579,2.1703336181763024
+checkerboard,"2 human corners, detector dots",518,accepted,accepted,0.12120134307912478,2.1703060606501015
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",518,accepted,accepted,0.12120134307912478,2.1703060606501015
+checkerboard,1 human corners+dots,509,accepted,accepted,0.5371263059313343,4.084480335417199
+checkerboard,"2 human corners, detector dots",509,accepted,accepted,0.5371246811088026,4.084487654053978
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",509,accepted,accepted,0.5371246811088026,4.084487654053978
+checkerboard,1 human corners+dots,496,accepted,accepted,0.2642089202056994,0.7494010338062347
+checkerboard,"2 human corners, detector dots",496,accepted,accepted,0.2642089202056994,0.7494010338062347
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",496,accepted,accepted,0.2642089202056994,0.7494010338062347
+checkerboard,1 human corners+dots,522,accepted,accepted,0.13386312148014973,3.0304214874005284
+checkerboard,"2 human corners, detector dots",522,accepted,accepted,0.1335763818432098,3.0302674324090484
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",522,accepted,accepted,0.1335763818432098,3.0302674324090484
+checkerboard,1 human corners+dots,521,accepted,accepted,0.03828782048455048,1.5217512587392124
+checkerboard,"2 human corners, detector dots",521,accepted,accepted,0.03819446168262797,1.5218370326148933
+checkerboard,"3 predicted corners (ECC>=0.8), detector dots",521,accepted,accepted,0.03819446168262797,1.5218370326148933
