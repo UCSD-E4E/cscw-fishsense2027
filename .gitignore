@@ -7,3 +7,13 @@ wheels/
 .venv
 .ipynb_checkpoints/
 .pytest_cache/
+
+# Regenerable intermediates (large or derived from NAS imagery); rebuilt by the committed scripts
+*.log
+calibration_analysis/e1k_beam_streak/streak_*.npz
+calibration_analysis/e1j_size_constancy/features/
+e2e_measurement/species/crops/
+e2e_measurement/species/bioclip_cache/
+e2e_measurement/species/embeddings.npz
+e2e_measurement/tail/masks/
+e2e_measurement/tail/coverage/
