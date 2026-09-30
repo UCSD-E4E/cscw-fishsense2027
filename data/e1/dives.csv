@@ -1,0 +1,24 @@
+dive_id,camera_id,dive_slate_id,calibration_target_id,path
+436,4,9,,2025-02-10 REEF Data Dump SMILE 6/101624_Alligator/101624_Alligator_FSL04/101624_Alligator0_FSL04
+62,5,2,,2023-09-07 REEF Data Dump/082923_Pool Calibration/082929_Slate_FSL05
+94,4,2,,2024.06.20.REEF/08_2023/083123_Fish Degree Angle Tests/083123_Fish Deg Angle Tests_FSL04
+87,6,2,,2025-02-10 REEF Data Dump SMILE 6/083123_Fish Degree Angle Tests/083123_Fish Deg Angle Tests_FSL06
+107,5,2,,2023-09-07 REEF Data Dump/083123_Fish Degree Angle Tests/083123_Fish Deg Angle Test_FSL05
+502,6,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-06D/LaserCalibration
+63,3,2,,2024.06.20.REEF/08_2023/082923_Pool Calibration/082923_Slate_FSL03
+65,4,2,,2024.06.20.REEF/08_2023/082923_Pool Calibration/082929_Slate_FSL04
+71,2,2,,2024.06.20.REEF/08_2023/082923_Pool Calibration/082923_Slate_FSL02
+77,1,2,,2023-09-07 REEF Data Dump/082923_Pool Calibration/082929_Slate_FSL01
+80,6,2,,2024.06.20.REEF/08_2023/082923_Pool Calibration/082929_Slate_FSL06
+83,10,2,,2024.06.20.REEF/08_2023/082923_Pool Calibration/082929_Slate_FSL07
+114,1,2,,2023-09-07 REEF Data Dump/083123_Fish Degree Angle Tests/083123_Fish Degree Angle Test_FSL-01
+505,10,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-07D/LaserCalibration
+489,2,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-02D/LaserCalibration2
+499,5,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-05D/LaserCalibration
+493,3,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-03D/LaserCalibration
+490,2,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-02D/LaserCalibration3
+518,10,,1,/fishsense_data/__unsorted-data/2023.08.18.FishSense.Host01s Pool/07/LaserCalibration
+509,4,,1,/fishsense_data/__unsorted-data/2023.08.18.FishSense.Host01s Pool/04
+496,4,,1,/fishsense_data/__unsorted-data/2023.08.14.FishSense.Host01s Pool/ED-00/FSL-04D/LaserCalibration
+522,3,,1,/fishsense_data/__unsorted-data/2023.08.18.FishSense.Host01s Pool/08_18_Pool_Test_FSL-03
+521,2,,1,/fishsense_data/__unsorted-data/2023.08.18.FishSense.Host01s Pool/08_18_Pool_Test_FSL-02

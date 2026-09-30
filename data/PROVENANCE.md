@@ -1,0 +1,113 @@
+# Frozen inputs
+
+`HANDOFF.md` §6: this repo reads sibling repositories by relative path and vendors
+nothing, *except* when an input needs freezing. Both sets below were frozen on
+2026-09-23 because their only other copies are unversioned: one sits in a directory
+that is not a git repository, the other in a bare home directory, and the script that
+produced it is gone. Nothing here contains personal data. The annotator names and emails
+in the Label Studio recovery (`mobile_headtail_project46.json`) were deliberately left
+out. The human keypoints needed here are already embedded in the result JSON as `gt`.
+
+## `mobile_headtail/` — FishSense Mobile (in-air, iPad) head/tail detector output
+
+| file | sha256 |
+|---|---|
+| `v2_1_5.json` | `b5ed172781e4ec3beed80c7a1d67d15a4655ae3cfe1b2bf6ca538f7aaee99af8` |
+| `v2_1_5_fix.json` | `e4af84830508688a0fb63bf0e5f3062ce373122d9e8113b4f8c239277aed39f4` |
+| `masks_v2_1_5_fix/` | 148 binary masks, one per detected frame |
+
+- **Source:** `../2026-07-18_fishsense-core-test/data/`, **not a git repository**.
+- **Producer:** that directory's `run_infer.py`, run against fishsense-core v2.1.5.
+  `_fix` is v2.1.5 with `patches/inference_single_scorearea.patch` applied, which ranks
+  detections by score × area instead of area alone. It changes the selected mask on
+  1 of 148 frames. The pipeline is `FishSegmentation.inference_single` →
+  `FishHeadTailDetector.find_head_tail_img`.
+- **Ground truth:** `gt` in each record: Snout and Fork from Label Studio project 46,
+  as % of frame.
+- **Coverage:** 151 of 750 labelled frames. Only those were on disk when it ran.
+- **Check on freeze:** reproduces that repo's `validation.ipynb` §6 exactly
+  (v2.1.5 snout median 16.51 px, fork median 31.57 px, n = 148). Pinned in
+  `tests/test_headtail.py`.
+
+## `lite_headtail_field/` — FishSense Lite (underwater) head/tail detector output
+
+| file | sha256 |
+|---|---|
+| `manifest_field.csv` | `83aec28d1a9088bee2155cb133fce4e78ff3ef33eed9505f6f7b635569b35051` |
+| `fishial.csv` | `9643823c95f242e3d6679b97c7509704c602457cd11651558924754a5a9c31ec` |
+| `sam3.csv` | `4358d3981261ac3057d532ade3571df743f821370d09550fa109afd0c37206d1` |
+
+- **Source:** `~/fishsense-ml-eval/`, a bare home directory with no repository.
+  `fishial6.csv` and `sam3_6.csv` there add a sixth arm (`seathru`) and were not copied.
+- **Producer: ORPHANED.** No script on disk emits this schema (the `arm` and `model`
+  columns). The closest relatives are `fishsense-lite/tools/validate_headtail_predictions.py`
+  and `2026-09-01_underwater-correction/enhancement_eval/evaluate.py`, which use the same
+  orientation-resolved scoring but different column names. The arms (`baseline`,
+  `recommended`, `recommended-dot`, `gentle-denoise`, `bm3d`) are that underwater-correction
+  study's enhancement conditions. **Only `arm == "baseline"` is used here.**
+- **Frames:** 167 labelled field images from 6 reef dives (279, 341, 349, 383, 465,
+  471). Instance selection is the **laser gate**.
+- **Checks on freeze**, because the producer is missing:
+  - `human_len_px` matches the manifest's human keypoints on 117 of 117 predicted SAM3
+    frames.
+  - 0 of 117 frames have both endpoint errors larger than the fish, so no unresolved
+    head/tail swaps.
+- **Which SAM3 configuration** (full frame or laser crop) is not recorded. The first row's
+  `n_instances = 16` suggests full frame. Treat the SAM3 arm as "some SAM3", not as the
+  1800×1350 laser-crop design in `fishsense-lite/docs/plans/headtail-prediction.md`.
+
+## `laser_pairs/` — the 755 doubly-labelled laser images (T1/T2)
+
+| file | sha256 |
+|---|---|
+| `annotations.csv` | `1786496d9f7f39ec4e3be06762a60ded400292291b01b594ae79980cc183ab3f` |
+| `laserlabel_rows.csv` | `71d0cf300303e08bb84fee5c5008566a6bd32edb8922d7260262a9ff4531cb4f` |
+| `laserprediction.csv` | `0b409671ad34c03ee154d0c44af11cc2f2ef978f0e26a7cdfbaba9705c38dacf` |
+
+- **Source:** the prod nightly backup `2026-09-25T03-00-12Z.dump` from
+  `~/mnt/fishsense_process_work/database_backups/fishsense/`. It was restored into a
+  throwaway local `postgres:17` container. Prod itself was not touched.
+- **Query:** `sql/extract_laser_annotations.sql`, filtered afterwards to the 755 images.
+  That gives 1,513 annotations, 1,506 `laserlabel` rows and 256 `laserprediction` rows.
+- **Personal data:** `labeler` is Label Studio's numeric user id only. No names or emails
+  were extracted.
+- **Check on freeze:** the effort study's filter reproduces its 755 exactly. This is
+  pinned in `tests/test_laser_pairs.py`.
+
+## `turnaround/` — per-dive first-label timestamps (REEF turnaround)
+
+| file | sha256 |
+|---|---|
+| `label_timestamps.csv` | `f921f81a9f02f7b0be52537f455eee74cb5942978f3f08c2f349bebddfdc8888` |
+
+`sql/extract_label_timestamps.sql` on the 2026-09-25 backup. One row per dive and label
+kind, with only the dive path and date plus counts and timestamps, so no personal data.
+
+## `coverage/` — per-dive dots, reconstructed ranges, and E1g coverage results
+
+| file | sha256 |
+|---|---|
+| `dives.csv` | `683724ecbfbadd1393545ffa95932ed4d9f14a539e38298e05488f362d364e14` |
+| `dot_pixels.csv` | `78452497817d11e290a410f9ec9eee304232d1bf365e08f83cdd1e34cc999bef` |
+| `reconstructed_depths.csv` | `b4e0a66ccfd341686ba8760be06570db5232e746c1280d5348be9dfc0c0a503a` |
+
+From the 2026-09-25 backup: live, canonical laser labels (pixels only) and dive
+camera/date/kind. Per-dot ranges are reconstructed from each dot's position along its
+dive's line, measured from the camera's fleet-median vanishing point (see
+`fishsense_cscw/coverage.py`). `result_*.csv` are that module's output.
+
+## data/db_extracts/ (2026-09-29)
+
+Small read-only extracts from the restored production backup (container `p2-fishsense-db`,
+dump 2026-09-25T03-00-12Z), used by `calibration_analysis/e1j_size_constancy/`
+(`slate_unknown.py`, `register.py`, `field_bursts.py`) and `calibration_analysis/e1k_beam_streak/probe.py`.
+They previously lived in a session scratchpad under /tmp, which is wiped at boot, and were
+regenerated here with the same queries: `lines.psv` (divelaserline), `extrinsics.psv` and
+`green_truth.psv` (laserextrinsics), `slate_dots.psv` / `slate_paths.psv` (slate labels with a
+laser dot), `field_ht.psv` (head/tail + dot + species labels), `clusters.psv`
+(diveframecluster mapping), `field_dots.psv` (laser labels on the streak dives).
+
+Large staged inputs are outside the repo in `~/.cache/cscw-fishsense2027/`:
+`tail_stage/` (22 GB: rectified JPEGs of 1,618 frames, raw ORF copies of the reef ones) and
+`sam_windows/` (458 MB: SAM input windows for the species frames). Both can be rebuilt from
+the NAS with `e2e_measurement/tail/stage.py` and `e2e_measurement/species/extract.py stage`.
