@@ -1,0 +1,434 @@
+key,image_id,variant,truth,dive,pred
+101293_sam,101293,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101294_sam,101294,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101295_sam,101295,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101296_sam,101296,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101297_sam,101297,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101303_sam,101303,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101304_sam,101304,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101305_sam,101305,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101306_sam,101306,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101307_sam,101307,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101308_sam,101308,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101309_sam,101309,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101310_sam,101310,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101311_sam,101311,sam,OTHER,341,Mycteroperca bonaci
+101312_sam,101312,sam,OTHER,341,OTHER
+101315_sam,101315,sam,OTHER,341,OTHER
+101316_sam,101316,sam,OTHER,341,OTHER
+101317_sam,101317,sam,OTHER,341,OTHER
+101318_sam,101318,sam,OTHER,341,Mycteroperca bonaci
+101320_sam,101320,sam,OTHER,341,Scarus guacamaia
+101321_sam,101321,sam,OTHER,341,Mycteroperca bonaci
+101322_sam,101322,sam,OTHER,341,OTHER
+101337_sam,101337,sam,Sparisoma viride,341,Sparisoma viride
+101357_sam,101357,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101359_sam,101359,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101360_sam,101360,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101361_sam,101361,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101362_sam,101362,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101363_sam,101363,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101366_sam,101366,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101367_sam,101367,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101368_sam,101368,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101370_sam,101370,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101371_sam,101371,sam,Lachnolaimus maximus,341,Lachnolaimus maximus
+101374_sam,101374,sam,Sparisoma viride,341,Sparisoma viride
+101375_sam,101375,sam,Sparisoma viride,341,Sparisoma viride
+101396_sam,101396,sam,Sparisoma viride,341,Sparisoma viride
+101397_sam,101397,sam,Sparisoma viride,341,Sparisoma viride
+101398_sam,101398,sam,Sparisoma viride,341,Sparisoma viride
+101399_sam,101399,sam,Sparisoma viride,341,Sparisoma viride
+101400_sam,101400,sam,Sparisoma viride,341,Sparisoma viride
+101401_sam,101401,sam,Sparisoma viride,341,Sparisoma viride
+101402_sam,101402,sam,Sparisoma viride,341,Sparisoma viride
+101403_sam,101403,sam,Sparisoma viride,341,Sparisoma viride
+101404_sam,101404,sam,Sparisoma viride,341,Sparisoma viride
+101406_sam,101406,sam,Sparisoma viride,341,Sparisoma viride
+101410_sam,101410,sam,Sparisoma viride,341,Sparisoma viride
+101411_sam,101411,sam,Sparisoma viride,341,Sparisoma viride
+101412_sam,101412,sam,Sparisoma viride,341,Sparisoma viride
+101414_sam,101414,sam,Sparisoma viride,341,Sparisoma viride
+101415_sam,101415,sam,Sparisoma viride,341,Sparisoma viride
+101416_sam,101416,sam,Sparisoma viride,341,Sparisoma viride
+101417_sam,101417,sam,Sparisoma viride,341,Sparisoma viride
+101418_sam,101418,sam,Sparisoma viride,341,Sparisoma viride
+101419_sam,101419,sam,Sparisoma viride,341,Sparisoma viride
+101421_sam,101421,sam,Sparisoma viride,341,Sparisoma viride
+101423_sam,101423,sam,Scarus guacamaia,341,Scarus guacamaia
+101425_sam,101425,sam,Scarus guacamaia,341,Scarus guacamaia
+101426_sam,101426,sam,Scarus guacamaia,341,Scarus guacamaia
+101427_sam,101427,sam,OTHER,341,Lachnolaimus maximus
+101428_sam,101428,sam,OTHER,341,Lachnolaimus maximus
+101429_sam,101429,sam,OTHER,341,OTHER
+101430_sam,101430,sam,OTHER,341,Scarus coeruleus
+101431_sam,101431,sam,OTHER,341,Lachnolaimus maximus
+101432_sam,101432,sam,OTHER,341,Lachnolaimus maximus
+101433_sam,101433,sam,OTHER,341,Lachnolaimus maximus
+101434_sam,101434,sam,Sparisoma viride,341,Sparisoma viride
+101437_sam,101437,sam,Sparisoma viride,341,Sparisoma viride
+101438_sam,101438,sam,Scarus guacamaia,341,Scarus guacamaia
+101440_sam,101440,sam,Scarus guacamaia,341,Scarus guacamaia
+101441_sam,101441,sam,Scarus coeruleus,341,Scarus coeruleus
+101442_sam,101442,sam,Scarus coeruleus,341,Scarus coeruleus
+101445_sam,101445,sam,Scarus coeruleus,341,Scarus coeruleus
+101446_sam,101446,sam,Scarus coeruleus,341,Scarus coeruleus
+102545_sam,102545,sam,Sparisoma viride,349,Sparisoma viride
+102547_sam,102547,sam,Sparisoma viride,349,Sparisoma viride
+102550_sam,102550,sam,Sparisoma viride,349,Sparisoma viride
+102551_sam,102551,sam,Sparisoma viride,349,Sparisoma viride
+102552_sam,102552,sam,Sparisoma viride,349,Sparisoma viride
+102553_sam,102553,sam,Sparisoma viride,349,Sparisoma viride
+102554_sam,102554,sam,Sparisoma viride,349,Sparisoma viride
+102555_sam,102555,sam,Sparisoma viride,349,Sparisoma viride
+102557_sam,102557,sam,Sparisoma viride,349,Sparisoma viride
+102559_sam,102559,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102560_sam,102560,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102561_sam,102561,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102562_sam,102562,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102563_sam,102563,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102564_sam,102564,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102565_sam,102565,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102566_sam,102566,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102567_sam,102567,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102595_sam,102595,sam,Scarus coelestinus,349,Scarus coeruleus
+102597_sam,102597,sam,OTHER,349,OTHER
+102598_sam,102598,sam,OTHER,349,OTHER
+102599_sam,102599,sam,OTHER,349,OTHER
+102600_sam,102600,sam,OTHER,349,OTHER
+102601_sam,102601,sam,OTHER,349,OTHER
+102602_sam,102602,sam,OTHER,349,OTHER
+102603_sam,102603,sam,OTHER,349,OTHER
+102604_sam,102604,sam,OTHER,349,OTHER
+102605_sam,102605,sam,Epinephelus striatus,349,Lachnolaimus maximus
+102606_sam,102606,sam,Epinephelus striatus,349,Lachnolaimus maximus
+102607_sam,102607,sam,Epinephelus striatus,349,Lachnolaimus maximus
+102608_sam,102608,sam,Epinephelus striatus,349,Lachnolaimus maximus
+102609_sam,102609,sam,Epinephelus striatus,349,Epinephelus striatus
+102610_sam,102610,sam,Epinephelus striatus,349,Epinephelus striatus
+102611_sam,102611,sam,Epinephelus striatus,349,Epinephelus striatus
+102612_sam,102612,sam,Epinephelus striatus,349,Epinephelus striatus
+102613_sam,102613,sam,Epinephelus striatus,349,Epinephelus striatus
+102614_sam,102614,sam,Epinephelus striatus,349,Lachnolaimus maximus
+102615_sam,102615,sam,Mycteroperca bonaci,349,Scarus guacamaia
+102616_sam,102616,sam,Mycteroperca bonaci,349,Scarus coeruleus
+102617_sam,102617,sam,Mycteroperca bonaci,349,Lachnolaimus maximus
+102618_sam,102618,sam,Mycteroperca bonaci,349,Scarus guacamaia
+102619_sam,102619,sam,Mycteroperca bonaci,349,Scarus coeruleus
+102620_sam,102620,sam,Mycteroperca bonaci,349,Scarus coeruleus
+102621_sam,102621,sam,Mycteroperca bonaci,349,Scarus guacamaia
+102623_sam,102623,sam,Mycteroperca bonaci,349,Scarus guacamaia
+102624_sam,102624,sam,Mycteroperca bonaci,349,Scarus guacamaia
+102627_sam,102627,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102628_sam,102628,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102629_sam,102629,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102630_sam,102630,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102631_sam,102631,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102632_sam,102632,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102633_sam,102633,sam,Mycteroperca bonaci,349,Mycteroperca bonaci
+102634_sam,102634,sam,Mycteroperca bonaci,349,Mycteroperca bonaci
+102635_sam,102635,sam,Mycteroperca bonaci,349,Mycteroperca bonaci
+102636_sam,102636,sam,Mycteroperca bonaci,349,Mycteroperca bonaci
+102637_sam,102637,sam,Mycteroperca bonaci,349,Mycteroperca bonaci
+102638_sam,102638,sam,Scarus guacamaia,349,Scarus coeruleus
+102639_sam,102639,sam,Scarus guacamaia,349,Scarus guacamaia
+102640_sam,102640,sam,Scarus guacamaia,349,Scarus guacamaia
+102641_sam,102641,sam,Scarus guacamaia,349,Scarus guacamaia
+102642_sam,102642,sam,Scarus guacamaia,349,Scarus guacamaia
+102643_sam,102643,sam,Scarus guacamaia,349,Scarus coeruleus
+102645_sam,102645,sam,Scarus guacamaia,349,Mycteroperca bonaci
+102646_sam,102646,sam,Scarus guacamaia,349,Mycteroperca bonaci
+102647_sam,102647,sam,Scarus guacamaia,349,Mycteroperca bonaci
+102648_sam,102648,sam,Scarus guacamaia,349,Scarus coeruleus
+102649_sam,102649,sam,Lachnolaimus maximus,349,OTHER
+102650_sam,102650,sam,Lachnolaimus maximus,349,Lutjanus analis
+102651_sam,102651,sam,Lachnolaimus maximus,349,OTHER
+102652_sam,102652,sam,Lachnolaimus maximus,349,OTHER
+102653_sam,102653,sam,Lachnolaimus maximus,349,OTHER
+102654_sam,102654,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102655_sam,102655,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102656_sam,102656,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102657_sam,102657,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102658_sam,102658,sam,Lachnolaimus maximus,349,Lachnolaimus maximus
+102659_sam,102659,sam,Sparisoma viride,349,Sparisoma viride
+102660_sam,102660,sam,Sparisoma viride,349,Sparisoma viride
+102662_sam,102662,sam,Sparisoma viride,349,Sparisoma viride
+102663_sam,102663,sam,Sparisoma viride,349,Sparisoma viride
+102664_sam,102664,sam,Sparisoma viride,349,Sparisoma viride
+102665_sam,102665,sam,Sparisoma viride,349,Sparisoma viride
+102672_sam,102672,sam,Scarus coelestinus,349,Scarus coeruleus
+102674_sam,102674,sam,Scarus coelestinus,349,Scarus coeruleus
+102676_sam,102676,sam,Scarus coelestinus,349,Scarus coeruleus
+102678_sam,102678,sam,Scarus coelestinus,349,Scarus coeruleus
+102679_sam,102679,sam,Scarus coelestinus,349,Scarus coeruleus
+102680_sam,102680,sam,Scarus coelestinus,349,Scarus coeruleus
+102681_sam,102681,sam,Scarus coelestinus,349,Scarus coeruleus
+102767_sam,102767,sam,Sparisoma viride,347,OTHER
+102787_sam,102787,sam,OTHER,347,OTHER
+102788_sam,102788,sam,OTHER,347,Lutjanus griseus
+102789_sam,102789,sam,OTHER,347,Lachnolaimus maximus
+102790_sam,102790,sam,OTHER,347,Lachnolaimus maximus
+102802_sam,102802,sam,Sparisoma viride,347,Sparisoma viride
+102803_sam,102803,sam,Sparisoma viride,347,Sparisoma viride
+102805_sam,102805,sam,Sparisoma viride,347,Sparisoma viride
+102806_sam,102806,sam,Sparisoma viride,347,Sparisoma viride
+102807_sam,102807,sam,Sparisoma viride,347,Sparisoma viride
+102808_sam,102808,sam,OTHER,347,Sparisoma viride
+102809_sam,102809,sam,OTHER,347,OTHER
+102810_sam,102810,sam,OTHER,347,Lachnolaimus maximus
+102813_sam,102813,sam,Sparisoma viride,347,OTHER
+102814_sam,102814,sam,Sparisoma viride,347,Sparisoma viride
+102816_sam,102816,sam,Sparisoma viride,347,Sparisoma viride
+102819_sam,102819,sam,Mycteroperca bonaci,347,Mycteroperca bonaci
+102823_sam,102823,sam,Mycteroperca bonaci,347,OTHER
+102824_sam,102824,sam,Mycteroperca bonaci,347,Mycteroperca bonaci
+102830_sam,102830,sam,OTHER,347,OTHER
+102831_sam,102831,sam,OTHER,347,OTHER
+102835_sam,102835,sam,OTHER,347,OTHER
+102836_sam,102836,sam,OTHER,347,Mycteroperca bonaci
+102856_sam,102856,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102857_sam,102857,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102858_sam,102858,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102859_sam,102859,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102860_sam,102860,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102861_sam,102861,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102862_sam,102862,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102863_sam,102863,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102864_sam,102864,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102865_sam,102865,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102866_sam,102866,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102867_sam,102867,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102868_sam,102868,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102870_sam,102870,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102871_sam,102871,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102876_sam,102876,sam,Mycteroperca bonaci,347,Lachnolaimus maximus
+102877_sam,102877,sam,Mycteroperca bonaci,347,Epinephelus striatus
+102878_sam,102878,sam,Mycteroperca bonaci,347,Lachnolaimus maximus
+102879_sam,102879,sam,Mycteroperca bonaci,347,Lachnolaimus maximus
+102880_sam,102880,sam,Mycteroperca bonaci,347,Lachnolaimus maximus
+102881_sam,102881,sam,Mycteroperca bonaci,347,Lachnolaimus maximus
+102882_sam,102882,sam,Mycteroperca bonaci,347,Epinephelus itajara
+102883_sam,102883,sam,Mycteroperca bonaci,347,Epinephelus striatus
+102884_sam,102884,sam,Mycteroperca bonaci,347,Epinephelus itajara
+102885_sam,102885,sam,Mycteroperca bonaci,347,Epinephelus striatus
+102886_sam,102886,sam,Mycteroperca bonaci,347,Epinephelus itajara
+102887_sam,102887,sam,Mycteroperca bonaci,347,Epinephelus striatus
+102888_sam,102888,sam,Mycteroperca bonaci,347,Epinephelus striatus
+102889_sam,102889,sam,Mycteroperca bonaci,347,Epinephelus striatus
+102901_sam,102901,sam,OTHER,347,OTHER
+102902_sam,102902,sam,OTHER,347,OTHER
+102903_sam,102903,sam,Sparisoma viride,347,OTHER
+102904_sam,102904,sam,OTHER,347,OTHER
+102905_sam,102905,sam,OTHER,347,Scarus guacamaia
+102906_sam,102906,sam,OTHER,347,Scarus guacamaia
+102907_sam,102907,sam,OTHER,347,Scarus guacamaia
+102908_sam,102908,sam,OTHER,347,OTHER
+102909_sam,102909,sam,OTHER,347,Mycteroperca bonaci
+102910_sam,102910,sam,OTHER,347,Scarus guacamaia
+102911_sam,102911,sam,OTHER,347,Scarus guacamaia
+102912_sam,102912,sam,OTHER,347,Scarus guacamaia
+102915_sam,102915,sam,OTHER,347,OTHER
+102916_sam,102916,sam,OTHER,347,OTHER
+102917_sam,102917,sam,OTHER,347,OTHER
+102918_sam,102918,sam,OTHER,347,OTHER
+102921_sam,102921,sam,OTHER,347,OTHER
+102922_sam,102922,sam,OTHER,347,OTHER
+102923_sam,102923,sam,OTHER,347,OTHER
+102924_sam,102924,sam,OTHER,347,OTHER
+102925_sam,102925,sam,OTHER,347,OTHER
+102926_sam,102926,sam,OTHER,347,OTHER
+102927_sam,102927,sam,OTHER,347,OTHER
+102928_sam,102928,sam,OTHER,347,OTHER
+102929_sam,102929,sam,OTHER,347,OTHER
+102938_sam,102938,sam,OTHER,347,Lutjanus analis
+102941_sam,102941,sam,OTHER,347,Scarus guacamaia
+102943_sam,102943,sam,OTHER,347,Scarus guacamaia
+102944_sam,102944,sam,OTHER,347,OTHER
+102948_sam,102948,sam,OTHER,347,Scarus guacamaia
+102951_sam,102951,sam,Sparisoma viride,347,Sparisoma viride
+102953_sam,102953,sam,Sparisoma viride,347,Sparisoma viride
+102954_sam,102954,sam,Sparisoma viride,347,Sparisoma viride
+102955_sam,102955,sam,Sparisoma viride,347,Sparisoma viride
+102961_sam,102961,sam,Sparisoma viride,347,Sparisoma viride
+102964_sam,102964,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102966_sam,102966,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102967_sam,102967,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102968_sam,102968,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102970_sam,102970,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102971_sam,102971,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102972_sam,102972,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102973_sam,102973,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102974_sam,102974,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102975_sam,102975,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102976_sam,102976,sam,Lachnolaimus maximus,347,Lachnolaimus maximus
+102985_sam,102985,sam,Scarus coeruleus,347,Sparisoma viride
+102986_sam,102986,sam,Scarus coeruleus,347,Scarus coeruleus
+102987_sam,102987,sam,Scarus coeruleus,347,OTHER
+102988_sam,102988,sam,Scarus coeruleus,347,OTHER
+102989_sam,102989,sam,Scarus coeruleus,347,Scarus guacamaia
+102990_sam,102990,sam,Scarus coeruleus,347,Lachnolaimus maximus
+102992_sam,102992,sam,Sparisoma viride,347,Sparisoma viride
+102993_sam,102993,sam,Sparisoma viride,347,Sparisoma viride
+102994_sam,102994,sam,Sparisoma viride,347,Sparisoma viride
+102995_sam,102995,sam,Sparisoma viride,347,Sparisoma viride
+102996_sam,102996,sam,Sparisoma viride,347,Sparisoma viride
+102997_sam,102997,sam,Sparisoma viride,347,Sparisoma viride
+103001_sam,103001,sam,Sparisoma viride,347,Sparisoma viride
+103005_sam,103005,sam,Sparisoma viride,347,Sparisoma viride
+103014_sam,103014,sam,Sparisoma viride,347,OTHER
+103016_sam,103016,sam,Sparisoma viride,347,OTHER
+103018_sam,103018,sam,Sparisoma viride,347,Sparisoma viride
+111916_sam,111916,sam,Epinephelus striatus,383,Epinephelus striatus
+111919_sam,111919,sam,Epinephelus striatus,383,Epinephelus striatus
+111923_sam,111923,sam,Lachnolaimus maximus,383,Lachnolaimus maximus
+111924_sam,111924,sam,Lachnolaimus maximus,383,Lachnolaimus maximus
+111925_sam,111925,sam,Lachnolaimus maximus,383,Lachnolaimus maximus
+111926_sam,111926,sam,Epinephelus striatus,383,Epinephelus striatus
+111927_sam,111927,sam,Lachnolaimus maximus,383,Lachnolaimus maximus
+111928_sam,111928,sam,Sparisoma viride,383,Sparisoma viride
+111929_sam,111929,sam,Epinephelus striatus,383,Epinephelus striatus
+129173_sam,129173,sam,OTHER,466,OTHER
+129174_sam,129174,sam,Ocyurus chrysurus,466,OTHER
+129175_sam,129175,sam,OTHER,466,OTHER
+129176_sam,129176,sam,Scarus coeruleus,466,Scarus coeruleus
+129177_sam,129177,sam,Scarus coeruleus,466,Scarus coeruleus
+129178_sam,129178,sam,OTHER,466,OTHER
+129179_sam,129179,sam,OTHER,466,OTHER
+129180_sam,129180,sam,OTHER,466,Sparisoma viride
+129184_sam,129184,sam,Sparisoma viride,466,Sparisoma viride
+129185_sam,129185,sam,Lachnolaimus maximus,466,Lachnolaimus maximus
+129188_sam,129188,sam,Sparisoma viride,466,Sparisoma viride
+129190_sam,129190,sam,Sparisoma viride,466,Mycteroperca bonaci
+129191_sam,129191,sam,OTHER,466,Sparisoma viride
+129192_sam,129192,sam,Lachnolaimus maximus,466,Lachnolaimus maximus
+129193_sam,129193,sam,OTHER,466,Scarus guacamaia
+129198_sam,129198,sam,OTHER,466,Scarus coeruleus
+129199_sam,129199,sam,OTHER,466,OTHER
+129200_sam,129200,sam,Lachnolaimus maximus,466,Lachnolaimus maximus
+129203_sam,129203,sam,Sparisoma viride,466,OTHER
+129205_sam,129205,sam,Epinephelus itajara,466,Epinephelus itajara
+129206_sam,129206,sam,Ocyurus chrysurus,466,OTHER
+129207_sam,129207,sam,OTHER,466,OTHER
+129209_sam,129209,sam,Scarus coeruleus,466,Scarus coeruleus
+129210_sam,129210,sam,Scarus coeruleus,466,Scarus coeruleus
+129211_sam,129211,sam,Scarus coeruleus,466,Scarus coeruleus
+129213_sam,129213,sam,OTHER,466,OTHER
+129214_sam,129214,sam,OTHER,466,OTHER
+129215_sam,129215,sam,OTHER,466,OTHER
+129216_sam,129216,sam,OTHER,466,OTHER
+129269_sam,129269,sam,Lachnolaimus maximus,465,OTHER
+129273_sam,129273,sam,Sparisoma viride,465,OTHER
+129274_sam,129274,sam,Sparisoma viride,465,Sparisoma viride
+129275_sam,129275,sam,Sparisoma viride,465,OTHER
+129276_sam,129276,sam,Sparisoma viride,465,Sparisoma viride
+129277_sam,129277,sam,Sparisoma viride,465,Sparisoma viride
+129278_sam,129278,sam,Sparisoma viride,465,OTHER
+129280_sam,129280,sam,Scarus guacamaia,465,OTHER
+129281_sam,129281,sam,Scarus guacamaia,465,OTHER
+129282_sam,129282,sam,Scarus guacamaia,465,OTHER
+129283_sam,129283,sam,Scarus guacamaia,465,OTHER
+129284_sam,129284,sam,Scarus guacamaia,465,OTHER
+129285_sam,129285,sam,Scarus guacamaia,465,Scarus guacamaia
+129286_sam,129286,sam,Sparisoma viride,465,OTHER
+129302_sam,129302,sam,Lachnolaimus maximus,465,Lachnolaimus maximus
+129339_sam,129339,sam,Epinephelus striatus,465,Mycteroperca bonaci
+129340_sam,129340,sam,Epinephelus striatus,465,Mycteroperca bonaci
+129342_sam,129342,sam,Lachnolaimus maximus,465,Lachnolaimus maximus
+129343_sam,129343,sam,Epinephelus striatus,465,Epinephelus striatus
+129344_sam,129344,sam,Epinephelus striatus,465,Epinephelus striatus
+129345_sam,129345,sam,Epinephelus striatus,465,Lutjanus analis
+129346_sam,129346,sam,Epinephelus striatus,465,Epinephelus striatus
+129355_sam,129355,sam,Lachnolaimus maximus,465,Lachnolaimus maximus
+129357_sam,129357,sam,Lachnolaimus maximus,465,Lachnolaimus maximus
+129412_sam,129412,sam,Sparisoma viride,471,Sparisoma viride
+129413_sam,129413,sam,Sparisoma viride,471,Sparisoma viride
+129414_sam,129414,sam,Sparisoma viride,471,Sparisoma viride
+129415_sam,129415,sam,Sparisoma viride,471,Sparisoma viride
+129420_sam,129420,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129421_sam,129421,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129422_sam,129422,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129423_sam,129423,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129425_sam,129425,sam,Lutjanus analis,471,OTHER
+129426_sam,129426,sam,OTHER,471,Mycteroperca bonaci
+129430_sam,129430,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129437_sam,129437,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129440_sam,129440,sam,Epinephelus striatus,471,Epinephelus striatus
+129441_sam,129441,sam,Epinephelus striatus,471,Epinephelus striatus
+129444_sam,129444,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129449_sam,129449,sam,Scarus guacamaia,471,OTHER
+129450_sam,129450,sam,Lutjanus analis,471,Lachnolaimus maximus
+129457_sam,129457,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129458_sam,129458,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129459_sam,129459,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129460_sam,129460,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129461_sam,129461,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+129462_sam,129462,sam,Lachnolaimus maximus,471,Lachnolaimus maximus
+1372_sam,1372,sam,Scarus coeruleus,25,Scarus coeruleus
+1373_sam,1373,sam,Scarus coeruleus,25,Scarus coeruleus
+1374_sam,1374,sam,Scarus coeruleus,25,Scarus coeruleus
+1375_sam,1375,sam,Scarus coeruleus,25,Scarus coeruleus
+1376_sam,1376,sam,Scarus coeruleus,25,Scarus coeruleus
+1377_sam,1377,sam,Scarus coeruleus,25,Scarus coeruleus
+1378_sam,1378,sam,Scarus coeruleus,25,Scarus coeruleus
+1379_sam,1379,sam,Scarus coeruleus,25,Scarus coeruleus
+1380_sam,1380,sam,Scarus coeruleus,25,Scarus coeruleus
+1381_sam,1381,sam,Scarus coeruleus,25,Scarus coeruleus
+1393_sam,1393,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1394_sam,1394,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1395_sam,1395,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1396_sam,1396,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1397_sam,1397,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1398_sam,1398,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1400_sam,1400,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1401_sam,1401,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1402_sam,1402,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1403_sam,1403,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1404_sam,1404,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1405_sam,1405,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1406_sam,1406,sam,Lachnolaimus maximus,5,Lachnolaimus maximus
+1433_sam,1433,sam,Sparisoma viride,28,Sparisoma viride
+1434_sam,1434,sam,Sparisoma viride,28,Sparisoma viride
+1435_sam,1435,sam,Sparisoma viride,28,Sparisoma viride
+1436_sam,1436,sam,Sparisoma viride,28,Sparisoma viride
+1446_sam,1446,sam,Lachnolaimus maximus,20,Lachnolaimus maximus
+1447_sam,1447,sam,Lachnolaimus maximus,20,Lachnolaimus maximus
+1448_sam,1448,sam,Lachnolaimus maximus,20,Lachnolaimus maximus
+1449_sam,1449,sam,Lachnolaimus maximus,20,Lachnolaimus maximus
+1853_sam,1853,sam,OTHER,8,Lutjanus griseus
+1854_sam,1854,sam,OTHER,8,OTHER
+1857_sam,1857,sam,Scarus coeruleus,39,Scarus coeruleus
+1858_sam,1858,sam,Scarus coeruleus,39,OTHER
+1859_sam,1859,sam,Scarus coeruleus,39,Scarus coeruleus
+1866_sam,1866,sam,Lachnolaimus maximus,16,Lachnolaimus maximus
+1867_sam,1867,sam,Lachnolaimus maximus,16,Lachnolaimus maximus
+1868_sam,1868,sam,Lachnolaimus maximus,16,Lachnolaimus maximus
+1872_sam,1872,sam,Lutjanus griseus,35,OTHER
+1873_sam,1873,sam,Lutjanus griseus,35,OTHER
+1874_sam,1874,sam,Lutjanus griseus,35,OTHER
+78700_sam,78700,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78701_sam,78701,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78703_sam,78703,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78704_sam,78704,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78705_sam,78705,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78706_sam,78706,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78713_sam,78713,sam,OTHER,279,OTHER
+78765_sam,78765,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78766_sam,78766,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78767_sam,78767,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78770_sam,78770,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78771_sam,78771,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78772_sam,78772,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78773_sam,78773,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78776_sam,78776,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78778_sam,78778,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78780_sam,78780,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78781_sam,78781,sam,Lachnolaimus maximus,279,Lachnolaimus maximus
+78785_sam,78785,sam,Lachnolaimus maximus,279,OTHER
+78789_sam,78789,sam,OTHER,279,OTHER
+78790_sam,78790,sam,OTHER,279,OTHER
+78791_sam,78791,sam,OTHER,279,OTHER
+78792_sam,78792,sam,OTHER,279,OTHER
+78793_sam,78793,sam,OTHER,279,OTHER
+78794_sam,78794,sam,OTHER,279,OTHER
+78795_sam,78795,sam,OTHER,279,OTHER
+78796_sam,78796,sam,OTHER,279,OTHER

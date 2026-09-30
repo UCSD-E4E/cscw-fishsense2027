@@ -1,0 +1,792 @@
+image_id,dive,green,cause,L_px,species
+101293,341,False,ok,614.03667899464,Lachnolaimus maximus
+101294,341,False,ok,614.8168915673792,Lachnolaimus maximus
+101295,341,False,ok,557.6275090773662,Lachnolaimus maximus
+101296,341,False,ok,,Lachnolaimus maximus
+101297,341,False,ok,439.28890504271055,Lachnolaimus maximus
+101301,341,False,low_score,412.73575330828857,Lachnolaimus maximus
+101302,341,False,low_score,423.7968770069742,Lachnolaimus maximus
+101303,341,False,ok,433.1569359057279,Lachnolaimus maximus
+101304,341,False,ok,413.84797461619644,Lachnolaimus maximus
+101305,341,False,ok,420.3928999795331,Lachnolaimus maximus
+101306,341,False,ok,432.8322305108405,Lachnolaimus maximus
+101307,341,False,ok,440.2245480089734,Lachnolaimus maximus
+101308,341,False,ok,439.8828385925079,Lachnolaimus maximus
+101309,341,False,ok,429.60814196735885,Lachnolaimus maximus
+101310,341,False,ok,429.1177871661782,Lachnolaimus maximus
+101311,341,False,ok,402.81475166873986,Identifiable but Nontarget
+101312,341,False,ok,402.4269795136065,Identifiable but Nontarget
+101315,341,False,ok,296.03913583369683,Identifiable but Nontarget
+101316,341,False,ok,291.7297183364604,Identifiable but Nontarget
+101317,341,False,ok,312.19966831202186,Identifiable but Nontarget
+101318,341,False,ok,447.60658262078977,Identifiable but Nontarget
+101319,341,False,ok,414.4256076563951,(unlabelled)
+101320,341,False,ok,331.7946862689513,Identifiable but Nontarget
+101321,341,False,ok,,Identifiable but Nontarget
+101322,341,False,ok,,Identifiable but Nontarget
+101324,341,False,fish_off_window,,Mycteroperca bonaci
+101327,341,False,fish_off_window,,Mycteroperca bonaci
+101328,341,False,fish_off_window,,Mycteroperca bonaci
+101333,341,False,fish_off_window,,Mycteroperca bonaci
+101336,341,False,fish_off_window,,Mycteroperca bonaci
+101337,341,False,ok,491.7150997720746,Sparisoma viride
+101339,341,False,fish_off_window,,Identifiable but Nontarget
+101341,341,False,fish_off_window,,Identifiable but Nontarget
+101342,341,False,fish_off_window,,Identifiable but Nontarget
+101343,341,False,fish_off_window,,Identifiable but Nontarget
+101344,341,False,unseen,137.23074296948755,Identifiable but Nontarget
+101345,341,False,fish_off_window,,Identifiable but Nontarget
+101346,341,False,unseen,150.21595144205264,Identifiable but Nontarget
+101347,341,False,fish_off_window,,Identifiable but Nontarget
+101351,341,False,fish_off_window,,Identifiable but Nontarget
+101352,341,False,fish_off_window,,Identifiable but Nontarget
+101354,341,False,fish_off_window,,Identifiable but Nontarget
+101356,341,False,fish_off_window,,Identifiable but Nontarget
+101357,341,False,ok,649.6409842230423,Lachnolaimus maximus
+101359,341,False,ok,640.0482520155435,Lachnolaimus maximus
+101360,341,False,ok,672.7516097729899,Lachnolaimus maximus
+101361,341,False,ok,695.3600063623627,Lachnolaimus maximus
+101362,341,False,ok,692.1300449540106,Lachnolaimus maximus
+101363,341,False,ok,672.3404678641203,Lachnolaimus maximus
+101366,341,False,ok,867.0421932117508,Lachnolaimus maximus
+101367,341,False,ok,980.7742163727945,Lachnolaimus maximus
+101368,341,False,ok,1132.2527887310303,Lachnolaimus maximus
+101370,341,False,ok,1079.1548847466206,Lachnolaimus maximus
+101371,341,False,ok,919.8567697948693,Lachnolaimus maximus
+101373,341,False,fish_off_window,,Sparisoma viride
+101374,341,False,ok,724.796431191551,Sparisoma viride
+101375,341,False,ok,671.9073145832043,Sparisoma viride
+101376,341,False,unseen,639.6869074440967,Sparisoma viride
+101389,341,False,fish_off_window,,Scarus coelestinus
+101395,341,False,unseen,648.9302937040924,Sparisoma viride
+101396,341,False,ok,701.7656800774231,Sparisoma viride
+101397,341,False,ok,536.5169007650746,Sparisoma viride
+101398,341,False,ok,811.0476478566494,Sparisoma viride
+101399,341,False,ok,780.0642097558036,Sparisoma viride
+101400,341,False,ok,464.1312256322771,Sparisoma viride
+101401,341,False,ok,392.11486936192745,Sparisoma viride
+101402,341,False,ok,461.63719267089755,Sparisoma viride
+101403,341,False,ok,450.1827777787975,Sparisoma viride
+101404,341,False,ok,,Sparisoma viride
+101406,341,False,ok,330.44095911010675,Sparisoma viride
+101410,341,False,ok,515.4863319941117,Sparisoma viride
+101411,341,False,ok,700.0880977827227,Sparisoma viride
+101412,341,False,ok,568.4780314592097,Sparisoma viride
+101414,341,False,ok,702.399476243943,Sparisoma viride
+101415,341,False,ok,697.6575973649716,Sparisoma viride
+101416,341,False,ok,702.8236699249354,Sparisoma viride
+101417,341,False,ok,696.1534795925202,Sparisoma viride
+101418,341,False,ok,698.6108178569866,Sparisoma viride
+101419,341,False,ok,662.0400974998398,Sparisoma viride
+101421,341,False,ok,680.6070982965637,Sparisoma viride
+101423,341,False,ok,678.4664472248295,Scarus guacamaia
+101425,341,False,ok,678.321648233309,Scarus guacamaia
+101426,341,False,ok,,Scarus guacamaia
+101427,341,False,ok,1265.4636059817044,Identifiable but Nontarget
+101428,341,False,ok,1277.7806651846106,Identifiable but Nontarget
+101429,341,False,ok,1198.9678615628222,Identifiable but Nontarget
+101430,341,False,ok,1248.7502637712541,Identifiable but Nontarget
+101431,341,False,ok,1309.5667413769559,Identifiable but Nontarget
+101432,341,False,ok,1046.8085809117667,Identifiable but Nontarget
+101433,341,False,ok,1225.981507424593,Identifiable but Nontarget
+101434,341,False,ok,477.47396951713665,Sparisoma viride
+101437,341,False,ok,566.1383726688712,Sparisoma viride
+101438,341,False,ok,434.2278837572935,Scarus guacamaia
+101440,341,False,ok,451.7177874767999,Scarus guacamaia
+101441,341,False,ok,979.6571351894868,Scarus coeruleus
+101442,341,False,ok,1010.7375420524442,Scarus coeruleus
+101445,341,False,ok,1003.6334336343243,Scarus coeruleus
+101446,341,False,ok,1017.425410688931,Scarus coeruleus
+102551,349,True,ok,547.4393314683751,Sparisoma viride
+102552,349,True,ok,547.3781392269822,Sparisoma viride
+102554,349,True,ok,538.2723857028436,Sparisoma viride
+102562,349,True,ok,425.90949393347046,Lachnolaimus maximus
+102563,349,True,ok,,Lachnolaimus maximus
+102565,349,True,ok,423.61813360213887,Lachnolaimus maximus
+102566,349,True,ok,427.77468989841236,Lachnolaimus maximus
+102570,349,True,unseen,932.8588685816816,Mycteroperca bonaci
+102571,349,True,unseen,987.4350200406558,Mycteroperca bonaci
+102572,349,True,unseen,993.3144365742623,Mycteroperca bonaci
+102578,349,True,unseen,1111.8577785623293,Mycteroperca bonaci
+102580,349,True,fish_off_window,,Mycteroperca bonaci
+102582,349,True,unseen,1151.5329986212212,Mycteroperca bonaci
+102584,349,True,unseen,1115.170982848664,Mycteroperca bonaci
+102587,349,True,fish_off_window,1600.819851679403,Mycteroperca bonaci
+102591,349,True,unseen,1541.2269603176157,Mycteroperca bonaci
+102609,349,True,ok,565.4075907831909,Epinephelus striatus
+102611,349,True,ok,593.8603234127633,Epinephelus striatus
+102613,349,True,ok,581.8511121194236,Epinephelus striatus
+102616,349,True,ok,473.2085728951585,Mycteroperca bonaci
+102617,349,True,ok,476.79292909828564,Mycteroperca bonaci
+102618,349,True,ok,466.46116444380937,Mycteroperca bonaci
+102621,349,True,ok,657.6593718380348,Mycteroperca bonaci
+102627,349,True,ok,509.3105182266604,Lachnolaimus maximus
+102628,349,True,ok,513.2863365631902,Lachnolaimus maximus
+102629,349,True,ok,515.7771957331846,Lachnolaimus maximus
+102634,349,True,ok,466.77569260081333,Mycteroperca bonaci
+102637,349,True,ok,505.8869379662287,Mycteroperca bonaci
+102642,349,True,ok,442.4291873734519,Scarus guacamaia
+102643,349,True,ok,388.2479614826633,Scarus guacamaia
+102648,349,True,ok,381.5082542239157,Scarus guacamaia
+102653,349,True,ok,333.84615412501705,Lachnolaimus maximus
+102654,349,True,ok,354.62639436672583,Lachnolaimus maximus
+102656,349,True,ok,420.4276262626662,Lachnolaimus maximus
+102664,349,True,ok,605.0983627878448,Sparisoma viride
+102672,349,True,ok,708.7135812048483,Scarus coelestinus
+102674,349,True,ok,746.5159529965794,Scarus coelestinus
+102679,349,True,ok,750.8201432317237,Scarus coelestinus
+102680,349,True,ok,743.3081936204403,Scarus coelestinus
+102767,347,True,ok,,Sparisoma viride
+102787,347,True,ok,,Identifiable but Nontarget
+102789,347,True,ok,223.38859765091902,Identifiable but Nontarget
+102790,347,True,ok,,Identifiable but Nontarget
+102802,347,True,ok,,Sparisoma viride
+102803,347,True,ok,465.4559804013611,Sparisoma viride
+102805,347,True,ok,460.9884522665827,Sparisoma viride
+102806,347,True,ok,465.1989024175556,Sparisoma viride
+102807,347,True,ok,467.6274069325781,Sparisoma viride
+102808,347,True,ok,251.81981855224663,Identifiable but Nontarget
+102809,347,True,ok,240.69163271665664,Identifiable but Nontarget
+102810,347,True,ok,,Identifiable but Nontarget
+102811,347,True,ok,259.17446040815594,(unlabelled)
+102812,347,True,fish_off_window,,Sparisoma viride
+102813,347,True,ok,,Sparisoma viride
+102814,347,True,ok,228.98571919654435,Sparisoma viride
+102815,347,True,ok,,(unlabelled)
+102816,347,True,ok,257.04208037120924,Sparisoma viride
+102819,347,True,ok,313.1037924660358,Mycteroperca bonaci
+102821,347,True,unseen,283.66285946358795,Mycteroperca bonaci
+102823,347,True,ok,298.7242487520547,Mycteroperca bonaci
+102824,347,True,ok,317.9386310976482,Mycteroperca bonaci
+102829,347,True,ok,537.578824278467,(unlabelled)
+102830,347,True,ok,577.3102104546907,Identifiable but Nontarget
+102831,347,True,ok,568.6857440046173,Identifiable but Nontarget
+102835,347,True,ok,335.2031421404723,Identifiable but Nontarget
+102836,347,True,ok,343.8955166910458,Identifiable but Nontarget
+102847,347,True,fish_off_window,,(unlabelled)
+102849,347,True,fish_off_window,,(unlabelled)
+102855,347,True,ok,199.4242209958802,(unlabelled)
+102856,347,True,ok,974.9974305953874,Lachnolaimus maximus
+102857,347,True,ok,977.7231311171039,Lachnolaimus maximus
+102858,347,True,ok,969.3143440526029,Lachnolaimus maximus
+102859,347,True,ok,975.6246657450665,Lachnolaimus maximus
+102860,347,True,ok,982.5356807113423,Lachnolaimus maximus
+102861,347,True,ok,988.2916047541731,Lachnolaimus maximus
+102862,347,True,ok,978.0739465766865,Lachnolaimus maximus
+102863,347,True,ok,951.2298594357483,Lachnolaimus maximus
+102864,347,True,ok,968.8373923540202,Lachnolaimus maximus
+102865,347,True,ok,958.9279447172277,Lachnolaimus maximus
+102866,347,True,ok,973.4776471470695,Lachnolaimus maximus
+102867,347,True,ok,932.3962999682038,Lachnolaimus maximus
+102868,347,True,ok,931.9147313670173,Lachnolaimus maximus
+102869,347,True,near_miss,922.639997860839,Lachnolaimus maximus
+102870,347,True,ok,917.7868475661579,Lachnolaimus maximus
+102871,347,True,ok,931.8617690201756,Lachnolaimus maximus
+102876,347,True,ok,278.25455002837435,Mycteroperca bonaci
+102878,347,True,ok,263.38153204206776,Mycteroperca bonaci
+102879,347,True,ok,279.3506722210387,Mycteroperca bonaci
+102880,347,True,ok,286.02547643191934,Mycteroperca bonaci
+102881,347,True,ok,285.4594827647516,Mycteroperca bonaci
+102882,347,True,ok,,Mycteroperca bonaci
+102883,347,True,ok,,Mycteroperca bonaci
+102884,347,True,ok,,Mycteroperca bonaci
+102885,347,True,ok,327.10419144542766,Mycteroperca bonaci
+102886,347,True,ok,,Mycteroperca bonaci
+102887,347,True,ok,,Mycteroperca bonaci
+102889,347,True,ok,,Mycteroperca bonaci
+102890,347,True,fish_off_window,,Mycteroperca bonaci
+102901,347,True,ok,358.6049404661785,Identifiable but Nontarget
+102902,347,True,ok,509.8004569747548,Identifiable but Nontarget
+102903,347,True,ok,522.2099606847968,Sparisoma viride
+102904,347,True,ok,488.799992611656,Identifiable but Nontarget
+102905,347,True,ok,456.1960487673012,Identifiable but Nontarget
+102906,347,True,ok,504.14463353777677,Identifiable but Nontarget
+102907,347,True,ok,488.18738980497403,Identifiable but Nontarget
+102908,347,True,ok,465.6927444103337,Identifiable but Nontarget
+102909,347,True,ok,513.1456069798152,Identifiable but Nontarget
+102910,347,True,ok,497.9116647872704,Identifiable but Nontarget
+102911,347,True,ok,484.3409770051906,Identifiable but Nontarget
+102912,347,True,ok,505.6240173922603,Identifiable but Nontarget
+102913,347,True,near_miss,490.4108301770991,Identifiable but Nontarget
+102915,347,True,ok,561.762889296388,Identifiable but Nontarget
+102916,347,True,ok,591.4414427766592,Identifiable but Nontarget
+102917,347,True,ok,650.4978872443531,Identifiable but Nontarget
+102918,347,True,ok,325.6521726208296,Identifiable but Nontarget
+102919,347,True,near_miss,669.9233642133124,Identifiable but Nontarget
+102920,347,True,near_miss,694.0726272221483,Identifiable but Nontarget
+102921,347,True,ok,686.6906707368192,Identifiable but Nontarget
+102922,347,True,ok,709.8557111255914,Identifiable but Nontarget
+102923,347,True,ok,701.027013853666,Identifiable but Nontarget
+102924,347,True,ok,683.7317969597879,Identifiable but Nontarget
+102925,347,True,ok,718.3880731011345,Identifiable but Nontarget
+102926,347,True,ok,728.1213720532509,Identifiable but Nontarget
+102927,347,True,ok,645.6403955779195,Identifiable but Nontarget
+102928,347,True,ok,624.2649764996048,Identifiable but Nontarget
+102929,347,True,ok,591.1817645816365,Identifiable but Nontarget
+102938,347,True,ok,329.8085719996603,Identifiable but Nontarget
+102941,347,True,ok,312.0131404629986,Identifiable but Nontarget
+102943,347,True,ok,351.77751936002335,Identifiable but Nontarget
+102944,347,True,ok,413.51295532251964,Identifiable but Nontarget
+102946,347,True,ok,,(unlabelled)
+102947,347,True,fish_off_window,,(unlabelled)
+102948,347,True,ok,454.42899102926276,Identifiable but Nontarget
+102951,347,True,ok,828.0994446611884,Sparisoma viride
+102952,347,True,fish_off_window,,(unlabelled)
+102953,347,True,ok,808.1510875144986,Sparisoma viride
+102954,347,True,ok,782.0173486361311,Sparisoma viride
+102955,347,True,ok,832.6936514297789,Sparisoma viride
+102957,347,True,ok,,(unlabelled)
+102958,347,True,ok,825.9460861365121,(unlabelled)
+102959,347,True,ok,,(unlabelled)
+102961,347,True,ok,786.2111866468575,Sparisoma viride
+102963,347,True,low_score,795.0955672472121,(unlabelled)
+102964,347,True,ok,592.7844528566144,Lachnolaimus maximus
+102966,347,True,ok,571.0923426829609,Lachnolaimus maximus
+102967,347,True,ok,562.1240119943344,Lachnolaimus maximus
+102968,347,True,ok,572.8352257124042,Lachnolaimus maximus
+102970,347,True,ok,599.6083295200251,Lachnolaimus maximus
+102971,347,True,ok,618.2350904813715,Lachnolaimus maximus
+102972,347,True,ok,,Lachnolaimus maximus
+102973,347,True,ok,473.00577536687194,Lachnolaimus maximus
+102974,347,True,ok,541.2773503718633,Lachnolaimus maximus
+102975,347,True,ok,452.65941665444734,Lachnolaimus maximus
+102976,347,True,ok,523.2768401062642,Lachnolaimus maximus
+102979,347,True,fish_off_window,,(unlabelled)
+102980,347,True,ok,,(unlabelled)
+102981,347,True,ok,,(unlabelled)
+102982,347,True,ok,,(unlabelled)
+102985,347,True,ok,235.1240444967659,Scarus coeruleus
+102986,347,True,ok,282.2600523128341,Scarus coeruleus
+102987,347,True,ok,251.0260382726649,Scarus coeruleus
+102988,347,True,ok,238.6658023467228,Scarus coeruleus
+102990,347,True,ok,207.9341389582724,Scarus coeruleus
+102992,347,True,ok,244.08298454421532,Sparisoma viride
+102993,347,True,ok,251.2811253828859,Sparisoma viride
+102994,347,True,ok,246.35217715352408,Sparisoma viride
+102995,347,True,ok,241.52175839603535,Sparisoma viride
+102996,347,True,ok,228.80564600705762,Sparisoma viride
+102997,347,True,ok,237.90913974649186,Sparisoma viride
+103000,347,True,ok,316.08029232644225,(unlabelled)
+103001,347,True,ok,342.63213410933923,Sparisoma viride
+103004,347,True,ok,276.29527096281447,(unlabelled)
+103009,347,True,ok,,(unlabelled)
+103013,347,True,fish_off_window,,Sparisoma viride
+103014,347,True,ok,255.96926490846712,Sparisoma viride
+103016,347,True,ok,221.2671651647041,Sparisoma viride
+103017,347,True,fish_off_window,,(unlabelled)
+103018,347,True,ok,,Sparisoma viride
+103021,347,True,fish_off_window,,(unlabelled)
+103028,347,True,fish_off_window,,(unlabelled)
+103047,347,True,fish_off_window,,(unlabelled)
+103050,347,True,unseen,252.44699976005288,(unlabelled)
+103051,347,True,fish_off_window,,(unlabelled)
+103052,347,True,unseen,262.4218225991583,(unlabelled)
+103060,347,True,fish_off_window,,(unlabelled)
+106836,362,True,fish_off_window,,(unlabelled)
+106842,362,True,fish_off_window,,(unlabelled)
+106844,362,True,fish_off_window,,(unlabelled)
+106846,362,True,fish_off_window,,(unlabelled)
+106847,362,True,fish_off_window,,(unlabelled)
+106850,362,True,fish_off_window,,(unlabelled)
+106852,362,True,fish_off_window,,(unlabelled)
+106857,362,True,fish_off_window,,(unlabelled)
+106859,362,True,fish_off_window,,(unlabelled)
+106860,362,True,fish_off_window,,(unlabelled)
+106865,362,True,fish_off_window,,(unlabelled)
+106866,362,True,fish_off_window,,(unlabelled)
+106868,362,True,fish_off_window,,(unlabelled)
+106886,362,True,fish_off_window,,(unlabelled)
+106890,362,True,fish_off_window,,(unlabelled)
+106892,362,True,fish_off_window,,(unlabelled)
+106898,362,True,fish_off_window,,(unlabelled)
+106899,362,True,fish_off_window,,(unlabelled)
+106902,362,True,fish_off_window,,(unlabelled)
+106904,362,True,fish_off_window,,(unlabelled)
+106914,362,True,fish_off_window,,(unlabelled)
+106915,362,True,unseen,488.378069448262,(unlabelled)
+106916,362,True,low_score,449.5033054286328,(unlabelled)
+106919,362,True,fish_off_window,,(unlabelled)
+106922,362,True,fish_off_window,,(unlabelled)
+106923,362,True,fish_off_window,,(unlabelled)
+106925,362,True,fish_off_window,,(unlabelled)
+106926,362,True,fish_off_window,,(unlabelled)
+106927,362,True,fish_off_window,,(unlabelled)
+106930,362,True,ok,,(unlabelled)
+106931,362,True,fish_off_window,,(unlabelled)
+106934,362,True,unseen,838.310273457715,(unlabelled)
+106936,362,True,low_score,885.3973200280756,(unlabelled)
+106937,362,True,low_score,812.6818796364959,(unlabelled)
+106938,362,True,low_score,890.8137156971558,(unlabelled)
+106941,362,True,fish_off_window,,(unlabelled)
+106945,362,True,fish_off_window,,(unlabelled)
+106947,362,True,fish_off_window,,(unlabelled)
+106948,362,True,fish_off_window,,(unlabelled)
+106950,362,True,fish_off_window,,(unlabelled)
+106952,362,True,unseen,552.0984534971778,(unlabelled)
+106953,362,True,fish_off_window,,(unlabelled)
+106955,362,True,low_score,488.29997881917325,(unlabelled)
+106961,362,True,fish_off_window,,(unlabelled)
+106966,362,True,low_score,713.99945626242,(unlabelled)
+106967,362,True,unseen,744.0481989591464,(unlabelled)
+106970,362,True,unseen,712.1104564463392,(unlabelled)
+106971,362,False,unseen,748.2727596787449,(unlabelled)
+106976,362,True,fish_off_window,,(unlabelled)
+106979,362,True,ok,,(unlabelled)
+106980,362,True,fish_off_window,,(unlabelled)
+106981,362,True,dot_off_fish,134.73595488385547,(unlabelled)
+106982,362,True,ok,158.24768496452793,(unlabelled)
+106986,362,True,ok,,(unlabelled)
+106988,362,True,low_score,140.06477433739337,(unlabelled)
+106991,362,True,near_miss,182.50663096261445,(unlabelled)
+106993,362,True,fish_off_window,,(unlabelled)
+106994,362,True,fish_off_window,,(unlabelled)
+106996,362,True,fish_off_window,,(unlabelled)
+107001,362,True,fish_off_window,,(unlabelled)
+107003,362,True,fish_off_window,,(unlabelled)
+107005,362,True,fish_off_window,,(unlabelled)
+107007,362,True,fish_off_window,,(unlabelled)
+107011,362,True,fish_off_window,,(unlabelled)
+107014,362,True,low_score,194.73302113804084,(unlabelled)
+107015,362,True,fish_off_window,,(unlabelled)
+107016,362,True,fish_off_window,,(unlabelled)
+107017,362,True,low_score,296.8210300864819,(unlabelled)
+107018,362,True,fish_off_window,,(unlabelled)
+107019,362,True,fish_off_window,,(unlabelled)
+107020,362,True,fish_off_window,,(unlabelled)
+107022,362,True,unseen,229.64216334268053,(unlabelled)
+107023,362,True,unseen,215.3539607207605,(unlabelled)
+107024,362,True,unseen,199.17871928756682,(unlabelled)
+107026,362,True,fish_off_window,,(unlabelled)
+107027,362,True,ok,333.37584915259845,(unlabelled)
+107028,362,True,ok,313.7173725367323,(unlabelled)
+107032,362,True,ok,285.5011167025987,(unlabelled)
+107035,362,True,ok,344.3154342214466,(unlabelled)
+107037,362,True,ok,336.13867685156293,(unlabelled)
+107038,362,True,ok,349.6134324667446,(unlabelled)
+107040,362,True,ok,364.5141704574761,(unlabelled)
+107041,362,True,ok,371.57120044476716,(unlabelled)
+107042,362,True,ok,363.0738940247498,(unlabelled)
+107044,362,True,ok,306.22438887380815,(unlabelled)
+107047,362,True,ok,281.2173602834132,(unlabelled)
+107049,362,True,ok,268.5072787337424,(unlabelled)
+107050,362,True,ok,272.4456043449146,(unlabelled)
+107051,362,True,ok,256.646925938263,(unlabelled)
+107053,362,True,ok,285.50044283991394,(unlabelled)
+107054,362,True,unseen,307.287552008228,(unlabelled)
+107056,362,True,ok,538.84092382455,(unlabelled)
+107059,362,True,ok,530.3624954192363,(unlabelled)
+107060,362,True,ok,551.1401266751112,(unlabelled)
+107063,362,True,ok,441.494662833208,(unlabelled)
+107065,362,True,fish_off_window,,(unlabelled)
+107071,362,True,ok,402.3039627665212,(unlabelled)
+107075,362,True,ok,,(unlabelled)
+107076,362,True,fish_off_window,,(unlabelled)
+107082,362,True,ok,,(unlabelled)
+107085,362,True,unseen,343.33414565064044,(unlabelled)
+107087,362,True,fish_off_window,,(unlabelled)
+107088,362,True,unseen,625.1834027515736,(unlabelled)
+107092,362,True,unseen,593.7962796551714,(unlabelled)
+107095,362,True,fish_off_window,,(unlabelled)
+107097,362,True,unseen,784.6596857628944,(unlabelled)
+107100,362,True,fish_off_window,,(unlabelled)
+107102,362,True,fish_off_window,,(unlabelled)
+107103,362,True,fish_off_window,,(unlabelled)
+107104,362,True,fish_off_window,,(unlabelled)
+107105,362,True,unseen,1078.6266929215278,(unlabelled)
+107107,362,True,unseen,1047.5057352431984,(unlabelled)
+107109,362,True,low_score,356.39542835192356,(unlabelled)
+107110,362,True,unseen,377.199160997797,(unlabelled)
+107111,362,True,unseen,357.8065361953271,(unlabelled)
+107112,362,True,unseen,388.52817949857246,(unlabelled)
+107114,362,True,fish_off_window,,(unlabelled)
+107115,362,True,unseen,348.2951850802692,(unlabelled)
+107117,362,True,fish_off_window,,(unlabelled)
+107122,362,True,fish_off_window,,(unlabelled)
+107123,362,True,fish_off_window,,(unlabelled)
+107125,362,True,fish_off_window,,(unlabelled)
+107126,362,True,ok,,(unlabelled)
+107138,362,True,ok,,(unlabelled)
+107139,362,True,fish_off_window,,(unlabelled)
+107140,362,True,ok,173.64209021646425,(unlabelled)
+107143,362,True,fish_off_window,,(unlabelled)
+107145,362,True,unseen,198.2426472539434,(unlabelled)
+107148,362,True,fish_off_window,,(unlabelled)
+107150,362,True,fish_off_window,,(unlabelled)
+107151,362,True,ok,,(unlabelled)
+107162,362,True,ok,198.89893168095432,(unlabelled)
+107164,362,True,unseen,262.4028804217413,(unlabelled)
+107167,362,True,ok,280.53974734461985,(unlabelled)
+107168,362,True,ok,293.62517843432624,(unlabelled)
+107199,362,True,ok,230.01844146970666,(unlabelled)
+107237,362,True,fish_off_window,,(unlabelled)
+107289,362,True,fish_off_window,,(unlabelled)
+107292,362,True,fish_off_window,,(unlabelled)
+107293,362,True,ok,371.76542612738155,(unlabelled)
+107295,362,True,low_score,376.0357745175976,(unlabelled)
+107297,362,True,low_score,363.9973024845959,(unlabelled)
+107298,362,True,unseen,336.1341338959243,(unlabelled)
+107300,362,True,ok,,(unlabelled)
+107303,362,True,fish_off_window,,(unlabelled)
+107304,362,True,unseen,298.92088197077,(unlabelled)
+107306,362,True,low_score,225.72106324456712,(unlabelled)
+107307,362,True,fish_off_window,,(unlabelled)
+107308,362,True,unseen,247.36749682330483,(unlabelled)
+107310,362,True,unseen,246.16038065065425,(unlabelled)
+107311,362,True,low_score,378.1371171228802,(unlabelled)
+107312,362,True,fish_off_window,,(unlabelled)
+107314,362,True,ok,390.06164481092384,(unlabelled)
+107319,362,True,fish_off_window,,(unlabelled)
+107320,362,True,low_score,242.6946888805541,(unlabelled)
+107324,362,True,unseen,210.35412073526456,(unlabelled)
+107326,362,True,fish_off_window,,(unlabelled)
+107333,362,True,fish_off_window,,(unlabelled)
+107341,362,True,fish_off_window,,(unlabelled)
+107345,362,True,fish_off_window,,(unlabelled)
+107346,362,True,fish_off_window,,(unlabelled)
+107348,362,True,fish_off_window,,(unlabelled)
+107349,362,True,fish_off_window,,(unlabelled)
+107352,362,True,fish_off_window,,(unlabelled)
+107358,362,True,fish_off_window,,(unlabelled)
+107359,362,True,fish_off_window,,(unlabelled)
+107360,362,True,ok,,(unlabelled)
+107364,362,True,fish_off_window,,(unlabelled)
+107365,362,True,fish_off_window,,(unlabelled)
+107366,362,True,fish_off_window,,(unlabelled)
+107367,362,True,ok,148.90078832412723,(unlabelled)
+107368,362,True,ok,149.96107145556383,(unlabelled)
+107369,362,True,fish_off_window,,(unlabelled)
+107372,362,True,ok,177.09505527045619,(unlabelled)
+107373,362,True,ok,158.97556917291695,(unlabelled)
+107374,362,True,ok,159.40595663240572,(unlabelled)
+107379,362,True,ok,218.90037954829882,(unlabelled)
+107381,362,True,ok,190.77911795871202,(unlabelled)
+107383,362,True,fish_off_window,,(unlabelled)
+107385,362,True,ok,226.79742607421753,(unlabelled)
+107390,362,True,ok,220.96413471152383,(unlabelled)
+107392,362,True,ok,230.71654919377204,(unlabelled)
+107397,362,True,ok,227.787154294017,(unlabelled)
+107400,362,True,ok,181.3498442753041,(unlabelled)
+107401,362,True,ok,182.0206727771223,(unlabelled)
+107408,362,True,ok,161.11677636705943,(unlabelled)
+107410,362,True,fish_off_window,,(unlabelled)
+107411,362,True,fish_off_window,,(unlabelled)
+107412,362,True,fish_off_window,,(unlabelled)
+107415,362,True,fish_off_window,,(unlabelled)
+107416,362,True,ok,236.615453402729,(unlabelled)
+107424,362,True,fish_off_window,,(unlabelled)
+107425,362,True,fish_off_window,,(unlabelled)
+107428,362,True,fish_off_window,,(unlabelled)
+107429,362,True,fish_off_window,,(unlabelled)
+107430,362,True,fish_off_window,,(unlabelled)
+107432,362,True,fish_off_window,,(unlabelled)
+107433,362,True,fish_off_window,,(unlabelled)
+107434,362,True,fish_off_window,,(unlabelled)
+107437,362,True,fish_off_window,,(unlabelled)
+108150,366,True,ok,89.98670858247496,(unlabelled)
+108152,366,True,fish_off_window,,(unlabelled)
+108156,366,True,fish_off_window,,(unlabelled)
+108159,366,True,fish_off_window,,(unlabelled)
+108160,366,True,fish_off_window,,(unlabelled)
+108164,366,True,low_score,182.41567023524408,(unlabelled)
+108167,366,True,fish_off_window,,(unlabelled)
+108171,366,True,low_score,210.5178736159427,(unlabelled)
+108172,366,True,low_score,212.97229184997244,(unlabelled)
+108174,366,True,fish_off_window,,(unlabelled)
+108177,366,True,low_score,195.57419917322756,(unlabelled)
+108178,366,True,fish_off_window,,(unlabelled)
+108181,366,True,fish_off_window,,(unlabelled)
+108183,366,True,fish_off_window,,(unlabelled)
+108185,366,True,fish_off_window,,(unlabelled)
+108187,366,True,low_score,84.05732337867046,(unlabelled)
+108189,366,True,unseen,84.10092346288751,(unlabelled)
+108190,366,True,unseen,85.04976712573321,(unlabelled)
+108193,366,True,unseen,110.36663653217151,(unlabelled)
+108195,366,True,fish_off_window,,(unlabelled)
+108197,366,True,unseen,115.99218288376466,(unlabelled)
+108198,366,True,unseen,103.04758309759816,(unlabelled)
+108199,366,True,unseen,113.62386068317278,(unlabelled)
+108258,366,True,ok,273.3595846654228,(unlabelled)
+108259,366,True,ok,264.50703941556935,(unlabelled)
+108260,366,True,ok,269.59924793898625,(unlabelled)
+108261,366,True,ok,264.86434579973206,(unlabelled)
+108264,366,True,ok,296.58640882123376,(unlabelled)
+108266,366,True,ok,377.7994739405234,(unlabelled)
+108269,366,True,ok,,(unlabelled)
+108270,366,True,ok,400.7960683779755,(unlabelled)
+108271,366,False,ok,358.8612842729431,(unlabelled)
+108273,366,True,ok,338.6129046057968,(unlabelled)
+108276,366,True,ok,648.0277616648632,(unlabelled)
+108280,366,True,ok,653.0529162072061,(unlabelled)
+108282,366,True,ok,623.7538388357559,(unlabelled)
+108283,366,True,ok,623.6077413125114,(unlabelled)
+108286,366,True,ok,773.0547717952825,(unlabelled)
+108288,366,True,ok,785.5116533544918,(unlabelled)
+108291,366,True,ok,788.2342871114832,(unlabelled)
+108292,366,True,ok,786.9251586709394,(unlabelled)
+108293,366,True,ok,753.6777046114371,(unlabelled)
+108294,366,True,ok,766.5321987222868,(unlabelled)
+108300,366,True,ok,416.38794741616596,(unlabelled)
+108301,366,True,ok,447.1109035779835,(unlabelled)
+108302,366,True,ok,457.97168753503007,(unlabelled)
+108304,366,True,ok,459.6634580742942,(unlabelled)
+108306,366,True,ok,474.26627286557493,(unlabelled)
+108310,366,True,ok,481.36412136479305,(unlabelled)
+108311,366,True,ok,461.3979998873152,(unlabelled)
+108312,366,True,ok,439.81272337584215,(unlabelled)
+108313,366,True,ok,423.46068421088427,(unlabelled)
+108334,366,True,ok,106.12155447842751,(unlabelled)
+108342,366,True,low_score,108.78021804085567,(unlabelled)
+108343,366,True,low_score,143.88147798037812,(unlabelled)
+108344,366,True,fish_off_window,,(unlabelled)
+108346,366,True,low_score,128.6608670690556,(unlabelled)
+108348,366,True,ok,281.0378856063144,(unlabelled)
+108351,366,True,ok,207.68261831104957,(unlabelled)
+108354,366,True,low_score,208.08283813428338,(unlabelled)
+108355,366,True,fish_off_window,,(unlabelled)
+108358,366,True,fish_off_window,,(unlabelled)
+108363,366,True,low_score,207.94813693662974,(unlabelled)
+108364,366,True,ok,,(unlabelled)
+108365,366,True,ok,193.75669273162484,(unlabelled)
+108368,366,True,fish_off_window,,(unlabelled)
+108369,366,True,ok,282.9023241907998,(unlabelled)
+108371,366,True,ok,276.49228600137053,(unlabelled)
+108375,366,True,ok,304.59973354612896,(unlabelled)
+108377,366,True,ok,304.37853477784023,(unlabelled)
+108378,366,True,ok,318.26472866782433,(unlabelled)
+108415,366,True,fish_off_window,,(unlabelled)
+108418,366,True,ok,171.13127938452573,(unlabelled)
+108419,366,True,ok,183.175102480656,(unlabelled)
+108422,366,True,fish_off_window,,(unlabelled)
+108423,366,True,low_score,234.6744816155899,(unlabelled)
+108424,366,True,fish_off_window,,(unlabelled)
+108425,366,True,unseen,126.40131348324346,(unlabelled)
+108426,366,True,fish_off_window,,(unlabelled)
+108427,366,True,fish_off_window,,(unlabelled)
+108430,366,True,fish_off_window,,(unlabelled)
+108432,366,True,fish_off_window,,(unlabelled)
+108435,366,True,fish_off_window,,(unlabelled)
+108437,366,True,fish_off_window,,(unlabelled)
+108438,366,True,fish_off_window,,(unlabelled)
+108442,366,True,low_score,105.89338549186475,(unlabelled)
+108445,366,True,ok,,(unlabelled)
+108446,366,True,fish_off_window,,(unlabelled)
+108450,366,True,fish_off_window,,(unlabelled)
+108453,366,True,low_score,227.91531669348453,(unlabelled)
+108455,366,True,low_score,226.9636370788994,(unlabelled)
+108458,366,True,low_score,217.52204662839935,(unlabelled)
+108459,366,True,low_score,223.8794231234639,(unlabelled)
+108460,366,True,low_score,186.98338993307993,(unlabelled)
+108463,366,True,ok,286.74022825249557,(unlabelled)
+108464,366,True,fish_off_window,,(unlabelled)
+108466,366,True,ok,287.5447158790312,(unlabelled)
+108471,366,True,ok,154.62710685936017,(unlabelled)
+108473,366,True,ok,177.06962318037714,(unlabelled)
+108475,366,True,ok,162.69189125192648,(unlabelled)
+108477,366,True,ok,160.10653913198664,(unlabelled)
+108480,366,True,fish_off_window,,(unlabelled)
+108482,366,True,fish_off_window,,(unlabelled)
+108483,366,True,low_score,219.80151818270912,(unlabelled)
+108486,366,True,ok,226.61770455324807,(unlabelled)
+108488,366,True,low_score,174.79497587128606,(unlabelled)
+108495,366,True,low_score,138.65441222148996,(unlabelled)
+108496,366,True,low_score,178.74168482839622,(unlabelled)
+108499,366,True,fish_off_window,,(unlabelled)
+108501,366,True,low_score,225.4089259673013,(unlabelled)
+108503,366,True,low_score,201.41549124473514,(unlabelled)
+108504,366,True,ok,233.84145451212348,(unlabelled)
+108505,366,True,low_score,243.0381427412239,(unlabelled)
+108512,366,True,unseen,234.71804799555682,(unlabelled)
+108518,366,True,ok,319.124358459739,(unlabelled)
+108520,366,True,unseen,143.78384400091159,(unlabelled)
+108521,366,True,fish_off_window,,(unlabelled)
+108526,366,True,unseen,144.56762877329533,(unlabelled)
+108527,366,True,fish_off_window,,(unlabelled)
+108530,366,True,low_score,179.17772722600577,(unlabelled)
+108531,366,True,unseen,188.92442444636328,(unlabelled)
+108533,366,True,low_score,194.59441355323244,(unlabelled)
+108534,366,True,fish_off_window,,(unlabelled)
+108535,366,True,fish_off_window,,(unlabelled)
+108536,366,True,fish_off_window,,(unlabelled)
+108539,366,True,fish_off_window,,(unlabelled)
+108541,366,True,fish_off_window,,(unlabelled)
+108544,366,True,fish_off_window,,(unlabelled)
+108545,366,True,fish_off_window,,(unlabelled)
+108547,366,True,fish_off_window,,(unlabelled)
+108550,366,True,fish_off_window,,(unlabelled)
+108552,366,True,fish_off_window,,(unlabelled)
+108554,366,True,fish_off_window,,(unlabelled)
+108556,366,True,fish_off_window,,(unlabelled)
+108558,366,True,unseen,135.73637838795108,(unlabelled)
+108559,366,True,unseen,125.79892390596726,(unlabelled)
+108560,366,True,fish_off_window,,(unlabelled)
+108562,366,True,low_score,165.48861942105378,(unlabelled)
+108563,366,True,low_score,193.62776358385716,(unlabelled)
+108564,366,True,fish_off_window,,(unlabelled)
+108565,366,True,ok,221.99553351154233,(unlabelled)
+108566,366,True,low_score,207.9239545988097,(unlabelled)
+108567,366,True,fish_off_window,,(unlabelled)
+108569,366,True,fish_off_window,,(unlabelled)
+108573,366,True,ok,207.3833734931519,(unlabelled)
+108574,366,True,low_score,191.15812044662468,(unlabelled)
+108578,366,True,fish_off_window,,(unlabelled)
+108581,366,True,fish_off_window,,(unlabelled)
+108583,366,True,fish_off_window,,(unlabelled)
+108588,366,True,fish_off_window,,(unlabelled)
+108590,366,True,fish_off_window,,(unlabelled)
+108593,366,True,fish_off_window,,(unlabelled)
+108600,366,True,unseen,158.08878157305384,(unlabelled)
+108601,366,True,unseen,134.66599011400803,(unlabelled)
+108605,366,True,unseen,137.2038500920419,(unlabelled)
+108606,366,True,fish_off_window,,(unlabelled)
+108612,366,True,unseen,79.29516704161293,(unlabelled)
+108613,366,True,fish_off_window,,(unlabelled)
+108615,366,True,fish_off_window,,(unlabelled)
+108616,366,True,fish_off_window,,(unlabelled)
+108618,366,True,fish_off_window,,(unlabelled)
+108619,366,True,fish_off_window,,(unlabelled)
+108624,366,True,fish_off_window,,(unlabelled)
+108627,366,True,fish_off_window,,(unlabelled)
+108631,366,True,fish_off_window,,(unlabelled)
+108633,366,True,fish_off_window,,(unlabelled)
+108636,366,True,fish_off_window,,(unlabelled)
+108637,366,True,fish_off_window,,(unlabelled)
+108638,366,False,fish_off_window,,(unlabelled)
+108639,366,True,fish_off_window,,(unlabelled)
+108640,366,True,fish_off_window,,(unlabelled)
+108644,366,True,fish_off_window,,(unlabelled)
+108647,366,True,fish_off_window,,(unlabelled)
+108649,366,True,fish_off_window,,(unlabelled)
+108650,366,True,ok,,(unlabelled)
+108651,366,True,fish_off_window,,(unlabelled)
+108652,366,True,fish_off_window,,(unlabelled)
+108653,366,True,fish_off_window,,(unlabelled)
+108654,366,True,near_miss,95.96848052525104,(unlabelled)
+108655,366,True,fish_off_window,,(unlabelled)
+108658,366,True,near_miss,102.39726281996067,(unlabelled)
+108660,366,True,ok,110.85986332090607,(unlabelled)
+108662,366,True,fish_off_window,,(unlabelled)
+108663,366,True,fish_off_window,,(unlabelled)
+108670,366,True,fish_off_window,,(unlabelled)
+108673,366,True,fish_off_window,,(unlabelled)
+108674,366,True,fish_off_window,,(unlabelled)
+108679,366,True,fish_off_window,,(unlabelled)
+108681,366,True,fish_off_window,,(unlabelled)
+108682,366,True,fish_off_window,,(unlabelled)
+108683,366,True,fish_off_window,,(unlabelled)
+108686,366,True,fish_off_window,,(unlabelled)
+108688,366,True,fish_off_window,,(unlabelled)
+108689,366,True,fish_off_window,,(unlabelled)
+108690,366,True,fish_off_window,,(unlabelled)
+108691,366,True,fish_off_window,,(unlabelled)
+108696,366,True,fish_off_window,,(unlabelled)
+108698,366,True,fish_off_window,,(unlabelled)
+108700,366,True,fish_off_window,,(unlabelled)
+108701,366,True,fish_off_window,,(unlabelled)
+111916,383,False,ok,1007.3339524704954,Epinephelus striatus
+111919,383,False,ok,1439.1707720256713,Epinephelus striatus
+111923,383,False,ok,255.1748797030838,Lachnolaimus maximus
+111924,383,False,ok,384.09816042149305,Lachnolaimus maximus
+111925,383,False,ok,388.91253921839564,Lachnolaimus maximus
+111926,383,False,ok,698.1505174800792,Epinephelus striatus
+111927,383,False,ok,570.0509240924858,Lachnolaimus maximus
+111928,383,False,ok,318.8385405799074,Sparisoma viride
+111929,383,False,fish_off_window,2510.8612206845887,Epinephelus striatus
+121926,436,True,low_score,298.3266508182323,"Fish Model, Yellow Anthias"
+129267,465,True,low_score,248.3487847367778,Lachnolaimus maximus
+129268,465,True,low_score,241.12086011618706,Lachnolaimus maximus
+129269,465,True,ok,247.00263165447473,Lachnolaimus maximus
+129273,465,True,ok,222.62922114952892,Sparisoma viride
+129275,465,True,ok,254.02710343912094,Sparisoma viride
+129276,465,True,ok,258.2083141928008,Sparisoma viride
+129278,465,True,ok,220.74474547801586,Sparisoma viride
+129280,465,True,ok,414.60493077392033,Scarus guacamaia
+129281,465,True,ok,444.11188947434596,Scarus guacamaia
+129282,465,True,ok,313.08294701172633,Scarus guacamaia
+129285,465,True,ok,500.1566215078975,Scarus guacamaia
+129287,465,True,ok,218.81300921872875,Sparisoma viride
+129294,465,True,low_score,358.0881523878643,Lachnolaimus maximus
+129295,465,True,fish_off_window,,Lachnolaimus maximus
+129296,465,True,fish_off_window,,Lachnolaimus maximus
+129298,465,True,low_score,430.35418448246503,Lachnolaimus maximus
+129299,465,True,unseen,433.34900675225225,Lachnolaimus maximus
+129301,465,True,low_score,429.1296791401812,Lachnolaimus maximus
+129303,465,True,low_score,555.8852168012659,Lachnolaimus maximus
+129304,465,True,low_score,582.4564827563571,Lachnolaimus maximus
+129306,465,True,low_score,607.8111657836748,Lachnolaimus maximus
+129309,465,True,unseen,629.8958540355557,Lachnolaimus maximus
+129311,465,True,unseen,693.5097698312608,Lachnolaimus maximus
+129312,465,True,unseen,694.9606448961351,Lachnolaimus maximus
+129326,465,True,low_score,418.3865372118334,Lachnolaimus maximus
+129327,465,True,low_score,438.41057368621904,Lachnolaimus maximus
+129329,465,True,low_score,425.1279039735862,Lachnolaimus maximus
+129340,465,True,ok,521.5375218537424,Epinephelus striatus
+129342,465,True,ok,417.3018083996194,Lachnolaimus maximus
+129343,465,True,ok,508.44859754544615,Epinephelus striatus
+129344,465,True,ok,531.9990950862637,Epinephelus striatus
+129345,465,True,ok,472.47027602548815,Epinephelus striatus
+129347,465,True,fish_off_window,,(unlabelled)
+129350,465,True,fish_off_window,,Lachnolaimus maximus
+129352,465,True,fish_off_window,,Lachnolaimus maximus
+129355,465,True,ok,431.0275489974055,Lachnolaimus maximus
+129357,465,True,ok,368.09013862500433,Lachnolaimus maximus
+129367,465,True,fish_off_window,,Lachnolaimus maximus
+129368,465,True,fish_off_window,,(unlabelled)
+129372,465,True,low_score,371.5202081198227,Lachnolaimus maximus
+129401,471,True,fish_off_window,,(unlabelled)
+129410,471,True,unseen,205.30291926066255,(unlabelled)
+129412,471,True,ok,246.21607646837208,Sparisoma viride
+129413,471,True,ok,,Sparisoma viride
+129417,471,True,unseen,366.05805955565563,Cannot see
+129419,471,True,low_score,150.02286988068607,Lachnolaimus maximus
+129421,471,True,ok,437.2026189298683,Lachnolaimus maximus
+129422,471,True,ok,513.1259605991729,Lachnolaimus maximus
+129423,471,True,ok,581.5556613657168,Lachnolaimus maximus
+129425,471,True,ok,369.64922089928154,Lutjanus analis
+129430,471,True,ok,146.62624913759495,Lachnolaimus maximus
+129434,471,True,low_score,645.232036759962,Epinephelus itajara
+129440,471,True,ok,609.4989497364816,Epinephelus striatus
+129441,471,True,ok,713.0083266574667,Epinephelus striatus
+129444,471,True,ok,273.9298193053925,Lachnolaimus maximus
+129447,471,True,unseen,185.28356645962998,Sparisoma viride
+129457,471,True,ok,318.2189198670714,Lachnolaimus maximus
+129458,471,True,ok,323.5481399154175,Lachnolaimus maximus
+129459,471,True,ok,197.24542428600893,Lachnolaimus maximus
+129461,471,True,ok,300.9901096357116,Lachnolaimus maximus
+129462,471,True,ok,532.672628002719,Lachnolaimus maximus
+129463,471,True,fish_off_window,,Cannot see
+129468,471,True,low_score,378.25207778077686,(unlabelled)
+78699,279,False,ok,689.8041918217665,Fish
+78700,279,False,ok,742.9761645267927,Lachnolaimus maximus
+78701,279,False,ok,728.8295054232657,Lachnolaimus maximus
+78703,279,False,ok,708.7000729767794,Lachnolaimus maximus
+78704,279,False,ok,727.0468700646546,Lachnolaimus maximus
+78705,279,False,ok,718.8028085489735,Lachnolaimus maximus
+78706,279,False,ok,597.6084509899634,Lachnolaimus maximus
+78708,279,False,ok,607.7268723141115,Fish
+78713,279,False,ok,365.95890846752235,Identifiable but Nontarget
+78765,279,False,ok,398.1858503871232,Lachnolaimus maximus
+78766,279,False,ok,,Lachnolaimus maximus
+78767,279,False,ok,403.1714907257693,Lachnolaimus maximus
+78770,279,False,ok,471.42189841196983,Lachnolaimus maximus
+78771,279,False,ok,493.4564897531311,Lachnolaimus maximus
+78772,279,False,ok,499.62873123993614,Lachnolaimus maximus
+78773,279,False,ok,500.44368349419955,Lachnolaimus maximus
+78774,279,False,fish_off_window,,(unlabelled)
+78776,279,False,ok,306.9286077449381,Lachnolaimus maximus
+78778,279,False,ok,308.916082673936,Lachnolaimus maximus
+78779,279,False,unseen,282.2896605754634,Lachnolaimus maximus
+78780,279,False,fish_off_window,,Lachnolaimus maximus
+78781,279,False,ok,312.22130631000414,Lachnolaimus maximus
+78782,279,False,unseen,207.04878549096577,Lachnolaimus maximus
+78785,279,False,ok,,Lachnolaimus maximus
+78786,279,False,fish_off_window,,Lachnolaimus maximus
+78787,279,False,fish_off_window,,Lachnolaimus maximus
+78788,279,False,fish_off_window,,Lachnolaimus maximus
+78789,279,False,ok,380.451530486826,Identifiable but Nontarget
+78790,279,False,ok,414.5604601533483,Identifiable but Nontarget
+78791,279,False,ok,422.07849689712924,Identifiable but Nontarget
+78792,279,False,ok,397.7653451342267,Identifiable but Nontarget
+78793,279,False,ok,418.11666354068615,Identifiable but Nontarget
+78794,279,False,ok,353.7876472584762,Identifiable but Nontarget
+78795,279,False,ok,395.1720434727597,Identifiable but Nontarget
+78796,279,False,ok,332.4300087389355,Identifiable but Nontarget
