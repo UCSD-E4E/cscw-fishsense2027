@@ -42,6 +42,8 @@ for _l in (SCRATCH / "lines.psv").read_text().split():   # every other dive's li
     _d, _a, _b, _c = _l.split("|")[:4]
     LINES.setdefault(int(_d), (float(_a), float(_b), float(_c)))
 import os
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 STEP, OFFS, MARGIN, CONTROL, N_FRAMES = 25, np.arange(-60, 61, 2.0), 80, 250, int(os.environ.get("N_FRAMES", 40))
 
 
@@ -105,7 +107,7 @@ def main(dives):
         for i, r in enumerate(frames.itertuples(), 1):
             t0 = time.time()
             try:
-                with rawpy.imread(str(NAS / r.path)) as raw:
+                with rawpy.imread(str(NAS / real_path(r.path, NAS))) as raw:
                     R, G, B = half_channels(raw)
                 prof["R"].append(sample(R, *rows[0], OFFS)); prof["G"].append(sample(G, *rows[0], OFFS)); prof["B"].append(sample(B, *rows[0], OFFS))
                 L = G if green else R

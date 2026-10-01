@@ -111,3 +111,19 @@ Large staged inputs are outside the repo in `~/.cache/cscw-fishsense2027/`:
 `tail_stage/` (22 GB: rectified JPEGs of 1,618 frames, raw ORF copies of the reef ones) and
 `sam_windows/` (458 MB: SAM input windows for the species frames). Both can be rebuilt from
 the NAS with `e2e_measurement/tail/stage.py` and `e2e_measurement/species/extract.py stage`.
+
+## Pseudonyms (2026-10-01)
+
+The repository is public, so people's names are replaced by stable pseudonyms in every
+committed file, including the history of the analysis branch:
+- divers named in REEF folder and dive names become `Diver01`…;
+- a pool owner becomes `Host01`; one unclear folder name becomes `Person01` / `Session01`;
+- annotator usernames become `annotator<db user id>`;
+- Label Studio user records embedded in `labeler` columns (name and email) are reduced to the
+  numeric user id.
+
+The mapping is **not** in the repo: it lives at `~/.cache/cscw-fishsense2027/private/name_map.csv`
+(`original,pseudonym,kind`), so results stay traceable for whoever holds it.
+`tools/anonymize.py` applies it (idempotent; run it after any re-extraction from the database,
+which brings the real names back), and `fishsense_cscw.anon.real_path()` turns a stored
+path back into the real NAS path for the scripts that open raw frames.

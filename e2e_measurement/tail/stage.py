@@ -24,6 +24,8 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import run_e2e as E  # noqa: E402
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 STAGE = Path.home() / ".cache/cscw-fishsense2027/tail_stage"   # 22 GB, ~9 h of NAS reads; outside /tmp, which is wiped at boot
 CALIBRATED_REEF = [347, 341, 465, 349, 279, 471, 436, 383]
@@ -55,7 +57,7 @@ def main():
         for n, r in enumerate(todo.itertuples(), 1):
             rec = dict(image_id=int(r.image_id), set=r.set); t0 = time.time()
             try:
-                raw = (E.NAS / r.path).read_bytes()
+                raw = (E.NAS / real_path(r.path, E.NAS)).read_bytes()
                 if r.set == "reef":
                     (STAGE / f"{r.image_id}.ORF").write_bytes(raw)
                 cm, dist = K[int(r.camera_id)]

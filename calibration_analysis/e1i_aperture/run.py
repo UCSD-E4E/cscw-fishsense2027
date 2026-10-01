@@ -22,6 +22,8 @@ HERE = Path(__file__).resolve().parent
 E1C = HERE.parent / "e1c_dot_size"
 sys.path.insert(0, str(E1C))
 import run_widths as rw  # noqa: E402
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 H, BG_IN, RADII = 60, 50, (10, 20, 30, 45)
 
@@ -54,7 +56,7 @@ def main(dives):
             rec = dict(image_id=int(r.image_id), dive_id=int(r.dive_id), model=r.model, depth_m=float(r.depth_m),
                        raw_path=r.raw_path); t0 = time.time()
             try:
-                with rawpy.imread(io.BytesIO(Path(r.raw_path).read_bytes())) as raw:
+                with rawpy.imread(io.BytesIO(Path(real_path(r.raw_path)).read_bytes())) as raw:
                     mos = raw.raw_image_visible.astype(np.float64); cols = raw.raw_colors_visible
                     white = raw.white_level; black = np.array(raw.black_level_per_channel, float); desc = raw.color_desc.decode()
                 K, dist = intr[int(r.camera_id)]

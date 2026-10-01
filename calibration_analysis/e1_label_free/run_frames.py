@@ -25,6 +25,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -79,11 +81,11 @@ def main(laser_ckpt: str, board_ckpt: str):
     print(f"{len(todo)} frames to do ({len(done)} already done)", flush=True)
 
     pool = ThreadPoolExecutor(2)
-    futs = {i: pool.submit(lambda p: Path(p).read_bytes(), r.raw_path) for i, r in enumerate(todo[:2])}
+    futs = {i: pool.submit(lambda p: Path(real_path(p)).read_bytes(), r.raw_path) for i, r in enumerate(todo[:2])}
     with out.open("a") as fh:
         for i, r in enumerate(todo):
             if i + 2 < len(todo):
-                futs[i + 2] = pool.submit(lambda p: Path(p).read_bytes(), todo[i + 2].raw_path)
+                futs[i + 2] = pool.submit(lambda p: Path(real_path(p)).read_bytes(), todo[i + 2].raw_path)
             rec = dict(image_id=int(r.image_id), dive_id=int(r.dive_id), kind=r.kind)
             t0 = time.time()
             try:

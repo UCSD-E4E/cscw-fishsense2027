@@ -25,6 +25,8 @@ import rawpy
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import slate_unknown as su  # noqa: E402
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 NAS = Path.home() / "mnt/fishsense_data/REEF/data"
 DIVES = [62, 63, 65, 71, 77, 80, 83, 87, 94, 114]
@@ -53,7 +55,7 @@ def extract():
     for n, r in enumerate(todo, 1):
         t0 = time.time()
         try:
-            g = gray_half(NAS / paths[r.image_id])
+            g = gray_half(NAS / real_path(paths[r.image_id], NAS))
             cx, cy, R = r.x / 2, r.y / 2, ROI / 2
             mask = np.zeros_like(g); cv2.circle(mask, (int(cx), int(cy)), int(R), 255, -1)
             kp, desc = sift.detectAndCompute(g, mask)

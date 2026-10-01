@@ -25,6 +25,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[1]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
@@ -74,7 +76,7 @@ def laser_pass():
             rec = dict(image_id=int(r.image_id), dive_id=int(r.dive_id)); t0 = time.time()
             try:
                 cm, dist = K[int(r.camera_id)]
-                p = det.predict(LinearRawImage((NAS / r.path).read_bytes()), wavelength=None, rectify_output=True,
+                p = det.predict(LinearRawImage((NAS / real_path(r.path, NAS)).read_bytes()), wavelength=None, rectify_output=True,
                                 camera_matrix=cm, distortion=dist)
                 rec["dot"] = dict(x=p.x, y=p.y, confidence=p.confidence)
             except Exception as e:
@@ -110,7 +112,7 @@ def headtail_pass():
             try:
                 cm, dist = K[int(r.camera_id)]
                 intr = CameraIntrinsics(camera_matrix=cm, distortion_coefficients=dist, camera_id=None)
-                ok, enc = cv2.imencode(".jpg", RectifiedImage(RawImage((NAS / r.path).read_bytes()), intr).data)
+                ok, enc = cv2.imencode(".jpg", RectifiedImage(RawImage((NAS / real_path(r.path, NAS)).read_bytes()), intr).data)
                 jpeg = enc.tobytes(); d = dots[int(r.image_id)]
                 auto = [[d["x"], d["y"]]] if d["x"] is not None and np.isfinite(d["x"]) else []
                 rec["ht_auto"] = ht_record(predict_from_jpeg(jpeg, auto, seg, int(r.image_id), [1] if auto else None, opts))

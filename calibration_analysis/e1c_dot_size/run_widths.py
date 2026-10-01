@@ -15,6 +15,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import numpy as np, pandas as pd
 from scipy.optimize import least_squares
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
@@ -72,10 +74,10 @@ def main():
     todo = [r for r in F.itertuples() if int(r.image_id) not in done]
     print(f"{len(todo)} frames to do", flush=True)
     pool = ThreadPoolExecutor(2)
-    futs = {i: pool.submit(lambda p: Path(p).read_bytes(), r.raw_path) for i, r in enumerate(todo[:2])}
+    futs = {i: pool.submit(lambda p: Path(real_path(p)).read_bytes(), r.raw_path) for i, r in enumerate(todo[:2])}
     with out.open("a") as fh:
         for i, r in enumerate(todo):
-            if i + 2 < len(todo): futs[i + 2] = pool.submit(lambda p: Path(p).read_bytes(), todo[i + 2].raw_path)
+            if i + 2 < len(todo): futs[i + 2] = pool.submit(lambda p: Path(real_path(p)).read_bytes(), todo[i + 2].raw_path)
             rec = dict(image_id=int(r.image_id), dive_id=int(r.dive_id)); t0 = time.time()
             try:
                 data = LinearRawImage(futs.pop(i).result()).data

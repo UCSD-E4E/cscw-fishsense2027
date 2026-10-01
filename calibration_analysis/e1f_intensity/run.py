@@ -18,6 +18,8 @@ HERE = Path(__file__).resolve().parent
 E1C = HERE.parent / "e1c_dot_size"
 sys.path.insert(0, str(E1C))
 import run_widths as rw  # noqa: E402  (production's laser_color loader, frame list)
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 HALF, RING = 30, 4
 
@@ -47,7 +49,7 @@ def main():
         for n, r in enumerate(todo.itertuples(), 1):
             rec = dict(image_id=int(r.image_id), dive_id=int(r.dive_id), model=r.model, depth_m=float(r.depth_m)); t0 = time.time()
             try:
-                data = Path(r.raw_path).read_bytes()
+                data = Path(real_path(r.raw_path)).read_bytes()
                 with rawpy.imread(io.BytesIO(data)) as raw:
                     mos = raw.raw_image_visible.astype(np.float64); cols = raw.raw_colors_visible
                     white = raw.white_level; black = np.array(raw.black_level_per_channel, float)
@@ -62,7 +64,7 @@ def main():
                 excess = np.clip(red - bg, 0, None)
                 rec.update(sum_excess=float(np.nansum(excess)), peak=float(np.nanmax(red)), background=float(bg),
                            sensor_saturated=int(np.nansum(win[c == ri] >= white - 2)), white=int(white))
-                rec.update(exposure(r.raw_path))
+                rec.update(exposure(real_path(r.raw_path)))
             except Exception as e:
                 rec["error"] = f"{type(e).__name__}: {e}"
             rec["seconds"] = round(time.time() - t0, 1)

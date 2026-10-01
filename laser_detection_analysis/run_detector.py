@@ -15,6 +15,8 @@ import argparse, csv, hashlib, json, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import numpy as np
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[1]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 HERE = Path(__file__).resolve().parent
 PINNED = "bd3ab8f5e273da37a1f2dfc2c6c6a36735b89ae26ff821b71b1f8acce3a74d68"
@@ -48,9 +50,9 @@ def main():
                 if not all((int(r.image_id), c) in done for c in ("production", "given")[: 2 if r.wavelength in ("red", "green") else 1])]
         if a.limit: todo = todo[: a.limit]
         pool = ThreadPoolExecutor(2)
-        futs = {i: pool.submit(lambda p: Path(p).read_bytes(), r.raw_path) for i, r in enumerate(todo[:2])}
+        futs = {i: pool.submit(lambda p: Path(real_path(p)).read_bytes(), r.raw_path) for i, r in enumerate(todo[:2])}
         for i, r in enumerate(todo):
-            if i + 2 < len(todo): futs[i + 2] = pool.submit(lambda p: Path(p).read_bytes(), todo[i + 2].raw_path)
+            if i + 2 < len(todo): futs[i + 2] = pool.submit(lambda p: Path(real_path(p)).read_bytes(), todo[i + 2].raw_path)
             conds = [("production", None)] + ([("given", r.wavelength)] if r.wavelength in ("red", "green") else [])
             n += 1
             try:

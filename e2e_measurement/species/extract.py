@@ -24,6 +24,8 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 import run_e2e as E  # noqa: E402  (paths, SAM3 checkpoint, intrinsics)
+import sys as _sys; _sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parents[2]))
+from fishsense_cscw.anon import real_path  # noqa: E402  (pseudonymised paths -> real NAS paths)
 
 PAD, DEPTH_RATIO = 0.20, 0.45
 
@@ -67,7 +69,7 @@ def stage():
             rec = dict(image_id=int(r.image_id)); t0 = time.time()
             try:
                 cm, dist = K[int(r.camera_id)]
-                img = RectifiedImage(RawImage((E.NAS / r.path).read_bytes()),
+                img = RectifiedImage(RawImage((E.NAS / real_path(r.path, E.NAS)).read_bytes()),
                                      CameraIntrinsics(camera_matrix=cm, distortion_coefficients=dist, camera_id=None)).data
                 H, W = img.shape[:2]
                 if pd.notna(r.head_x):
