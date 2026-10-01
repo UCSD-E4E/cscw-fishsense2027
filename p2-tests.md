@@ -574,7 +574,7 @@ span a narrower range than 0.5–4 m.
 > | **hybrid, nested λ** | **77.6%** | **69.8%** | 76.9% | 53% | 72.5% |
 >
 > - **Per species (hybrid):** Hogfish 94%, Stoplight Parrotfish 86%, Nassau 68%, Blue
->   Parrotfish 64%. Black Grouper 29% and Rainbow Parrotfish 32% are still weak (2 and 4
+>   Parrotfish 61%. Black Grouper 26% and Rainbow Parrotfish 32% are still weak (2 and 4
 >   dives respectively).
 > - **λ:** the nested grid is {1e-5 … 1e-2}. Held-out dives chose 1e-5 on 12 of 16 and 1e-4
 >   on 4; extending the grid lower changed nothing (75.5→75.8, 77.8→77.6).

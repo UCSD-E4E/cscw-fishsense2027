@@ -46,6 +46,7 @@ def scrub(text, pairs):
 def main(argv):
     check = "--check" in argv
     files = [Path(a) for a in argv if a != "--check"] or tracked_text_files()
+    files = [f for f in files if f.resolve() != Path(__file__).resolve()]   # its docstring shows the record pattern
     pairs = load_map()
     changed, leftover = [], []
     for f in files:

@@ -88,6 +88,11 @@ two steps that remain after [P4]:
 `TODO(authors)`: confirm REEF's reasons in their own words (§3 currently rests on the
 project lead's account) and decide whether REEF is named.
 
+![Figure 1](figures/fig1_pipeline.png)
+
+*Figure 1. The automatic pipeline. Each stage is the production component, chained with no human input; the second line under each says which human step it replaces.*
+
+
 ---
 
 ## 2 Background and related work
@@ -130,6 +135,11 @@ the real delay.
 **43% of dives (105) are still not measurable.** Transfer and processing each account for
 months. Dives from 2023 waited on a pipeline that was still being built, but even 2024 dives
 took a median of 285 days from arrival to measurable.
+
+![Figure 2](figures/fig2_turnaround.png)
+
+*Figure 2. Days from dive to measurable for REEF dives ("measurable" ignores species and calibration, so these are lower bounds). 105 of 243 dives never became measurable.*
+
 
 ### 3.2 Human labels are anchored, so "agreement" is acceptance
 
@@ -278,6 +288,11 @@ the slate and no human labels.
 | 94 (tilted slate) | 21 | 2.06× | −0.044° | 0.018° |
 | 114 (tilted slate) | 29 | 2.18× | −0.129° | 0.089° |
 
+![Figure 3](figures/fig3_size_constancy.png)
+
+*Figure 3. Size constancy. (a) In one session the slate's apparent size falls linearly to zero at the laser's vanishing point; the fitted intercept lands on the known-size calibration's vanishing point (dashed). (b) Angle error for every session, from labelled corners and from label-free registration, against the 0.05° target.*
+
+
 **Against tape.** The reference above is the known-size calibration from the same frames.
 The independent test is measured length: on 1,528 frames of tape-measured fish models,
 switching from the slate calibration to the label-free one moves per-fish error from 3.0% to
@@ -347,7 +362,12 @@ species labels on 482 real-fish frames (387 of target species, 95 "other").
   - Hogfish 94%, Stoplight Parrotfish 86%;
   - recognition of 53% of non-target fish, which the closed-set classifier could not do at
     all.
-- **Limit: labelled dives.** Black Grouper appears on only 2 dives and stays at 29%.
+- **Limit: labelled dives.** Black Grouper appears on only 2 dives and stays at 26%.
+
+![Figure 7](figures/fig7_species.png)
+
+*Figure 7. Species confusion for the trained BioCLIP head on held-out dives (shade = share of the row, number = frames).*
+
 
 ---
 
@@ -368,6 +388,11 @@ We chained all stages on 1,528 frames of rigid fish models and a ruler, over 10 
 | human | auto | slate | 92% | 10.2% |
 | auto | auto | slate | 91% | 10.1% |
 | **auto** | **auto** | **label-free** | **91%** | **10.5%** |
+
+![Figure 4](figures/fig4_stage_ladder.png)
+
+*Figure 4. Per-fish length error against tape as each human input is replaced. The dot and calibration cost 0.1 and 0.4 points; the head/tail stage carries the rest.*
+
 
 The dot and the calibration are nearly free (+0.1 and +0.4 points). The pool's remaining
 error is entirely the head/tail stage, and it is model-specific:
@@ -397,6 +422,11 @@ we compare against the human pipeline.
 - **median +0.3%, MAE 5.4%;**
 - 62% within 5%, **82% within 10%**, 3.1% off by more than 20%.
 
+![Figure 5](figures/fig5_reef_lengths.png)
+
+*Figure 5. Fully automatic against manual length on real reef fish (calibrated dives, same calibration). Shading marks ±10%.*
+
+
 On REEF target species the automatic head/tail is therefore unbiased relative to humans.
 The pool's large biases belong to model shapes REEF does not target.
 
@@ -420,6 +450,11 @@ clustered dives have above-average frame coverage, so this is optimistic.
   | 0.5 | 72% | 16% |
   | 0.3 | 77% | 22% |
   | 0.2 | 80% | 25% |
+
+![Figure 6](figures/fig6_coverage.png)
+
+*Figure 6. Coverage against false measurement on reef frames. Lowering SAM's confidence cutoff (blue) trades one for the other; a learned measurability gate (orange, held-out dives) does no better.*
+
 
 - **A learned measurability gate** on mask features (score, shape, solidity, dot position,
   prompt agreement) reaches AUC 0.73 against the human decision, almost all from SAM's own
