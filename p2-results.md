@@ -39,6 +39,30 @@ at 12 % error and $600 against FishSense's 15 % and $1,040. P2 has to say what F
 offers in return (a single laser, fish smaller than the caliper baseline, recovered range)
 *and* show that its calibration burden can come down to caliper level.
 
+### Where the time goes, by stage (2026-10-01)
+
+"Days to measurable" mixes organisational delay with system cost, and the era of manually run
+pipeline notebooks with the current Temporal pipeline. Separated by stage:
+
+| stage | owner | measured from | value |
+|---|---|---|---|
+| waiting for data | organisation | REEF data-dump date − capture time | median 227 days |
+| intake | system | Temporal `IngestDiveWorkflow`, 56 dives | median 39 s, p90 119 s |
+| preprocessing | system | Temporal per-dive workflows (laser / head-tail / species) | medians 344 / 147 / 200 s; p90 35–38 min |
+| prediction | system | `PredictHeadtailImagesWorkflow`, 49 runs | median 216 s, p90 36 min |
+| depths + measurement | system | `ComputeLaserDepths` / `MeasureFish` | medians 3.5 s / 9.9 s |
+| review | system, now automated | `ValidateLaserLabelsForDive`, 164,873 runs | median 1.7 s |
+| labelling | **people** | Label Studio lead time per label | laser 12.8 s, head/tail 14.8 s, species 13.4 s (median); slate corners 61 s per frame |
+
+So the system's own machine time is roughly 15–20 min per dive, review is automated, and the
+human cost is about 41 person-seconds per measured frame plus about a minute per slate frame —
+the part this paper removes. Calendar delay is mostly waiting for data, which the system does
+not control. Temporal keeps ~30 days, so these are the current pipeline, not 2023–24.
+Data: `data/temporal/workflow_runs.csv`; lead times queried from the restored backup.
+
+**Flag:** 117 of 129 per-dive `PerformLaserCalibrationWorkflow` runs in the window FAILED
+(median 567 s). Not yet diagnosed (gate refusals vs faults).
+
 ### E1 — label-free laser calibration (2026-09-25)
 
 Production's stage-13 code and refusal gates, on P1's 23 calibration dives, scored

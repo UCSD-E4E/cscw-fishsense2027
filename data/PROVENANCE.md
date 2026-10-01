@@ -127,3 +127,14 @@ The mapping is **not** in the repo: it lives at `~/.cache/cscw-fishsense2027/pri
 `tools/anonymize.py` applies it (idempotent; run it after any re-extraction from the database,
 which brings the real names back), and `fishsense_cscw.anon.real_path()` turns a stored
 path back into the real NAS path for the scripts that open raw frames.
+
+## data/temporal/workflow_runs.csv (2026-10-01)
+
+Read-only export from the live production Temporal server (reached the way the fishsense-lite
+sessions do: SSH to the prod host, then Python inside `fishsense-fishsense-api-workflow-worker-1`
+using the worker's own Temporal settings and TLS). One row per workflow run: type, workflow id
+(carries the dive id or ingest folder), start and close time, status. Temporal keeps about 30 days
+(2026-09-01 → 2026-10-01 here); per-dive child workflows only to 2026-09-16. Scheduled
+`*ParentWorkflow` sweeps and the 164,873 `ValidateLaserLabelsForDiveWorkflow` runs (median 1.7 s,
+p90 3.7 s) are summarised in p2-results.md rather than listed. The May 2026 Temporal database
+backups (`fishsense_process_work/database_backups_premove/temporal_db`) are not yet used.
