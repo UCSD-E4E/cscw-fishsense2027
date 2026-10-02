@@ -60,6 +60,27 @@ the part this paper removes. Calendar delay is mostly waiting for data, which th
 not control. Temporal keeps ~30 days, so these are the current pipeline, not 2023–24.
 Data: `data/temporal/workflow_runs.csv`; lead times queried from the restored backup.
 
+**The older window: Temporal's own backups (Mar–May 2026).** Live Temporal keeps ~30 days, but
+the nightly persistence backups (`database_backups_premove/temporal_db`, 13 usable snapshots; one
+file there is a misfiled fishsense dump) hold event histories back to **2026-03-06**. Decoded with
+the Temporal SDK's protobufs (`deployment_analysis/temporal_backup_runs.py`, 28,379 runs,
+`data/temporal/workflow_runs_may2026.csv`). The pipeline's automation, by period:
+
+| stage | Mar–May 2026 | Sep 2026 |
+|---|---|---|
+| intake | not in Temporal | median 39 s |
+| preprocessing head/tail, species | 97 s, 223 s | 136 s, 188 s |
+| preprocessing laser | 1 run | 324 s |
+| laser / head-tail prediction | not in Temporal | 155 s / 167 s |
+| laser & checkerboard calibration | not in Temporal | automated |
+| depths, measurement | not in Temporal | 3.5 s, 9.9 s |
+| laser-line review | 24,169 runs, 2.1 s | running |
+| label sync laser / head-tail | 1,057 s / 851 s | 538 s / 458 s |
+
+In spring 2026 only preprocessing, label sync and the laser-line review ran on Temporal; intake,
+prediction, calibration and measurement were still run by hand. All moved onto Temporal between
+May and September 2026.
+
 **Laser-calibration failures, diagnosed from Temporal histories:** the 118 failed or timed-out
 `PerformLaserCalibrationWorkflow` runs are **retries on about 8 dives**, mostly gates refusing by
 design:

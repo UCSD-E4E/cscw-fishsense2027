@@ -138,3 +138,12 @@ using the worker's own Temporal settings and TLS). One row per workflow run: typ
 `*ParentWorkflow` sweeps and the 164,873 `ValidateLaserLabelsForDiveWorkflow` runs (median 1.7 s,
 p90 3.7 s) are summarised in p2-results.md rather than listed. The May 2026 Temporal database
 backups (`fishsense_process_work/database_backups_premove/temporal_db`) are not yet used.
+
+## data/temporal/workflow_runs_may2026.csv (2026-10-01)
+
+Workflow runs decoded from Temporal's nightly persistence backups
+(`fishsense_process_work/database_backups_premove/temporal_db`, copied to
+`~/.cache/cscw-fishsense2027/temporal_backups`) by `deployment_analysis/temporal_backup_runs.py`:
+each snapshot restored into a scratch Postgres container, `history_node` event batches decoded
+with the Temporal SDK's protobufs, runs de-duplicated across snapshots. Window 2026-03-06 →
+2026-05-13. The `input` column is each run's first input payload (dive identifiers), truncated.
