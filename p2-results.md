@@ -60,8 +60,24 @@ the part this paper removes. Calendar delay is mostly waiting for data, which th
 not control. Temporal keeps ~30 days, so these are the current pipeline, not 2023–24.
 Data: `data/temporal/workflow_runs.csv`; lead times queried from the restored backup.
 
-**Flag:** 117 of 129 per-dive `PerformLaserCalibrationWorkflow` runs in the window FAILED
-(median 567 s). Not yet diagnosed (gate refusals vs faults).
+**Laser-calibration failures, diagnosed from Temporal histories:** the 118 failed or timed-out
+`PerformLaserCalibrationWorkflow` runs are **retries on about 8 dives**, mostly gates refusing by
+design:
+
+| runs | dives | reason |
+|---|---|---|
+| 48 | 1 | slate reference points disagree with the template after skips, so solvePnP refuses to pair them (a labelling/data problem) |
+| 51 | 1 | insufficient laser points (47 failed + 4 timed out) |
+| 7 | 2 | dot range spread below the lever-arm gate |
+| 3 | 3 | fitted baseline outside the plausible range |
+| 9 | — | scheduling timeouts; one API 502 |
+
+A refused dive is retried on every sweep (one dive 48 times), which is worth fixing in fishsense-lite.
+
+**Labelling time from scratch** (no prediction or earlier label as a seed; `data/labeling/lead_times.csv`,
+fig 8): median laser dot 12.9 s (n = 32,373), snout + fork 15.0 s (41,435), species 12.2 s (4,686),
+slate corners 61.3 s per slate frame (483). 0.3% of annotations exceed an hour (idle tabs), so medians
+and percentiles are reported, not means.
 
 ### E1 — label-free laser calibration (2026-09-25)
 

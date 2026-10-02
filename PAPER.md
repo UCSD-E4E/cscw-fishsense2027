@@ -136,6 +136,10 @@ the real delay.
 months. Dives from 2023 waited on a pipeline that was still being built, but even 2024 dives
 took a median of 285 days from arrival to measurable.
 
+![Figure 8](figures/fig8_labeling_time.png)
+
+*Figure 8. Person-time per label, for annotations drawn from scratch (no prediction or earlier label as a seed). A measured frame needs a laser dot, snout + fork and species (about 41 s at the medians); each dive also needs its slate frames' corners (61 s per frame).*
+
 ![Figure 2](figures/fig2_turnaround.png)
 
 *Figure 2. Days from dive to measurable for REEF dives ("measurable" ignores species and calibration, so these are lower bounds). 105 of 243 dives never became measurable.*

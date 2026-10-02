@@ -8,6 +8,7 @@
   fig5_reef_lengths    fully automatic vs manual length on real reef fish
   fig6_coverage        frames covered vs human-rejected frames measured, as the SAM cutoff moves
   fig7_species         confusion matrix of the trained BioCLIP species head
+  fig8_labeling_time   person-seconds per label by type, drawn from scratch (no prediction seed)
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
@@ -259,7 +260,32 @@ def fig7_species():
     save(fig, "fig7_species")
 
 
+# ---------------------------------------------------------------- fig 8
+def fig8_labeling_time():
+    """Person-time per label, drawn from scratch: no prediction or earlier label as a seed."""
+    d = pd.read_csv(REPO / "data/labeling/lead_times.csv")
+    d = d[d.seeded.astype(str).str.lower().isin(["f", "false"])]
+    names = {"laser_dot": "laser dot", "head_tail": "snout + fork", "species": "species", "slate_corners": "slate corners\n(per slate frame)"}
+    stats = []
+    for k, g in d.groupby("label_type"):
+        v = g.lead_time_s.to_numpy()
+        stats.append(dict(k=k, n=len(v), p10=np.percentile(v, 10), q1=np.percentile(v, 25), med=np.median(v),
+                          q3=np.percentile(v, 75), p90=np.percentile(v, 90)))
+    S = pd.DataFrame(stats).sort_values("med")
+    fig, ax = plt.subplots(figsize=(ONE, 2.1))
+    for i, r in enumerate(S.itertuples()):
+        ax.plot([r.p10, r.p90], [i, i], color=BLUE, lw=1.2, solid_capstyle="round")
+        ax.add_patch(plt.Rectangle((r.q1, i - 0.28), r.q3 - r.q1, 0.56, fc="#cde2fb", ec=BLUE, lw=1))
+        ax.plot([r.med, r.med], [i - 0.28, i + 0.28], color=INK, lw=1.5)
+        ax.text(r.p90 + 3, i, f"{r.med:.0f} s  (n={r.n:,})", va="center", fontsize=6.5, color=INK2)
+    ax.set_yticks(range(len(S)), [names[k] for k in S.k]); ax.set_ylim(-0.6, len(S) - 0.4)
+    ax.grid(axis="y", visible=False); ax.set_xlim(0, S.p90.max() * 1.55)
+    ax.set_xlabel("seconds of a person's time per label")
+    ax.set_title("Labelling from scratch (no prediction): median, IQR, p10–p90", loc="left", color=INK2)
+    save(fig, "fig8_labeling_time")
+
+
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_turnaround, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species):
+    for f in (fig1_pipeline, fig2_turnaround, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time):
         f()
