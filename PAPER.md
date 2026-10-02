@@ -11,11 +11,13 @@ Bracketed `TODO` items are for the authors. Every number here traces to `p2-resu
 
 FishSense Lite measures fish with a consumer dive camera and a single laser pointer, at a
 fraction of the cost of stereo systems. Its one outside deployment partner, the Reef
-Environmental Education Foundation (REEF), stopped using it. REEF's dives took a median of
-773 days to become measurable, and 43% never did, so REEF moved to a machined dual-laser
-caliper that needs no calibration. We treat that loss as a design finding. The system asked
-too much of people at two points: a per-dive calibration and a chain of human labels (laser
-dot, snout, fork, species).
+Environmental Education Foundation (REEF), stopped using it because its data could not be
+processed quickly, and moved to a machined dual-laser caliper that needs no calibration. We
+treat that loss as a design finding. Measured stage by stage, today's automated pipeline
+costs minutes of machine time per dive; the cost that remains is people's: about 41 seconds
+of labelling for every measured frame and about a minute for every slate frame used for
+calibration. The system asked too much of people at two points: a per-dive calibration and a
+chain of human labels (laser dot, snout, fork, species).
 
 We make both steps automatic, using only commodity hardware and still images.
 
@@ -51,9 +53,12 @@ gives the range to the fish, and the range turns the fish's image length into me
 
 Cheap hardware only makes the system usable if the rest of the workflow is cheap too.
 REEF used FishSense Lite for over a year and then stopped. Their data could not be turned
-into lengths quickly: reconstructing the pipeline from label timestamps, a REEF dive took a
-median of **773 days** to become measurable, and **105 of 243 dives (43%)** never did (§3).
-REEF moved to a custom dual-laser caliper on a GoPro, and among their reasons they cited the
+into lengths quickly. Calendar delay is a poor measure of the system, though: dives waited a
+median of 227 days just to reach the lab, and the processing pipeline was run by hand from
+notebooks until it moved onto a workflow engine. Measured stage by stage (§3.1), today's
+automated pipeline takes about a quarter of an hour of machine time per dive. What remains is
+human effort: about **41 seconds of labelling per measured frame** (laser dot, snout and fork,
+species) and about **a minute per slate frame** for each dive's calibration. REEF moved to a custom dual-laser caliper on a GoPro, and among their reasons they cited the
 per-dive calibration. A caliper needs no calibration because its geometry is fixed when it
 is manufactured. It trades the accessibility of fabrication for zero calibration effort.
 
@@ -70,9 +75,10 @@ two steps that remain after [P4]:
 
 **Contributions.**
 
-- **C1, the cost of friction, measured.** We reconstruct REEF's turnaround from label
-  timestamps and quantify how pre-annotation anchors human labellers: 87% of pre-filled
-  dots are accepted unchanged. This recasts "human agreement" figures as acceptance rates
+- **C1, the cost of friction, measured.** We separate REEF's delay into waiting for data,
+  machine time and human effort, measuring each from data transfer dates, workflow-engine
+  history and per-label timing, and quantify how pre-annotation anchors human labellers: 87% of
+  pre-filled dots are accepted unchanged. This recasts "human agreement" figures as acceptance rates
   (§3).
 - **C2, a map of commodity calibration cues.** We test every depth cue available to a single
   full-power laser and a consumer camera without extra hardware, and explain why each fails.
@@ -117,33 +123,43 @@ project lead's account) and decide whether REEF is named.
 
 ## 3 Where the friction is
 
-### 3.1 Turnaround
+### 3.1 Where the time goes
 
-We reconstructed each REEF dive's timeline from production label timestamps and the dated
-data-transfer folders (Table 1). "Measurable" means that 90% of first-pass laser and
-head/tail labels are done. It ignores species and calibration, so it is a lower bound on
-the real delay.
+Calendar time from dive to measurement mixes three different things: waiting for data to
+arrive, the pipeline's machine time, and people's labelling. It also mixes eras. The pipeline
+was run by hand from notebooks before it moved onto a workflow engine, and processing was not
+always anyone's focus. We therefore measure each part separately (Table 1).
 
-**Table 1. REEF turnaround (243 dives).**
+**Table 1. Where the time goes, by stage.**
 
-| stage | median | p10–p90 |
-|---|---|---|
-| dive → measurable | **773 days** | 272–982 |
-| dive → data at the lab | 227 days | 9–455 |
-| data at the lab → measurable | 521 days (2023 dives 532; 2024 dives 285) | 137–816 |
+| stage | owner | measured from | median (p90) |
+|---|---|---|---|
+| waiting for data | organisation | REEF data-transfer date − capture time, 242 dives | 227 days |
+| intake | system | workflow-engine runs, 53 dives | 39 s (1.3 min) |
+| preprocessing (laser, head/tail, species) | system | workflow-engine runs | 5.4, 2.3, 3.1 min (up to 38 min) |
+| head/tail prediction | system | workflow-engine runs | 2.8 min (36 min) |
+| calibration, depths, measurement | system | workflow-engine runs | 4 s, 3 s, 10 s |
+| review | system, automated | laser-line validator, 164,873 runs | 1.7 s (3.7 s) |
+| labelling | **people** | Label Studio time per label, drawn without a pre-fill | dot 13 s, snout + fork 15 s, species 12 s; slate 61 s per frame |
 
-**43% of dives (105) are still not measurable.** Transfer and processing each account for
-months. Dives from 2023 waited on a pipeline that was still being built, but even 2024 dives
-took a median of 285 days from arrival to measurable.
+Machine time is about a quarter of an hour per dive, and review is automated. The calendar
+delay that REEF experienced was mostly waiting for data, which the system does not control.
+What the system does control, and what this paper removes, is the human labelling: about 41 s
+for every measured frame plus about a minute for every slate frame (Figure 8). Workflow-engine
+history is retained for about 30 days, so the machine times describe the current pipeline
+(September 2026), not the 2023–24 notebook era.
+
+![Figure 2](figures/fig2_stage_time.png)
+
+*Figure 2. (a) Days a REEF dive's data waited before reaching the lab, an organisational delay.
+(b) Machine time per dive for each automated stage, from completed workflow-engine runs
+(September 2026). The laser-line review, median 1.7 s, is omitted.*
 
 ![Figure 8](figures/fig8_labeling_time.png)
 
-*Figure 8. Person-time per label, for annotations drawn from scratch (no prediction or earlier label as a seed). A measured frame needs a laser dot, snout + fork and species (about 41 s at the medians); each dive also needs its slate frames' corners (61 s per frame).*
-
-![Figure 2](figures/fig2_turnaround.png)
-
-*Figure 2. Days from dive to measurable for REEF dives ("measurable" ignores species and calibration, so these are lower bounds). 105 of 243 dives never became measurable.*
-
+*Figure 8. Person-time per label, for annotations drawn from scratch (no prediction or earlier
+label as a seed). A measured frame needs a laser dot, snout + fork and species (about 41 s at
+the medians); each dive also needs its slate frames' corners (61 s per frame).*
 
 ### 3.2 Human labels are anchored, so "agreement" is acceptance
 
@@ -483,9 +499,9 @@ clustered dives have above-average frame coverage, so this is optimistic.
     by fish size in frame and by angle and curvature, which humans already screen for.
   - The volunteer's job shifts from labelling to capture: several frames per fish, a spread
     of ranges, the dot on the fish, and one near-and-far shot of any rigid object per dive.
-- **Latency is a social variable.** REEF's 773-day median was not a failure of any single
-  person. Human steps queue behind one another and behind availability, and automating them
-  changes who has to wait for whom.
+- **Latency is a social variable.** Most of REEF's delay was waiting for data to reach the lab
+  and periods when processing was nobody's focus, not machine time. Human steps queue behind
+  one another and behind availability; automating them changes who has to wait for whom.
 - **Acceptance is not agreement.** Pre-annotation interfaces can make a model look accurate
   simply because people accept its suggestions. Evaluations of human–AI labelling should use
   unseeded labels, as ours do.
@@ -521,7 +537,8 @@ clustered dives have above-average frame coverage, so this is optimistic.
 
 | claim | where |
 |---|---|
-| turnaround, 773 days, 43% | `p2-results.md` §"Why"; `fishsense_cscw/turnaround.py` |
+| time by stage (Table 1, Fig 2) | `p2-results.md` §"Where the time goes"; `data/temporal/workflow_runs.csv`; `fishsense_cscw/turnaround.py` |
+| labelling time (Fig 8) | `data/labeling/lead_times.csv` |
 | anchoring, 87% | `p2-results.md` T1/T2; `annotation_analysis/laser_label_pairs.ipynb` |
 | frames per animal, range | `p2-results.md` T7 |
 | failed calibration cues (Table 2) | `p2-tests.md` E1c, E1d, E1e, E1h, E1i, E1k; `calibration_analysis/` |

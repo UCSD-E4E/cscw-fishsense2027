@@ -1,7 +1,7 @@
 """Figures for PAPER.md, built only from result files committed in this repo (no NAS, no GPU).
 
   fig1_pipeline        the automatic pipeline and the human step each stage replaces
-  fig2_turnaround      REEF dives: days from dive to measurable
+  fig2_stage_time      (a) days REEF data waited to reach the lab; (b) machine time per automated stage (Temporal)
   fig3_size_constancy  (a) apparent size vs dot position for one session, intercept = vanishing point
                        (b) per-session error vs the known-size slate calibration, labelled and label-free
   fig4_stage_ladder    per-fish length error as each human input becomes automatic (pool, tape truth)
@@ -82,19 +82,38 @@ def fig1_pipeline():
 
 
 # ---------------------------------------------------------------- fig 2
-def fig2_turnaround():
+def fig2_stage_time():
+    """(a) calendar days a REEF dive waited before reaching the lab (organisational);
+    (b) machine time per dive for each automated stage, completed Temporal runs (last ~30 days)."""
     from fishsense_cscw.turnaround import reef_dives
-    w = reef_dives(); m = w.measurable_days.dropna()
-    n_all, n_not = len(w), int(w.measurable_days.isna().sum())
-    fig, ax = plt.subplots(figsize=(ONE, 2.1))
-    ax.hist(m, bins=np.arange(0, m.max() + 60, 60), color=BLUE, edgecolor="white", linewidth=1)
-    med = m.median()
-    ax.axvline(med, color=INK2, lw=1, ls="--")
-    ax.text(med - 15, ax.get_ylim()[1] * 0.92, f"median {med:.0f} days", fontsize=7, color=INK2, ha="right")
-    ax.set_xlabel("days from dive to measurable"); ax.set_ylabel("REEF dives")
-    ax.set_title(f"{n_all - n_not} of {n_all} dives measurable; {n_not} ({n_not / n_all:.0%}) never became measurable",
-                 loc="left", color=INK2)
-    save(fig, "fig2_turnaround")
+    wait = reef_dives().to_lab_days.dropna(); wait = wait[wait >= 0]
+    R = pd.read_csv(REPO / "data/temporal/workflow_runs.csv", parse_dates=["start_time", "close_time"])
+    R = R[R.status == "COMPLETED"]; R["s"] = (R.close_time - R.start_time).dt.total_seconds()
+    stages = [("IngestDiveWorkflow", "intake"), ("PreprocessLaserImagesWorkflow", "preprocess: laser"),
+              ("PreprocessHeadtailImagesWorkflow", "preprocess: head/tail"), ("PreprocessSpeciesImagesWorkflow", "preprocess: species"),
+              ("PredictHeadtailImagesWorkflow", "predict head/tail"), ("PerformLaserCalibrationWorkflow", "laser calibration"),
+              ("ComputeLaserDepthsWorkflow", "laser depths"), ("MeasureFishWorkflow", "measure")]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 2.5), gridspec_kw=dict(width_ratios=[1, 1.25]))
+    a.hist(wait, bins=np.arange(0, wait.max() + 30, 30), color=BLUE, edgecolor="white", linewidth=1)
+    med = wait.median(); a.axvline(med, color=INK2, lw=1, ls="--")
+    a.text(med + 10, a.get_ylim()[1] * 0.92, f"median {med:.0f} days", fontsize=7, color=INK2)
+    a.set_xlabel("days from dive to data reaching the lab"); a.set_ylabel("REEF dives")
+    a.set_title(f"(a) waiting for data ({len(wait)} dives): organisational", loc="left", color=INK2)
+    rows = [(lab, R[R.workflow_type == t].s.to_numpy()) for t, lab in stages]
+    rows = [(lab, v) for lab, v in rows if len(v)]
+    for i, (lab, v) in enumerate(rows[::-1]):
+        p10, q1, med, q3, p90 = np.percentile(v, [10, 25, 50, 75, 90])
+        b.plot([p10, p90], [i, i], color=BLUE, lw=1.2, solid_capstyle="round")
+        b.add_patch(plt.Rectangle((q1, i - 0.28), q3 - q1, 0.56, fc="#cde2fb", ec=BLUE, lw=1))
+        b.plot([med, med], [i - 0.28, i + 0.28], color=INK, lw=1.5)
+        b.text(p90 * 1.15, i, (f"{med:.0f} s" if med < 120 else f"{med / 60:.1f} min") + f"  (n={len(v)})",
+               va="center", fontsize=6.5, color=INK2)
+    b.set_xscale("log"); b.set_xlim(1, 3e4)
+    b.set_xticks([1, 10, 60, 600, 3600], ["1 s", "10 s", "1 min", "10 min", "1 h"])
+    b.set_yticks(range(len(rows)), [lab for lab, _ in rows[::-1]]); b.grid(axis="y", visible=False)
+    b.set_ylim(-0.6, len(rows) - 0.4); b.set_xlabel("machine time per dive (median, IQR, p10–p90)")
+    b.set_title("(b) automated stages, Temporal runs Sep 2026: system", loc="left", color=INK2)
+    fig.tight_layout(); save(fig, "fig2_stage_time")
 
 
 # ---------------------------------------------------------------- fig 3
@@ -287,5 +306,5 @@ def fig8_labeling_time():
 
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_turnaround, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time):
+    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time):
         f()
