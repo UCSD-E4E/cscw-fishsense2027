@@ -310,7 +310,7 @@ the slate and no human labels.
 
 ![Figure 3](figures/fig3_size_constancy.png)
 
-*Figure 3. Size constancy. (a) In one session the slate's apparent size falls linearly to zero at the laser's vanishing point; the fitted intercept lands on the known-size calibration's vanishing point (dashed). (b) Angle error for every session, from labelled corners and from label-free registration, against the 0.05° target.*
+*Figure 3. Size constancy. (a) In one session the slate's apparent size falls linearly to zero at the laser's vanishing point; the fitted line reaches zero at x = 0, the known-size calibration's vanishing point. (b) Angle error for every session, from labelled corners and from label-free registration, against the 0.05° target.*
 
 
 **Against tape.** The reference above is the known-size calibration from the same frames.

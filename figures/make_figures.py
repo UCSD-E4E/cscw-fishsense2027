@@ -140,8 +140,6 @@ def fig3_size_constancy():
     xx = np.linspace(min(ex["tv"] - t0, 0) - 5, x.max() + 10, 50)
     a.plot(xx, k * (xx + t0 - ex["tv"]), color=BLUE, lw=1.5, label="fit: size ∝ distance from vanishing point")
     a.scatter(x, ex["s"], s=16, color=BLUE, edgecolor="white", linewidth=0.5, zorder=3, label="slate frames")
-    a.axvline(0, color=ORANGE, lw=1.5, ls="--")
-    a.text(3, ex["s"].max() * 0.95, "vanishing point from the\nknown-size slate calibration", color=INK2, fontsize=6.5, va="top")
     a.set_xlim(xx.min(), xx.max()); a.set_ylim(0, ex["s"].max() * 1.08)
     a.set_xlabel("dot position along the laser line, px (0 = vanishing point)"); a.set_ylabel("apparent slate size, px")
     a.set_title("(a) one session: size shrinks to zero at the vanishing point", loc="left", color=INK2)
