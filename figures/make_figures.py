@@ -135,7 +135,7 @@ def fig3_size_constancy():
         v = np.array([K[0, 0] * ax_[0] / ax_[2] + K[0, 2], K[1, 1] * ax_[1] / ax_[2] + K[1, 2]])
         rows.append(dict(dive=dive, t=t, s=s, tv=tv, tv_true=float(v @ u), err=np.degrees((tv - v @ u) / F_PX)))
     L = pd.read_csv(REPO / "calibration_analysis/e1j_size_constancy/labelfree_tv.csv").set_index("dive")
-    fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 2.4), gridspec_kw=dict(width_ratios=[1.15, 1]))
+    fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 3.0), gridspec_kw=dict(width_ratios=[1.15, 1]))
     ex = next(r for r in rows if r["dive"] == 71)
     t0 = ex["tv_true"]; x = ex["t"] - t0
     k = np.sum(ex["s"] * (ex["t"] - ex["tv"])) / np.sum((ex["t"] - ex["tv"]) ** 2)
@@ -149,16 +149,23 @@ def fig3_size_constancy():
     a.set_xlim(xx.min(), xx.max()); a.set_ylim(0, ex["s"].max() * 1.08)
     a.set_xlabel("dot position along the laser line, px (0 = vanishing point)"); a.set_ylabel("apparent slate size, px")
     a.set_title("(a) one session: size shrinks to zero at the vanishing point", loc="left", color=INK2)
-    R = pd.DataFrame([dict(dive=r["dive"], labelled=abs(r["err"])) for r in rows]).set_index("dive")
-    R["label-free"] = L.err_deg.abs().reindex(R.index)
-    R = R.sort_values("labelled"); y = np.arange(len(R))
-    b.axvline(0.05, color=MUTED, lw=1, ls=":")
-    b.text(0.051, len(R) - 0.6, "0.05° target", color=INK2, fontsize=6.5)
-    b.scatter(R.labelled, y + 0.12, s=22, color=BLUE, edgecolor="white", linewidth=0.5, zorder=3, label="labelled corners")
-    b.scatter(R["label-free"], y - 0.12, s=22, color=ORANGE, edgecolor="white", linewidth=0.5, zorder=3, label="label-free registration")
-    b.set_yticks(y, [f"session {i}" for i in R.index]); b.set_xlabel("|angle error| vs known-size calibration, degrees")
-    b.set_title("(b) every session, unknown object size", loc="left", color=INK2)
-    b.legend(loc="lower right", frameon=False); b.grid(axis="y", visible=False)
+    # (b) every session against TAPE: the stored calibration is not ground truth (it trusts the slate template and
+    # the mount), so each calibration is scored by the length it gives tape-measured fish models in the paired dive
+    T = pd.read_csv(REPO / "calibration_analysis/e1j_size_constancy/tape_by_session.csv")
+    M = T.pivot(index="session", columns="cal", values="mae") * 100
+    order = M["known size"].sort_values().index; y = np.arange(len(order))
+    series = [("known size", "known size + template (production)", MUTED, 0.22),
+              ("unknown size (labelled)", "unknown size, human corners", BLUE, 0.0),
+              ("label-free", "unknown size, no labels", ORANGE, -0.22)]
+    for key, lab, col, dy in series:
+        b.scatter(M.loc[order, key], y + dy, s=20, color=col, edgecolor="white", linewidth=0.5, zorder=3,
+                  label=f"{lab}: {M[key].mean():.1f}%")
+    b.set_yticks(y, [f"session {i}" for i in order]); b.grid(axis="y", visible=False)
+    b.set_xlim(0, M.max().max() * 1.12)
+    b.set_xlabel("length error vs tape, % (fish models, paired dive)")
+    b.set_title("(b) every session, scored against tape", loc="left", color=INK2)
+    b.legend(loc="upper center", bbox_to_anchor=(0.45, -0.25), frameon=False, fontsize=6.5, ncol=1,
+             title="calibration (mean over sessions)", title_fontsize=6.5, scatterpoints=1, handletextpad=0.3)
     fig.tight_layout(); save(fig, "fig3_size_constancy")
 
 

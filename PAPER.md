@@ -310,13 +310,18 @@ the slate and no human labels.
 
 ![Figure 3](figures/fig3_size_constancy.png)
 
-*Figure 3. Size constancy. (a) In one session the slate's apparent size falls linearly to zero at the laser's vanishing point; the fitted line reaches zero at x = 0, the known-size calibration's vanishing point. (b) Angle error for every session, from labelled corners and from label-free registration, against the 0.05° target.*
+*Figure 3. Size constancy. (a) In one session the slate's apparent size is proportional to the dot's distance from the laser's vanishing point (R² = 0.999); the line reaches zero at x = 0. (b) Every session scored against tape: length error of the tape-measured fish models in the paired dive, with the human dot and head/tail held fixed so only the calibration differs. Production's known-size calibration and the unknown-size fit from the same corner labels both average 2.9%; the label-free fit averages 3.3%, or about 2.8% without session 114 (tilted slate, people moving through the scene).*
 
 
-**Against tape.** The reference above is the known-size calibration from the same frames.
-The independent test is measured length: on 1,528 frames of tape-measured fish models,
-switching from the slate calibration to the label-free one moves per-fish error from 3.0% to
-**3.4%** (production's p90 estimator; §5.1).
+**Against tape.** Table 3 measures agreement, not accuracy. The stored calibration is built
+from the same frames and, for the labelled variant, the same corner clicks; it also trusts the
+slate to match its scanned template and the mount to be where it is assumed, so it inherits
+their manufacturing tolerances. The independent test is measured length. Each session
+calibrates a paired dive of tape-measured fish models, and with the human dot and head/tail
+held fixed only the calibration differs (Figure 3b): production's known-size calibration and
+the unknown-size fit both average 2.9% per-fish error, and the label-free fit 3.3% (about 2.8%
+without session 114). Pooled over 1,528 frames, switching from the slate calibration to the
+label-free one moves per-fish error from 3.0% to 3.4% (production's p90 estimator; §6.1).
 
 **What we did not do.** Fish themselves did not work as the rigid object in existing field
 data: frames of the same fish are near-duplicates in range (median range ratio 1.01–1.06).
