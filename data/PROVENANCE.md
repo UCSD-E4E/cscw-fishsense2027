@@ -167,3 +167,11 @@ Only image_id, dive_id, fold, label and p_slate are copied; file paths are dropp
   checks it against `manifest.csv`, prefetches and renders the raws, runs dive-grouped
   cross-validation, rewrites `oof_cv_q1.csv` and redraws Fig 9. NAS access is required
   for the pixels.
+
+## Reference lengths of the fish models (2026-10-05)
+
+`fishmodelreference.known_length_m` — Snook 0.455 m, Grouper 0.360 m, Shark 0.605 m, Purple Angel
+0.192 m, Ruler 0.3429 m (and Weasly Fish 0.313 m, Box 0.150 m) — are all physical measurements,
+by tape or fish length board (project lead, 2026-10-05). The database carries notes for only two
+of them (Weasly Fish, Box); this records the rest. "Against tape" in the figures and text means
+against these measured lengths.

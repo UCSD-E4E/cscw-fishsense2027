@@ -317,7 +317,7 @@ the slate and no human labels.
 from the same frames and, for the labelled variant, the same corner clicks; it also trusts the
 slate to match its scanned template and the mount to be where it is assumed, so it inherits
 their manufacturing tolerances. The independent test is measured length. Each session
-calibrates a paired dive of tape-measured fish models, and with the human dot and head/tail
+calibrates a paired dive of fish models whose lengths were measured by tape or fish length board, and with the human dot and head/tail
 held fixed only the calibration differs (Figure 3b): production's known-size calibration and
 the unknown-size fit both average 2.9% per-fish error, and the label-free fit 3.3% (about 2.8%
 without session 114). Pooled over 1,528 frames, switching from the slate calibration to the
