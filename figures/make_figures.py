@@ -11,6 +11,8 @@
   fig8_labeling_time   person-seconds per label by type, drawn from scratch (no prediction seed)
   fig9_slate_detector  slate-frame detector: precision-recall; per-dive recall
   fig10_size_measures  apparent-size measures for size-constancy calibration, scored against tape
+  fig11_laser_recall   laser detector: found / wrong spot / missed by colour and setting
+  fig12_laser_position laser detector: distance of confident detections from the human dot
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
@@ -220,8 +222,7 @@ def fig5_reef_lengths():
     lim = np.array([0, np.percentile(P, 99.5) * 1.05])
     ax.fill_between(lim, lim * 0.9, lim * 1.1, color=GRID, lw=0, label="±10%")
     ax.plot(lim, lim, color=INK2, lw=1)
-    ax.scatter(P[~green, 0], P[~green, 1], s=10, color=BLUE, edgecolor="white", linewidth=0.4, label="red-laser dives", zorder=3)
-    ax.scatter(P[green, 0], P[green, 1], s=10, color=ORANGE, edgecolor="white", linewidth=0.4, label="green-laser dives", zorder=3)
+    ax.scatter(P[:, 0], P[:, 1], s=10, color=BLUE, edgecolor="white", linewidth=0.4, label="one frame", zorder=3)
     ax.set_xlim(lim); ax.set_ylim(lim); ax.set_aspect("equal")
     ax.set_xlabel("manual length, cm (human dot and head/tail)"); ax.set_ylabel("fully automatic length, cm")
     ax.set_title(f"Reef fish, {len(P)} frames: median {100 * np.median(rel):+.1f}%, MAE {100 * np.mean(np.abs(rel)):.1f}%, "
@@ -378,7 +379,58 @@ def fig10_size_measures():
     save(fig, "fig10_size_measures")
 
 
+# ---------------------------------------------------------------- fig 11, 12
+def _t3_dots():
+    """Production laser detector against human dots drawn with no pre-fill (T3; frames with a dot)."""
+    from fishsense_cscw import laser_detection as T3
+    d = T3.load()
+    return T3, d[(d.condition == "production") & d.has_dot]
+
+
+def fig11_laser_recall():
+    """Does the detector find the dot? Outcome per laser colour and setting."""
+    T3, d = _t3_dots()
+    groups = [("all", d), ("red, reef", d[(d.wavelength == "red") & (d.environment == "reef")]),
+              ("red, pool", d[(d.wavelength == "red") & (d.environment == "pool")]),
+              ("green, reef", d[(d.wavelength == "green") & (d.environment == "reef")]),
+              ("green, pool", d[(d.wavelength == "green") & (d.environment == "pool")])]
+    parts = [("found", "found", BLUE), ("confident-wrong", "confident, wrong spot", ORANGE), ("missed", "missed", "#c3c2b7")]
+    fig, a = plt.subplots(figsize=(ONE, 2.3))
+    y = np.arange(len(groups))[::-1]
+    for yi, (name, g) in zip(y, groups):
+        left = 0.0
+        for key, lab, col in parts:
+            w = (g.outcome == key).mean() * 100
+            a.barh(yi, w, left=left, height=0.62, color=col, edgecolor="white", linewidth=1, label=lab if name == "all" else None)
+            if key == "found":
+                a.text(w - 1.5, yi, f"{w:.0f}%", ha="right", va="center", fontsize=6.5, color="white")
+            left += w
+        a.text(101.5, yi, f"n={len(g):,}", va="center", fontsize=6.5, color=INK2)
+    a.set_yticks(y, [n for n, _ in groups]); a.set_xlim(0, 100); a.grid(axis="y", visible=False)
+    a.set_xlabel("share of frames with a laser dot, %")
+    a.set_title("Does the laser detector find the dot?", loc="left", color=INK2)
+    a.legend(loc="upper center", bbox_to_anchor=(0.45, -0.25), ncol=3, frameon=False, fontsize=6.5, handlelength=1.0)
+    save(fig, "fig11_laser_recall")
+
+
+def fig12_laser_position():
+    """Where confident detections land relative to the human dot (cumulative, log distance)."""
+    T3, d = _t3_dots()
+    v = np.clip(np.sort(d[d.present].distance_px.to_numpy()), 0.05, None)
+    fig, b = plt.subplots(figsize=(ONE, 2.3))
+    b.step(v, np.arange(1, len(v) + 1) / len(v) * 100, where="post", color=BLUE, lw=1.6)
+    b.axvline(T3.HIT_RADIUS_PX, color=MUTED, lw=1, ls=":")
+    within = (v <= T3.HIT_RADIUS_PX).mean() * 100
+    b.text(T3.HIT_RADIUS_PX * 1.15, 40, f"{within:.0f}% within\n{T3.HIT_RADIUS_PX:.0f} px", fontsize=6.5, color=INK2)
+    b.text(0.12, 92, f"median {np.median(v):.1f} px\n(n={len(v):,})", fontsize=6.5, color=INK2, va="top")
+    b.set_xscale("log"); b.set_xlim(0.1, 3000); b.set_ylim(0, 101)
+    b.set_xticks([0.1, 1, 10, 100, 1000], ["0.1", "1", "10", "100", "1000"])
+    b.set_xlabel("distance from the human dot, px"); b.set_ylabel("confident detections, cumulative %")
+    b.set_title("Where the laser detector puts the dot", loc="left", color=INK2)
+    save(fig, "fig12_laser_position")
+
+
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures):
+    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures, fig11_laser_recall, fig12_laser_position):
         f()

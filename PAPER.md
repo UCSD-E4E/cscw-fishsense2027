@@ -387,6 +387,17 @@ human dot (p90 2.1 px in the pool; 3.9 px red and 4.7 px green on the reef). Gro
 (> 20 px) occur on 5.4% of green reef frames and 0.7% of red. As §6.3 shows, the downstream
 fish-mask check absorbs these misses.
 
+![Figure 11](figures/fig11_laser_recall.png)
+
+*Figure 11. Laser-dot detection against human dots drawn with no pre-fill (1,221 frames with a
+dot, 226 dives): found within 10 px, a confident point on the wrong spot, or missed, by laser
+colour and setting.*
+
+![Figure 12](figures/fig12_laser_position.png)
+
+*Figure 12. Distance from the human dot for confident detections (cumulative, log scale): median
+1.1 px, 93% within 10 px; the tail is mostly a different bright spot.*
+
 ### 5.2 Fish mask
 
 The production head/tail stage segments an 1800×1350 crop around the dot with SAM 3.1, text
