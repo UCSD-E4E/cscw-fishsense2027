@@ -140,7 +140,9 @@ def fig3_size_constancy():
     t0 = ex["tv_true"]; x = ex["t"] - t0
     k = np.sum(ex["s"] * (ex["t"] - ex["tv"])) / np.sum((ex["t"] - ex["tv"]) ** 2)
     xx = np.linspace(min(ex["tv"] - t0, 0) - 5, x.max() + 10, 50)
-    a.plot(xx, k * (xx + t0 - ex["tv"]), color=BLUE, lw=1.5, label="fit: size ∝ distance from vanishing point")
+    pred = k * (ex["t"] - ex["tv"])
+    r2 = 1 - np.sum((ex["s"] - pred) ** 2) / np.sum((ex["s"] - ex["s"].mean()) ** 2)
+    a.plot(xx, k * (xx + t0 - ex["tv"]), color=BLUE, lw=1.5, label=f"fit: size ∝ distance from vanishing point, R² = {r2:.4f}")
     a.scatter(x, ex["s"], s=16, color=BLUE, edgecolor="white", linewidth=0.5, zorder=3, label="slate frames")
     a.set_xlim(xx.min(), xx.max()); a.set_ylim(0, ex["s"].max() * 1.08)
     a.set_xlabel("dot position along the laser line, px (0 = vanishing point)"); a.set_ylabel("apparent slate size, px")
