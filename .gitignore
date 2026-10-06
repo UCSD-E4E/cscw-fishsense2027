@@ -17,3 +17,4 @@ e2e_measurement/species/bioclip_cache/
 e2e_measurement/species/embeddings.npz
 e2e_measurement/tail/masks/
 e2e_measurement/tail/coverage/
+.DS_Store

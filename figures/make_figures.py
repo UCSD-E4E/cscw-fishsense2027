@@ -47,8 +47,9 @@ plt.rcParams.update({
 
 
 def save(fig, name):
-    for ext in ("pdf", "png"):
-        fig.savefig(OUT / f"{name}.{ext}")
+    # no timestamps in the files, so a rebuild from the same data is byte-identical
+    fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None})
+    fig.savefig(OUT / f"{name}.png", metadata={"Software": None})
     plt.close(fig); print("wrote", name)
 
 
