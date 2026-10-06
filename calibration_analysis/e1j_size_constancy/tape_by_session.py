@@ -10,6 +10,9 @@ and human head/tail held fixed, only the calibration varies:
   unknown size slate as an object of unknown size, human corner labels (slate_unknown.py) + |O| from design
   label-free   unknown size, image registration (register.py) + |O| from design
 
+Further size measures: drop sizes/<method>.csv (image_id,size) next to this script and rerun; each
+becomes another calibration in the table.
+
 Per session: the per-fish production estimator (p90 over frames of one model in one dive),
 signed error vs tape, averaged over the models in that dive. Writes tape_by_session.csv.
 Run from this repo:  uv run python calibration_analysis/e1j_size_constancy/tape_by_session.py
@@ -29,9 +32,15 @@ import score as S  # noqa: E402
 import slate_unknown as su  # noqa: E402
 
 
-def labelled_unknown(intr, cams):
-    """Unknown-size fit from human corner labels, as a laser (origin, axis) per slate session."""
+def labelled_unknown(intr, cams, sizes=None):
+    """Unknown-size fit as a laser (origin, axis) per slate session.
+
+    Sizes default to the RMS spread of the human corner labels; `sizes` (image_id -> size) replaces
+    them with any other per-frame measure. Only ratios within a session matter, so any unit works.
+    """
     d, lines, ext, _ = su.load()
+    if sizes is not None:
+        d = d[d.image_id.isin(sizes.index)].assign(size=lambda t: t.image_id.map(sizes))
     L = pd.read_csv(HERE / "labelfree_tv.csv").set_index("dive")
     out = {}
     for dive, g in d.groupby("dive_id"):
@@ -52,6 +61,10 @@ def main():
     E = pd.read_csv(REPO / "e2e_measurement/extrinsics.psv", sep="|")
     cams = {int(r.dive_id): int(r.camera_id) for r in E.itertuples()}
     cal = {"known size": stored, "unknown size (labelled)": labelled_unknown(intr, cams), "label-free": labelfree}
+    # extra size measures handed back by the slate project: sizes/<method>.csv with columns image_id,size
+    for f in sorted((HERE / "sizes").glob("*.csv")):
+        z = pd.read_csv(f).dropna(subset=["size"]); z = z[z["size"] > 0].set_index("image_id")["size"]
+        cal[f.stem] = labelled_unknown(intr, cams, z)
     F = pd.read_csv(REPO / "e2e_measurement/frames.psv", sep="|").drop_duplicates("image_id")
     F = F[F.content.fillna("").str.contains("Fish Model|Ruler")].dropna(subset=["head_x", "laser_x"]).copy()
     F["model"] = F.content.str.split(", ").str[-1]; F["L_true"] = F.model.map(S.KNOWN)
