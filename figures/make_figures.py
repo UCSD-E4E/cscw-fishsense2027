@@ -13,6 +13,8 @@
   fig10_size_measures  apparent-size measures for size-constancy calibration, scored against tape
   fig11_laser_recall   laser detector: found / wrong spot / missed by colour and setting
   fig12_laser_position laser detector: distance of confident detections from the human dot
+  fig13_headtail_examples automatic vs human head/tail: typical reef fish and pool failure modes
+  fig14_headtail_error automatic head and tail distance from the human clicks on reef fish
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
@@ -430,7 +432,56 @@ def fig12_laser_position():
     save(fig, "fig12_laser_position")
 
 
+# ---------------------------------------------------------------- fig 13, 14
+def fig13_headtail_examples():
+    """Automatic head/tail vs the human clicks: three typical reef fish, three pool failure modes.
+    Crops and crop-local points from e2e_measurement/tail/headtail_examples.py."""
+    import matplotlib.patheffects as pe
+    from PIL import Image
+    E = pd.read_csv(REPO / "data/headtail_examples/examples.csv")
+    E = pd.concat([E[E.kind == "typical"], E[E.kind == "failure"]])
+    fig, axes = plt.subplots(2, 3, figsize=(TWO, 3.5))
+    halo = [pe.withStroke(linewidth=2.6, foreground="black")]
+    for ax, r in zip(axes.ravel(), E.itertuples()):
+        ax.imshow(Image.open(REPO / f"data/headtail_examples/{r.image_id}.jpg")); ax.set_axis_off()
+        ax.plot([r.human_head_x, r.human_tail_x], [r.human_head_y, r.human_tail_y], color="white", lw=1.6, path_effects=halo)
+        ax.scatter([r.human_head_x, r.human_tail_x], [r.human_head_y, r.human_tail_y], s=36, facecolor="none",
+                   edgecolor="white", linewidth=1.6, zorder=3, path_effects=halo)
+        ax.plot([r.auto_head_x, r.auto_tail_x], [r.auto_head_y, r.auto_tail_y], color=ORANGE, lw=1.4, ls="--")
+        ax.scatter([r.auto_head_x, r.auto_tail_x], [r.auto_head_y, r.auto_tail_y], s=16, color=ORANGE, zorder=4,
+                   edgecolor="black", linewidth=0.4)
+        ax.set_title(f"{r.label}\nautomatic / human length {r.ratio:.2f}", fontsize=7, color=INK2, loc="left")
+    fig.text(0.01, 0.005, "white: human clicks   orange: automatic (SAM 3.1 mask at the dot + keypointer)",
+             fontsize=6.5, color=INK2)
+    fig.tight_layout(rect=(0, 0.035, 1, 1), h_pad=0.6); save(fig, "fig13_headtail_examples")
+
+
+def fig14_headtail_error():
+    """Reef fish: how far the automatic head and tail land from the human clicks, % of body length
+    (mask seeded at the human dot, so only the head/tail stage differs)."""
+    F = pd.read_csv(REPO / "e2e_measurement/tail/frames.csv").set_index("image_id")
+    K = pd.read_csv(REPO / "e2e_measurement/tail/keypoints.csv")
+    K = K[(K.seed == "human") & K.head_x.notna()].set_index("image_id")
+    J = K.join(F[["head_x", "head_y", "tail_x", "tail_y", "set"]], rsuffix="_h", how="inner")
+    J = J[(J.set == "reef") & J.head_x_h.notna()]
+    H = J[["head_x_h", "head_y_h"]].to_numpy(); T = J[["tail_x", "tail_y"]].to_numpy()
+    h = J[["head_x", "head_y"]].to_numpy(); t = J[["prod_tail_x", "prod_tail_y"]].to_numpy()
+    L = np.linalg.norm(T - H, axis=1)
+    swap = np.linalg.norm(h - T, axis=1) + np.linalg.norm(t - H, axis=1) < np.linalg.norm(h - H, axis=1) + np.linalg.norm(t - T, axis=1)
+    h2 = np.where(swap[:, None], t, h); t2 = np.where(swap[:, None], h, t)
+    eh = np.linalg.norm(h2 - H, axis=1) / L * 100; et = np.linalg.norm(t2 - T, axis=1) / L * 100
+    fig, ax = plt.subplots(figsize=(ONE, 2.3))
+    for v, lab, col in ((eh, "head", BLUE), (et, "tail", ORANGE)):
+        v = np.sort(v)
+        ax.step(v, np.arange(1, len(v) + 1) / len(v) * 100, where="post", color=col, lw=1.6, label=f"{lab}: median {np.median(v):.1f}%")
+    ax.set_xlim(0, 30); ax.set_ylim(0, 101)
+    ax.set_xlabel("distance from the human click, % of body length"); ax.set_ylabel("reef frames, cumulative %")
+    ax.set_title(f"Automatic head and tail on reef fish (n={len(eh)})", loc="left", color=INK2)
+    ax.legend(loc="lower right", frameon=False, fontsize=6.5)
+    save(fig, "fig14_headtail_error")
+
+
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures, fig11_laser_recall, fig12_laser_position):
+    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures, fig11_laser_recall, fig12_laser_position, fig13_headtail_examples, fig14_headtail_error):
         f()

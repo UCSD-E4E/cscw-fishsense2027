@@ -415,6 +415,19 @@ shape, and returns the two ends.
 - **Fork finder:** a caudal-fork rule (deepest outline notch in the tail third) moved the tail
   little and did not reduce error, so we did not adopt it.
 
+![Figure 13](figures/fig13_headtail_examples.png)
+
+*Figure 13. Automatic head and tail (orange) against the human clicks (white). Top: typical reef
+fish, chosen as the frames whose head and tail errors are closest to the reef medians. Bottom: the
+three failure modes on pool models (the shark's upper tail lobe, the angelfish's fin corner, a
+mask cut by the mounting pole).*
+
+![Figure 14](figures/fig14_headtail_error.png)
+
+*Figure 14. On reef fish, how far the automatic head and tail land from the human clicks, as a
+share of body length (mask seeded at the human dot, so only the head/tail stage differs). The head
+is close (median 1.4%); the tail carries most of the disagreement (median 7.5%).*
+
 ### 5.4 Species
 
 We adapt BioCLIP 2.5 with the 13 REEF species of interest [CG; BioCLIP]. Truth is human
