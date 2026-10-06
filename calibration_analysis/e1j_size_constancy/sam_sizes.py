@@ -10,7 +10,11 @@ detector's render cache (rectified, 1600x1202; dot and rectangle scaled by 1600/
 ratios within a session matter, so render-scale pixels are fine. One short GPU pass.
 
 Writes sizes/sam3_box.csv, sizes/sam3_text.csv (image_id,size) and sam_sizes_detail.csv.
-Run from fishsense-lite's venv (see e2e_measurement/run_e2e.py for the environment).
+Run from fishsense-lite's venv (see e2e_measurement/run_e2e.py for the environment):
+  python sam_sizes.py RECTS.psv                       the pool sessions (above)
+  python sam_sizes.py - FRAMES.csv PREFIX             any frames file (image_id,dive_id,dot_x,dot_y), text prompt
+                                                      only; writes PREFIX_sizes/sam3_text.csv, PREFIX_sam_sizes_detail.csv
+                                                      (the reef dives: reef_labelfree.py)
 """
 from __future__ import annotations
 
@@ -34,11 +38,12 @@ SAM3_CKPT = os.environ.get("SAM3_CKPT") or (E.SAM3_CKPT if Path(E.SAM3_CKPT).exi
     glob.glob(str(REPO.parent / "coral-gardeners-fish-detector/models/hf_cache/hub/models--facebook--sam3/snapshots/*/sam3.pt"))[0])
 
 
-def main(rects_path):
+def main(rects_path, frames_path=None, prefix=None):
     import PIL.Image, torch
     from fishsense_data_processing_workflow_worker.activities.predict_headtail_image import _load_segmenter
-    F = pd.read_csv(HERE / "sizes_frames.csv")
-    R = pd.read_csv(rects_path, sep="|", header=None, names=["image_id", "rect", "pts"]).drop_duplicates("image_id").set_index("image_id")
+    F = pd.read_csv(frames_path or HERE / "sizes_frames.csv")
+    R = (pd.read_csv(rects_path, sep="|", header=None, names=["image_id", "rect", "pts"]).drop_duplicates("image_id").set_index("image_id")
+         if rects_path != "-" else pd.DataFrame(columns=["rect"]))
     print('checkpoint:', SAM3_CKPT, flush=True)
     proc = _load_segmenter(SAM3_CKPT); proc.set_confidence_threshold(0.3)
     rows = []
@@ -73,14 +78,16 @@ def main(rects_path):
         rows.append(rec)
         if n % 50 == 0:
             print(f"{n}/{len(F)}", flush=True)
-    D = pd.DataFrame(rows); D.to_csv(HERE / "sam_sizes_detail.csv", index=False)
-    (HERE / "sizes").mkdir(exist_ok=True)
+    D = pd.DataFrame(rows); D.to_csv(HERE / (f"{prefix}_sam_sizes_detail.csv" if prefix else "sam_sizes_detail.csv"), index=False)
+    out = HERE / (f"{prefix}_sizes" if prefix else "sizes"); out.mkdir(exist_ok=True)
     for col, name in (("box_area", "sam3_box"), ("text_area", "sam3_text")):
+        if col not in D:
+            continue
         z = D.dropna(subset=[col])
-        pd.DataFrame(dict(image_id=z.image_id, size=np.sqrt(z[col]))).to_csv(HERE / "sizes" / f"{name}.csv", index=False)
+        pd.DataFrame(dict(image_id=z.image_id, size=np.sqrt(z[col]))).to_csv(out / f"{name}.csv", index=False)
         print(f"{name}: {len(z)} of {len(D)} frames")
     print("text prompt used:", D.text_prompt.value_counts(dropna=False).to_dict())
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(*sys.argv[1:4])

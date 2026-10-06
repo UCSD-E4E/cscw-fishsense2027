@@ -1,0 +1,19 @@
+variant,dive,frames,median,mae,within10
+"angle only (label-free angle, stored |O|)",all,224,0.0081,0.0132,1.0000
+"angle only (label-free angle, stored |O|)",341,76,-0.0097,0.0098,1.0000
+"angle only (label-free angle, stored |O|)",347,110,0.0138,0.0158,1.0000
+"angle only (label-free angle, stored |O|)",349,37,0.0098,0.0115,1.0000
+"angle only (label-free angle, stored |O|)",436,1,0.0546,0.0546,1.0000
+"calibration only (human dot + head/tail, label-free cal)",all,224,0.0114,0.0256,1.0000
+"calibration only (human dot + head/tail, label-free cal)",341,76,0.0069,0.0068,1.0000
+"calibration only (human dot + head/tail, label-free cal)",347,110,0.0438,0.0459,1.0000
+"calibration only (human dot + head/tail, label-free cal)",349,37,-0.0014,0.0035,1.0000
+"calibration only (human dot + head/tail, label-free cal)",436,1,0.0445,0.0445,1.0000
+"fully automatic, stored cal (Fig 5)",all,197,-0.0008,0.0499,0.8376
+"fully automatic, stored cal (Fig 5)",341,70,0.0022,0.0466,0.8429
+"fully automatic, stored cal (Fig 5)",347,99,0.0051,0.0611,0.7879
+"fully automatic, stored cal (Fig 5)",349,28,-0.0112,0.0187,1.0000
+"fully automatic, label-free cal",all,197,0.0284,0.0607,0.7970
+"fully automatic, label-free cal",341,70,0.0079,0.0478,0.8571
+"fully automatic, label-free cal",347,99,0.0496,0.0815,0.6970
+"fully automatic, label-free cal",349,28,-0.0125,0.0190,1.0000

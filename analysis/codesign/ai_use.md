@@ -71,6 +71,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Per-dive capture date and laser-colour extracts (`sql/extract_dives.sql`, `sql/extract_dive_laser_colour.sql` -> `data/db_extracts/dives.psv`, `dive_laser_colour.psv`), read-only on the restored DB | data extract | assistant | e5ebebfd |
 | 2026-10-06 | Task 3d red vs green, controlled for camera, environment and time (`analysis/codesign/redgreen.py` -> `results/redgreen*.csv`) | analysis | assistant | this commit (analysis: task 3d...) |
 | 2026-10-06 | Fig 11 switched to dive-level laser colour (green-pool row removed); correction note on T3 in p2-results.md | figure + prose | assistant | this commit (analysis: task 3d...) |
+| 2026-10-06 | Known issue 1: label-free reef calibration (`calibration_analysis/e1j_size_constancy/reef_labelfree.py`; `sam_sizes.py` generalised to any frames file; SAM 3.1 GPU pass on 68 reef slate frames) | analysis | assistant | this commit (analysis: label-free reef calibration...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

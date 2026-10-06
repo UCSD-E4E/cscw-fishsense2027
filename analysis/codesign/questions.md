@@ -123,10 +123,14 @@ Sections A-D are what is still open.
 
 ## D. Status of known issues 1-4 (reported 2026-10-06; no change)
 
-1. **Reef end-to-end lengths use the stored calibration** (`e2e_measurement/tail/evaluate.py` L114).
-   - A label-free run is possible on reef dives 341, 347, 349 and 436.
-   - It needs NAS raws and a GPU pass.
-   - Proposed for task 3.
+1. **Reef end-to-end lengths: done 2026-10-06** (`calibration_analysis/e1j_size_constancy/reef_labelfree.py`).
+   - Label-free calibrations on dives 341, 347, 349 and 436 (68 slate frames, SAM 3.1 masks).
+   - Fully automatic: median +2.8%, MAE 6.1%, 80% within 10%, vs -0.1% / 5.0% / 84% with the stored
+     calibration.
+   - The angle alone moves lengths by 1.3% MAE. The 104 mm |O| stand-in accounts for most of the
+     rest, so the CAD value matters more than the angle method here.
+   - Dives 279, 465 and 471 have only 2-3 slate frames with a dot. Detector-positive slate frames
+     without a dot would need the laser detector on raw frames.
 2. **The two 0.003 deg figures are separate results:**
    - WUWNet production-corpus reproduction: 2,927 frames, 32 dives.
    - The Pinax figure: wrong. It is 0.015 deg at a 50 mm standoff. Corrected in claims.yaml.
