@@ -68,6 +68,9 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Design-revision timeline (`analysis/codesign/timeline.yaml`) from DB, git history, Temporal and author statements | analysis + prose | assistant draft; drivers from author answers | this commit (analysis: co-design timeline...) |
 | 2026-10-06 | Claim inventory / evidence map (`analysis/codesign/claims.yaml`) | prose | assistant draft | this commit (analysis: co-design timeline...) |
 | 2026-10-06 | Open questions (`analysis/codesign/questions.md`) and this log | prose | assistant | this commit (analysis: co-design timeline...) |
+| 2026-10-06 | Per-dive capture date and laser-colour extracts (`sql/extract_dives.sql`, `sql/extract_dive_laser_colour.sql` -> `data/db_extracts/dives.psv`, `dive_laser_colour.psv`), read-only on the restored DB | data extract | assistant | e5ebebfd |
+| 2026-10-06 | Task 3d red vs green, controlled for camera, environment and time (`analysis/codesign/redgreen.py` -> `results/redgreen*.csv`) | analysis | assistant | this commit (analysis: task 3d...) |
+| 2026-10-06 | Fig 11 switched to dive-level laser colour (green-pool row removed); correction note on T3 in p2-results.md | figure + prose | assistant | this commit (analysis: task 3d...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

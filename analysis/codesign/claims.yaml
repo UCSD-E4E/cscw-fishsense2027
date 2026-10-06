@@ -110,13 +110,13 @@
   paper_section: 5
 
 # ---------------------------------------------------------------- 6 Sensing hardware
-- claim: Green lasers are missed about 4x as often as red by the production detector.
-  number: "recall 0.860 red vs 0.752 green; dive-resampled red-green gap +0.03..+0.19"
+- claim: "Green laser dots are missed about three times as often as red by the production detector (dive-level colour); the gap holds within camera and environment. Red dots draw more confident wrong points, so the net recall gap is small."
+  number: "missed 16.8% green vs 5.7% red (+11.0 pt, dive-resampled 95% CI +5.1..+17.6; 382 green / 735 red frames, 72 / 143 dives); within camera x environment +15.8 pt (+10.4..+21.7); within camera x environment x half-year +12.5 pt (0.0..+26.9; 21 red / 23 green dives); stagger window 2024-03..12 +12.1 pt (-7.0..+21.0; 9 red dives). Recall 0.814 green vs 0.856 red (-4.2 pt, -11.8..+3.1); confident-wrong 1.8% vs 8.7%."
   evidence_level: retrospective
-  source: p2-results.md T3; laser_detection_analysis/recall.ipynb; fishsense_cscw/laser_detection.py
-  confounds: colour confounded with camera, time, site and fish size (task 3d); green covers two products (Shark and Orca Torch) whose per-dive assignment is unrecorded; green-pool n=47
+  source: analysis/codesign/redgreen.py -> analysis/codesign/results/redgreen.csv; inputs laser_detection_analysis/predictions.csv (T3), data/db_extracts/dives.psv, data/db_extracts/dive_laser_colour.psv
+  confounds: "time - the controls that include capture date rest on 9-21 red dives and their intervals reach zero, so colour is not cleanly separated from period; range, exposure and water clarity uncontrolled; green covers two products (Shark and Orca Torch) whose per-dive assignment is unrecorded; T3's stratified sample, not fleet rates; environment is a path-keyword heuristic"
   paper_section: 6
-  note: "Fits the framing as a diver-for-machine trade: red was chosen for fish behaviour and was easier to label (more of the ocean is green); green was adopted for diver visibility (author account 2026-10-06). The IMWUT text gives the opposite reason (green 'penetrates water further' and aids dot detection), so this paper must not echo it; see questions.md A4."
+  note: "Replaces T3's per-frame figures (recall 0.860 red vs 0.752 green, 'missed 4x'). T3's 'green, pool' cell (recall 0.426, n=47) does not survive: 45 of 47 frames are minority green labels in red pool dives (2023-08-29 sessions), leaving 2 green pool frames - so 'green is worst in the pool' must not be claimed. Framing: red was chosen first for fish behaviour and was easier to label; green was adopted for diver visibility (author account 2026-10-06). The IMWUT text gives the opposite reason (green 'penetrates water further' and aids dot detection), so this paper must not echo it; see questions.md A2."
 
 - claim: The green beam's scattered streak is 15-30x brighter than red's but appears on only 2 of 7 green dives and locates the angle only to ~1 deg.
   number: 0.86-0.95 deg SE where present

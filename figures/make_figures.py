@@ -390,12 +390,21 @@ def _t3_dots():
 
 
 def fig11_laser_recall():
-    """Does the detector find the dot? Outcome per laser colour and setting."""
+    """Does the detector find the dot? Outcome per laser colour and setting.
+
+    Colour is the dive's (>=90% of its laser labels, as in analysis/codesign/redgreen.py), and a
+    frame counts under a colour only if its own label agrees. There is no green pool row: T3's 47
+    "green, pool" frames were minority labels in red pool dives, and 2 survive."""
     T3, d = _t3_dots()
-    groups = [("all", d), ("red, reef", d[(d.wavelength == "red") & (d.environment == "reef")]),
-              ("red, pool", d[(d.wavelength == "red") & (d.environment == "pool")]),
-              ("green, reef", d[(d.wavelength == "green") & (d.environment == "reef")]),
-              ("green, pool", d[(d.wavelength == "green") & (d.environment == "pool")])]
+    col = pd.read_csv(REPO / "data/db_extracts/dive_laser_colour.psv", sep="|", header=None,
+                      names=["dive_id", "red_labels", "green_labels"])
+    share = col.green_labels / (col.red_labels + col.green_labels)
+    col["dive_colour"] = np.select([share >= 0.9, share <= 0.1], ["green", "red"], "mixed")
+    c = d.merge(col[["dive_id", "dive_colour"]], on="dive_id", how="left")
+    c = c[c.wavelength == c.dive_colour]
+    groups = [("all", d), ("red, reef", c[(c.wavelength == "red") & (c.environment == "reef")]),
+              ("red, pool", c[(c.wavelength == "red") & (c.environment == "pool")]),
+              ("green, reef", c[(c.wavelength == "green") & (c.environment == "reef")])]
     parts = [("found", "found", BLUE), ("confident-wrong", "confident, wrong spot", ORANGE), ("missed", "missed", "#c3c2b7")]
     fig, a = plt.subplots(figsize=(ONE, 2.3))
     y = np.arange(len(groups))[::-1]

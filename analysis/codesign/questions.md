@@ -81,29 +81,35 @@ Sections A-D are what is still open.
      dot shape in the images might identify the product, but that would be an inference. I'd use it
      only with your sign-off.
    - Was red always the Innovative Scuba pointer?
-2. **For analysis 3f:**
+2. **Green labels in red 2023 dives (found by task 3d).** The 2023-08-29 pool dives (59, 61-63,
+   65, 66, 71, 77, 80, 83) have 1-32% green laser labels, and a few 2023 reef dives have some too.
+   Was a green laser used alongside red in those sessions (dive 83 is 32% green, dive 77 20%), or are
+   these colour mislabels? Until answered, task 3d drops them. Either way, T3's "green, pool" cell
+   (n=47) was almost entirely these frames, and the PAPER.md / p2-results.md sentences built on it
+   need correcting.
+3. **For analysis 3f:**
    - which cameras had PLA vs aluminium mounts, and from when;
    - any known repairs, knocks or replacement mounts, by camera and date.
 
    The DB has no mount field, and no dive note mentions a repair. Without this list, 3f can only
    compare cameras before and after a date you give.
-3. **TG-6 -> TG-7 for FSL-08+ (Jan 2025):** availability, cost, or a sensing reason?
-4. **Slate pose predictor:** when was it retired, and why? (Inferred from the auto-accept commit:
+4. **TG-6 -> TG-7 for FSL-08+ (Jan 2025):** availability, cost, or a sensing reason?
+5. **Slate pose predictor:** when was it retired, and why? (Inferred from the auto-accept commit:
    confident false fits passed the ECC gate. Driver currently machine, medium confidence.)
-5. **Label Studio "Calibration Targets" branch (2026-07-21)** and **checkerboard calibration
+6. **Label Studio "Calibration Targets" branch (2026-07-21)** and **checkerboard calibration
    automation (2026-09-08):** why?
-6. **Labelling starts and campaigns:**
+7. **Labelling starts and campaigns:**
    - Why did laser (2024-10), head/tail (2025-04), species (2025-10) and slate-corner (2025-11)
      labelling start when they did?
    - Why the 2025-10/11 campaigns that pre-filled earlier *human* labels?
    - Which model produced the 38 prediction-seeded laser annotations in 2024-11?
-7. **Pipeline:**
+8. **Pipeline:**
    - What drove services/database (2024-10), the data-processing workers (2025-03), and moving
      the remaining stages onto Temporal (2026-05..09)?
    - Did core 3.0.0 -> 4.0.0 (2026-09-16) change anything that matters here?
-8. **Isolated green-laser dives in 2023** (dive 242, 2023-10-19; dive 253, named "102724_..." but
+9. **Isolated green-laser dives in 2023** (dive 242, 2023-10-19; dive 253, named "102724_..." but
    dated 2023-10-27): test dives or camera-clock errors?
-9. **When was the per-dive calibration plan adopted?** Before 2023-08-01 is all the record shows.
+10. **When was the per-dive calibration plan adopted?** Before 2023-08-01 is all the record shows.
    When was the first partner unit shipped?
 
 ## C. Open decisions (the author's, not mine)

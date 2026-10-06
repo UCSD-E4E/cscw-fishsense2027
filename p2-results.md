@@ -232,6 +232,14 @@ inflate it.
 
 ## T3 — laser-detector recall: 0.821, green missed 4× as often, pool hardest
 
+> **Correction (2026-10-06, task 3d, `analysis/codesign/redgreen.py`):** the colour split below uses
+> each frame's own label. With colour assigned per dive (≥90% of the dive's laser labels), 45 of the
+> 47 "green, pool" frames turn out to be minority green labels in red pool dives (mostly
+> 2023-08-29), so there is no usable green-pool cell. Green is missed 16.8% vs 5.7% for red
+> (+11 pt, CI +5..+18), and the gap holds within camera × environment (+16 pt). Red draws more
+> confident wrong points, so recall differs less (0.814 vs 0.856, CI includes zero). Current
+> figures: `analysis/codesign/claims.yaml`.
+
 Production checkpoint (sha256 verified) on 1,571 frames across 249 dives, scored against
 **unseeded** human dots. The detector always returns a point, so "present" means
 confidence ≥ 0.5, the threshold in its config.
