@@ -44,9 +44,9 @@ PY
   python3 - "$SD/runs/cv-q1/oof_predictions.csv" "$REPO/data/slate_detector/oof_cv_q1.csv" <<'PY'
 import csv, sys
 r = csv.DictReader(open(sys.argv[1])); w = csv.writer(open(sys.argv[2], "w", newline=""))
-w.writerow(["image_id", "dive_id", "fold", "label", "p_slate"])
-for x in r:
-    w.writerow([x["image_id"], x["dive_id"], x["fold"], x["label"], x["p_slate"]])
+w.writerow(["image_id", "dive_id", "fold", "label", "p_slate", "cutting_board"])
+for x in r:   # cutting_board: the one-off test slate answered "Slate not in list"; Fig 9 leaves it out
+    w.writerow([x["image_id"], x["dive_id"], x["fold"], x["label"], x["p_slate"], int("Slate not in list" in (x["answers"] or ""))])
 PY
 fi
 

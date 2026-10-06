@@ -307,10 +307,12 @@ def fig8_labeling_time():
 # ---------------------------------------------------------------- fig 9
 def fig9_slate_detector():
     """Slate-frame detector (2026-10-03_slate_detector), dive-grouped cross-validation.
-    (a) precision-recall over all frames;
+    (a) precision-recall over all frames except the one-off cutting-board test slate;
     (b) q1 model, per dive with slate frames: share of its slate frames found at p >= 0.5."""
     fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 2.4), gridspec_kw=dict(width_ratios=[1, 1.15]))
-    d = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv").sort_values("p_slate", ascending=False)
+    # the one-off cutting-board test slate ("Slate not in list") is not a deployed duct-tape slate
+    d = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv")
+    d = d[d.cutting_board == 0].sort_values("p_slate", ascending=False)
     tp = d.label.cumsum().to_numpy(); k = np.arange(1, len(d) + 1)
     prec, rec = tp / k, tp / d.label.sum()
     ap = np.sum(np.diff(np.r_[0, rec]) * prec)
@@ -322,7 +324,6 @@ def fig9_slate_detector():
     a.text(0.902, 0.55, f"AP {ap:.3f}; {int(d.label.sum()):,} slate of {len(d):,} frames", fontsize=6.5, color=INK2)
     a.set_xlim(0.9, 1.003); a.set_ylim(0.5, 1.02); a.set_xlabel("recall (slate frames found)"); a.set_ylabel("precision")
     a.set_title("(a) slate frames, held-out dives", loc="left", color=INK2)
-    d = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv")
     g = d[d.label == 1].groupby("dive_id").p_slate.agg(n="size", found=lambda v: (v >= 0.5).mean())
     bins = [("all", g.found == 1), ("50–99%", (g.found >= .5) & (g.found < 1)), ("1–49%", (g.found > 0) & (g.found < .5)),
             ("none", g.found == 0)]
