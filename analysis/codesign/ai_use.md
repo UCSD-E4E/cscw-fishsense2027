@@ -1,0 +1,77 @@
+# AI use log (for the methods section)
+
+ACM policy requires that the paper describe in detail any use of AI tools in conducting the research
+(coding, data analysis, figures, etc.). This file records every analysis, script, figure and table
+produced with a generative AI assistant, so the methods section can describe it accurately.
+Append to it whenever new work is produced.
+
+## Tools
+
+- **Generative assistant:** Anthropic Claude, run as the Claude Code agent with read/write access to
+  this repository, sibling project repositories, a restored copy of the production database
+  (read-only queries), the live workflow-engine history, and the GPU workstation.
+  - Models: Claude Opus 5 (2026-09-12 .. 2026-09-19) and Claude Opus 5.5 (2026-09-29 onward).
+  - Commits it co-authored carry a `Co-Authored-By: Claude ...` trailer, so `git log` identifies them.
+    40 of this repository's 46 commits as of 2026-10-06 carry one; the 6 earlier commits
+    (2025-12-30 .. 2026-04-24) were written by the author alone.
+- **Models that are research instruments, not assistants** (described in the methods as components):
+  - SAM 3 / SAM 3.1 (segmentation);
+  - BioCLIP (species);
+  - the production laser-dot detector (run3_epoch_021);
+  - the EfficientNet-B0 slate-presence classifier;
+  - Fishial Mask R-CNN (CPU fallback).
+
+## How the assistant was used
+
+The author set the questions, scope and constraints, and accepted or rejected each result. The assistant:
+- wrote analysis code, SQL extracts and figure code;
+- ran them;
+- reported the numbers;
+- drafted the prose in PAPER.md, p2-results.md and the files in this folder.
+
+The author corrected it repeatedly. Examples:
+- scoring calibration against tape rather than the stored calibration;
+- excluding the cutting-board slate;
+- relabelling two pool frames as Snook;
+- removing a wrong Pinax figure (0.003 deg) that the assistant had stated in conversation.
+
+Every number in the paper is meant to trace to a committed file and script; the evidence map is
+`claims.yaml`.
+
+\todo{The methods text should state the extent of verification: which results the author re-ran or
+checked by hand, and which rest on the assistant's code alone.}
+
+## Log
+
+Paths are relative to the repository root unless prefixed with a sibling repository's name.
+"Assistant" means the work was produced in a Claude Code session; the commit hash is the record.
+
+| Date | Item | Kind | Produced by | Record |
+|---|---|---|---|---|
+| 2026-09-12 | Repository scoping; labelling analysis moved from imwut_2026_fishsense_lite | code move | assistant | b3429275, 34fdccae, 7b919791, f39e3878 |
+| 2026-09-15 | Scale-free laser self-calibration checked against the P1 corpus | analysis | assistant | 9ca68489, 2cb64741 |
+| 2026-09-29 | Frozen inputs with provenance (`data/PROVENANCE.md`) | data extract | assistant | c8885269 |
+| 2026-09-29 | Analysis library, SQL extracts and tests (`fishsense_cscw/`) | code | assistant | d1efaca8 |
+| 2026-09-29 | Annotation, deployment and laser-detector notebooks | analysis | assistant | 401b3e8f |
+| 2026-09-29 | Laser calibration experiments E1-E1k (`calibration_analysis/`) | analysis | assistant | c570cb30 |
+| 2026-09-29 | End-to-end automatic measurement, tail, coverage, species (`e2e_measurement/`) | analysis | assistant | 570c0888 |
+| 2026-09-29 | Test plan, results and first CSCW draft (p2-tests.md, p2-results.md, PAPER.md) | prose | assistant draft, author-directed | 30784b59, 846ad9f5 |
+| 2026-10-01 | Name pseudonymisation (`tools/anonymize.py`) | tooling | assistant | b282ea0a |
+| 2026-10-01 | Paper figures from committed results (`figures/make_figures.py`) | figures | assistant | 9e45b30e and later fig: commits |
+| 2026-10-01 | Per-stage pipeline timing from Temporal and Label Studio (`data/temporal/`, `data/labeling/`) | data extract | assistant | 54afeafc, dc23ea36 |
+| 2026-10-01 | Labelling time per label type (`annotation_analysis/labeling_time.ipynb`) | analysis | assistant | d219182d, 2120f2c6 |
+| 2026-10-05 | Slate-detector figure, reproducible from `data/slate_detector/` and `scripts/reproduce_slate_detector.sh` | figure + data | assistant | f7090df4, 3d26c367, 96a8da07, a1dcb5fd |
+| 2026-10-05 | Slate apparent-size measures scored against tape (`calibration_analysis/e1j_size_constancy/tape_by_session.py`, `sam_sizes.py`) | analysis | assistant | 9d074db9, 815c2650, fe7bdd83, b4d688ae |
+| 2026-10-05 | Laser-detector figures (Figs 11-12) | figures | assistant | 0e5838ca |
+| 2026-10-06 | Head/tail examples and endpoint error (`e2e_measurement/tail/headtail_examples.py`; Figs 13-14) | figures | assistant | 43ad261f |
+| 2026-10 (day unrecorded) | Pinax vs SVP simulation (`calibration_analysis/e1j_size_constancy/sim_pinax.py`) | simulation | assistant | 84c5806a |
+| 2026-10-06 | Design-revision timeline (`analysis/codesign/timeline.yaml`) from DB, git history, Temporal and author statements | analysis + prose | assistant draft; drivers from author answers | this commit (analysis: co-design timeline...) |
+| 2026-10-06 | Claim inventory / evidence map (`analysis/codesign/claims.yaml`) | prose | assistant draft | this commit (analysis: co-design timeline...) |
+| 2026-10-06 | Open questions (`analysis/codesign/questions.md`) and this log | prose | assistant | this commit (analysis: co-design timeline...) |
+
+Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
+- slate detector (2026-10-03_slate_detector);
+- fishsense-lite production code (detector integration, auto-accept, Temporal workflows);
+- the WUWNet and IMWUT analyses.
+
+\todo{Confirm which of the sibling repositories' work was assistant-produced, from their commit trailers.}

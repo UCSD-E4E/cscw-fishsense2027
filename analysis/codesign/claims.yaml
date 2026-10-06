@@ -1,0 +1,253 @@
+# Claim inventory for the SenSys 2027 co-design paper (task 2), built 2026-10-06.
+# Every quantitative claim in the earlier drafts (PAPER.md, p2-results.md, p2-tests.md) that fits the
+# new framing, plus the ones that no longer do (status: drop / demote at the end).
+#
+# evidence_level:
+#   deployment_before_after  a deployed revision, compared before vs after on production data
+#   designed_experiment      a controlled test we set up (fixed inputs, held-out dives, known truth)
+#   retrospective            computed after the fact on existing data, no control over who/where/when
+#   projected                simulation or an un-deployed method; no deployment evidence
+# Unless stated, detectors are scored against labels drawn without a pre-fill, and splits hold out whole dives.
+
+# ---------------------------------------------------------------- 3 How the design changed
+- claim: "Labellers shown a pre-filled laser label accept it unchanged 87% of the time; a \"moved\" seed moves a median <1 px."
+  number: 626 of 711 (87%)
+  evidence_level: retrospective
+  source: p2-results.md T1/T2; annotation_analysis/laser_label_pairs.ipynb; fishsense_cscw/laser_pairs.py (tests/test_laser_pairs.py)
+  confounds: seeds were earlier human labels (not model output); campaign ~260 days apart; one labelling interface
+  paper_section: 3, 8
+
+- claim: Superseded seeds are still accepted 77% of the time vs 94% for live seeds.
+  number: 77% vs 94%
+  evidence_level: retrospective
+  source: p2-results.md T2
+  confounds: "\"superseded\" is the line-fit validator's judgement, not ground truth; acceptance before/after flagging unknown"
+  paper_section: 8
+
+- claim: 93% of model-seeded laser predictions were accepted at exactly the predicted pixel, at ~6.4 s median; this motivated auto-accept.
+  number: 93% of 504 frames; 6.4 s
+  evidence_level: deployment_before_after
+  source: fishsense-lite commit c388e214 (#693) message
+  confounds: an acceptance rate, not accuracy (anchoring); 504 frames; not reproduced in this repo
+  paper_section: 3, 8
+
+- claim: By September 2026 every processing stage runs on the workflow engine; in Mar-May 2026 intake, prediction, calibration and measurement were not on it.
+  number: 28,379 runs (Mar-May) vs 17,567 per-dive runs (Sep)
+  evidence_level: deployment_before_after
+  source: "data/temporal/workflow_runs_may2026.csv, data/temporal/workflow_runs.csv; deployment_analysis/temporal_backup_runs.py; p2-results.md \"Where the time goes\""
+  confounds: Temporal retains ~30 days; backups are 13 nightly snapshots; absence from Temporal does not prove manual processing
+  paper_section: 3
+
+- claim: Label-sync time roughly halved between spring and September 2026 (laser 1,057 s -> 538 s; head/tail 851 s -> 458 s median).
+  number: as stated
+  evidence_level: deployment_before_after
+  source: "p2-results.md \"older window\" table; data/temporal/*.csv"
+  confounds: corpus size and Label Studio load differ between windows; code changes between windows not itemised
+  paper_section: 3
+
+# ---------------------------------------------------------------- 5 Calibration
+- claim: Every cue a single full-power laser offers for its own angle fails - dot size, clipped-dot wings, dot light loss, autofocus, defocus, flat-port refraction, beam streak, a second laser.
+  number: "dot size residual 0.38 px vs 0.1 target (84% of dots clipped); light loss 12-19% per dot best case (700 frames, 24 dives); flat-port signature 0.02-0.08 px; beam streak on 2 of 7 green dives, 0.86-2.5 deg"
+  evidence_level: retrospective
+  source: p2-tests.md E1c, E1d, E1e, E1h, E1i, E1k; calibration_analysis/e1c_dot_size, e1i_aperture, e1e_flat_port_depth.py, e1k_beam_streak
+  confounds: pool and a few reef dives; red lasers dominate E1c-E1i; E1k green sample is 7 dives
+  paper_section: 5
+
+- claim: Size constancy (a rigid object of unknown size shot near and far) fixes the laser angle; apparent size is proportional to the dot's distance from the vanishing point.
+  number: R^2 = 0.999 (one session)
+  evidence_level: designed_experiment
+  source: calibration_analysis/e1j_size_constancy/slate_unknown.py; figures/fig3_size_constancy (panel a, session 71)
+  confounds: one session shown; method credited to the WUWNet paper (LASER_SECTIONS_FOR_P2.md)
+  paper_section: 5
+
+- claim: Scored against measured fish-model lengths, the label-free calibration matches production's labelled known-size calibration.
+  number: "per-session mean |error| production 2.9%, SAM 3.1 text-prompted mask 2.8%, image registration 3.3% (2.8% without session 114); SAM vs production paired difference -0.06 pp, 95% CI -0.52..+0.36"
+  evidence_level: designed_experiment
+  source: calibration_analysis/e1j_size_constancy/tape_by_session.py, sam_sizes.py; tape_by_session.csv; figures fig3b, fig10
+  confounds: 10 pool sessions (Aug 2023, red laser, dedicated slate sessions); fish models are rigid; reference lengths by tape or length board
+  paper_section: 5
+
+- claim: "The slate's known size and printed template add nothing to accuracy: the same corner labels without them give the same length error."
+  number: 2.9% vs 2.9%
+  evidence_level: designed_experiment
+  source: "tape_by_session.py (\"unknown size (labelled)\" vs \"known size\")"
+  confounds: shares the corner labels with production; 10 sessions
+  paper_section: 5
+
+- claim: Size constancy needs a range spread of about 1.5x; sessions below ~1.12x are unconstrained.
+  number: 10 sessions at 1.75-2.9x pass; 4 at 1.01-1.12x fail
+  evidence_level: designed_experiment
+  source: p2-tests.md E1j; slate_unknown.py
+  confounds: threshold from 14 sessions; task 3c will map error vs spread properly
+  paper_section: 5, 7
+
+- claim: A slate-presence classifier finds calibration frames on 166 of 167 slate dives (precision 99.9%, recall 99.4%, one false alarm in 5,423 negatives).
+  number: AP 0.999; 1,350 slate of 6,775 frames
+  evidence_level: retrospective
+  source: data/slate_detector/oof_cv_q1.csv; scripts/reproduce_slate_detector.sh; figures/fig9
+  confounds: review-round positives partly model-flagged (selection bias); cutting-board slate (53 frames) excluded post hoc; 2 pool frames relabelled on review; same-day sessions split across folds (no measurable inflation, 99.3% vs 99.2%)
+  paper_section: 5, 8
+
+- claim: Production's per-dive fit of the laser offset |O| varies by about +-1.5 mm between dives on one mount, with one failure at 129.5 mm; the design value (stand-in 104.0 mm) is steadier.
+  number: 31 stored calibrations, median 104.0 mm
+  evidence_level: retrospective
+  source: "p2-tests.md E1j \"Metric scale\"; laserextrinsics"
+  confounds: "mount may genuinely differ between dives; no CAD, STL or recorded offset exists (searched local repos, fishsense-lite history, UCSD-E4E repo trees) - keep 104.0 mm as \\todo{design |O|}; a second, independent estimate is the fitted origin -30.9 +/- 1.0 mm x, -101 +/- 5.7 mm y over 6 calibrations (|O| ~106 mm; fishsense-lite/docs/laser-calibration-fingerprint-roadmap.md), which also needs a script here"
+  paper_section: 5, 6
+
+- claim: "Aluminium mounts hold the laser calibration better than PLA mounts (author's anecdote; analysis 3f)."
+  number: "\\todo{spread of stored per-dive laser angles, PLA vs aluminium, excluding dives after known repairs or knocks}"
+  evidence_level: retrospective
+  source: "analysis 3f (not yet run); DB laserextrinsics.laser_axis per dive; needs a per-camera mount-material and date list (no DB field)"
+  confounds: "mount material confounded with time, camera and laser colour; no record of repairs or knocks in dive notes; only 31 stored calibrations; within-session drift exists even on one mount (dive 490 note: laser rotated 0.82 deg in-plane within a 2023-08-14 pool session; the diode can spin in its bore, fingerprint roadmap)"
+  paper_section: 6
+
+- claim: Switching the camera model to Pinax barely changes the size-constancy angle; the residual bias depends on the port standoff under both models.
+  number: "noise-free bias 0.000-0.043 deg; model difference up to 0.015 deg (50 mm standoff, 1-3 m) - NOT 'at most 0.003 deg' as stated in chat"
+  evidence_level: projected
+  source: calibration_analysis/e1j_size_constancy/sim_pinax.py
+  confounds: housing standoff unknown; simulation only
+  paper_section: 5
+
+# ---------------------------------------------------------------- 6 Sensing hardware
+- claim: Green lasers are missed about 4x as often as red by the production detector.
+  number: "recall 0.860 red vs 0.752 green; dive-resampled red-green gap +0.03..+0.19"
+  evidence_level: retrospective
+  source: p2-results.md T3; laser_detection_analysis/recall.ipynb; fishsense_cscw/laser_detection.py
+  confounds: colour confounded with camera, time, site and fish size (task 3d); green covers two products (Shark and Orca Torch) whose per-dive assignment is unrecorded; green-pool n=47
+  paper_section: 6
+  note: "Fits the framing as a diver-for-machine trade: red was chosen for fish behaviour and was easier to label (more of the ocean is green); green was adopted for diver visibility (author account 2026-10-06). The IMWUT text gives the opposite reason (green 'penetrates water further' and aids dot detection), so this paper must not echo it; see questions.md A4."
+
+- claim: The green beam's scattered streak is 15-30x brighter than red's but appears on only 2 of 7 green dives and locates the angle only to ~1 deg.
+  number: 0.86-0.95 deg SE where present
+  evidence_level: retrospective
+  source: p2-tests.md E1k; calibration_analysis/e1k_beam_streak
+  confounds: water clarity; 7 dives
+  paper_section: 6
+
+- claim: At deployed exposure 84% of laser dots are clipped (98-100% below 1.5 m); the Bayer mosaic does not rescue them.
+  number: 84%; green photosites clip on 11/20, red 13/20, blue 5/20
+  evidence_level: retrospective
+  source: p2-tests.md E1c, E1h
+  confounds: pool dives, red lasers
+  paper_section: 6
+
+# ---------------------------------------------------------------- 7 Capture protocol
+- claim: Divers delivered a median of 2 frames per fish (42% of fish photographed once); 22% of measured frames are inside 1 m and 27% within the 2-5 m working range.
+  number: as stated (73 animals)
+  evidence_level: retrospective
+  source: p2-results.md T7; deployment_analysis/field_frames_and_range.ipynb
+  confounds: no evidence divers were told these requirements; per-diver habits (dive 341 74% inside 1 m)
+  paper_section: 7
+
+- claim: Same-fish groups in field data have almost no range spread, so fish cannot serve as the size-constancy object without a protocol change.
+  number: median within-group range ratio 1.01-1.06
+  evidence_level: retrospective
+  source: p2-tests.md E1j field check; calibration_analysis/e1j_size_constancy/field_bursts.py
+  confounds: clusters are near-duplicates by construction
+  paper_section: 7
+
+- claim: Per fish, about 80% receive at least one automatic length (72-74% within 10% of manual).
+  number: 80.6% / 73.5% (98 labelled clusters)
+  evidence_level: retrospective
+  source: "p2-tests.md E2 \"Per-fish coverage\"; e2e_measurement/tail"
+  confounds: clustered subset has higher frame coverage (85%) than all measured frames (72%); median 2 frames per fish
+  paper_section: 7, 9
+
+# ---------------------------------------------------------------- 8 Labeling
+- claim: A person spends a median of 14 s per label drawn without a pre-fill (laser 12.9 s, snout+fork 15.0 s, species 12.1 s; slate corners 61.3 s per slate frame); about 40 s per measured frame.
+  number: n = 78,977 labels; 10%-trimmed mean 15.6 s
+  evidence_level: retrospective
+  source: annotation_analysis/labeling_time.ipynb; data/labeling/lead_times.csv; figures/fig8
+  confounds: lead_time counts time the task was open (raw mean 137 s from idle tabs); 318 laser/33 head-tail/26 species annotations had a visible but unrecorded pre-fill (medians unchanged when excluded)
+  paper_section: 8
+
+- claim: The production laser detector finds the dot in 82.1% of frames (CI 80-84%), 6.4% confidently wrong, 11.5% missed; confident detections land a median 1.1 px from the human dot.
+  number: recall 0.821 [0.80, 0.84]; 93% within 10 px
+  evidence_level: retrospective
+  source: p2-results.md T3; figures fig11, fig12
+  confounds: colour, setting (pool hardest), dive-level clustering
+  paper_section: 8
+
+- claim: Two inference-only fixes (passing the laser colour, a per-dive line corridor) would raise recall to ~0.84 and halve wrong-spot points.
+  number: "+3.8 pt green, +2.2 overall; corridor rejects 54% of wrong-spot dots"
+  evidence_level: projected
+  source: p2-results.md T3 fixes table; recall.ipynb
+  confounds: corridor needs the dive's own line; not deployed
+  paper_section: 8
+
+- claim: On reef fish the automatic head lands a median 1.4% of body length from the human click and the tail 7.5%; the length ratio is unbiased (median 1.005, MAE 5.9%).
+  number: n = 361-406 frames
+  evidence_level: retrospective
+  source: e2e_measurement/tail/evaluate.py; figures fig13, fig14
+  confounds: human clicks are the reference, not truth; fork-vs-tip convention
+  paper_section: 8
+
+- claim: "Species: zero-shot BioCLIP 66% top-1 on automatic crops; a trained head with zero-shot fallback reaches 77.6% (balanced 69.8%) and recognises 53% of non-target fish."
+  number: 482 frames, 16 held-out dives
+  evidence_level: retrospective
+  source: e2e_measurement/species/probe.py, classify.py; figures fig7
+  confounds: Hogfish dominate; rare species 1-3 frames; species labels may be pre-filled for some (check)
+  paper_section: 8
+
+# ---------------------------------------------------------------- 9 End-to-end
+- claim: On pool fish models, replacing human inputs one at a time, the dot and label-free calibration cost 0.1 and 0.4 points; automatic head/tail brings per-fish error from 3.0% to 10.5% (driven by Shark 27.9% and Angelfish 9.4% tail placement).
+  number: 1,528 frames, 10 dives
+  evidence_level: designed_experiment
+  source: e2e_measurement/score.py; lengths.csv; figures fig4
+  confounds: rigid models; model shapes REEF does not target; red laser
+  paper_section: 9
+
+- claim: On real reef fish, fully automatic length is unbiased against the manual pipeline (median +0.3%, MAE 5.4%, 82% within 10%), using the stored slate calibration.
+  number: 260-314 frames on 8 calibrated dives
+  evidence_level: retrospective
+  source: e2e_measurement/tail/evaluate.py, dotgate.py; figures fig5
+  confounds: reference is the manual pipeline, not truth; stored (labelled) calibration, not label-free (known issue 1)
+  paper_section: 9
+
+- claim: Coverage - the pipeline measures 72% of frames humans measured (red 91%, green 66%) and declines 84% of frames humans rejected.
+  number: 502 measured / 289 rejected reef frames
+  evidence_level: retrospective
+  source: e2e_measurement/tail/coverage.py
+  confounds: laser colour confounded with site/time (task 3d)
+  paper_section: 9
+
+- claim: Lowering SAM's cutoff trades coverage for false measurements one for one; a learned measurability gate does no better than SAM's own score.
+  number: "0.5: 72%/16%; 0.3: 77%/22%; 0.2: 80%/25%; gate AUC 0.73"
+  evidence_level: retrospective
+  source: e2e_measurement/tail/coverage.py, gate.py; figures fig6
+  confounds: cutoffs compared on the same frames
+  paper_section: 9
+
+- claim: Dot gates (confidence, dive line) catch up to 25 of 36 gross dot misses but barely change lengths, because a misplaced dot rarely lands on a fish mask.
+  number: MAE 5.4% -> 5.3%
+  evidence_level: retrospective
+  source: e2e_measurement/tail/dotgate.py
+  confounds: threshold chosen on T3, tested on reef
+  paper_section: 9
+
+- claim: Machine time per dive is about a quarter of an hour; human labelling is ~41 person-seconds per measured frame plus ~1 min per slate frame.
+  number: stage medians 3 s - 5.4 min
+  evidence_level: retrospective
+  source: data/temporal/workflow_runs.csv; figures fig2b, fig8
+  confounds: Temporal window Sep 2026 only
+  paper_section: 3, 9
+
+# ---------------------------------------------------------------- no longer serve the framing (drop or demote)
+- claim: REEF dives took a median 773 days to become measurable; 43% never did.
+  status: drop
+  reason: mixes waiting, the manual-notebook era and labelling (author, 2026-10-01); already removed from PAPER.md
+  source: "p2-results.md \"Why\""
+- claim: Waiting for data is a median 227 days (dump date - capture).
+  status: demote (context only)
+  reason: organisational, not a design consequence
+  source: fishsense_cscw/turnaround.py; fig2a
+- claim: REEF left for a dual-laser caliper because of calibration.
+  status: drop as evidence
+  reason: project-lead account only; not on record from REEF; CSCW-specific
+- claim: BioCLIP coral-gardeners comparison (83% iNat, 50% reef footage).
+  status: drop
+  reason: another project's numbers on other data
+- claim: Measurability-gate failure and SAM prompt variants.
+  status: demote to one sentence
+  reason: "negative results that support \"SAM's score is already the gate\""
