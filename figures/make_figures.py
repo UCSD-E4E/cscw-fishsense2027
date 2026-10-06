@@ -9,7 +9,7 @@
   fig6_coverage        frames covered vs human-rejected frames measured, as the SAM cutoff moves
   fig7_species         confusion matrix of the trained BioCLIP species head
   fig8_labeling_time   person-seconds per label by type, drawn from scratch (no prediction seed)
-  fig9_slate_detector  slate-frame detector: precision-recall before/after review round 1; per-dive recall
+  fig9_slate_detector  slate-frame detector: precision-recall; per-dive recall
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
@@ -306,19 +306,21 @@ def fig8_labeling_time():
 # ---------------------------------------------------------------- fig 9
 def fig9_slate_detector():
     """Slate-frame detector (2026-10-03_slate_detector), dive-grouped cross-validation.
-    (a) precision-recall before and after one round of blind review labelling (q1);
+    (a) precision-recall over all frames;
     (b) q1 model, per dive with slate frames: share of its slate frames found at p >= 0.5."""
-    runs = [("original labels", "oof_cv.csv", MUTED), ("after review round 1", "oof_cv_q1.csv", BLUE)]
     fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 2.4), gridspec_kw=dict(width_ratios=[1, 1.15]))
-    for name, f, col in runs:
-        d = pd.read_csv(REPO / "data/slate_detector" / f).sort_values("p_slate", ascending=False)
-        tp = d.label.cumsum().to_numpy(); k = np.arange(1, len(d) + 1)
-        prec, rec = tp / k, tp / d.label.sum()
-        ap = np.sum(np.diff(np.r_[0, rec]) * prec)
-        a.plot(rec, prec, color=col, lw=1.6, label=f"{name}\nAP {ap:.3f}; {int(d.label.sum()):,} slate of {len(d):,} frames")
+    d = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv").sort_values("p_slate", ascending=False)
+    tp = d.label.cumsum().to_numpy(); k = np.arange(1, len(d) + 1)
+    prec, rec = tp / k, tp / d.label.sum()
+    ap = np.sum(np.diff(np.r_[0, rec]) * prec)
+    a.plot(rec, prec, color=BLUE, lw=1.6)
+    at = d.p_slate >= 0.5; tp5 = int((at & (d.label == 1)).sum())
+    a.scatter([tp5 / d.label.sum()], [tp5 / at.sum()], s=22, color=BLUE, edgecolor="white", linewidth=0.6, zorder=3)
+    a.annotate(f"p \u2265 0.5: precision {tp5 / at.sum():.1%}, recall {tp5 / d.label.sum():.1%}",
+               (tp5 / d.label.sum(), tp5 / at.sum()), xytext=(-8, -14), textcoords="offset points", ha="right", fontsize=6.5, color=INK2)
+    a.text(0.902, 0.55, f"AP {ap:.3f}; {int(d.label.sum()):,} slate of {len(d):,} frames", fontsize=6.5, color=INK2)
     a.set_xlim(0.9, 1.003); a.set_ylim(0.5, 1.02); a.set_xlabel("recall (slate frames found)"); a.set_ylabel("precision")
     a.set_title("(a) slate frames, held-out dives", loc="left", color=INK2)
-    a.legend(loc="lower left", frameon=False, fontsize=6.5, labelspacing=0.9)
     d = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv")
     g = d[d.label == 1].groupby("dive_id").p_slate.agg(n="size", found=lambda v: (v >= 0.5).mean())
     bins = [("all", g.found == 1), ("50–99%", (g.found >= .5) & (g.found < 1)), ("1–49%", (g.found > 0) & (g.found < .5)),

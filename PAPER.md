@@ -334,9 +334,9 @@ only: another rigid object still calibrates, but its frames must be picked some 
 
 ![Figure 9](figures/fig9_slate_detector.png)
 
-*Figure 9. Slate-frame detection, dive-grouped cross-validation. (a) Precision against recall,
-before and after one round of blind review labelling. (b) For each dive with slate frames, the
-share of them found at p ≥ 0.5.*
+*Figure 9. Slate-frame detection, dive-grouped cross-validation. (a) Precision against recall
+over 6,828 frames; the dot marks the p ≥ 0.5 operating point. (b) For each dive with slate
+frames, the share of them found at p ≥ 0.5.*
 
 **Lens intrinsics.** We use [P4]'s LEGO in-air calibration.
 

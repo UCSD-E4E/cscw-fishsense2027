@@ -151,5 +151,5 @@ with the Temporal SDK's protobufs, runs de-duplicated across snapshots. Window 2
 ## data/slate_detector/ (2026-10-05)
 
 Out-of-fold predictions from `../2026-10-03_slate_detector` (dive-grouped cross-validation):
-`oof_cv.csv` (original labels) and `oof_cv_q1.csv` (after the first blind review round).
+`oof_cv_q1.csv` (labels after the first blind review round).
 Only image_id, dive_id, fold, label and p_slate are copied; file paths are dropped.
