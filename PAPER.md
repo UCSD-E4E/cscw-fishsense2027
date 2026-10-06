@@ -328,9 +328,10 @@ not yet tested a non-slate object in the field.
 the slate. A slate-frame classifier (EfficientNet-B0 on the whole rectified frame) does this for
 the duct-tape slates (H, Tic-Tac-Toe, V); checkerboards and the Box are negatives. After one
 round of blind review labelling, in which the reviewer never saw the model's score, held-out-dive
-cross-validation gives precision 99.9% and recall 99.3% over 6,775 frames, one false alarm, and at
+cross-validation gives precision 99.9% and recall 99.4% over 6,775 frames, one false alarm, and at
 least one slate frame found on 166 of 167 slate dives (Figure 9). These figures exclude a one-off
-cutting-board test slate (53 frames) that is not a deployed duct-tape slate. It detects duct-tape slates
+cutting-board test slate (53 frames) that is not a deployed duct-tape slate, and correct two pool
+frames found on review to show a fish model rather than a slate. It detects duct-tape slates
 only: another rigid object still calibrates, but its frames must be picked some other way.
 
 ![Figure 9](figures/fig9_slate_detector.png)

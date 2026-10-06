@@ -151,7 +151,7 @@ with the Temporal SDK's protobufs, runs de-duplicated across snapshots. Window 2
 ## data/slate_detector/ (2026-10-05)
 
 Out-of-fold predictions from `../2026-10-03_slate_detector` (dive-grouped cross-validation):
-`oof_cv_q1.csv` (labels after the first blind review round). Column `cutting_board` flags the 53 frames of a one-off cutting-board test slate ("Slate not in list"), which Fig 9 excludes because it is not a deployed duct-tape slate; this matches the detector README.
+`oof_cv_q1.csv` (labels after the first blind review round). Column `cutting_board` flags the 53 frames of a one-off cutting-board test slate ("Slate not in list"), which Fig 9 excludes because it is not a deployed duct-tape slate; this matches the detector README. Images 13508 and 13509 (dive 526) were relabelled 1 -> 0 on contact-sheet review (a Snook model, no slate); the same rows were added to the detector's labels/overrides.csv.
 Only image_id, dive_id, fold, label and p_slate are copied; file paths are dropped.
 
 ## data/slate_detector/ — reproducing Fig 9 (2026-10-05)
