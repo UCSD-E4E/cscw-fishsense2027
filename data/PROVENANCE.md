@@ -153,3 +153,17 @@ with the Temporal SDK's protobufs, runs de-duplicated across snapshots. Window 2
 Out-of-fold predictions from `../2026-10-03_slate_detector` (dive-grouped cross-validation):
 `oof_cv_q1.csv` (labels after the first blind review round).
 Only image_id, dive_id, fold, label and p_slate are copied; file paths are dropped.
+
+## data/slate_detector/ — reproducing Fig 9 (2026-10-05)
+
+- **Code:** `external/slate_detector`, a submodule pinned at `95a77d9` (labels/ there hold the
+  overrides and the blind review queue `slate_q1`).
+- **Labels:** the fishsense dump `2026-10-02T03-00-02Z` (`database_backups/fishsense`).
+- **Frames:** `manifest.csv` here lists the 6,828 frames (image id, md5, dive, camera, label;
+  no paths or free-text answers). Raws are re-read from the NAS and must match the md5.
+- **Model:** `slate_efficientnet_b0.pt` is the trained final model, sha256
+  `b8d377ba22d155e7056a5e9ae747fdd0970c7c73dee981bbee17d95c8156cf78`.
+- **Command:** `scripts/reproduce_slate_detector.sh` rebuilds the manifest from the dump,
+  checks it against `manifest.csv`, prefetches and renders the raws, runs dive-grouped
+  cross-validation, rewrites `oof_cv_q1.csv` and redraws Fig 9. NAS access is required
+  for the pixels.

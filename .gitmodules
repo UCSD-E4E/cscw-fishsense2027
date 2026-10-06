@@ -1,0 +1,3 @@
+[submodule "external/slate_detector"]
+	path = external/slate_detector
+	url = https://github.com/UCSD-E4E/2026-10-03_slate_detector.git
