@@ -324,6 +324,20 @@ The method therefore needs a small protocol change: shoot *something* near and f
 dot on it. It could be the diver's own slate of any design, a dive light or a rock. We have
 not yet tested a non-slate object in the field.
 
+**Finding the calibration frames.** The label-free fit still needs to know which frames show
+the slate. A slate-frame classifier (EfficientNet-B0 on the whole rectified frame) does this for
+the duct-tape slates (H, Tic-Tac-Toe, V); checkerboards and the Box are negatives. After one
+round of blind review labelling, in which the reviewer never saw the model's score, held-out-dive
+cross-validation gives precision 99.9% and recall 98.0% over 6,828 frames, one false alarm, and at
+least one slate frame found on 167 of 168 slate dives (Figure 9). It detects duct-tape slates
+only: another rigid object still calibrates, but its frames must be picked some other way.
+
+![Figure 9](figures/fig9_slate_detector.png)
+
+*Figure 9. Slate-frame detection, dive-grouped cross-validation. (a) Precision against recall,
+before and after one round of blind review labelling. (b) For each dive with slate frames, the
+share of them found at p ≥ 0.5.*
+
 **Lens intrinsics.** We use [P4]'s LEGO in-air calibration.
 
 ---

@@ -9,6 +9,7 @@
   fig6_coverage        frames covered vs human-rejected frames measured, as the SAM cutoff moves
   fig7_species         confusion matrix of the trained BioCLIP species head
   fig8_labeling_time   person-seconds per label by type, drawn from scratch (no prediction seed)
+  fig9_slate_detector  slate-frame detector: precision-recall before/after review round 1; per-dive recall
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
@@ -302,7 +303,37 @@ def fig8_labeling_time():
     save(fig, "fig8_labeling_time")
 
 
+# ---------------------------------------------------------------- fig 9
+def fig9_slate_detector():
+    """Slate-frame detector (2026-10-03_slate_detector), dive-grouped cross-validation.
+    (a) precision-recall before and after one round of blind review labelling (q1);
+    (b) q1 model, per dive with slate frames: share of its slate frames found at p >= 0.5."""
+    runs = [("original labels", "oof_cv.csv", MUTED), ("after review round 1", "oof_cv_q1.csv", BLUE)]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 2.4), gridspec_kw=dict(width_ratios=[1, 1.15]))
+    for name, f, col in runs:
+        d = pd.read_csv(REPO / "data/slate_detector" / f).sort_values("p_slate", ascending=False)
+        tp = d.label.cumsum().to_numpy(); k = np.arange(1, len(d) + 1)
+        prec, rec = tp / k, tp / d.label.sum()
+        ap = np.sum(np.diff(np.r_[0, rec]) * prec)
+        a.plot(rec, prec, color=col, lw=1.6, label=f"{name}\nAP {ap:.3f}; {int(d.label.sum()):,} slate of {len(d):,} frames")
+    a.set_xlim(0.9, 1.003); a.set_ylim(0.5, 1.02); a.set_xlabel("recall (slate frames found)"); a.set_ylabel("precision")
+    a.set_title("(a) slate frames, held-out dives", loc="left", color=INK2)
+    a.legend(loc="lower left", frameon=False, fontsize=6.5, labelspacing=0.9)
+    d = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv")
+    g = d[d.label == 1].groupby("dive_id").p_slate.agg(n="size", found=lambda v: (v >= 0.5).mean())
+    bins = [("all", g.found == 1), ("50–99%", (g.found >= .5) & (g.found < 1)), ("1–49%", (g.found > 0) & (g.found < .5)),
+            ("none", g.found == 0)]
+    y = np.arange(len(bins))[::-1]; counts = [int(m.sum()) for _, m in bins]
+    b.barh(y, counts, height=0.6, color=BLUE)
+    for yi, c in zip(y, counts):
+        b.text(c + 2, yi, str(c), va="center", fontsize=7, color=INK)
+    b.set_yticks(y, [lab for lab, _ in bins]); b.grid(axis="y", visible=False); b.set_xlim(0, max(counts) * 1.15)
+    b.set_ylabel("slate frames found"); b.set_xlabel("dives")
+    b.set_title(f"(b) per dive: {len(g) - counts[-1]} of {len(g)} dives have \u2265 1 slate frame found", loc="left", color=INK2)
+    fig.tight_layout(); save(fig, "fig9_slate_detector")
+
+
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time):
+    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector):
         f()
