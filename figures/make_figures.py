@@ -10,6 +10,7 @@
   fig7_species         confusion matrix of the trained BioCLIP species head
   fig8_labeling_time   person-seconds per label by type, drawn from scratch (no prediction seed)
   fig9_slate_detector  slate-frame detector: precision-recall; per-dive recall
+  fig10_size_measures  apparent-size measures for size-constancy calibration, scored against tape
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
@@ -347,7 +348,37 @@ def fig9_slate_detector():
     fig.tight_layout(); save(fig, "fig9_slate_detector")
 
 
+# ---------------------------------------------------------------- fig 10
+def fig10_size_measures():
+    """How the slate's apparent size is measured, scored against tape (tape_by_session.py).
+    One row per size measure; dots are the 10 calibration sessions, the bar their mean."""
+    T = pd.read_csv(REPO / "calibration_analysis/e1j_size_constancy/tape_by_session.csv")
+    M = T.pivot(index="session", columns="cal", values="mae") * 100
+    methods = [("known size", "known size + template (production)", True),
+               ("unknown size (labelled)", "human corner spread", True),
+               ("sam3_box", "SAM 3.1 mask from human box", True),
+               ("label-free", "image registration", False),
+               ("sam3_text", "SAM 3.1 mask, text prompt", False)]
+    methods = [m for m in methods if m[0] in M]
+    order = sorted(methods, key=lambda m: -M[m[0]].mean())
+    fig, ax = plt.subplots(figsize=(ONE, 2.4))
+    rng = np.random.default_rng(0)
+    for i, (key, lab, labelled) in enumerate(order):
+        col = MUTED if labelled else BLUE
+        v = M[key].to_numpy(); jit = rng.uniform(-0.12, 0.12, len(v))
+        ax.scatter(v, i + jit, s=12, color=col, alpha=0.55, edgecolor="none", zorder=2)
+        ax.plot([v.mean()] * 2, [i - 0.3, i + 0.3], color=col, lw=2.2, zorder=3)
+        ax.text(1.02, i, f"{v.mean():.1f}%", va="center", fontsize=7, color=INK, transform=ax.get_yaxis_transform())
+    ax.set_yticks(range(len(order)), [lab for _, lab, _ in order]); ax.grid(axis="y", visible=False)
+    ax.set_xlim(0, M.max().max() * 1.05); ax.set_ylim(-0.6, len(order) - 0.4)
+    ax.set_xlabel("length error vs tape, % (dots: 10 sessions; bar: mean)")
+    ax.set_title("Measuring the slate's apparent size", loc="left", color=INK2, pad=14)
+    ax.text(1.0, 1.02, "grey: needs human labels · blue: no labels", transform=ax.transAxes, ha="right", va="bottom",
+            fontsize=6.5, color=INK2)
+    save(fig, "fig10_size_measures")
+
+
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector):
+    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures):
         f()

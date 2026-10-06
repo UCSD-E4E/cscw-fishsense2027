@@ -329,6 +329,22 @@ The method therefore needs a small protocol change: shoot *something* near and f
 dot on it. It could be the diver's own slate of any design, a dive light or a rock. We have
 not yet tested a non-slate object in the field.
 
+**Measuring the apparent size.** The fit needs only each frame's slate size up to a constant, so
+several measures work; they differ in what they need and in how they respond to tilt. Scored by
+the length error of tape-measured fish models in each session's paired dive (Figure 10), a
+SAM 3.1 mask of the slate found by a text prompt at the laser dot ("white board"; 253 of 258
+frames), taking the square root of its area, averages 2.8% with no human input, against 2.9%
+for production's known-size calibration. Image registration averages 3.3%, pulled up by a
+session with a tilted slate and people moving through the scene (8.3%, where the mask gives
+1.3%). On a deliberately tilted slate (session 94) every area-based measure does worse,
+because tilt shrinks the area as well as range.
+
+![Figure 10](figures/fig10_size_measures.png)
+
+*Figure 10. Ways to measure the slate's apparent size, each scored by the length error of
+tape-measured fish models in the paired dive (dots: the 10 calibration sessions; bar: mean).
+Grey measures need human labels; blue ones do not.*
+
 **Finding the calibration frames.** The label-free fit still needs to know which frames show
 the slate. A slate-frame classifier (EfficientNet-B0 on the whole rectified frame) does this for
 the duct-tape slates (H, Tic-Tac-Toe, V); checkerboards and the Box are negatives. After one
