@@ -3,7 +3,7 @@
   codesign_timeline      design revisions over time by component, coloured by driver (timeline.yaml)
   codesign_frames_fish   share of fish with a length within 10% of manual vs frames taken (3b)
   codesign_spread        calibration angle error vs slate size spread, 0.05 deg target marked (3c)
-  codesign_redgreen      green - red difference in dot misses and coverage under each control (3d)
+  codesign_redgreen      what green cost the detector, the pipeline and the labeller: red vs green rates, matched comparison noted (3d, 3e)
   design_rules.tex       LaTeX design-rules table from design_rules.yaml + claims.yaml (evidence level, section)
 
 SenSys figure set, one per paper section (the rest of the set reuses figures above and in figures/):
@@ -161,29 +161,52 @@ def codesign_spread():
 
 
 def codesign_redgreen():
-    R = pd.read_csv(RES / "redgreen.csv"); C = pd.read_csv(RES / "redgreen_coverage.csv")
-    miss = R[(R.outcome == "missed") & (R.design != "raw, per-frame label colour (T3)")
-             & ~R.design.isin(["fish length: frames with head/tail (raw)", "fish length: quartile x environment"])]
-    names = {"raw": "all frames", "camera x environment": "same camera, setting",
-             "camera x environment x half-year": "+ same half-year", "stagger window 2024-03..2024-12": "both colours in use (2024)",
-             "fish length: quartile": "same fish-size quartile", "fish length: quartile x camera x environment": "+ same camera, setting"}
-    cov = C[C.outcome == "produced"]
-    cnames = {"reef, raw": "all reef frames", "reef, fish-length quartile": "same fish-size quartile",
-              "Alligator 2024-03-14 (341 red vs 347+349 green)": "same site and day",
-              "Alligator 2024-03-14, fish-length quartile": "+ same fish-size quartile"}
-    fig, (a, b) = plt.subplots(1, 2, figsize=(TWO, 2.2), gridspec_kw=dict(width_ratios=[1.1, 1]))
-    for ax, D, nm, col, title, xl in ((a, miss, names, ORANGE, "(a) laser dot missed by the detector", "green − red, percentage points"),
-                                      (b, cov, cnames, BLUE, "(b) frames given an automatic length (reef)", "green − red, percentage points")):
-        y = np.arange(len(D))[::-1]
-        ax.axvline(0, color=MUTED, lw=0.8)
-        ax.errorbar(D.green_minus_red * 100, y, xerr=[(D.green_minus_red - D.ci_lo) * 100, (D.ci_hi - D.green_minus_red) * 100],
-                    fmt="o", color=col, ms=4, capsize=2, elinewidth=1)
-        ax.set_yticks(y, [f"{nm[d]}  ({int(r)}/{int(g)} dives)" for d, r, g in zip(D.design, D.dives_red, D.dives_green)])
-        ax.grid(axis="y", visible=False); ax.set_xlabel(xl)
-        ax.set_title(title, loc="left", color=INK2)
-    fig.text(0.01, -0.04, "Bars: 95% interval, resampling whole dives. Dives: red/green. Colour is assigned per dive.",
-             fontsize=6, color=INK2)
-    fig.tight_layout(); save(fig, "codesign_redgreen")
+    """What the switch to green cost each stage: the detector, the end-to-end pipeline, the labeller.
+    Bars are plain red-vs-green rates; the line under each panel is the matched comparison."""
+    R = pd.read_csv(RES / "redgreen.csv"); C = pd.read_csv(RES / "redgreen_coverage.csv"); B = pd.read_csv(RES / "before_after.csv")
+    row = lambda D, design, outcome: D[(D.design == design) & (D.outcome == outcome)].iloc[0]
+    RED, GRN = ORANGE, AQUA      # laser colours; always named in the legend, never colour alone
+    fig, axes = plt.subplots(1, 3, figsize=(TWO, 2.45), gridspec_kw=dict(width_ratios=[1.15, 1.15, 0.7]))
+
+    def pairs(ax, groups, fmt, ymax):
+        for k, (name, r, g) in enumerate(groups):
+            for dx, v, col in ((-0.19, r, RED), (0.19, g, GRN)):
+                ax.bar(k + dx, v, width=0.36, color=col, edgecolor="white", linewidth=1)
+                ax.text(k + dx, v + ymax * 0.02, fmt(v), ha="center", va="bottom", fontsize=6.4, color=INK)
+        ax.set_xticks(range(len(groups)), [g[0] for g in groups], fontsize=6.6)
+        ax.set_xlim(-0.6, len(groups) - 0.4)
+        ax.set_ylim(0, ymax); ax.grid(axis="x", visible=False)
+
+    a, b, c = axes
+    m, w = row(R, "raw", "missed"), row(R, "raw", "confident-wrong")
+    pairs(a, [("missed", m.red_rate * 100, m.green_rate * 100),
+              ("wrong spot", w.red_rate * 100, w.green_rate * 100)], lambda v: f"{v:.0f}%", 22)
+    a.set_ylabel("frames with a laser dot, %")
+    a.set_title("(a) the detector", loc="left", color=INK2)
+    mm = row(R, "camera x environment", "missed")
+    a.text(0.0, -0.36, f"Same camera and setting: green misses\n{mm.green_minus_red * 100:.0f} pt more dots "
+           f"(95% CI {mm.ci_lo * 100:.0f} to {mm.ci_hi * 100:.0f}).", transform=a.transAxes, fontsize=6.2, color=INK2, va="top")
+
+    al, sd = row(C, "reef, raw", "produced"), row(C, "Alligator 2024-03-14 (341 red vs 347+349 green)", "produced")
+    pairs(b, [(f"all reef dives\n({int(al.dives_red)} red, {int(al.dives_green)} green)", al.red_rate * 100, al.green_rate * 100),
+              ("one site,\none day", sd.red_rate * 100, sd.green_rate * 100)],
+          lambda v: f"{v:.0f}%", 110)
+    b.set_ylabel("measured frames given\nan automatic length, %")
+    b.set_title("(b) the whole pipeline (reef)", loc="left", color=INK2)
+    b.text(0.0, -0.36, f"Mostly a difference between dives: on one\nsite and day, green is {-sd.green_minus_red * 100:.0f} pt lower "
+           f"({int(sd.dives_red)} red, {int(sd.dives_green)} green dives).",
+           transform=b.transAxes, fontsize=6.2, color=INK2, va="top")
+
+    lb = B[B.revision.str.startswith("laser red")].iloc[0]
+    pairs(c, [("seconds per\nlaser label", lb.pooled_median_a, lb.pooled_median_b)], lambda v: f"{v:.1f} s", 19)
+    c.set_ylabel("median seconds")
+    c.set_title("(c) the labeller", loc="left", color=INK2)
+    c.text(0.0, -0.36, f"Same labeller: green takes\n{lb.within_annotator_diff:.1f} s longer "
+           f"(CI {lb.ci_lo:.1f} to {lb.ci_hi:.1f}).", transform=c.transAxes, fontsize=6.2, color=INK2, va="top")
+
+    handles = [MF.matplotlib.patches.Patch(color=RED, label="red laser"), MF.matplotlib.patches.Patch(color=GRN, label="green laser")]
+    fig.legend(handles=handles, loc="upper right", ncol=2, frameon=False, fontsize=6.8, bbox_to_anchor=(1.0, 1.0))
+    fig.subplots_adjust(left=0.07, right=0.985, bottom=0.3, top=0.8, wspace=0.55); save(fig, "codesign_redgreen")
 
 
 # ---------------------------------------------------------------- SenSys set

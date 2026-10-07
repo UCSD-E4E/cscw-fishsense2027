@@ -10,7 +10,7 @@ One figure (or pair) per section of the paper outline. Rebuild:
 | 3 How the design changed | revisions by component, coloured by recorded driver | `analysis/codesign/figures/codesign_timeline` | timeline.yaml |
 | 5 Calibration | (a) slate size measures vs tape, labelled vs label-free; (b) error vs size spread | `analysis/codesign/figures/sensys_calibration` | tape_by_session.csv, calibration_spread_bins.csv |
 | 5 Calibration | slate-frame detector (precision-recall; per-dive recall) | `figures/fig9_slate_detector` | data/slate_detector/ |
-| 6 Sensing hardware | green - red dot misses and coverage under each control | `analysis/codesign/figures/codesign_redgreen` | results/redgreen*.csv |
+| 6 Sensing hardware | what green cost the detector, the pipeline and the labeller (red vs green, matched comparison under each panel) | `analysis/codesign/figures/codesign_redgreen` | results/redgreen*.csv, results/before_after.csv |
 | 7 Capture protocol | (a) frames per fish delivered; (b) what each frame buys | `analysis/codesign/figures/sensys_capture` | frames_per_fish.py |
 | 8 Labelling | (a) seconds per label, scratch vs accepted pre-fill; (b) what labellers do with a pre-fill | `analysis/codesign/figures/sensys_labelling` | labelling.py, data/labeling/lead_times.csv |
 | 9 End-to-end | pool stage ladder vs tape | `figures/fig4_stage_ladder` | e2e_measurement/ |
