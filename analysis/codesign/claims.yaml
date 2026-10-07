@@ -248,10 +248,10 @@
   paper_section: 6, 8
 
 - claim: "The labelling record cannot test the slate-pattern revisions: all slate-corner labels were made from 2025-11, after the patterns were retired from capture, and only one annotator labelled more than one pattern."
-  number: "483 slate frames, 3 annotators; median 45.8 s (H, 17 frames, 1 annotator), 61.5 s (Tic-Tac-Toe, 353), 62.3 s (V, 113); V-slate frames carry a median of 6 reference points vs 8 (24% flagged skipped, 26% upside down)"
+  number: "483 slate frames, 3 annotators; median 45.8 s (H, 17 frames, 1 annotator), 61.5 s (Tic-Tac-Toe, 353), 62.3 s (V, 113); 24% of V-slate frames list a skipped reference point (27 of 113, one point each) vs none on H or Tic-Tac-Toe (V has 6 points by design, the others 8)"
   evidence_level: retrospective
   source: analysis/codesign/before_after.py -> results/before_after.csv, results/before_after_slate_patterns.csv
-  confounds: "negative result; whether the V pattern has fewer reference points by design is unknown (questions.md)"
+  confounds: "negative result; the V-slate skip rate is descriptive - V dives are field dives labelled by up to 3 annotators, so pattern is confounded with dive and annotator"
   paper_section: 5
 
 - claim: "Model pre-fills shorten labelling (laser 13.0 -> 9.9 s, head/tail 15.6 -> 11.6 s median), but too few annotators labelled both before and after to separate the pre-fill from who labelled."

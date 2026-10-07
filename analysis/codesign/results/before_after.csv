@@ -1,8 +1,6 @@
 revision,metric,a,b,n_a,n_b,pooled_median_a,pooled_median_b,pooled_mean_a,pooled_mean_b,annotators_both,annotators_a,annotators_b,within_annotator_diff,ci_lo,ci_hi
 slate pattern,s per slate frame,H-Slate,Tic-Tac-Toe,17,353,45.8070,61.5270,51.6277,169.9688,1,1,2,15.7200,15.7200,15.7200
 slate pattern,s per slate frame,Tic-Tac-Toe,V-Slate,353,113,61.5270,62.2760,169.9688,87.1071,1,2,3,-1.6130,-1.6130,-1.6130
-slate pattern,reference points labelled,H-Slate,Tic-Tac-Toe,17,353,8.0000,8.0000,8.0000,7.9547,1,1,2,0.0000,0.0000,0.0000
-slate pattern,reference points labelled,Tic-Tac-Toe,V-Slate,353,113,8.0000,6.0000,7.9547,5.7611,1,2,3,-3.0000,-3.0000,-3.0000
 laser red -> green,s per unseeded laser label,red,green,35376,8391,11.8980,15.4070,157.3271,79.8625,33,67,62,1.7727,0.5066,2.8783
 laser model pre-fill,s per laser label,"before, unseeded","after, pre-filled",45970,1430,12.9630,9.8825,143.6488,50.1989,0,70,2,,,
 head/tail model pre-fill,s per head/tail label,"before, unseeded","after, pre-filled",37011,1728,15.5570,11.5935,168.5338,103.7602,1,47,1,-1.5895,-1.5895,-1.5895

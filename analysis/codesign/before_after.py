@@ -10,8 +10,9 @@ throughout. Every comparison is made within annotator first (the labelling analo
   95% interval: resample annotators (whole annotators, 2,000 draws)
 
 Revisions tested (timeline.yaml):
-  slate pattern H -> Tic-Tac-Toe -> V (driver: labelability)   seconds per slate frame, and the
-      number of reference points labelled per frame, by the dive's slate pattern. Slate labelling
+  slate pattern H -> Tic-Tac-Toe -> V (driver: labelability)   seconds per slate frame by the dive's
+      slate pattern; descriptively, the share of frames with a point on the skipped-points list (H and
+      Tic-Tac-Toe have 8 reference points, V has 6, by design). Slate labelling
       began in 2025-11, after all three patterns were retired from capture, so pattern is not
       confounded with labelling date - but the patterns come from different dives and sites.
   laser red -> green (driver: diver visibility; red said to be easier to label)   seconds per
@@ -82,8 +83,6 @@ def main():
     tests = [
         ("slate pattern", "s per slate frame", slate, "pattern", "H-Slate", "Tic-Tac-Toe", "lead_time_s"),
         ("slate pattern", "s per slate frame", slate, "pattern", "Tic-Tac-Toe", "V-Slate", "lead_time_s"),
-        ("slate pattern", "reference points labelled", slate, "pattern", "H-Slate", "Tic-Tac-Toe", "ref_points"),
-        ("slate pattern", "reference points labelled", slate, "pattern", "Tic-Tac-Toe", "V-Slate", "ref_points"),
         ("laser red -> green", "s per unseeded laser label", laser, "dive_colour", "red", "green", "lead_time_s"),
         ("laser model pre-fill", "s per laser label", las_pf, "phase", "before, unseeded", "after, pre-filled", "lead_time_s"),
         ("head/tail model pre-fill", "s per head/tail label", ht_pf, "phase", "before, unseeded", "after, pre-filled", "lead_time_s"),
@@ -102,11 +101,13 @@ def main():
             per.append(P.assign(revision=rev, metric=metric, a=a, b=b))
     R = pd.DataFrame(rows)
     # descriptive context for the slate patterns: points per frame and skipped/upside-down flags
-    ctx = (slate.groupby("pattern").agg(frames=("ann_id", "size"), dives=("dive_id", "nunique"), annotators=("annotator", "nunique"),
-                                        median_s=("lead_time_s", "median"), ref_points_median=("ref_points", "median"),
-                                        ref_points_lt8=("ref_points", lambda s: (s < 8).mean()),
-                                        skipped_flag=("skipped_points", lambda s: s.notna().mean()),
-                                        upside_down=("upside_down", lambda s: (s.astype(str) == "t").mean()))
+    design = {"H-Slate": 8, "Tic-Tac-Toe": 8, "V-Slate": 6}   # reference points per pattern (author, 2026-10-06)
+    ctx = (slate.assign(design_points=slate.pattern.map(design), skipped=slate.skipped_points.fillna(0) > 0)
+               .groupby("pattern").agg(frames=("ann_id", "size"), dives=("dive_id", "nunique"), annotators=("annotator", "nunique"),
+                                       design_points=("design_points", "first"), median_s=("lead_time_s", "median"),
+                                       frames_with_skipped_point=("skipped", "mean"),
+                                       frames_without_points=("ref_points", lambda s: (s == 0).mean()),
+                                       upside_down=("upside_down", lambda s: (s.astype(str) == "t").mean()))
                .reset_index())
     OUT.mkdir(parents=True, exist_ok=True)
     R.to_csv(OUT / "before_after.csv", index=False, float_format="%.4f")

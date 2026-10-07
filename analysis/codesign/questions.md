@@ -81,15 +81,19 @@ Sections A-D are what is still open.
      dot shape in the images might identify the product, but that would be an inference. I'd use it
      only with your sign-off.
    - Was red always the Innovative Scuba pointer?
-2. **Green labels in red 2023 dives (found by task 3d).** The 2023-08-29 pool dives (59, 61-63,
-   65, 66, 71, 77, 80, 83) have 1-32% green laser labels, and a few 2023 reef dives have some too.
-   Was a green laser used alongside red in those sessions (dive 83 is 32% green, dive 77 20%), or are
-   these colour mislabels? Until answered, task 3d drops them. Either way, T3's "green, pool" cell
-   (n=47) was almost entirely these frames, and the PAPER.md / p2-results.md sentences built on it
-   need correcting.
-3. **V-slate reference points (found by task 3e).** V-slate frames carry a median of 6 labelled
-   reference points, against 8 for H and Tic-Tac-Toe, and 24% are flagged as having skipped points.
-   Does the chevron pattern have 6 reference points by design, or were 2 routinely skipped?
+2. **Green labels in red 2023 dives: answered "unknown" (2026-10-06).** Whether a green laser was
+   used alongside red in the 2023-08-29 pool sessions is not known. Task 3d keeps dropping those
+   frames, and the paper must not claim either way.
+3. **V-slate reference points: answered (2026-10-06).** The V-slate has 6 reference points by
+   design, and skipped points are listed in the skipped-points list. 27 of 113 V-slate frames list
+   one; no H or Tic-Tac-Toe frame does.
+   - Consequence: `calibration_analysis/e1j_size_constancy/slate_unknown.py` keeps only complete
+     8-point labels, so it silently excluded every V-slate frame.
+   - The earlier statement that the reef dives had "V-slates with skipped points" was wrong: most
+     V-slate labels are complete.
+   - Pool results (Tic-Tac-Toe) are unaffected.
+   - Accepting complete labels of each pattern's own point count would give a human-corner
+     reference on the reef dives. Not changed yet.
 4. **For analysis 3f:**
    - which cameras had PLA vs aluminium mounts, and from when;
    - any known repairs, knocks or replacement mounts, by camera and date.

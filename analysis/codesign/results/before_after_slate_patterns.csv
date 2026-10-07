@@ -1,4 +1,4 @@
-pattern,frames,dives,annotators,median_s,ref_points_median,ref_points_lt8,skipped_flag,upside_down
-H-Slate,17,3,1,45.8070,8.0000,0.0000,0.0000,0.0000
-Tic-Tac-Toe,353,15,2,61.5270,8.0000,0.0057,0.0000,0.0170
-V-Slate,113,9,3,62.2760,6.0000,1.0000,0.2389,0.2566
+pattern,frames,dives,annotators,design_points,median_s,frames_with_skipped_point,frames_without_points,upside_down
+H-Slate,17,3,1,8,45.8070,0.0000,0.0000,0.0000
+Tic-Tac-Toe,353,15,2,8,61.5270,0.0000,0.0057,0.0170
+V-Slate,113,9,3,6,62.2760,0.2389,0.0000,0.2566

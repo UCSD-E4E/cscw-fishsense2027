@@ -1,8 +1,6 @@
 annotator,n_a,n_b,med_a,med_b,diff,w,revision,metric,a,b
 141592.0000,17,347,45.8070,61.5270,15.7200,17,slate pattern,s per slate frame,H-Slate,Tic-Tac-Toe
 141592.0000,347,15,61.5270,59.9140,-1.6130,15,slate pattern,s per slate frame,Tic-Tac-Toe,V-Slate
-141592.0000,17,347,8.0000,8.0000,0.0000,17,slate pattern,reference points labelled,H-Slate,Tic-Tac-Toe
-141592.0000,347,15,8.0000,5.0000,-3.0000,15,slate pattern,reference points labelled,Tic-Tac-Toe,V-Slate
 2.0000,2751,44,5.6690,5.3480,-0.3210,44,laser red -> green,s per unseeded laser label,red,green
 4.0000,411,48,11.0390,15.8700,4.8310,48,laser red -> green,s per unseeded laser label,red,green
 7.0000,369,14,18.8330,28.4980,9.6650,14,laser red -> green,s per unseeded laser label,red,green

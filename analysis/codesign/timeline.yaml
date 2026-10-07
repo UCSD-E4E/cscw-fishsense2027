@@ -57,7 +57,7 @@
 
 - date: 2024-03-13 .. 2024-12-10
   component: calibration
-  change: Slate pattern Tic-Tac-Toe -> V-Slate (chevron; V-Slate 1-4).
+  change: Slate pattern Tic-Tac-Toe -> V-Slate (chevron; V-Slate 1-4; 6 reference points by design vs 8 on H and Tic-Tac-Toe).
   driver: human
   driver_detail: labelability - labellers could not tell the tic-tac-toe slate's rotation/origin because the pattern is symmetric; the chevron breaks the symmetry.
   evidence: "DB diveslate ids 8-11: 10 dives, first 2024-03-13 (V-Slate 1), last 2024-12-10; author account, 2026-10-06"
