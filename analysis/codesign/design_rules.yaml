@@ -1,0 +1,52 @@
+# Design rules for the SenSys 2027 co-design paper (task 4). Draft for the author to edit.
+# Each rule cites claims.yaml entries by the start of their `claim` text; analysis/codesign/figures.py
+# (design_rules_table) takes the evidence level and paper section from those entries and writes
+# design_rules.tex. A rule whose evidence is missing says so with \todo{...}.
+
+- rule: Calibrate on an object the machine can measure whole (a segmented slate), not on corners a person clicks.
+  claims: ["Scored against measured fish-model lengths", "On four reef dives, a label-free calibration"]
+  short: 'label-free 2.8% vs labelled 2.9% error vs tape (pool); corners lose 24% of V-slate frames (reef)'
+
+- rule: Treat the calibration object as one of unknown size; its printed template and known size add nothing.
+  claims: ["The slate's known size and printed template add nothing"]
+  short: same corner labels, same length error with or without the template
+
+- rule: Shoot calibration frames over at least a 2x range of apparent size (near and far).
+  claims: ["Label-free size constancy needs a slate size spread of about 2x"]
+  short: '98% of fits within 0.05 deg at >= 2x; median misses below 1.5x'
+
+- rule: Fix the laser offset from the mount design, not per dive.
+  claims: ["Production's per-dive fit of the laser offset |O|"]
+  short: 'per-dive fit wanders about +-1.5 mm, one failure at 129.5 mm; \todo{design |O| from the mount CAD}'
+
+- rule: Find calibration frames with a classifier, not a person.
+  claims: ["A slate-presence classifier finds calibration frames"]
+  short: 166 of 167 slate dives, precision 99.9%
+
+- rule: Never score a model against labels it, or another model, pre-filled.
+  claims: ["Labellers shown a pre-filled laser label accept it unchanged"]
+  short: 87% of pre-filled laser labels accepted unchanged
+
+- rule: Skip human review where a prediction agrees with the dive's own laser line.
+  claims: ["93% of model-seeded laser predictions were accepted"]
+  short: 93% accepted at exactly the predicted pixel
+
+- rule: Choose the laser colour with the detector and the labeller in the loop, not only the diver.
+  claims: ["Green laser dots are missed about three times", "Within the same labeller, a green laser dot takes"]
+  short: 'green: +11 pt dot misses, +1.8 s per label; red: more confident wrong points'
+
+- rule: Take at least two frames of every fish.
+  claims: ["Per fish, about 79% receive at least one automatic length"]
+  short: 71% -> 85% of fish within 10% with a second frame
+
+- rule: Let the segmenter's own score gate measurement; extra dot or learned gates add nothing.
+  claims: ["Lowering SAM's cutoff trades coverage", "Dot gates (confidence, dive line) catch up to 25"]
+  short: learned gate AUC no better than SAM's score; dot gates barely change lengths
+
+- rule: Run every stage on a workflow engine, not by hand.
+  claims: ["By September 2026 every processing stage runs", "Label-sync time roughly halved"]
+  short: label-sync time roughly halved
+
+- rule: Build mounts that hold the laser angle (aluminium for field units).
+  claims: ["Aluminium mounts hold the laser calibration better"]
+  short: '\todo{analysis 3f: needs per-camera floor dates}'

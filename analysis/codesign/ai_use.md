@@ -78,6 +78,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Task 3e labelling before/after (`analysis/codesign/before_after.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
 | 2026-10-06 | Task 3d extended: fish-length quartiles and reef coverage by colour (`analysis/codesign/redgreen.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
 | 2026-10-06 | V-slate fix: `slate_unknown.load` accepts complete 6-point V-slate labels; human-corner calibration added to `reef_labelfree.py` | analysis fix | assistant | this commit (fix: accept complete V-slate labels...) |
+| 2026-10-06 | Task 4: timeline figure, 3b/3c/3d figures and the design-rules table (`analysis/codesign/figures.py`, `design_rules.yaml` -> `design_rules.tex`, `figures/codesign_*`); short `label` field added to timeline.yaml. Rules drafted by the assistant for the author to edit; table not yet test-compiled (no LaTeX engine on this machine) | figures + table | assistant | this commit (fig: co-design timeline...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

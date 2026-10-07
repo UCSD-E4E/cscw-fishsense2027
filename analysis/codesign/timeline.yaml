@@ -5,6 +5,7 @@
 # made in the analysis sessions. driver is set only where a record states the reason; otherwise
 # `unknown` and the item is in questions.md.
 #
+# label: short name for the timeline figure (analysis/codesign/figures.py)
 # driver: human   = made to reduce a person's burden or meet a person's preference (diver, labeller, operator)
 #         machine = made so an automated stage could work
 #         other   = a stated reason that is neither (durability, data quality)
@@ -16,6 +17,7 @@
 - date: before 2023-08-01 (exact date unknown)
   component: calibration
   change: "Calibration plan changes from once per camera lifetime (lens) and once per mount lifetime (laser), with cameras shipped so as to preserve the laser calibration, to per-dive laser calibration in the field."
+  label: "per-dive calibration (mount drift)"
   driver: other
   driver_detail: physical failure - the first unit shipped to the partner had a PLA mount that warped and broke over time, so its laser calibration drifted.
   evidence: author account, 2026-10-06 (answers recorded in questions.md R)
@@ -26,6 +28,7 @@
 - date: 2023-08 (14-18 Aug)
   component: calibration
   change: Pool sessions calibrated with a planar printed checkerboard shot in the same session.
+  label: "pool checkerboard sessions"
   driver: unknown
   evidence: "imwut_2026_fishsense_lite/PAPER.md L259-264 (\"The first nineteen sessions (14-18 August) used a planar checkerboard ... The remaining twelve (29-31 August) used the duct-tape dive slate ... We moved *away* from the checkerboard deliberately\"); DB: 15 dives with calibration_target_id = 1 (E4E Checkerboard, 10x14, 42.17 mm pitch), 2023-08-14..18, named LaserCalibration*; dive 490 note (checkerboard burst with the laser on, laser rotated 0.82 deg in-plane between fish frames and board burst); dive 521 note (laser-calibration and lens-calibration frames in one folder, lens frames have no laser) - so the board was used for laser calibration, distinct from lens calibration. TG-7 units again calibrated against checkerboards on 2025-01-17 (dives 480, 481); PerformCheckerboardCalibration automated 2026-09-08."
   confidence: high (checkerboard used in these pool sessions); low (that this was a checkerboard -> slate switch)
@@ -36,6 +39,7 @@
 - date: 2023-08-01 .. 2023-08-03
   component: calibration
   change: Duct-tape H-Slate used as the per-dive laser calibration target in the field (stop-gap once per-dive calibration became necessary).
+  label: "H slate"
   driver: other
   driver_detail: introduced because of mount drift (physical failure); solved with a human-labelled method by default.
   evidence: "DB diveslate id 1 'H-Slate': 4 dives, 2023-08-01..03 (select ... from diveslate join dive); author account, 2026-10-06"
@@ -47,6 +51,7 @@
 - date: 2023-08-29 .. 2023-11-14
   component: calibration
   change: Slate pattern H -> Tic-Tac-Toe (Tic-Tac-Toe 1, 2, 4, 5, 6); partner asked to build tic-tac-toe slates as more cameras shipped.
+  label: "H → tic-tac-toe slate"
   driver: human
   driver_detail: labelability - the H had too few easily markable points, and divers' hands covered some of them; tic-tac-toe gives more keypoints.
   evidence: "DB diveslate ids 2,3,5,6,7: 22 dives, first 2023-08-29 (TTT1), last 2023-11-14 (TTT2); author account, 2026-10-06"
@@ -58,6 +63,7 @@
 - date: 2024-03-13 .. 2024-12-10
   component: calibration
   change: Slate pattern Tic-Tac-Toe -> V-Slate (chevron; V-Slate 1-4; 6 reference points by design vs 8 on H and Tic-Tac-Toe).
+  label: "tic-tac-toe → chevron slate"
   driver: human
   driver_detail: labelability - labellers could not tell the tic-tac-toe slate's rotation/origin because the pattern is symmetric; the chevron breaks the symmetry.
   evidence: "DB diveslate ids 8-11: 10 dives, first 2024-03-13 (V-Slate 1), last 2024-12-10; author account, 2026-10-06"
@@ -68,6 +74,7 @@
 - date: 2025-01-17
   component: calibration
   change: First TG-7 units calibrated with a checkerboard LaserCalibration session plus LensCalibration and Box sessions (San Diego); never labelled or measured.
+  label: "TG-7 checkerboard sessions"
   driver: unknown
   evidence: p2-results.md "Hardware specificity"; DB cameras 9 (FSL-11) and 11 (FSL-10), 4 dives each on 2025-01-17
   confidence: high
@@ -77,6 +84,7 @@
 - date: 2026-07-21
   component: calibration
   change: Label Studio gains a "Calibration Targets" branch (Ruler, E4E Checkerboard), so calibration objects are labelled distinctly from fish.
+  label: "calibration targets in labelling"
   driver: unknown
   evidence: fishsense-lite commit 2d715fa8 (#371)
   confidence: high
@@ -86,6 +94,7 @@
 - date: 2026-08-02
   component: calibration
   change: Slate pose predictor (classical template search + ECC + solvePnP, gated, with a 1.08 M-parameter board UNet) deployed to pre-fill slate-corner labels.
+  label: "slate pose predictor"
   driver: unknown
   evidence: fishsense-lite commits 64b4024a (#480), 3d1b92c4 (#482); 2026-07-31_slate_training/README.md
   confidence: high
@@ -95,6 +104,7 @@
 - date: 2026-09 (exact date unknown)
   component: calibration
   change: Slate pose predictor retired.
+  label: "slate predictor retired"
   driver: machine
   evidence: 2026-10-03_slate_detector/README.md ("the retired predict_slate_image"); fishsense-lite commit c388e214 body ("the slate detector's per-frame ECC gate passed confident false fits")
   confidence: medium
@@ -105,6 +115,7 @@
 - date: 2026-09-08
   component: calibration
   change: Checkerboard laser calibration runs automatically on the workflow engine (PerformCheckerboardCalibration).
+  label: "checkerboard calibration automated"
   driver: unknown
   evidence: data/temporal/workflow_runs.csv (first PerformCheckerboardCalibration* run 2026-09-08); fishsense-lite/docs/plans/checkerboard-laser-calibration.md
   confidence: high
@@ -114,6 +125,7 @@
 - date: 2026-09 (analysis only, not deployed)
   component: calibration
   change: Proposed - slate of unknown size (size constancy) with label-free size (image registration, or SAM 3.1 text-prompted mask) and laser offset from the mount design; slate-presence classifier to find the frames.
+  label: "label-free slate calibration"
   driver: machine
   evidence: p2-tests.md E1j; calibration_analysis/e1j_size_constancy/; 2026-10-03_slate_detector
   confidence: high
@@ -125,6 +137,7 @@
 - date: 2023-08 .. 2024-12 (staggered by camera)
   component: hardware
   change: "Laser red -> green. Per camera (first mostly-green dive): FSL-02 2024-03, FSL-06 2024-03, FSL-01 2024-06, FSL-04 2024-06, FSL-05 2024-06, FSL-03 2024-12. Isolated green dives in 2023 (2023-10-19, 2023-10-27) are probably camera-clock or test dives."
+  label: "red → green laser"
   driver: human
   driver_detail: diver visibility - divers found red hard to see; green accepted despite its expected effect on fish behaviour.
   evidence: "DB laserlabel colour per dive (>=90% of a dive's labels one colour), grouped by camera and month; project lead, analysis session 2026-09-26 (green lasers 'are easier on the diver') and author account 2026-10-06"
@@ -136,6 +149,7 @@
 - date: 2023-08 onward (constraint, not a revision)
   component: hardware
   change: "Lasers are commodity, eye-safe dive laser pointers; their power was never controlled. Recorded models: 'Innovative Scuba Aluminum Laser Pointer (Red)' ($89.95, IMWUT cost table). Green: two different products, a 'Shark' laser (apparently no longer sold) and an Orca Torch laser (author account 2026-10-06); the IMWUT text describes the green as a 'Class IIIA waterproof green (532 nm) pointer' without naming a product."
+  label: "commodity lasers"
   driver: n/a (constraint)
   evidence: "author account 2026-10-06; papers/fishsense-lite-imwut/Sections/system.tex L11 and L163. No laser model, part number or power field in the DB (camera: id, serial_number, name; dive: no laser field); no dive note names a laser."
   confidence: medium
@@ -146,6 +160,7 @@
 - date: throughout deployment (revision dates unknown)
   component: hardware
   change: Printed PLA laser mount redesigned repeatedly; PLA mounts warped and split, and replacements were sent to some units.
+  label: "PLA mount revisions"
   driver: other
   driver_detail: field breakage drove each revision.
   evidence: "author account 2026-10-06; imwut_2026_fishsense_lite/PAPER.md L427-428 ('the laser mounts are printed PLA, they had been splitting, and replacements were sent out, but which units received one')"
@@ -157,6 +172,7 @@
 - date: unknown
   component: hardware
   change: Mount material PLA -> aluminium for field units (end of the mount revisions; PLA still intended for citizen scientists).
+  label: "aluminium mounts"
   driver: other
   driver_detail: field breakage (durability). Anecdotally aluminium holds laser calibration better; tested in analysis 3f.
   evidence: "project lead, analysis session 2026-09-24/25 (frequent lab deployments made PLA mounts fail); author account 2026-10-06"
@@ -168,6 +184,7 @@
 - date: 2025-01 (first dives 2025-01-17)
   component: hardware
   change: Camera Olympus TG-6 -> OM System TG-7 for units FSL-08 and later.
+  label: "TG-6 → TG-7"
   driver: unknown
   evidence: "DB camera table: FSL-09/10/11 serials BJPA75xxx (TG-7) vs BJ6C... (TG-6); project lead, session 2026-09-23 ('FSL-08+ are TG-7s')"
   confidence: high
@@ -178,6 +195,7 @@
 - date: 2023-08 onward
   component: protocol
   change: Field dives carry their own slate frames for per-dive laser calibration; pool fish-model dives borrow a sibling slate session's calibration (~30 min earlier).
+  label: "per-dive slate frames"
   driver: unknown
   evidence: imwut_2026_fishsense_lite/fishsense_imwut/calibration.py docstring ("borrows a sibling slate dive's extrinsics shot ~30 minutes earlier"); e2e_measurement/score.py PAIR
   confidence: high
@@ -187,6 +205,7 @@
 - date: unknown
   component: protocol
   change: Diver capture protocol communicated at stakeholder meetings and trainings; no written protocol or revision record found.
+  label: "protocol at trainings"
   driver: unknown
   evidence: "author account 2026-10-06 (believed shared at meetings and trainings; author did not attend); searched imwut_2026_fishsense_lite, papers/fishsense-lite-imwut, fishsense-lite/docs, fishsense-services, wuwnet, this repo, DB dive notes; p2-results.md T7 notes no evidence divers were told frame/range requirements. The only statement found is papers/fishsense-lite-imwut/Sections/system.tex L165 ('Divers are instructed to frame fish broadside ... when possible'), a paper claim with no source document."
   confidence: low
@@ -198,6 +217,7 @@
 - date: 2024-10
   component: labeling
   change: Laser-dot labelling in Label Studio begins (first stored annotations).
+  label: "laser labelling"
   driver: unknown
   evidence: "laserlabel annotations by month (label_studio_json annotations created_at): first 2024-10 (1,298)"
   confidence: high
@@ -207,6 +227,7 @@
 - date: 2024-11
   component: labeling
   change: 38 laser annotations created from a prediction pre-fill - source model unknown (predates the run3 detector integration of 2026-07).
+  label: "prediction-seeded labels"
   driver: unknown
   driver_note: "Author account: automation designed to replace the human in the same flow (task parity); no record of the pre-fill decision itself."
   evidence: "laserlabel annotations with parent_prediction set, 2024-11: 38; author account 2026-10-06"
@@ -217,6 +238,7 @@
 - date: 2025-04
   component: labeling
   change: Head/tail (snout/fork) labelling begins.
+  label: "head/tail labelling"
   driver: unknown
   evidence: "headtaillabel annotations by month: first 2025-04 (577)"
   confidence: high
@@ -226,6 +248,7 @@
 - date: 2025-10 .. 2025-11
   component: labeling
   change: "Species labelling begins (fishsense-lite 87f8b1c4, 2025-10-15) in a combined species + laser project; re-labelling campaigns pre-fill laser tasks with earlier human labels (731 seeded annotations; 87% accepted unchanged, T1/T2)."
+  label: "species + relabelling"
   driver: unknown
   evidence: "specieslabel/laserlabel annotations by month (2025-10: 298 seeded, 2025-11: 433 seeded); p2-results.md T1/T2; annotation_analysis/laser_label_pairs.ipynb"
   confidence: high
@@ -235,6 +258,7 @@
 - date: 2025-11
   component: labeling
   change: Slate-corner labelling (diveslatelabel) begins.
+  label: "slate-corner labelling"
   driver: unknown
   evidence: "diveslatelabel annotations by month: first 2025-11 (95)"
   confidence: high
@@ -244,6 +268,7 @@
 - date: 2026-05-03
   component: labeling
   change: Automated review - per-dive RANSAC line-fit validation of laser labels after each sync (observe-only).
+  label: "laser-line review"
   driver: other
   evidence: fishsense-lite commit 73909038 ("labels >3 sigma off the per-dive line are likely mislabeled"); 24,169 runs in the May 2026 Temporal backups, 164,873 in Sep 2026
   confidence: high
@@ -253,6 +278,7 @@
 - date: 2026-07-27
   component: labeling
   change: Laser-detector (run3_epoch_021) predictions pre-fill laser Label Studio tasks.
+  label: "laser model pre-fill"
   driver: unknown
   driver_note: "Author account: automation designed to replace the human in the same flow (task parity); no record of the pre-fill decision itself."
   evidence: "fishsense-lite commits e30d36f1 (#418), fdddfe8a (#420); laserlabel annotations with parent_prediction 2026-07: 55, 2026-08: 368, 2026-09: 1,007; author account 2026-10-06"
@@ -263,6 +289,7 @@
 - date: 2026-09-03
   component: labeling
   change: Auto-accept - laser predictions that agree with the dive's own dot line skip human review.
+  label: "auto-accept"
   driver: human
   evidence: fishsense-lite commit c388e214 (#693) ("93% of seeded laser predictions are accepted by a labeler at exactly the predicted pixel ... This adds the decision layer for skipping those reviews")
   confidence: high
@@ -272,6 +299,7 @@
 - date: 2026-09-04 .. 2026-09-07
   component: labeling
   change: SAM 3 (reverted 2026-09-05), then SAM 3.1, head/tail predictions pre-fill head/tail tasks; Fishial Mask R-CNN as CPU fallback.
+  label: "SAM 3.1 head/tail pre-fill"
   driver: unknown
   driver_note: "Author account: automation designed to replace the human in the same flow (task parity); no record of the pre-fill decision itself."
   evidence: "fishsense-lite commits d9145cad (#694), 07350d4a (revert, #734), 77204040 (#787); headtailprediction rows 2026-09-08..16 (4,302); 1,728 seeded head/tail annotations in 2026-09; author account 2026-10-06"
@@ -283,6 +311,7 @@
 - date: 2023-06 .. 2024
   component: pipeline
   change: Processing by command-line tools and notebooks run by hand (fishsense-lite-cli 2023-06, fishsense-lite-gui 2023-04, pyFishSense 2024-04).
+  label: "notebooks run by hand"
   driver: n/a (initial state)
   evidence: "gh repo list UCSD-E4E (creation dates); project lead, session 2026-10-01: 'this system used to require me to manually run pipeline notebooks'"
   confidence: medium
@@ -292,6 +321,7 @@
 - date: 2024-10 .. 2025-03
   component: pipeline
   change: Services, database and data-processing workers (fishsense-services-2024 and fishsense-database 2024-10; fishsense-data-processing-worker/spider 2025-03).
+  label: "services + workers"
   driver: unknown
   evidence: gh repo list UCSD-E4E (creation dates)
   confidence: medium
@@ -301,6 +331,7 @@
 - date: 2025-08-19
   component: pipeline
   change: Pipeline ported to the Temporal workflow engine (ingest workflow 2025-09-15).
+  label: "Temporal"
   driver: human
   evidence: "fishsense-lite commits 0f9ef0e5 (Temporal, 2025-08-19), 8f4e5b0a (ingest, 2025-09-15); project lead, session 2026-10-01 (manual notebooks before)"
   confidence: medium
@@ -310,6 +341,7 @@
 - date: 2026-03 .. 2026-05
   component: pipeline
   change: "On Temporal: preprocessing, label sync and laser-line review. Not on Temporal: intake, prediction, calibration, measurement (absent from the persistence backups)."
+  label: "Temporal snapshot"
   driver: n/a (state snapshot)
   evidence: data/temporal/workflow_runs_may2026.csv (28,379 runs, 2026-03-06..05-13); deployment_analysis/temporal_backup_runs.py
   confidence: high
@@ -319,6 +351,7 @@
 - date: 2026-05 .. 2026-09
   component: pipeline
   change: Intake, laser and head/tail prediction, laser and checkerboard calibration, depths and measurement all moved onto Temporal; label-sync time roughly halved.
+  label: "all stages on Temporal"
   driver: unknown
   evidence: data/temporal/workflow_runs.csv vs workflow_runs_may2026.csv; p2-results.md "Where the time goes"
   confidence: high
@@ -328,6 +361,7 @@
 - date: 2026-09-16
   component: pipeline
   change: Laser detector run3_epoch_021 moves from fishsense-core 3.0.0 to 4.0.0 (same checkpoint).
+  label: "core 4.0.0"
   driver: unknown
   evidence: "DB laserprediction (predictor_version 2, run3_epoch_021.pt, core 3.0.0: 3,117 rows; core 4.0.0: 17 rows from 2026-09-16)"
   confidence: high
@@ -337,6 +371,7 @@
 - date: 2026-10 (not deployed)
   component: pipeline
   change: Slate-presence classifier (EfficientNet-B0 + GeM) trained with a blind review round; full-corpus scan pending on a server.
+  label: "slate-presence classifier"
   driver: machine
   evidence: 2026-10-03_slate_detector (commit 95a77d9); data/slate_detector/
   confidence: high
