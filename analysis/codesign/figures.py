@@ -62,23 +62,31 @@ def _dates(text):
 
 def codesign_timeline():
     T = yaml.safe_load(open(HERE / "timeline.yaml"))
-    lanes = ["hardware", "protocol", "calibration", "labeling", "pipeline"]
-    names = {"labeling": "labelling"}
+    # calibration runs on two parallel tracks (lab checkerboard, field slate), not in sequence
+    lanes = ["hardware", "protocol", "calibration:lab", "calibration:field", "automation", "labeling", "pipeline"]
+    names = {"labeling": "labelling", "calibration:lab": "calibration, lab", "calibration:field": "calibration, field",
+             "automation": "machine labelling\n(plan, attempts)"}
     GAP = 2.0                                   # vertical distance between lanes
-    fig, ax = plt.subplots(figsize=(TWO, 4.8))
+    fig, ax = plt.subplots(figsize=(TWO, 6.2))
     ax.axvspan(pd.Timestamp("2023-08-01"), pd.Timestamp("2025-01-17"), color=GRID, alpha=0.55, lw=0, zorder=0)
     ax.text(pd.Timestamp("2023-08-10"), (len(lanes) - 1) * GAP + 1.1, "dives captured (2023-08 .. 2025-01)",
             fontsize=6.5, color=INK2, va="top")
     ax.set_xlim(pd.Timestamp("2023-06-01"), pd.Timestamp("2026-12-31"))
     ax.set_ylim(-1.1, (len(lanes) - 1) * GAP + 1.15)
-    undated, events = [], []
+    undated, yearonly, events = [], [], []
     for li, lane in enumerate(lanes):
         y = (len(lanes) - 1 - li) * GAP
         for e in T:
-            if e["component"] != lane or str(e["driver"]).startswith("n/a"):
+            key = e["component"] + (f":{e['track']}" if e.get("track") else "")
+            if key != lane or str(e["driver"]).startswith("n/a"):
                 continue
             d = _dates(e["date"])
-            (events.append((y, d, e)) if d else undated.append(e["label"]))
+            if d:
+                events.append((y, d, e))
+            elif re.fullmatch(r"\d{4}", str(e["date"]).strip()):
+                yearonly.append(f'{e["label"]} ({e["date"]})')     # a year but no month: listed, not placed
+            else:
+                undated.append(e["label"])
     r = fig.canvas.get_renderer()
     placed, marks, drawn = [], [], []
     for y0, (t0, t1), e in sorted(events, key=lambda x: (x[0], x[1][0])):
@@ -87,7 +95,8 @@ def codesign_timeline():
         y = y0 + [0, 0.17, -0.17, 0.34][min(near, 3)]
         marks.append((y0, t0))
         lab, col = DRIVER.get(str(e["driver"]), DRIVER["unknown"])
-        planned = "not deployed" in str(e["date"]) or "analysis only" in str(e["date"])
+        planned = ("not deployed" in str(e["date"]) or "analysis only" in str(e["date"])
+                   or "not deployed" in str(e.get("status", "")) or str(e.get("status", "")).startswith("attempted"))
         if (t1 - t0).days > 20:
             ax.plot([t0, t1], [y, y], color=col, lw=4, alpha=0.55, solid_capstyle="butt", zorder=2)
         sc = ax.scatter([t0], [y], s=34, zorder=3, color="white" if planned else col, edgecolor=col, linewidth=1.3)
@@ -114,10 +123,10 @@ def codesign_timeline():
     ax.grid(axis="y", visible=False)
     for k, (lab, col) in DRIVER.items():
         ax.scatter([], [], s=30, color=col, label=lab)
-    ax.scatter([], [], s=30, color="white", edgecolor=MUTED, label="not deployed")
+    ax.scatter([], [], s=30, color="white", edgecolor=MUTED, label="not deployed / attempted")
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.07), ncol=5, frameon=False, fontsize=6.5, handletextpad=0.2)
-    ax.text(0.0, -0.17, "not shown (no date recorded): " + "; ".join(undated), transform=ax.transAxes,
-            fontsize=5.8, color=INK2, va="top")
+    ax.text(0.0, -0.13, "not placed - year only: " + "; ".join(yearonly) + ".   No date recorded: " + "; ".join(undated),
+            transform=ax.transAxes, fontsize=5.8, color=INK2, va="top", wrap=True)
     ax.set_title("Design revisions by component, coloured by the recorded reason", loc="left", color=INK2)
     save(fig, "codesign_timeline")
 

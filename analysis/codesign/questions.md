@@ -34,32 +34,18 @@ Sections A-D are what is still open.
 
 ## A. New conflicts and evidence found while applying the answers
 
-1. **Checkerboard vs slate. The record shows the checkerboard used for *laser* calibration.**
-   The author's account is that the checkerboard was the lens target and the slate the laser
-   target. I have not asserted a switch. The evidence:
-   - **DB, 2023-08 pool sessions:** 15 dives (2023-08-14..18) are linked to the "E4E Checkerboard"
-     target (10x14, 42.17 mm pitch) and named `LaserCalibration*`.
-     - Dive 490's note: a checkerboard burst shot with the laser on, during which the laser rotated
-       0.82 deg in-plane.
-     - Dive 521's note: laser-calibration and lens-calibration frames in one folder; the lens
-       frames carry no laser. So the two uses were distinct in practice.
-   - **IMWUT draft:** `imwut_2026_fishsense_lite/PAPER.md` L259-264 states a deliberate switch.
-     The first 19 pool sessions (14-18 Aug) used the checkerboard; the last 12 (29-31 Aug) used the
-     slate, "because a slate is something a volunteer diver already carries".
-   - **2025-01-17:** the TG-7 units were laser-calibrated against checkerboards (dives 480, 481).
-   - **2026-09-08:** `PerformCheckerboardCalibration` automated.
-   - **But the field H-Slate was already in use on 2023-08-01**, before the checkerboard pool
-     sessions. So "checkerboard then slate" holds only for the pool fish-model study, if at all.
+1. **Checkerboard vs slate: closed (author, 2026-10-07).** Not a switch. The two were used
+   concurrently, split by setting:
+   - **Lab:** the checkerboard, because a machine could find it.
+   - **Field:** the slate, because a diver had one and it was easier than the board.
 
-   **Question:** Was the pool checkerboard use a laser calibration (as the DB and the IMWUT draft
-   say), a lens calibration that happened to have the laser on, or both? Is the IMWUT draft's
-   "moved away deliberately" sentence accurate?
-2. **The IMWUT draft gives a machine-side reason for green.**
-   `papers/fishsense-lite-imwut/Sections/system.tex` L163 says green was chosen "because it
-   penetrates water further, and reliable detection of the laser dot in post-processing is a
-   critical constraint". That contradicts your account (diver visibility; red easier to label) and
-   the detector result (green missed more). One of them should be corrected before both papers are
-   out.
+   The checkerboard came first, in the lab. A mount broke while other cameras were being prepared
+   for shipping, so the H slate was improvised, and new cameras continued with the proven method.
+   The DB dates interleave because cameras and techniques overlapped. The timeline now carries
+   `track: lab | field`.
+2. **Green laser rationale: closed (author, 2026-10-07).** Green was chosen because it penetrates
+   further in water and was expected to be easier to see. IMWUT gives that rationale as it stood at
+   the time; this paper reports the outcome: easier for divers, harder for automated detection.
 3. **The IMWUT cost table lists a red laser.** `system.tex` L11 lists "Innovative Scuba Aluminum
    Laser Pointer (Red)", while the text says a Class IIIA 532 nm green pointer.
 4. **The IMWUT draft says laser calibration is "performed once per dive site"** (`system.tex` L167).

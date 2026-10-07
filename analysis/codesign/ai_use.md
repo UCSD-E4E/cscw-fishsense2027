@@ -85,6 +85,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-07 | Pre-fill outcomes by distance (`sql/extract_seed_moves.sql` -> `data/db_extracts/seed_moves.psv`; `origins` column added to `extract_annotations.sql`; `analysis/codesign/labelling.py`), read-only | analysis | assistant | this commit (fig: SenSys figure set...) |
 | 2026-10-07 | SenSys figure set: sensys_system, sensys_calibration, sensys_capture, sensys_labelling (`analysis/codesign/figures.py`), figure map `FIGURES.md`; claims and design rules updated (the 93% auto-accept figure replaced by the measured 88-89%) | figures + prose | assistant | this commit (fig: SenSys figure set...) |
 | 2026-10-07 | Red vs green figure redrawn by pipeline stage (detector, reef pipeline, labeller) at the author's request | figure | assistant | this commit (fig: redraw red vs green...) |
+| 2026-10-07 | Timeline corrections from the author (laser rationale vs outcome; lab and field calibration as parallel tracks; the humans-first plan), early automation attempts dated from UCSD-E4E repo histories (gh api, first commits), timeline figure with lab/field and automation lanes | data + figure | assistant (author-supplied reasons) | this commit (timeline: author corrections...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
