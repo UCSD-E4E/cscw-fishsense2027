@@ -46,9 +46,9 @@ DIVES = (341, 347, 349, 436)
 N_BOOT = 500
 
 
-def sam_frames():
+def sam_frames(name="sam3_text"):
     fr = pd.read_csv(HERE / "reef_sizes_frames.csv").rename(columns={"dot_x": "x", "dot_y": "y"})
-    sz = pd.read_csv(HERE / "reef_sizes/sam3_text.csv").set_index("image_id")["size"]
+    sz = pd.read_csv(HERE / f"reef_sizes/{name}.csv").set_index("image_id")["size"]
     return fr[fr.image_id.isin(sz.index)].assign(size=lambda t: t.image_id.map(sz))
 
 
@@ -96,6 +96,12 @@ def main():
     cams = {int(r.dive_id): int(r.camera_id) for r in E.itertuples()}
     cal, C1, stored = calibrate(intr, cams, sam_frames(), "SAM 3.1 mask")
     calh, C2, _ = calibrate(intr, cams, corner_frames(), "human corners")
+    # other size measures in reef_sizes/ (e.g. rectfit_sizes.py's rigid-board fit): calibration only
+    extra = {}
+    for f in sorted((HERE / "reef_sizes").glob("*.csv")):
+        if f.stem != "sam3_text":
+            extra[f.stem], Cx, _ = calibrate(intr, cams, sam_frames(f.stem), f.stem)
+            C1 = pd.concat([C1, Cx], ignore_index=True)
     C = pd.concat([C1, C2], ignore_index=True)
     F, K, dots = EV.load()
     Kx = K.set_index(["image_id", "seed"])
@@ -115,6 +121,10 @@ def main():
             rec[f"L_manual_{name}"] = S.length(Kc, S.depth(Kc, c[0], c[1], r.laser_x, r.laser_y), *hh)
             if ah is not None and r.image_id in dots:
                 rec[f"L_auto_{name}"] = S.length(Kc, S.depth(Kc, c[0], c[1], *dots[r.image_id]), *ah)
+        for name, cx in extra.items():
+            if int(r.dive_id) in cx:
+                c = cx[int(r.dive_id)]
+                rec[f"L_manual_{name}"] = S.length(Kc, S.depth(Kc, c[0], c[1], r.laser_x, r.laser_y), *hh)
         if int(r.dive_id) in calh:
             ch = calh[int(r.dive_id)]
             rec["L_manual_corners"] = S.length(Kc, S.depth(Kc, ch[0], ch[1], r.laser_x, r.laser_y), *hh)
@@ -124,6 +134,7 @@ def main():
     variants = {"angle only (label-free angle, stored |O|)": L.L_manual_angleonly / ref - 1,
                 "calibration only (human dot + head/tail, label-free cal)": L.L_manual_labelfree / ref - 1,
                 "calibration only, human corners (unknown size; dives with >= 8 complete labels)": L.get("L_manual_corners") / ref - 1,
+                **{f"calibration only, {n}": L.get(f"L_manual_{n}") / ref - 1 for n in extra},
                 "fully automatic, stored cal (Fig 5)": L.get("L_auto_stored") / ref - 1,
                 "fully automatic, label-free cal": L.get("L_auto_labelfree") / ref - 1}
     S_ = []

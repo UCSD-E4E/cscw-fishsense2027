@@ -133,6 +133,16 @@ Sections A-D are what is still open.
 11. **When was the per-dive calibration plan adopted?** Before 2023-08-01 is all the record shows.
    When was the first partner unit shipped?
 
+## B'. For the slate project (found 2026-10-06, `rectfit_sizes.py`)
+
+- **Wrong poses in the rigid-board fit.** In `rect.json`, 29 of 258 pool frames are fitted with a
+  tilt above 45 deg, all in sessions 77, 87, 94 and 114 (and a few elsewhere). Their fitted depth
+  disagrees with sqrt(mask area) by a median 33%, while fits below 20 deg agree to < 1%. This looks
+  like a local minimum (perhaps a portrait/landscape or tilt-depth trade), not real tilt. Worth
+  checking before the fit's outlines are used as labels.
+- **Choice order.** The candidate choice uses the label outline first. For label-free use the
+  dot rule is what applies; on our 326 frames the two give the same mask.
+
 ## C. Open decisions (the author's, not mine)
 
 - **Repository visibility during review** (author and advisors). Until decided, I will not link

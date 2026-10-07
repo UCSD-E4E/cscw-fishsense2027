@@ -166,7 +166,7 @@ def fig3_size_constancy():
         b.scatter(M.loc[order, key], y + dy, s=20, color=col, edgecolor="white", linewidth=0.5, zorder=3,
                   label=f"{lab}: {M[key].mean():.1f}%")
     b.set_yticks(y, [f"session {i}" for i in order]); b.grid(axis="y", visible=False)
-    b.set_xlim(0, M.max().max() * 1.12)
+    b.set_xlim(0, M[[k for k, *_ in series]].max().max() * 1.12)   # plotted series only
     b.set_xlabel("length error vs tape, % (fish models, paired dive)")
     b.set_title("(b) every session, scored against tape", loc="left", color=INK2)
     b.legend(loc="upper center", bbox_to_anchor=(0.45, -0.25), frameon=False, fontsize=6.5, ncol=1,
@@ -373,7 +373,7 @@ def fig10_size_measures():
         ax.plot([v.mean()] * 2, [i - 0.3, i + 0.3], color=col, lw=2.2, zorder=3)
         ax.text(1.02, i, f"{v.mean():.1f}%", va="center", fontsize=7, color=INK, transform=ax.get_yaxis_transform())
     ax.set_yticks(range(len(order)), [lab for _, lab, _ in order]); ax.grid(axis="y", visible=False)
-    ax.set_xlim(0, M.max().max() * 1.05); ax.set_ylim(-0.6, len(order) - 0.4)
+    ax.set_xlim(0, M[[m[0] for m in order]].max().max() * 1.05); ax.set_ylim(-0.6, len(order) - 0.4)   # plotted rows only
     ax.set_xlabel("length error vs tape, % (dots: 10 sessions; bar: mean)")
     ax.set_title("Measuring the slate's apparent size", loc="left", color=INK2, pad=14)
     ax.text(1.0, 1.02, "grey: needs human labels · blue: no labels", transform=ax.transAxes, ha="right", va="bottom",
