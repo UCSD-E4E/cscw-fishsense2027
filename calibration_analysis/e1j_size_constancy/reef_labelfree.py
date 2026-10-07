@@ -10,6 +10,9 @@ at least 8 slate frames carrying a human dot (341, 347, 349, 436) are calibrated
            apparent size would reach zero along the line
   offset   |O| = 0.104 m stand-in for the mount design, oriented along the line (as score.calibrations)
 
+For comparison, the same fit with the human corner labels as the size (an object of unknown size,
+slate_unknown.load: complete labels only, 6 points on the V-slate) on the dives with >= 8 such frames.
+
 The dot is still the human click on the slate frames (as in the pool test, tape_by_session.py), so
 the slate's corners are the only labels removed.
 
@@ -43,17 +46,27 @@ DIVES = (341, 347, 349, 436)
 N_BOOT = 500
 
 
-def calibrate(intr, cams):
-    fr = pd.read_csv(HERE / "reef_sizes_frames.csv")
+def sam_frames():
+    fr = pd.read_csv(HERE / "reef_sizes_frames.csv").rename(columns={"dot_x": "x", "dot_y": "y"})
     sz = pd.read_csv(HERE / "reef_sizes/sam3_text.csv").set_index("image_id")["size"]
-    fr = fr[fr.image_id.isin(sz.index)].assign(size=lambda t: t.image_id.map(sz))
+    return fr[fr.image_id.isin(sz.index)].assign(size=lambda t: t.image_id.map(sz))
+
+
+def corner_frames():
+    """Human corner labels as an object of unknown size (slate_unknown.load: complete labels only)."""
+    d, *_ = su.load()
+    d = d[d.dive_id.isin(DIVES)][["image_id", "dive_id", "x", "y", "size"]]
+    return d[d.groupby("dive_id").image_id.transform("size") >= su.MIN_FRAMES]
+
+
+def calibrate(intr, cams, fr, source):
     lines = pd.read_csv(REPO / "data/db_extracts/lines.psv", sep="|", header=None,
                         names=["dive_id", "a", "b", "c", "n", "resid"]).set_index("dive_id")
     stored, _, _ = S.calibrations()
     rng = np.random.default_rng(0)
     cal, rows = {}, []
-    for dive in DIVES:
-        g = fr[fr.dive_id == dive].rename(columns={"dot_x": "x", "dot_y": "y"})
+    for dive in sorted(fr.dive_id.unique()):
+        g = fr[fr.dive_id == dive]
         u = su.frame(dive, g, lines); n = np.array([-u[1], u[0]])
         a, b, c = lines.loc[dive, ["a", "b", "c"]]
         offset = float(np.array([a, b]) * -c / (a * a + b * b) @ n)          # the dive line, in (u, n) coordinates
@@ -69,7 +82,7 @@ def calibrate(intr, cams):
         vs = K @ sa; vs = vs[:2] / vs[2]
         deg = lambda tt: float(np.degrees(np.arccos(np.clip(
             (lambda ax: ax / np.linalg.norm(ax))(np.linalg.solve(K, [*(tt * u + offset * n), 1.0])) @ sa, -1, 1))))
-        rows.append(dict(dive=dive, camera=cams[dive], frames=len(g), size_ratio=float(s.max() / s.min()),
+        rows.append(dict(source=source, dive=dive, camera=cams[dive], frames=len(g), size_ratio=float(s.max() / s.min()),
                          tv_fit=tv, tv_stored=float(vs @ u), tv_err_px=float(tv - vs @ u), tv_se_px=float(np.std(boots)),
                          angle_vs_stored_deg=deg(tv),
                          angle_ci_deg=tuple(np.round(np.percentile([deg(x) for x in boots], [2.5, 97.5]), 3)),
@@ -81,7 +94,9 @@ def main():
     stored_all, _, intr = S.calibrations()
     E = pd.read_csv(REPO / "e2e_measurement/extrinsics.psv", sep="|")
     cams = {int(r.dive_id): int(r.camera_id) for r in E.itertuples()}
-    cal, C, stored = calibrate(intr, cams)
+    cal, C1, stored = calibrate(intr, cams, sam_frames(), "SAM 3.1 mask")
+    calh, C2, _ = calibrate(intr, cams, corner_frames(), "human corners")
+    C = pd.concat([C1, C2], ignore_index=True)
     F, K, dots = EV.load()
     Kx = K.set_index(["image_id", "seed"])
     reef = F[(F.set == "reef") & F.dive_id.isin(DIVES)]
@@ -100,11 +115,15 @@ def main():
             rec[f"L_manual_{name}"] = S.length(Kc, S.depth(Kc, c[0], c[1], r.laser_x, r.laser_y), *hh)
             if ah is not None and r.image_id in dots:
                 rec[f"L_auto_{name}"] = S.length(Kc, S.depth(Kc, c[0], c[1], *dots[r.image_id]), *ah)
+        if int(r.dive_id) in calh:
+            ch = calh[int(r.dive_id)]
+            rec["L_manual_corners"] = S.length(Kc, S.depth(Kc, ch[0], ch[1], r.laser_x, r.laser_y), *hh)
         rows.append(rec)
     L = pd.DataFrame(rows)
     ref = L.L_manual_stored
     variants = {"angle only (label-free angle, stored |O|)": L.L_manual_angleonly / ref - 1,
                 "calibration only (human dot + head/tail, label-free cal)": L.L_manual_labelfree / ref - 1,
+                "calibration only, human corners (unknown size; dives with >= 8 complete labels)": L.get("L_manual_corners") / ref - 1,
                 "fully automatic, stored cal (Fig 5)": L.get("L_auto_stored") / ref - 1,
                 "fully automatic, label-free cal": L.get("L_auto_labelfree") / ref - 1}
     S_ = []

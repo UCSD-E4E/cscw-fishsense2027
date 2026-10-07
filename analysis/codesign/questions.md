@@ -92,8 +92,10 @@ Sections A-D are what is still open.
    - The earlier statement that the reef dives had "V-slates with skipped points" was wrong: most
      V-slate labels are complete.
    - Pool results (Tic-Tac-Toe) are unaffected.
-   - Accepting complete labels of each pattern's own point count would give a human-corner
-     reference on the reef dives. Not changed yet.
+   - **Fixed 2026-10-06:** `slate_unknown.load` keeps complete labels of each pattern's own count
+     (8 or 6). Short labels are still dropped, since the missing point is not identified.
+   - The reef dives now have a human-corner comparison in `reef_labelfree.py`. Fig 3 and the pool
+     results are unchanged (Fig 3 rebuilt byte-identical).
 4. **For analysis 3f (author, 2026-10-06: not known, but a floor date per camera may be
    recoverable).**
    - **The data cannot infer the mount.** No camera's dive laser line steps over 2023-08..2024-12

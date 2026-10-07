@@ -77,6 +77,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Task 3c calibration error vs size spread (`analysis/codesign/calibration_spread.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
 | 2026-10-06 | Task 3e labelling before/after (`analysis/codesign/before_after.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
 | 2026-10-06 | Task 3d extended: fish-length quartiles and reef coverage by colour (`analysis/codesign/redgreen.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
+| 2026-10-06 | V-slate fix: `slate_unknown.load` accepts complete 6-point V-slate labels; human-corner calibration added to `reef_labelfree.py` | analysis fix | assistant | this commit (fix: accept complete V-slate labels...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

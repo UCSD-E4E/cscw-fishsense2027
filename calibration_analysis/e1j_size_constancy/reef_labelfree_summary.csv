@@ -9,6 +9,10 @@ variant,dive,frames,median,mae,within10
 "calibration only (human dot + head/tail, label-free cal)",347,110,0.0438,0.0459,1.0000
 "calibration only (human dot + head/tail, label-free cal)",349,37,-0.0014,0.0035,1.0000
 "calibration only (human dot + head/tail, label-free cal)",436,1,0.0445,0.0445,1.0000
+"calibration only, human corners (unknown size; dives with >= 8 complete labels)",all,223,0.0566,0.0548,0.8879
+"calibration only, human corners (unknown size; dives with >= 8 complete labels)",341,76,0.0108,0.0108,1.0000
+"calibration only, human corners (unknown size; dives with >= 8 complete labels)",347,110,0.0610,0.0650,0.8909
+"calibration only, human corners (unknown size; dives with >= 8 complete labels)",349,37,0.0944,0.1149,0.6486
 "fully automatic, stored cal (Fig 5)",all,197,-0.0008,0.0499,0.8376
 "fully automatic, stored cal (Fig 5)",341,70,0.0022,0.0466,0.8429
 "fully automatic, stored cal (Fig 5)",347,99,0.0051,0.0611,0.7879

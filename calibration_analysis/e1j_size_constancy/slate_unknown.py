@@ -26,13 +26,27 @@ SCRATCH = Path(__file__).resolve().parents[2] / "data/db_extracts"   # DB extrac
 F_PX, MIN_FRAMES = 2850.0, 8
 
 
+DESIGN_POINTS = {"H-Slate": 8, "Tic-Tac-Toe": 8, "V-Slate": 6}
+
+
+def design_points() -> pd.Series:
+    """Reference points per dive, from the dive's slate pattern (data/db_extracts/annotations.psv)."""
+    a = pd.read_csv(SCRATCH / "annotations.psv", sep="|", header=None, usecols=[0, 3, 12], names=["kind", "dive_id", "slate"])
+    a = a[(a.kind == "slate") & a.slate.notna()].drop_duplicates("dive_id")
+    return a.set_index("dive_id").slate.str.extract(r"^(H-Slate|Tic-Tac-Toe|V-Slate)")[0].map(DESIGN_POINTS)
+
+
 def load():
     d = pd.read_csv(SCRATCH / "slate_dots.psv", sep="|", header=None,
                     names=["dive_id", "camera_id", "image_id", "pts", "x", "y", "taken"]).drop_duplicates("image_id")
     d = d[d.pts.notna()]
-    # skipped reference points come back as null: keep complete 8-point labels only, so the size measure is comparable
+    # Keep complete labels only, so the size measure is comparable within a dive. A complete label has
+    # the slate pattern's own number of reference points: 8 on H and Tic-Tac-Toe, 6 on the V-slate
+    # (author, 2026-10-06). A skipped point is left out of the label (it does not come back as null),
+    # and which point is missing is not recorded, so a short label cannot be used.
     pts = d.pts.map(lambda s: np.array([q if q is not None else [np.nan, np.nan] for q in json.loads(s)], float))
-    full = pts.map(lambda p: p.shape == (8, 2) and np.isfinite(p).all())
+    need = d.dive_id.map(design_points()).fillna(8)
+    full = pd.Series([p.ndim == 2 and p.shape == (n, 2) and np.isfinite(p).all() for p, n in zip(pts, need)], index=d.index)
     d, pts = d[full], pts[full]
     d["size"] = pts.map(lambda p: float(np.sqrt(((p - p.mean(0)) ** 2).sum(1).mean())))
     lines = pd.read_csv(SCRATCH / "lines.psv", sep="|", header=None, names=["dive_id", "a", "b", "c", "n", "resid"]).set_index("dive_id")
