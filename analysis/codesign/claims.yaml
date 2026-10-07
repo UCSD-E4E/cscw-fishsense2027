@@ -67,13 +67,12 @@
   confounds: 10 pool sessions (Aug 2023, red laser, dedicated slate sessions); fish models are rigid; reference lengths by tape or length board
   paper_section: 5
 
-- claim: "Fitting the slate as a rigid board to the SAM 3.1 mask (the slate project's rect fit, which restores occluded edges and undoes tilt) does not improve size-constancy calibration over plain sqrt(mask area); its wrong-pose fits corrupt the size."
-  number: "pool, scored against tape: sqrt(mask area) 2.8%; board fit, depth at the dot 11.4%; the same without fits the fit calls > 30 deg tilted 3.7% (better in 3 sessions, worse in 3). Fits reporting > 45 deg tilt (29 of 258 pool frames, 5 sessions) disagree with sqrt(area) by a median 33%; below 20 deg they agree to < 1%. Reef (no truth): vanishing point vs stored -5.0/-4.8/-0.9/+2.2 px (filtered fit) vs -3.4/+2.4/+1.9/+8.9 px (sqrt area)."
+- claim: "Fitting the slate as a rigid board to the SAM 3.1 mask (the slate project's rect fit, which restores occluded edges and undoes tilt) does not improve size-constancy calibration over plain sqrt(mask area)."
+  number: "after the slate project's orientation fix (rect.json of 2026-10-06 19:03): pool vs tape, board fit with depth at the dot 4.3% vs sqrt(mask area) 2.8% (paired +1.47 pp, session-resampled CI -0.32..+3.25; board fit better in 2 of 10 sessions); before the fix 11.4%. Fitted tilt median 5.2 deg (p90 12.0), but sessions 77 and 87 keep a few ~59 deg fits (depth off up to 36%). In session 114 the fit's disagreement with sqrt(area) tracks the outline it adds beyond the mask (r = 0.98) and shrinks with board size (r = -0.92): a range-correlated size bias. Reef (no truth): vanishing point vs stored -4.5/-4.7/-1.5/+4.8 px vs -3.4/+2.4/+1.9/+8.9 px for sqrt(area)."
   evidence_level: designed_experiment
   source: calibration_analysis/e1j_size_constancy/rectfit_sizes.py (poses copied to rect_poses.json from 2026-10-03_slate_detector data/masks/rect.json, uncommitted there) -> sizes/sam3_rect_*.csv, reef_sizes/sam3_rect_*.csv; scored by tape_by_session.py and reef_labelfree.py
-  confounds: "the tilt filter is post hoc (chosen after seeing the 45-deg disagreement), though label-free; the slate project's fit is work in progress; for every frame here its chosen SAM candidate equals the label-free dot choice, checked 2026-10-06"
+  confounds: "10 sessions, so a 1.5 pp gap is within reach of noise; whether the occlusion fill-in or the mask area is the biased one differs by session (114 favours the area, 94 the fit); the slate project's fit is work in progress; for every frame here its chosen SAM candidate equals the label-free dot choice, checked 2026-10-06"
   paper_section: 5
-
 - claim: "The slate's known size and printed template add nothing to accuracy: the same corner labels without them give the same length error."
   number: 2.9% vs 2.9%
   evidence_level: designed_experiment

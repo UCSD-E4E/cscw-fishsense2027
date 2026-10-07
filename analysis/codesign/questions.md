@@ -135,11 +135,15 @@ Sections A-D are what is still open.
 
 ## B'. For the slate project (found 2026-10-06, `rectfit_sizes.py`)
 
-- **Wrong poses in the rigid-board fit.** In `rect.json`, 29 of 258 pool frames are fitted with a
-  tilt above 45 deg, all in sessions 77, 87, 94 and 114 (and a few elsewhere). Their fitted depth
-  disagrees with sqrt(mask area) by a median 33%, while fits below 20 deg agree to < 1%. This looks
-  like a local minimum (perhaps a portrait/landscape or tilt-depth trade), not real tilt. Worth
-  checking before the fit's outlines are used as labels.
+- **Wrong poses in the rigid-board fit: mostly fixed (rect.json of 2026-10-06 19:03).**
+  - Pool tilt is now median 5 deg, p90 12 deg (was 58).
+  - Sessions 77 and 87 still have a few ~59 deg fits whose depth disagrees with sqrt(mask area) by up
+    to 36%; the other sessions max out at 19 deg.
+- **Range-correlated fill-in.** In session 114 the fit adds more unseen outline on distant
+  (small) boards. Its size then departs from sqrt(area) in step with range (r = 0.98 with added
+  outline, -0.92 with size), and tape favours sqrt(area) there (1.3% vs 7.2%). Session 94 shows the
+  same pattern but tape favours the fit (0.0% vs 4.2%). Worth a look at what the fill-in adds on
+  far boards.
 - **Choice order.** The candidate choice uses the label outline first. For label-free use the
   dot rule is what applies; on our 326 frames the two give the same mask.
 
