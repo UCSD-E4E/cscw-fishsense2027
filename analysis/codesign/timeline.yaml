@@ -252,69 +252,105 @@
 
 - date: 2023-09-22
   component: automation
-  change: Neural laser-dot detector checkpoint shipped with the CLI demo (fishsense-lite-cli demo/data/models/laser_detection.pth). Attempted, not deployed to labelling.
+  change: Neural laser-dot detector checkpoint shipped with the CLI demo (fishsense-lite-cli demo/data/models/laser_detection.pth).
   label: "CLI laser detector"
-  status: attempted, not deployed
+  status: attempted, not deployed to labelling
   driver: unknown
   evidence: "UCSD-E4E/fishsense-lite-cli, first commit of demo/data/models/laser_detection.pth 2023-09-22"
   confidence: high (exists); low (use)
   dives_before: n/a
   dives_after: n/a
 
-- date: 2024-05-06 .. 2024-05-16
+- date: 2024-05-20 .. 2024-06-25
   component: automation
-  change: Fish segmentation (Fishial Mask R-CNN) and a mask-based head/tail detector (pyFishSenseDev fish_segmentation_fishial.py, fish_head_tail_detector.py). Attempted then; the lineage is production's CPU fallback and head/tail rule in 2026-09.
-  label: "Fishial mask + head/tail"
-  status: attempted, not deployed at the time
+  change: Fish mask (Fishial Mask R-CNN, ONNX) and head/tail from the mask's principal axis, ported to Rust for the iPhone app (fishsense.rs); the same Fishial + mask-geometry lineage is production's CPU fallback and head/tail rule in 2026-09. Python versions in pyFishSenseDev from 2024-05-06.
+  label: "Fishial mask + head/tail (mobile)"
+  status: deployed in the separate mobile app; not used for Lite labelling at the time
   driver: unknown
-  evidence: "UCSD-E4E/pyFishSenseDev_bak, first commits 2024-05-06 (fish_head_tail_detector.py), 2024-05-16 (fish_segmentation_fishial.py)"
-  confidence: high (exists); medium (lineage)
+  evidence: "UCSD-E4E/fishsense.rs cf778d1e 2024-05-20 'start of fishial based rust inference'; 7ad58d63 2024-06-19 'return fish not found when onnx returns null pointer. this fixes a bug on iphone'; pyFishSenseDev_bak first commits 2024-05-06 (fish_head_tail_detector.py), 2024-05-16 (fish_segmentation_fishial.py); no results recorded"
+  confidence: high (exists, mobile use); medium (lineage)
   dives_before: n/a
   dives_after: n/a
 
-- date: 2024-09-10 .. 2024-11-14
+- date: 2024-09-10 .. 2025-01-21
   component: automation
-  change: Neural laser detector (nn_laser_detector.py), Bayesian-GMM laser trainer and a SAM segmentation notebook (pyFishSenseDev). Attempted, not deployed.
-  label: "NN/GMM laser, SAM notebook"
-  status: attempted, not deployed
+  change: "Neural laser detector (NNLaserDetector, a small CNN tile classifier in pyfishsensedev) drove the CLI's automatic laser calibration - lab checkerboard and field (2024-09-13..15). On 2025-01-21 the CLI replaced it with human labels from Label Studio (LabelStudioLaserDetector); the NN branch is commented out and raises NotImplementedError. From 2025-03 the CLI reads only human laser labels (Label Studio or the DB)."
+  label: "NN laser detector, then back to human labels"
+  status: used, then replaced by human labels (2025-01-21)
   driver: unknown
-  evidence: "UCSD-E4E/pyFishSenseDev, first commits 2024-09-10 (pyfishsensedev/laser/nn_laser_detector.py), 2024-11-12 (experiments/bgmm_laser_trainer.ipynb), 2024-11-14 (experiments/sam_segmentation.ipynb)"
-  confidence: high (exists); low (use)
+  driver_detail: reason for the reversal not recorded
+  evidence: "UCSD-E4E/fishsense-lite-cli 2024-09-13 'laser checkerboard calibration', 2024-09-15 'functioning field laser calibration'; de881b42 2025-01-21 'fix: update raw processing and laser detection' (diff: NNLaserDetector -> LabelStudioLaserDetector, NN path raises NotImplementedError; checked 2026-10-07); pyFishSenseDev nn_laser_detector.py first commit 2024-09-10; no results recorded"
+  confidence: high
   dives_before: n/a
   dives_after: n/a
+  note: a machine-to-human reversal - the automated detector was taken out of calibration and replaced by people's clicks.
 
-- date: 2024-11-12
+- date: 2024-11-09 .. 2024-11-14
   component: automation
-  change: Label Studio pre-fill exporters for laser and segmentation tasks in the CLI (label_studio_models/laser_label_studio_json.py, segmentation_label_studio_json.py).
+  change: "CLI 'label studio generator' writes the NN laser detector's dots and Fishial fish masks into Label Studio tasks as predictions (pre-fill); a laser task created 2024-10-24 carries one prediction."
   label: "CLI Label Studio pre-fill"
-  status: attempted; possibly the source of the 38 prediction-seeded laser labels of 2024-11
+  status: used as a pre-fill generator; likely the source of the 38 prediction-seeded laser labels of 2024-11
   driver: unknown
-  evidence: "UCSD-E4E/fishsense-lite-cli, first commits 2024-11-12; DB: 38 laser annotations with parent_prediction in 2024-11"
-  confidence: high (exists); low (link to the 38 labels - same month, no direct record)
+  evidence: "UCSD-E4E/fishsense-lite-cli c1c447d3 2024-11-09 'feat: label studio generator'; 531ab0c6 2024-11-12 'feat: generate fishial masks'; 8c6414f0 2024-11-13 'fix: up the vram requirement for nn_laser label studio'; UCSD-E4E/2025-11-29_laser-label-analysis notebook output (task with 'total_predictions': 1); DB: 38 laser annotations with parent_prediction in 2024-11; no results recorded"
+  confidence: high (generator); medium (link to the 38 labels)
   dives_before: n/a
   dives_after: n/a
 
-- date: 2025-03-25 .. 2025-04-21
+- date: 2025-03-25 .. 2025-04-08
   component: automation
-  change: Slate detection job (fishsense-lite-cli detect_slate_for_dives.py) and slate-detector notebook (pyFishSenseDev); GMM laser-detector analysis (fishsense-2025-04-16-laser-detect-analysis). Attempted, not deployed.
-  label: "slate job, GMM laser"
-  status: attempted, not deployed
+  change: CLI identifies each dive's slate with a classical slate detector (pyfishsensedev SlateDetector against each slate PDF, trying several rotations) and calibrates the laser from slate pose plus human laser labels (field_calibrate_laser).
+  label: "classical slate detection"
+  status: attempted; results not recorded
   driver: unknown
-  evidence: "first commits: fishsense-lite-cli jobs/detect_slate_for_dives.py 2025-03-25; pyFishSenseDev experiments/slate_detector.ipynb 2025-03-31; fishsense-2025-04-16-laser-detect-analysis gmm_laser_detector.py 2025-04-21"
+  evidence: "UCSD-E4E/fishsense-lite-cli b27fc7d3 2025-03-25 'support detecting slate for dives'; 4f7ef78c 2025-03-31 'support trying multiple rotations of the dive slate'; f62243ae 'don't calibrate if we have less than 4 valid points'; pyFishSenseDev experiments/slate_detector.ipynb 2025-03-31"
   confidence: high (exists); low (use)
   dives_before: n/a
   dives_after: n/a
 
-- date: 2025-08-29
+- date: 2025-04-21 .. 2025-04-24
   component: automation
-  change: Laser-detector training repository (fishsense-laser-detector); its run3_epoch_021 checkpoint is the detector deployed as a pre-fill in 2026-07.
-  label: "laser detector training"
+  change: Laser detector from a Bayesian Gaussian mixture on HSV pixels, trained on laser crops from 5 labelled frames, scored against human labels on 3,048 frames.
+  label: "GMM laser detector"
+  status: attempted, not deployed (reason not recorded)
+  driver: unknown
+  evidence: "UCSD-E4E/fishsense-2025-04-16-laser-detect-analysis result_analysis.ipynb outputs: 3,048 frames, 377 with no detection, mse 1,018,216.77 px^2 (~1,009 px RMS); 523fed09 2025-04-23 'Updates model for smaller training data'"
+  confidence: high
+  dives_before: n/a
+  dives_after: n/a
+
+- date: 2025-08-29 .. 2025-11-30
+  component: automation
+  change: Laser detector by fine-tuning Depth Anything V2 (ViT-L) to regress a heatmap around the human-labelled dot; 15,244 train / 3,812 val labels in its final split.
+  label: "Depth Anything laser detector"
+  status: attempted, not deployed (no metrics committed; reason not recorded)
+  driver: unknown
+  evidence: "UCSD-E4E/fishsense-laser-detector a6241aff 2025-08-29 'adding depth anything laser detection work', metric_depth/laser_train.py, train.csv/val.csv; 1527cf1c 2025-11-30 'updated fish training script'; only one example distance (38.6 px) in visualization.ipynb"
+  confidence: high (exists)
+  dives_before: n/a
+  dives_after: n/a
+
+- date: 2026-04-17
+  component: automation
+  change: Human laser labels prepared as training data - per-dive RANSAC line filter keeps 37,811 labels on 262 dives (random 80/20 split).
+  label: "laser labels → training set"
+  status: analysis
+  driver: unknown
+  evidence: "UCSD-E4E/2025-11-29_laser-label-analysis 59b1b544 2026-04-17, notebook outputs (no written conclusions)"
+  confidence: high
+  dives_before: n/a
+  dives_after: n/a
+
+- date: 2026-05-02 .. 2026-07-24
+  component: automation
+  change: "Laser detector project (2026-05-02_laser_detector): dive-level 80/10/10 split stratified by laser colour (264 dives, 33,320 frames); classical CV baseline (hit within 3 px 64.9%, presence AUROC 0.78), then a ResNet-34 U-Net heatmap model with a presence head and 6-channel colour input. Its run3 epoch-21 checkpoint became production's pre-fill detector (2026-07-27); val/test hit within 3 px 0.910/0.864 with the final inference recipe; the project notes call 0.91 the labeller click-noise floor."
+  label: "laser detector (run3), deployed"
   status: led to deployment (2026-07-27)
   driver: unknown
-  evidence: "UCSD-E4E/fishsense-laser-detector, first commit of metric_depth/laser_train.py 2025-08-29; run3_epoch_021.pt in fishsense_core"
-  confidence: medium (lineage)
+  evidence: "UCSD-E4E/2026-05-02_laser_detector fc27aaa2 2026-05-03 (Phase 1: 'confidence score doesn't separate true lasers from bright water/fish-scale reflections at any tau'); notes/state.md; HOW_TO_USE.md ('production model: epoch 21, in_channels=6'); 6898bab4 2026-07-24 ('run3 ... remains production')"
+  confidence: high
   dives_before: n/a
   dives_after: n/a
+  note: "Its notes on human labels: perpendicular label-to-line sigma ~0.77 px; ~14.6% of positives are line outliers at k=3; ~42% of dives have a minority-colour label (consistent with task 3d's mixed-colour dives). A wavelength-balanced retrain 'DID NOT improve green' and was not adopted."
 
 # ---------------------------------------------------------------- labeling
 - date: 2024-10
@@ -329,7 +365,7 @@
 
 - date: 2024-11
   component: labeling
-  change: 38 laser annotations created from a prediction pre-fill - source model unknown (predates the run3 detector integration of 2026-07); possibly the CLI's Label Studio pre-fill exporter of 2024-11-12.
+  change: 38 laser annotations created from a prediction pre-fill - source model unknown (predates the run3 detector integration of 2026-07); likely the CLI's Label Studio generator (NN laser detector predictions, 2024-11-09..13).
   label: "prediction-seeded labels"
   driver: unknown
   driver_note: "Author account: automation designed to replace the human in the same flow (task parity), following the plan of humans first, machines once trained (automation, 2023); no record of the pre-fill decision itself."
