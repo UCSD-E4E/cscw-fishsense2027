@@ -35,7 +35,7 @@ import pandas as pd
 from fishsense_cscw.paths import REPO
 
 OUT = REPO / "analysis/codesign/results"
-COLS = "kind ann_id image_id dive_id annotator lead_time_s created_at seeded laser_colour ref_points skipped_points upside_down slate".split()
+COLS = "kind ann_id image_id dive_id annotator lead_time_s created_at seeded laser_colour ref_points skipped_points upside_down slate origins".split()
 MIN_N, N_BOOT = 10, 2000
 LASER_PREFILL, HEADTAIL_PREFILL = "2026-07-27", "2026-09-07"
 

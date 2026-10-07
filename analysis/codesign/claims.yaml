@@ -24,13 +24,26 @@
   confounds: "\"superseded\" is the line-fit validator's judgement, not ground truth; acceptance before/after flagging unknown"
   paper_section: 8
 
-- claim: 93% of model-seeded laser predictions were accepted at exactly the predicted pixel, at ~6.4 s median; this motivated auto-accept.
-  number: 93% of 504 frames; 6.4 s
+- claim: "Labellers leave about 89% of the laser detector's pre-filled dots exactly where the model put them, and when they move one it goes to a different spot (median ~390-630 px), not a nudge; an accepted pre-fill costs about half a label drawn from scratch."
+  number: "unchanged (< 0.5 px): 88.1% of 143 before auto-accept (2026-07-27..09-02), 89.0% of 648 after; moved median 632 / 388 px; seconds for an accepted pre-fill 6.4-7.2 vs 12.9 from scratch. The auto-accept commit (fishsense-lite c388e214) quoted 93% of 504 frames; not reproduced here."
   evidence_level: deployment_before_after
-  source: fishsense-lite commit c388e214 (#693) message
-  confounds: an acceptance rate, not accuracy (anchoring); 504 frames; not reproduced in this repo
+  source: analysis/codesign/labelling.py -> results/labelling_seed_annotations.csv; data/db_extracts/seed_moves.psv (sql/extract_seed_moves.sql), annotations.psv
+  confounds: "acceptance is not accuracy (anchoring, 87-90% of human-label seeds also kept); after auto-accept only predictions off the dive's laser line reach a person, so the two periods review different predictions; few annotators; Label Studio's prediction-changed flag overstates edits (56% unchanged by the flag) so moves are measured by distance"
   paper_section: 3, 8
 
+- claim: "SAM 3.1 head/tail pre-fills are adjusted, not accepted: labellers nudge the snout on 56% of fish (median 10 px) and replace the fork on 16% (median 49 px); 29% of pre-filled fish keep both points."
+  number: "1,728 annotations from 2026-09-07; snout unchanged 40.7%, nudged <= 20 px 55.8%, replaced 3.4%; fork unchanged 76.9%, nudged 7.3%, replaced 15.9%; accepted pre-fill 6.0 s vs 15.2 s from scratch"
+  evidence_level: deployment_before_after
+  source: analysis/codesign/labelling.py -> results/labelling_seeds.csv, labelling_seed_annotations.csv
+  confounds: "one period (Sep 2026) and few annotators; a nudge of a few px may be a labeller's preference rather than a model error (the human-label laser seeds were nudged on 9% too)"
+  paper_section: 8
+
+- claim: "Labellers keep about 90% of pre-filled laser dots that came from an earlier human label, nudging the rest by about 1 px (99% within 3 px)."
+  number: "724 annotations (2025-10/11 re-labelling campaigns): 90.2% unchanged, 98.6% within 3 px, moved median 1.0 px"
+  evidence_level: retrospective
+  source: analysis/codesign/labelling.py -> results/labelling_seed_annotations.csv
+  confounds: "complements the pair-based 87% (fishsense_cscw/laser_pairs.py), which compares two labellers' labels rather than the seed with the result; campaign time includes species labelling in the same task"
+  paper_section: 8
 - claim: By September 2026 every processing stage runs on the workflow engine; in Mar-May 2026 intake, prediction, calibration and measurement were not on it.
   number: 28,379 runs (Mar-May) vs 17,567 per-dive runs (Sep)
   evidence_level: deployment_before_after

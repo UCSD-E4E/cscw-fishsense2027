@@ -7,7 +7,9 @@
 -- Run read-only against the restored production DB (container p2-fishsense-db):
 --   docker exec -i -e PGOPTIONS='-c default_transaction_read_only=on' p2-fishsense-db \
 --     psql -U postgres -d fishsense -A -F '|' -t < sql/extract_annotations.sql > data/db_extracts/annotations.psv
--- Columns: kind|ann_id|image_id|dive_id|annotator|lead_time_s|created_at|seeded|laser_colour|ref_points|skipped_points|upside_down|slate
+-- origins: the distinct Label Studio result origins in the annotation, sorted and joined with '+'
+--   (prediction = a seed accepted unchanged, prediction-changed = a seed moved, manual = drawn).
+-- Columns: kind|ann_id|image_id|dive_id|annotator|lead_time_s|created_at|seeded|laser_colour|ref_points|skipped_points|upside_down|slate|origins
 WITH a AS (
   SELECT 'laser' AS kind, l.image_id, NULL::json AS skipped, NULL::bool AS upside, j.ann
     FROM laserlabel l CROSS JOIN LATERAL jsonb_array_elements((l.label_studio_json::jsonb)->'annotations') j(ann)
@@ -26,6 +28,7 @@ SELECT a.kind, (a.ann->>'id')::bigint, a.image_id, i.dive_id, CASE jsonb_typeof(
        CASE WHEN a.kind = 'slate' THEN (SELECT count(*) FROM jsonb_array_elements(a.ann->'result') r
                                          WHERE r->'value'->'keypointlabels'->>0 = 'Reference Point') END,
        CASE WHEN a.kind = 'slate' AND json_typeof(a.skipped) = 'array' THEN json_array_length(a.skipped) END,
-       a.upside, s.name
+       a.upside, s.name,
+       (SELECT string_agg(DISTINCT r->>'origin', '+' ORDER BY r->>'origin') FROM jsonb_array_elements(a.ann->'result') r)
 FROM a JOIN image i ON i.id = a.image_id JOIN dive d ON d.id = i.dive_id LEFT JOIN diveslate s ON s.id = d.dive_slate_id
 WHERE NOT coalesce((a.ann->>'was_cancelled')::bool, false);

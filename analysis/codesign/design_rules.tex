@@ -13,8 +13,9 @@ Shoot calibration frames over at least a 2$\times$ range of apparent size (near 
 Fix the laser offset from the mount design, not per dive. & per-dive fit wanders about $\pm$1.5 mm, one failure at 129.5 mm; \todo{design $|O|$ from the mount CAD} & retrospective & \S5, \S6 \\
 Find calibration frames with a classifier, not a person. & 166 of 167 slate dives, precision 99.9\% & retrospective & \S5, \S8 \\
 Never score a model against labels it, or another model, pre-filled. & 87\% of pre-filled laser labels accepted unchanged & retrospective & \S3, \S8 \\
-Skip human review where a prediction agrees with the dive's own laser line. & 93\% accepted at exactly the predicted pixel & deployment before/after & \S3, \S8 \\
+Skip human review where a prediction agrees with the dive's own laser line. & 89\% of detector pre-fills kept exactly; the rest go to another spot, not a nudge & deployment before/after & \S3, \S8 \\
 Choose the laser colour with the detector and the labeller in the loop, not only the diver. & green: +11 pt dot misses, +1.8 s per label; red: more confident wrong points & retrospective & \S6, \S8 \\
+Auto-accept only the stages whose pre-fills are right-or-wrong; keep a person on the stages they nudge. & laser dots: kept or moved $\sim$400 px; snout: nudged $\sim$10 px on 56\% of fish & deployment before/after & \S3, \S8 \\
 Take at least two frames of every fish. & 71\% $\rightarrow$ 85\% of fish within 10\% with a second frame & retrospective & \S7, \S9 \\
 Let the segmenter's own score gate measurement; extra dot or learned gates add nothing. & learned gate AUC no better than SAM's score; dot gates barely change lengths & retrospective & \S9 \\
 Run every stage on a workflow engine, not by hand. & label-sync time roughly halved & deployment before/after & \S3 \\

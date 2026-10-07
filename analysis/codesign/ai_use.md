@@ -82,6 +82,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Slate project's rigid-board fit tested as a size measure (`calibration_analysis/e1j_size_constancy/rectfit_sizes.py`, `rect_poses.json`; reef_labelfree.py scores every reef_sizes/ file); Figs 3 and 10 axis limits now follow plotted series only (output unchanged) | analysis | assistant | this commit (analysis: test the slate project's board fit...) |
 | 2026-10-06 | Board-fit sizes re-run after the slate project's orientation fix (`rectfit_sizes.py`, `rect_poses.json` refreshed) | analysis | assistant | this commit (analysis: re-run the board-fit sizes...) |
 | 2026-10-07 | Board-fit sizes re-run on the slate project's commit 4fa1c8d (tilt prior) | analysis | assistant | this commit (analysis: board fit at slate commit 4fa1c8d...) |
+| 2026-10-07 | Pre-fill outcomes by distance (`sql/extract_seed_moves.sql` -> `data/db_extracts/seed_moves.psv`; `origins` column added to `extract_annotations.sql`; `analysis/codesign/labelling.py`), read-only | analysis | assistant | this commit (fig: SenSys figure set...) |
+| 2026-10-07 | SenSys figure set: sensys_system, sensys_calibration, sensys_capture, sensys_labelling (`analysis/codesign/figures.py`), figure map `FIGURES.md`; claims and design rules updated (the 93% auto-accept figure replaced by the measured 88-89%) | figures + prose | assistant | this commit (fig: SenSys figure set...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

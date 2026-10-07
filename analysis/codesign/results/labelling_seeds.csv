@@ -1,0 +1,7 @@
+kind,seed,label,keypoints,unchanged,nudged,replaced,moved_median_px
+headtail,model,Fork,1728,0.7685,0.0729,0.1586,49.0199
+headtail,model,Snout,1728,0.4074,0.5584,0.0341,10.2649
+laser,earlier human label,Green Laser,465,0.8645,0.1290,0.0065,0.9632
+laser,earlier human label,Red Laser,261,0.9693,0.0307,0.0000,1.1208
+laser,model,Green Laser,9,0.8889,0.0000,0.1111,1667.5431
+laser,model,Red Laser,782,0.8887,0.0051,0.1061,423.0632

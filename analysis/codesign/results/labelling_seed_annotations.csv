@@ -1,0 +1,5 @@
+kind,seed,period,annotations,unchanged,within_3px,replaced,moved_median_px,seconds_unchanged,seconds_moved,seconds_unseeded
+headtail,model,after auto-accept,1728,0.2917,0.2992,0.1875,12.2934,6.0170,12.6205,15.2480
+laser,earlier human label,before auto-accept,724,0.9019,0.9862,0.0041,1.0071,23.1180,33.1690,12.8890
+laser,model,after auto-accept,648,0.8904,0.8966,0.1034,388.3487,6.4490,15.8850,12.8890
+laser,model,before auto-accept,143,0.8811,0.8811,0.1189,631.9390,7.1655,16.5080,12.8890
