@@ -81,6 +81,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Task 4: timeline figure, 3b/3c/3d figures and the design-rules table (`analysis/codesign/figures.py`, `design_rules.yaml` -> `design_rules.tex`, `figures/codesign_*`); short `label` field added to timeline.yaml. Rules drafted by the assistant for the author to edit; table not yet test-compiled (no LaTeX engine on this machine) | figures + table | assistant | this commit (fig: co-design timeline...) |
 | 2026-10-06 | Slate project's rigid-board fit tested as a size measure (`calibration_analysis/e1j_size_constancy/rectfit_sizes.py`, `rect_poses.json`; reef_labelfree.py scores every reef_sizes/ file); Figs 3 and 10 axis limits now follow plotted series only (output unchanged) | analysis | assistant | this commit (analysis: test the slate project's board fit...) |
 | 2026-10-06 | Board-fit sizes re-run after the slate project's orientation fix (`rectfit_sizes.py`, `rect_poses.json` refreshed) | analysis | assistant | this commit (analysis: re-run the board-fit sizes...) |
+| 2026-10-07 | Board-fit sizes re-run on the slate project's commit 4fa1c8d (tilt prior) | analysis | assistant | this commit (analysis: board fit at slate commit 4fa1c8d...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

@@ -135,11 +135,9 @@ Sections A-D are what is still open.
 
 ## B'. For the slate project (found 2026-10-06, `rectfit_sizes.py`)
 
-- **Wrong poses in the rigid-board fit: mostly fixed (rect.json of 2026-10-06 19:03).**
-  - Pool tilt is now median 5 deg, p90 12 deg (was 58).
-  - Sessions 77 and 87 still have a few ~59 deg fits whose depth disagrees with sqrt(mask area) by up
-    to 36%; the other sessions max out at 19 deg.
-- **Range-correlated fill-in.** In session 114 the fit adds more unseen outline on distant
+- **Wrong poses in the rigid-board fit: fixed** (commit 4fa1c8d, tilt prior). The largest pool tilt
+  is now 22 deg. Board-fit depth at the dot is 3.9% vs tape, against 2.8% for sqrt(area).
+- **Range-correlated fill-in (still present after 4fa1c8d: r = 0.96 / -0.91).** In session 114 the fit adds more unseen outline on distant
   (small) boards. Its size then departs from sqrt(area) in step with range (r = 0.98 with added
   outline, -0.92 with size), and tape favours sqrt(area) there (1.3% vs 7.2%). Session 94 shows the
   same pattern but tape favours the fit (0.0% vs 4.2%). Worth a look at what the fill-in adds on

@@ -13,21 +13,21 @@ variant,dive,frames,median,mae,within10
 "calibration only, human corners (unknown size; dives with >= 8 complete labels)",341,76,0.0108,0.0108,1.0000
 "calibration only, human corners (unknown size; dives with >= 8 complete labels)",347,110,0.0610,0.0650,0.8909
 "calibration only, human corners (unknown size; dives with >= 8 complete labels)",349,37,0.0944,0.1149,0.6486
-"calibration only, sam3_rect_centre",all,224,0.0048,0.0115,1.0000
-"calibration only, sam3_rect_centre",341,76,0.0078,0.0077,1.0000
-"calibration only, sam3_rect_centre",347,110,0.0038,0.0103,1.0000
-"calibration only, sam3_rect_centre",349,37,-0.0213,0.0226,1.0000
-"calibration only, sam3_rect_centre",436,1,0.0175,0.0175,1.0000
-"calibration only, sam3_rect_dot",all,224,0.0024,0.0098,1.0000
-"calibration only, sam3_rect_dot",341,76,0.0036,0.0045,1.0000
-"calibration only, sam3_rect_dot",347,110,0.0044,0.0103,1.0000
-"calibration only, sam3_rect_dot",349,37,-0.0180,0.0189,1.0000
-"calibration only, sam3_rect_dot",436,1,0.0187,0.0187,1.0000
-"calibration only, sam3_rect_dot_tilt30",all,224,0.0032,0.0098,1.0000
-"calibration only, sam3_rect_dot_tilt30",341,76,0.0036,0.0045,1.0000
-"calibration only, sam3_rect_dot_tilt30",347,110,0.0066,0.0103,1.0000
-"calibration only, sam3_rect_dot_tilt30",349,37,-0.0180,0.0189,1.0000
-"calibration only, sam3_rect_dot_tilt30",436,1,0.0187,0.0187,1.0000
+"calibration only, sam3_rect_centre",all,224,0.0056,0.0109,1.0000
+"calibration only, sam3_rect_centre",341,76,0.0076,0.0075,1.0000
+"calibration only, sam3_rect_centre",347,110,0.0047,0.0102,1.0000
+"calibration only, sam3_rect_centre",349,37,-0.0185,0.0195,1.0000
+"calibration only, sam3_rect_centre",436,1,0.0190,0.0190,1.0000
+"calibration only, sam3_rect_dot",all,224,0.0022,0.0089,1.0000
+"calibration only, sam3_rect_dot",341,76,0.0025,0.0040,1.0000
+"calibration only, sam3_rect_dot",347,110,0.0056,0.0102,1.0000
+"calibration only, sam3_rect_dot",349,37,-0.0147,0.0150,1.0000
+"calibration only, sam3_rect_dot",436,1,0.0221,0.0221,1.0000
+"calibration only, sam3_rect_dot_tilt30",all,224,0.0029,0.0092,1.0000
+"calibration only, sam3_rect_dot_tilt30",341,76,0.0025,0.0040,1.0000
+"calibration only, sam3_rect_dot_tilt30",347,110,0.0081,0.0108,1.0000
+"calibration only, sam3_rect_dot_tilt30",349,37,-0.0147,0.0150,1.0000
+"calibration only, sam3_rect_dot_tilt30",436,1,0.0221,0.0221,1.0000
 "fully automatic, stored cal (Fig 5)",all,197,-0.0008,0.0499,0.8376
 "fully automatic, stored cal (Fig 5)",341,70,0.0022,0.0466,0.8429
 "fully automatic, stored cal (Fig 5)",347,99,0.0051,0.0611,0.7879
