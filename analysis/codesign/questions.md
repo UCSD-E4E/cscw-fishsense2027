@@ -94,12 +94,24 @@ Sections A-D are what is still open.
    - Pool results (Tic-Tac-Toe) are unaffected.
    - Accepting complete labels of each pattern's own point count would give a human-corner
      reference on the reef dives. Not changed yet.
-4. **For analysis 3f:**
-   - which cameras had PLA vs aluminium mounts, and from when;
-   - any known repairs, knocks or replacement mounts, by camera and date.
-
-   The DB has no mount field, and no dive note mentions a repair. Without this list, 3f can only
-   compare cameras before and after a date you give.
+4. **For analysis 3f (author, 2026-10-06: not known, but a floor date per camera may be
+   recoverable).**
+   - **The data cannot infer the mount.** No camera's dive laser line steps over 2023-08..2024-12
+     (200 dives with a line from >= 20 dots): the line angle stays at 162-163 deg on every camera,
+     consistent with the fixed laser origin in the fingerprint roadmap. Dive-to-dive offsets wander
+     tens to hundreds of px within a month, with no break.
+   - **Stored calibrations are too few** to carry 3f: 23 of 31 are from the 2023-08 pool sessions,
+     and 8 are later.
+   - **Planned design with a floor:**
+     - Per camera, dives after the floor date count as aluminium; dives before are unknown (PLA
+       or aluminium).
+     - Metric: dive-to-dive spread of the laser line's offset per camera (pointing stability),
+       aluminium vs unknown, within camera.
+     - Mixing aluminium into "unknown" can only shrink a difference, so a positive result stands
+       but a null is inconclusive.
+     - Confound: the diode can rotate in its bore whatever the mount (fingerprint roadmap).
+   - **Needed:** for each camera (FSL-01..06, 10), the earliest date by which it certainly had an
+     aluminium mount, if any.
 5. **TG-6 -> TG-7 for FSL-08+ (Jan 2025):** availability, cost, or a sensing reason?
 6. **Slate pose predictor:** when was it retired, and why? (Inferred from the auto-accept commit:
    confident false fits passed the ECC gate. Driver currently machine, medium confidence.)

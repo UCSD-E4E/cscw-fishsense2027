@@ -98,7 +98,7 @@
 - claim: "Aluminium mounts hold the laser calibration better than PLA mounts (author's anecdote; analysis 3f)."
   number: "\\todo{spread of stored per-dive laser angles, PLA vs aluminium, excluding dives after known repairs or knocks}"
   evidence_level: retrospective
-  source: "analysis 3f (not yet run); DB laserextrinsics.laser_axis per dive; needs a per-camera mount-material and date list (no DB field)"
+  source: "analysis 3f (not yet run); dive laser lines (data/db_extracts/lines.psv), within camera; needs a per-camera aluminium floor date from the author (no DB field; the line geometry shows no mount step, and 23 of 31 stored calibrations are from 2023-08)"
   confounds: "mount material confounded with time, camera and laser colour; no record of repairs or knocks in dive notes; only 31 stored calibrations; within-session drift exists even on one mount (dive 490 note: laser rotated 0.82 deg in-plane within a 2023-08-14 pool session; the diode can spin in its bore, fingerprint roadmap)"
   paper_section: 6
 
