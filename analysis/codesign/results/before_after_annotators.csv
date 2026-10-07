@@ -1,0 +1,39 @@
+annotator,n_a,n_b,med_a,med_b,diff,w,revision,metric,a,b
+141592.0000,17,347,45.8070,61.5270,15.7200,17,slate pattern,s per slate frame,H-Slate,Tic-Tac-Toe
+141592.0000,347,15,61.5270,59.9140,-1.6130,15,slate pattern,s per slate frame,Tic-Tac-Toe,V-Slate
+141592.0000,17,347,8.0000,8.0000,0.0000,17,slate pattern,reference points labelled,H-Slate,Tic-Tac-Toe
+141592.0000,347,15,8.0000,5.0000,-3.0000,15,slate pattern,reference points labelled,Tic-Tac-Toe,V-Slate
+2.0000,2751,44,5.6690,5.3480,-0.3210,44,laser red -> green,s per unseeded laser label,red,green
+4.0000,411,48,11.0390,15.8700,4.8310,48,laser red -> green,s per unseeded laser label,red,green
+7.0000,369,14,18.8330,28.4980,9.6650,14,laser red -> green,s per unseeded laser label,red,green
+10.0000,165,119,19.4370,34.8740,15.4370,119,laser red -> green,s per unseeded laser label,red,green
+16.0000,482,88,16.3155,9.7240,-6.5915,88,laser red -> green,s per unseeded laser label,red,green
+20.0000,1221,94,13.2630,13.7605,0.4975,94,laser red -> green,s per unseeded laser label,red,green
+23.0000,290,29,14.2425,14.1840,-0.0585,29,laser red -> green,s per unseeded laser label,red,green
+25.0000,372,27,10.2760,10.6950,0.4190,27,laser red -> green,s per unseeded laser label,red,green
+26.0000,50,168,26.0390,9.7245,-16.3145,50,laser red -> green,s per unseeded laser label,red,green
+27.0000,148,14,9.0160,9.5625,0.5465,14,laser red -> green,s per unseeded laser label,red,green
+29.0000,853,63,9.1190,11.8350,2.7160,63,laser red -> green,s per unseeded laser label,red,green
+30.0000,600,50,12.8625,15.3490,2.4865,50,laser red -> green,s per unseeded laser label,red,green
+32.0000,1232,100,13.3965,14.4310,1.0345,100,laser red -> green,s per unseeded laser label,red,green
+33.0000,3272,561,8.0685,10.9940,2.9255,561,laser red -> green,s per unseeded laser label,red,green
+34.0000,604,33,19.6470,21.3560,1.7090,33,laser red -> green,s per unseeded laser label,red,green
+40.0000,243,19,11.3230,10.8390,-0.4840,19,laser red -> green,s per unseeded laser label,red,green
+42.0000,71,10,17.8760,25.0350,7.1590,10,laser red -> green,s per unseeded laser label,red,green
+45.0000,67,135,23.1970,17.3900,-5.8070,67,laser red -> green,s per unseeded laser label,red,green
+46.0000,3160,3541,15.1550,16.9360,1.7810,3160,laser red -> green,s per unseeded laser label,red,green
+47.0000,512,36,13.5210,15.4195,1.8985,36,laser red -> green,s per unseeded laser label,red,green
+48.0000,143,13,29.3550,26.2900,-3.0650,13,laser red -> green,s per unseeded laser label,red,green
+52.0000,516,38,8.8375,11.0720,2.2345,38,laser red -> green,s per unseeded laser label,red,green
+53.0000,831,67,14.5370,15.6550,1.1180,67,laser red -> green,s per unseeded laser label,red,green
+54.0000,420,37,22.9730,25.0240,2.0510,37,laser red -> green,s per unseeded laser label,red,green
+55.0000,3272,535,17.0220,17.2900,0.2680,535,laser red -> green,s per unseeded laser label,red,green
+57.0000,656,73,12.7310,14.9310,2.2000,73,laser red -> green,s per unseeded laser label,red,green
+59.0000,455,37,32.9420,39.0290,6.0870,37,laser red -> green,s per unseeded laser label,red,green
+62.0000,4370,857,6.6475,9.4810,2.8335,857,laser red -> green,s per unseeded laser label,red,green
+76.0000,695,43,13.7570,12.9870,-0.7700,43,laser red -> green,s per unseeded laser label,red,green
+78.0000,290,19,24.9050,24.0630,-0.8420,19,laser red -> green,s per unseeded laser label,red,green
+89.0000,146,13,5.9615,6.3860,0.4245,13,laser red -> green,s per unseeded laser label,red,green
+128.0000,107,401,11.5880,12.5740,0.9860,107,laser red -> green,s per unseeded laser label,red,green
+131.0000,183,98,12.7500,13.7130,0.9630,98,laser red -> green,s per unseeded laser label,red,green
+141592.0000,791,1728,13.1830,11.5935,-1.5895,791,head/tail model pre-fill,s per head/tail label,"before, unseeded","after, pre-filled"

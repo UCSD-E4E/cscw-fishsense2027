@@ -87,29 +87,32 @@ Sections A-D are what is still open.
    these colour mislabels? Until answered, task 3d drops them. Either way, T3's "green, pool" cell
    (n=47) was almost entirely these frames, and the PAPER.md / p2-results.md sentences built on it
    need correcting.
-3. **For analysis 3f:**
+3. **V-slate reference points (found by task 3e).** V-slate frames carry a median of 6 labelled
+   reference points, against 8 for H and Tic-Tac-Toe, and 24% are flagged as having skipped points.
+   Does the chevron pattern have 6 reference points by design, or were 2 routinely skipped?
+4. **For analysis 3f:**
    - which cameras had PLA vs aluminium mounts, and from when;
    - any known repairs, knocks or replacement mounts, by camera and date.
 
    The DB has no mount field, and no dive note mentions a repair. Without this list, 3f can only
    compare cameras before and after a date you give.
-4. **TG-6 -> TG-7 for FSL-08+ (Jan 2025):** availability, cost, or a sensing reason?
-5. **Slate pose predictor:** when was it retired, and why? (Inferred from the auto-accept commit:
+5. **TG-6 -> TG-7 for FSL-08+ (Jan 2025):** availability, cost, or a sensing reason?
+6. **Slate pose predictor:** when was it retired, and why? (Inferred from the auto-accept commit:
    confident false fits passed the ECC gate. Driver currently machine, medium confidence.)
-6. **Label Studio "Calibration Targets" branch (2026-07-21)** and **checkerboard calibration
+7. **Label Studio "Calibration Targets" branch (2026-07-21)** and **checkerboard calibration
    automation (2026-09-08):** why?
-7. **Labelling starts and campaigns:**
+8. **Labelling starts and campaigns:**
    - Why did laser (2024-10), head/tail (2025-04), species (2025-10) and slate-corner (2025-11)
      labelling start when they did?
    - Why the 2025-10/11 campaigns that pre-filled earlier *human* labels?
    - Which model produced the 38 prediction-seeded laser annotations in 2024-11?
-8. **Pipeline:**
+9. **Pipeline:**
    - What drove services/database (2024-10), the data-processing workers (2025-03), and moving
      the remaining stages onto Temporal (2026-05..09)?
    - Did core 3.0.0 -> 4.0.0 (2026-09-16) change anything that matters here?
-9. **Isolated green-laser dives in 2023** (dive 242, 2023-10-19; dive 253, named "102724_..." but
+10. **Isolated green-laser dives in 2023** (dive 242, 2023-10-19; dive 253, named "102724_..." but
    dated 2023-10-27): test dives or camera-clock errors?
-10. **When was the per-dive calibration plan adopted?** Before 2023-08-01 is all the record shows.
+11. **When was the per-dive calibration plan adopted?** Before 2023-08-01 is all the record shows.
    When was the first partner unit shipped?
 
 ## C. Open decisions (the author's, not mine)

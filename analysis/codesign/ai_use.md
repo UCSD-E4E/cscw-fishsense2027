@@ -72,6 +72,11 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-06 | Task 3d red vs green, controlled for camera, environment and time (`analysis/codesign/redgreen.py` -> `results/redgreen*.csv`) | analysis | assistant | this commit (analysis: task 3d...) |
 | 2026-10-06 | Fig 11 switched to dive-level laser colour (green-pool row removed); correction note on T3 in p2-results.md | figure + prose | assistant | this commit (analysis: task 3d...) |
 | 2026-10-06 | Known issue 1: label-free reef calibration (`calibration_analysis/e1j_size_constancy/reef_labelfree.py`; `sam_sizes.py` generalised to any frames file; SAM 3.1 GPU pass on 68 reef slate frames) | analysis | assistant | this commit (analysis: label-free reef calibration...) |
+| 2026-10-06 | Labelled same-fish clusters, head/tail pixels and per-annotation extracts (`sql/extract_ls_clusters.sql`, `extract_headtail_pixels.sql`, `extract_annotations.sql` -> `data/db_extracts/`), read-only | data extract | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
+| 2026-10-06 | Task 3b frames per fish (`analysis/codesign/frames_per_fish.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
+| 2026-10-06 | Task 3c calibration error vs size spread (`analysis/codesign/calibration_spread.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
+| 2026-10-06 | Task 3e labelling before/after (`analysis/codesign/before_after.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
+| 2026-10-06 | Task 3d extended: fish-length quartiles and reef coverage by colour (`analysis/codesign/redgreen.py`) | analysis | assistant | this commit (analysis: tasks 3b, 3c, 3e...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

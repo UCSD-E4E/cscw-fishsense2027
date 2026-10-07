@@ -1,0 +1,7 @@
+design,outcome,green_minus_red,ci_lo,ci_hi,red_rate,green_rate,n_red,n_green,dives_red,dives_green
+"reef, raw",produced,-0.2806,-0.4440,-0.1085,0.9292,0.6486,113,387,3,7
+"reef, fish-length quartile",produced,-0.2043,-0.4476,-0.0446,0.9292,0.6486,113,387,3,7
+Alligator 2024-03-14 (341 red vs 347+349 green),produced,-0.0571,-0.1643,-0.0211,0.9211,0.8639,76,147,1,2
+Alligator 2024-03-14 (341 red vs 347+349 green),within10,-0.0552,-0.0672,-0.0196,0.7763,0.7211,76,147,1,2
+"Alligator 2024-03-14, fish-length quartile",produced,-0.0737,-0.2493,0.0033,0.9211,0.8639,76,147,1,2
+"Alligator 2024-03-14, fish-length quartile",within10,-0.0810,-0.1078,-0.0408,0.7763,0.7211,76,147,1,2

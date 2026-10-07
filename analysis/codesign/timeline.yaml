@@ -18,7 +18,7 @@
   change: "Calibration plan changes from once per camera lifetime (lens) and once per mount lifetime (laser), with cameras shipped so as to preserve the laser calibration, to per-dive laser calibration in the field."
   driver: other
   driver_detail: physical failure - the first unit shipped to the partner had a PLA mount that warped and broke over time, so its laser calibration drifted.
-  evidence: author account, 2026-10-06 (answers to questions.md A1)
+  evidence: author account, 2026-10-06 (answers recorded in questions.md R)
   confidence: medium (reason); low (date)
   dives_before: unknown
   dives_after: n/a
@@ -31,7 +31,7 @@
   confidence: high (checkerboard used in these pool sessions); low (that this was a checkerboard -> slate switch)
   dives_before: 0
   dives_after: "15 dives linked to the E4E Checkerboard target (DB dive.calibration_target_id = 1), 2023-08-14..18"
-  note: "NOT recorded as a switch. The author's account is that the checkerboard was the lens-calibration target (later replaced by LEGO in the WUWNet paper) and the slate the per-dive laser target. The IMWUT draft says otherwise for the pool sessions, but the field H-Slate (2023-08-01) predates the checkerboard sessions, so the draft's ordering does not hold for the field. Open question, questions.md A2."
+  note: "NOT recorded as a switch. The author's account is that the checkerboard was the lens-calibration target (later replaced by LEGO in the WUWNet paper) and the slate the per-dive laser target. The IMWUT draft says otherwise for the pool sessions, but the field H-Slate (2023-08-01) predates the checkerboard sessions, so the draft's ordering does not hold for the field. Open question, questions.md A1."
 
 - date: 2023-08-01 .. 2023-08-03
   component: calibration
@@ -131,7 +131,7 @@
   confidence: medium
   dives_before: "mostly-red dives: 2023-08..2024-02: 171; 2024 mixed by camera"
   dives_after: "mostly-green dives 2024-03..2024-12: 97 (red still on FSL-03 until 2024-12)"
-  note: "Staggered adoption gives concurrent red and green dives at the same sites; usable for task 3d. Author account: red was chosen first because fish behaviour should be less affected (not all species see red), and red was easier to label because more of the ocean is green. CONFLICT: papers/fishsense-lite-imwut/Sections/system.tex L163 says green was chosen 'because it penetrates water further, and reliable detection of the laser dot in post-processing is a critical constraint' - a machine-side reason. See questions.md A4."
+  note: "Staggered adoption gives concurrent red and green dives at the same sites; usable for task 3d. Author account: red was chosen first because fish behaviour should be less affected (not all species see red), and red was easier to label because more of the ocean is green. CONFLICT: papers/fishsense-lite-imwut/Sections/system.tex L163 says green was chosen 'because it penetrates water further, and reliable detection of the laser dot in post-processing is a critical constraint' - a machine-side reason. See questions.md A2."
 
 - date: 2023-08 onward (constraint, not a revision)
   component: hardware
@@ -163,7 +163,7 @@
   confidence: medium (change), low (date, which units)
   dives_before: unknown
   dives_after: unknown
-  note: no mount-material field in the DB and no dive note on repairs or knocks, so 3f needs a per-camera material/date list from the author (questions.md A6). Related - dive 490's note records the laser rotating 0.82 deg in-plane within one pool session (2023-08-14, FSL-02).
+  note: no mount-material field in the DB and no dive note on repairs or knocks, so 3f needs a per-camera material/date list from the author (questions.md B4). Related - dive 490's note records the laser rotating 0.82 deg in-plane within one pool session (2023-08-14, FSL-02).
 
 - date: 2025-01 (first dives 2025-01-17)
   component: hardware

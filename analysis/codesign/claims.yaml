@@ -74,11 +74,11 @@
   confounds: shares the corner labels with production; 10 sessions
   paper_section: 5
 
-- claim: Size constancy needs a range spread of about 1.5x; sessions below ~1.12x are unconstrained.
-  number: 10 sessions at 1.75-2.9x pass; 4 at 1.01-1.12x fail
+- claim: "Label-free size constancy needs a slate size spread of about 2x: below 1.5x the median angle error misses the 0.05 deg target; from 1.5-2x the median meets it but the 90th percentile does not; at 2x and above 98% of fits are within target."
+  number: "subsets with >= 8 frames, error vs the session's all-frame fit: 1.3-1.5x median 0.066 deg (44% within 0.05); 1.5-1.75x 0.020 (83%); 1.75-2x 0.032 (73%); 2-2.5x 0.008 (98%); 2.5-3.5x 0.008 (99%); <= 1.1x unconstrained (median 26 deg). Against the stored calibration: 2-2.5x median 0.028 deg, 80% within."
   evidence_level: designed_experiment
-  source: p2-tests.md E1j; slate_unknown.py
-  confounds: threshold from 14 sessions; task 3c will map error vs spread properly
+  source: analysis/codesign/calibration_spread.py -> analysis/codesign/results/calibration_spread_bins.csv (89,210 subsets of 10 pool sessions); earlier session-level threshold in p2-tests.md E1j
+  confounds: "subsets of 10 pool sessions (red laser, Aug 2023), not independent sessions; small spreads mostly come from small subsets (hence the m >= 8 rows); the self reference measures stability, not accuracy; few subsets fall at 1.1-1.5x"
   paper_section: 5, 7
 
 - claim: A slate-presence classifier finds calibration frames on 166 of 167 slate dives (precision 99.9%, recall 99.4%, one false alarm in 5,423 negatives).
@@ -111,7 +111,7 @@
 
 # ---------------------------------------------------------------- 6 Sensing hardware
 - claim: "Green laser dots are missed about three times as often as red by the production detector (dive-level colour); the gap holds within camera and environment. Red dots draw more confident wrong points, so the net recall gap is small."
-  number: "missed 16.8% green vs 5.7% red (+11.0 pt, dive-resampled 95% CI +5.1..+17.6; 382 green / 735 red frames, 72 / 143 dives); within camera x environment +15.8 pt (+10.4..+21.7); within camera x environment x half-year +12.5 pt (0.0..+26.9; 21 red / 23 green dives); stagger window 2024-03..12 +12.1 pt (-7.0..+21.0; 9 red dives). Recall 0.814 green vs 0.856 red (-4.2 pt, -11.8..+3.1); confident-wrong 1.8% vs 8.7%."
+  number: "missed 16.8% green vs 5.7% red (+11.0 pt, dive-resampled 95% CI +5.1..+17.6; 382 green / 735 red frames, 72 / 143 dives); within camera x environment +15.8 pt (+10.4..+21.7); within camera x environment x half-year +12.5 pt (0.0..+26.9; 21 red / 23 green dives); stagger window 2024-03..12 +12.1 pt (-7.0..+21.0; 9 red dives). Recall 0.814 green vs 0.856 red (-4.2 pt, -11.8..+3.1); confident-wrong 1.8% vs 8.7%; matched on fish pixel length (quartiles) +14.2 pt (+1.4..+31.0), quartile x camera x environment +16.4 pt (+2.2..+31.2) on the 506 frames with a head/tail label (63 green, 23 dives)."
   evidence_level: retrospective
   source: analysis/codesign/redgreen.py -> analysis/codesign/results/redgreen.csv; inputs laser_detection_analysis/predictions.csv (T3), data/db_extracts/dives.psv, data/db_extracts/dive_laser_colour.psv
   confounds: "time - the controls that include capture date rest on 9-21 red dives and their intervals reach zero, so colour is not cleanly separated from period; range, exposure and water clarity uncontrolled; green covers two products (Shark and Orca Torch) whose per-dive assignment is unrecorded; T3's stratified sample, not fleet rates; environment is a path-keyword heuristic"
@@ -147,14 +147,13 @@
   confounds: clusters are near-duplicates by construction
   paper_section: 7
 
-- claim: Per fish, about 80% receive at least one automatic length (72-74% within 10% of manual).
-  number: 80.6% / 73.5% (98 labelled clusters)
+- claim: "Per fish, about 79% receive at least one automatic length and 72% one within 10% of manual; each extra frame helps - on fish photographed at least 4 times, a length within 10% rises from 71% with one frame to 85% with two, 91% with three and 96% with four."
+  number: "labelled clusters (de-duplicated): 97 fish, 79.4% / 72.2%; predicted clusters: 149 fish, 78.5% / 72.5% (replaces 80.6% / 73.5%, which came from an unrecorded de-duplication). Fixed set, predicted clusters (22 fish, >= 4 frames), within 10%: 0.714 / 0.845 / 0.914 / 0.964 for k = 1..4 (k = 1 CI 0.47-0.84); labelled clusters (28 fish): 0.751 / 0.853 / 0.889 / 0.907."
   evidence_level: retrospective
-  source: "p2-tests.md E2 \"Per-fish coverage\"; e2e_measurement/tail"
-  confounds: clustered subset has higher frame coverage (85%) than all measured frames (72%); median 2 frames per fish
+  source: analysis/codesign/frames_per_fish.py -> analysis/codesign/results/frames_per_fish.csv; clusters from e2e_measurement/tail/reef_clusters.psv and data/db_extracts/ls_clusters.psv (sql/extract_ls_clusters.sql)
+  confounds: "stored calibration; reef dives with a stored calibration only (314 frames); frames of one fish are not independent (exact subsampling assumes any k frames are equally likely to be taken); fish with >= 4 frames may differ from typical fish; median 2 frames per fish, so few fish reach k = 4"
   paper_section: 7, 9
 
-# ---------------------------------------------------------------- 8 Labeling
 - claim: A person spends a median of 14 s per label drawn without a pre-fill (laser 12.9 s, snout+fork 15.0 s, species 12.1 s; slate corners 61.3 s per slate frame); about 40 s per measured frame.
   number: n = 78,977 labels; 10%-trimmed mean 15.6 s
   evidence_level: retrospective
@@ -218,6 +217,7 @@
   source: e2e_measurement/tail/coverage.py
   confounds: laser colour confounded with site/time (task 3d)
   paper_section: 9
+  note: "Task 3d (analysis/codesign/redgreen.py -> results/redgreen_coverage.csv): the colour gap in coverage is mostly between dives, not colour. With colour by dive: red 92.9% vs green 64.9% (-28 pt, CI -44..-11; 3 red / 7 green dives); within fish-length quartiles -20 pt; on the one same-site same-day pair (Alligator Reef 2024-03-14, dive 341 red vs 347+349 green) -5.7 pt produced (92.1% vs 86.4%) and -5.5 pt within 10% of manual (77.6% vs 72.1%) - one red dive, colour still confounded with camera."
 
 - claim: Lowering SAM's cutoff trades coverage for false measurements one for one; a learned measurability gate does no better than SAM's own score.
   number: "0.5: 72%/16%; 0.3: 77%/22%; 0.2: 80%/25%; gate AUC 0.73"
@@ -239,6 +239,27 @@
   source: data/temporal/workflow_runs.csv; figures fig2b, fig8
   confounds: Temporal window Sep 2026 only
   paper_section: 3, 9
+
+- claim: "Within the same labeller, a green laser dot takes about 2 s longer to label than a red one, consistent with the author's account that red was easier to label."
+  number: "+1.77 s per unseeded laser label (annotator-resampled 95% CI +0.51..+2.88; 33 annotators with >= 10 of each); pooled medians 11.9 s red vs 15.4 s green (35,376 / 8,391 labels)"
+  evidence_level: retrospective
+  source: analysis/codesign/before_after.py -> analysis/codesign/results/before_after.csv; data/db_extracts/annotations.psv (sql/extract_annotations.sql)
+  confounds: "colour by dive (>= 90% of labels); red and green dives differ in time, site and camera; lead time includes idle tabs (medians used)"
+  paper_section: 6, 8
+
+- claim: "The labelling record cannot test the slate-pattern revisions: all slate-corner labels were made from 2025-11, after the patterns were retired from capture, and only one annotator labelled more than one pattern."
+  number: "483 slate frames, 3 annotators; median 45.8 s (H, 17 frames, 1 annotator), 61.5 s (Tic-Tac-Toe, 353), 62.3 s (V, 113); V-slate frames carry a median of 6 reference points vs 8 (24% flagged skipped, 26% upside down)"
+  evidence_level: retrospective
+  source: analysis/codesign/before_after.py -> results/before_after.csv, results/before_after_slate_patterns.csv
+  confounds: "negative result; whether the V pattern has fewer reference points by design is unknown (questions.md)"
+  paper_section: 5
+
+- claim: "Model pre-fills shorten labelling (laser 13.0 -> 9.9 s, head/tail 15.6 -> 11.6 s median), but too few annotators labelled both before and after to separate the pre-fill from who labelled."
+  number: "laser: 45,970 unseeded before 2026-07-27 vs 1,430 pre-filled after, 0 annotators with >= 10 of both; head/tail: 37,011 vs 1,728, 1 annotator (-1.6 s)"
+  evidence_level: deployment_before_after
+  source: analysis/codesign/before_after.py -> results/before_after.csv
+  confounds: annotator, task mix and period; pre-filled labels are mostly accepted unchanged (87%, T2), so their time measures review, not labelling
+  paper_section: 8
 
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
