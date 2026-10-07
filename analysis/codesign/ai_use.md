@@ -87,6 +87,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-07 | Red vs green figure redrawn by pipeline stage (detector, reef pipeline, labeller) at the author's request | figure | assistant | this commit (fig: redraw red vs green...) |
 | 2026-10-07 | Timeline corrections from the author (laser rationale vs outcome; lab and field calibration as parallel tracks; the humans-first plan), early automation attempts dated from UCSD-E4E repo histories (gh api, first commits), timeline figure with lab/field and automation lanes | data + figure | assistant (author-supplied reasons) | this commit (timeline: author corrections...) |
 | 2026-10-07 | Automation history from ten UCSD-E4E repos named by the author: a sub-agent read commits, READMEs and notebook outputs (gh, read-only); the assistant verified the key commits (fishsense-lite-cli de881b42, 2026-05-02_laser_detector fc27aaa2) and wrote the timeline automation entries | data | assistant + sub-agent | this commit (timeline: automation history...) |
+| 2026-10-07 | Author's reasons for the automation outcomes (accuracy) recorded in timeline, claims and questions | data | assistant (author-supplied reasons) | this commit (timeline: reasons for automation outcomes) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

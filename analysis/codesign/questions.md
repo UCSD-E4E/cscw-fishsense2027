@@ -119,16 +119,13 @@ Sections A-D are what is still open.
 11. **When was the per-dive calibration plan adopted?** Before 2023-08-01 is all the record shows.
    When was the first partner unit shipped?
 
-## B''. Automation history (from the repos, 2026-10-07)
+## B''. Automation history: answered (author, 2026-10-07)
 
-1. **Why did the CLI drop its neural laser detector for human labels on 2025-01-21?**
-   (fishsense-lite-cli de881b42; the commit gives no reason.) Was it accuracy, speed or GPU needs
-   (a 2024-11 commit raised its VRAM requirement), or the move to Label Studio?
-2. **Were the 2024-11 Label Studio pre-fills (NN laser dots, Fishial masks) shown to labellers at
-   scale?** The DB shows 38 prediction-seeded laser labels that month.
-3. **The Depth Anything detector (2025-08..11) and the GMM detector (2025-04)** have no recorded
-   reason for not being used. The GMM's committed result (~1,000 px RMS against human labels) speaks
-   for itself; the Depth Anything one has no committed metric.
+1. **The CLI dropped its neural laser detector for human labels in 2025-01 because of accuracy.**
+2. **The 2024-11 Label Studio pre-fills were shown to labellers at scale**, found poor, and labelling
+   reverted to tasks with no pre-fill. Only 38 seeded annotations survive in the DB.
+3. **The Gaussian-mixture (2025-04) and Depth Anything (2025-08..11) detectors** were not used
+   because of poor accuracy.
 
 ## B'. For the slate project (found 2026-10-06, `rectfit_sizes.py`)
 

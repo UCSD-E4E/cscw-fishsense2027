@@ -280,15 +280,12 @@
   confounds: annotator, task mix and period; pre-filled labels are mostly accepted unchanged (87%, T2), so their time measures review, not labelling
   paper_section: 8
 
-- claim: "Machine labelling was attempted from 2023 but reached production only in 2026-07: the early detectors either had no recorded evaluation or fell far short, and in 2025-01 the one automated laser path in use was replaced by human labels."
-  number: "7 attempts 2023-07..2025-11 before the deployed detector (timeline.yaml, automation); GMM laser detector ~1,009 px RMS vs human labels on 3,048 frames (377 misses); classical CV baseline 64.9% within 3 px (2026-05); deployed run3 detector 0.91/0.86 within 3 px (val/test), against a click-noise floor of ~0.91; NNLaserDetector -> LabelStudioLaserDetector 2025-01-21"
+- claim: "Machine labelling was attempted from 2023 but reached production only in 2026-07; every earlier attempt was dropped for accuracy, including one shown to labellers at scale (2024-11) and one already automating laser calibration (replaced by human labels in 2025-01)."
+  number: "7 attempts 2023-07..2025-11 before the deployed detector (timeline.yaml, automation); GMM laser detector ~1,009 px RMS vs human labels on 3,048 frames (377 misses); classical CV baseline 64.9% within 3 px (2026-05); deployed run3 detector 0.91/0.86 within 3 px (val/test), against a click-noise floor of ~0.91; NNLaserDetector -> LabelStudioLaserDetector 2025-01-21; 2024-11 pre-fills reverted to unlabelled tasks"
   evidence_level: retrospective
-  source: analysis/codesign/timeline.yaml (automation entries, each citing repo commits); UCSD-E4E repos fishsense-lite-cli, fishsense-2025-04-16-laser-detect-analysis, fishsense-laser-detector, 2026-05-02_laser_detector
-  confidence: "reasons for non-use are not recorded for most attempts (questions.md B''); results are those committed to the repos, not re-run here"
-  confounds: "repo records only - unrecorded experiments are missing; 'not deployed' means no record of use"
+  source: "analysis/codesign/timeline.yaml (automation entries, each citing repo commits); UCSD-E4E repos fishsense-lite-cli, fishsense-2025-04-16-laser-detect-analysis, fishsense-laser-detector, 2026-05-02_laser_detector; reasons: author account 2026-10-07"
+  confounds: "reasons are the author's account, with committed metrics only for the GMM and the 2026 detector; repo records only, so unrecorded experiments are missing; how many 2024-11 pre-filled tasks labellers saw is not recoverable (38 seeded annotations survive)"
   paper_section: 2, 3, 8
-
-# ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop
   reason: mixes waiting, the manual-notebook era and labelling (author, 2026-10-01); already removed from PAPER.md

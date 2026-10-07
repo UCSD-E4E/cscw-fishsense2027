@@ -277,8 +277,8 @@
   change: "Neural laser detector (NNLaserDetector, a small CNN tile classifier in pyfishsensedev) drove the CLI's automatic laser calibration - lab checkerboard and field (2024-09-13..15). On 2025-01-21 the CLI replaced it with human labels from Label Studio (LabelStudioLaserDetector); the NN branch is commented out and raises NotImplementedError. From 2025-03 the CLI reads only human laser labels (Label Studio or the DB)."
   label: "NN laser detector, then back to human labels"
   status: used, then replaced by human labels (2025-01-21)
-  driver: unknown
-  driver_detail: reason for the reversal not recorded
+  driver: other
+  driver_detail: "accuracy - the detector was not accurate enough, so calibration went back to people's clicks (author, 2026-10-07)"
   evidence: "UCSD-E4E/fishsense-lite-cli 2024-09-13 'laser checkerboard calibration', 2024-09-15 'functioning field laser calibration'; de881b42 2025-01-21 'fix: update raw processing and laser detection' (diff: NNLaserDetector -> LabelStudioLaserDetector, NN path raises NotImplementedError; checked 2026-10-07); pyFishSenseDev nn_laser_detector.py first commit 2024-09-10; no results recorded"
   confidence: high
   dives_before: n/a
@@ -289,8 +289,9 @@
   component: automation
   change: "CLI 'label studio generator' writes the NN laser detector's dots and Fishial fish masks into Label Studio tasks as predictions (pre-fill); a laser task created 2024-10-24 carries one prediction."
   label: "CLI Label Studio pre-fill"
-  status: used as a pre-fill generator; likely the source of the 38 prediction-seeded laser labels of 2024-11
+  status: shown to labellers at scale, found poor, reverted to unlabelled tasks (author, 2026-10-07)
   driver: unknown
+  outcome: "pre-fills were poor; labelling went back to tasks with no pre-fill (driver of the revert: accuracy). The DB keeps only 38 prediction-seeded laser annotations from 2024-11, so most pre-filled tasks did not survive into the dump."
   evidence: "UCSD-E4E/fishsense-lite-cli c1c447d3 2024-11-09 'feat: label studio generator'; 531ab0c6 2024-11-12 'feat: generate fishial masks'; 8c6414f0 2024-11-13 'fix: up the vram requirement for nn_laser label studio'; UCSD-E4E/2025-11-29_laser-label-analysis notebook output (task with 'total_predictions': 1); DB: 38 laser annotations with parent_prediction in 2024-11; no results recorded"
   confidence: high (generator); medium (link to the 38 labels)
   dives_before: n/a
@@ -311,7 +312,7 @@
   component: automation
   change: Laser detector from a Bayesian Gaussian mixture on HSV pixels, trained on laser crops from 5 labelled frames, scored against human labels on 3,048 frames.
   label: "GMM laser detector"
-  status: attempted, not deployed (reason not recorded)
+  status: attempted, not deployed - poor accuracy (author, 2026-10-07)
   driver: unknown
   evidence: "UCSD-E4E/fishsense-2025-04-16-laser-detect-analysis result_analysis.ipynb outputs: 3,048 frames, 377 with no detection, mse 1,018,216.77 px^2 (~1,009 px RMS); 523fed09 2025-04-23 'Updates model for smaller training data'"
   confidence: high
@@ -322,7 +323,7 @@
   component: automation
   change: Laser detector by fine-tuning Depth Anything V2 (ViT-L) to regress a heatmap around the human-labelled dot; 15,244 train / 3,812 val labels in its final split.
   label: "Depth Anything laser detector"
-  status: attempted, not deployed (no metrics committed; reason not recorded)
+  status: attempted, not deployed - poor accuracy (author, 2026-10-07; no metrics committed)
   driver: unknown
   evidence: "UCSD-E4E/fishsense-laser-detector a6241aff 2025-08-29 'adding depth anything laser detection work', metric_depth/laser_train.py, train.csv/val.csv; 1527cf1c 2025-11-30 'updated fish training script'; only one example distance (38.6 px) in visualization.ipynb"
   confidence: high (exists)
@@ -365,7 +366,7 @@
 
 - date: 2024-11
   component: labeling
-  change: 38 laser annotations created from a prediction pre-fill - source model unknown (predates the run3 detector integration of 2026-07); likely the CLI's Label Studio generator (NN laser detector predictions, 2024-11-09..13).
+  change: 38 laser annotations created from a prediction pre-fill - the surviving trace of the CLI's Label Studio generator (NN laser detector predictions, 2024-11-09..13), which was shown to labellers at scale, found poor and reverted to unlabelled tasks (author, 2026-10-07).
   label: "prediction-seeded labels"
   driver: unknown
   driver_note: "Author account: automation designed to replace the human in the same flow (task parity), following the plan of humans first, machines once trained (automation, 2023); no record of the pre-fill decision itself."
