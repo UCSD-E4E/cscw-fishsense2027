@@ -1,0 +1,19 @@
+data,subset,gate,frames,dives,hit,kept,precision,hit_lo,hit_hi
+T3,all,none,839,89,0.7855,0.9178,0.8558,0.7423,0.8245
+T3,all,own line (no leakage),839,89,0.7604,0.8689,0.8752,0.7153,0.8030
+T3,all,label line (upper bound),839,89,0.7497,0.8594,0.8724,0.6994,0.7967
+T3,red,none,551,59,0.8094,0.9601,0.8431,0.7557,0.8556
+T3,red,own line (no leakage),551,59,0.8004,0.9256,0.8647,0.7466,0.8480
+T3,red,label line (upper bound),551,59,0.7949,0.9183,0.8656,0.7350,0.8465
+T3,green,none,288,30,0.7396,0.8368,0.8838,0.6678,0.8030
+T3,green,own line (no leakage),288,30,0.6840,0.7604,0.8995,0.6053,0.7604
+T3,green,label line (upper bound),288,30,0.6632,0.7465,0.8884,0.5806,0.7454
+production (pre-2026-07-27 labels),all,none,291,10,0.4192,1.0000,0.4192,0.2963,0.4559
+production (pre-2026-07-27 labels),all,own line (no leakage),291,10,0.3952,0.7113,0.5556,0.1935,0.4313
+production (pre-2026-07-27 labels),all,label line (upper bound),291,10,0.4124,0.7354,0.5607,0.2658,0.4445
+production (pre-2026-07-27 labels),red,none,80,10,0.3500,1.0000,0.3500,0.2619,0.4822
+production (pre-2026-07-27 labels),red,own line (no leakage),80,10,0.2625,0.8250,0.3182,0.1372,0.3470
+production (pre-2026-07-27 labels),red,label line (upper bound),80,10,0.3250,0.9125,0.3562,0.2340,0.4401
+production (pre-2026-07-27 labels),green,none,211,1,0.4455,1.0000,0.4455,0.4455,0.4455
+production (pre-2026-07-27 labels),green,own line (no leakage),211,1,0.4455,0.6682,0.6667,0.4455,0.4455
+production (pre-2026-07-27 labels),green,label line (upper bound),211,1,0.4455,0.6682,0.6667,0.4455,0.4455

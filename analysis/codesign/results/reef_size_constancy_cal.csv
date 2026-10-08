@@ -1,0 +1,5 @@
+source,dive,camera,frames,size_ratio,tv_fit,tv_stored,tv_err_px,tv_se_px,angle_vs_stored_deg,angle_ci_deg,stored_O_mm
+SAM 3.1 under the dot (slate-project frames),341,1,30,2.2583,-1949.1613,-1945.6426,-3.5187,1.0288,0.0750,"(np.float64(0.039), np.float64(0.112))",102.2883
+SAM 3.1 under the dot (slate-project frames),347,2,14,3.0869,-2003.0068,-2005.2168,2.2100,0.5885,0.1213,"(np.float64(0.117), np.float64(0.134))",101.0080
+SAM 3.1 under the dot (slate-project frames),349,6,12,2.0397,-2134.8242,-2136.6609,1.8367,3.5444,0.0381,"(np.float64(0.01), np.float64(0.163))",105.1714
+SAM 3.1 under the dot (slate-project frames),436,4,12,2.0642,-2112.5556,-2121.0547,8.4991,2.6897,0.1760,"(np.float64(0.09), np.float64(0.289))",105.0142

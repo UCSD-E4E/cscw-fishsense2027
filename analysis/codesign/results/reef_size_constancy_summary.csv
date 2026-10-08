@@ -1,0 +1,14 @@
+variant,dive,frames,median,mae,within10
+calibration only: size constancy (human dot + head/tail),all,224,0.0112,0.0250,1.0000
+calibration only: size constancy (human dot + head/tail),341,76,0.0065,0.0064,1.0000
+calibration only: size constancy (human dot + head/tail),347,110,0.0429,0.0449,1.0000
+calibration only: size constancy (human dot + head/tail),349,37,-0.0019,0.0035,1.0000
+calibration only: size constancy (human dot + head/tail),436,1,0.0418,0.0418,1.0000
+"fully automatic, stored calibration",all,197,-0.0008,0.0499,0.8376
+"fully automatic, stored calibration",341,70,0.0022,0.0466,0.8429
+"fully automatic, stored calibration",347,99,0.0051,0.0611,0.7879
+"fully automatic, stored calibration",349,28,-0.0112,0.0187,1.0000
+"fully automatic, size-constancy calibration",all,197,0.0278,0.0603,0.7970
+"fully automatic, size-constancy calibration",341,70,0.0074,0.0477,0.8571
+"fully automatic, size-constancy calibration",347,99,0.0490,0.0809,0.6970
+"fully automatic, size-constancy calibration",349,28,-0.0132,0.0191,1.0000

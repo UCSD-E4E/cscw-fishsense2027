@@ -18,7 +18,19 @@
    labelled corners both land near the stored calibration, but their per-session difference reaches
    0.072 deg (session 94), and their errors correlate only weakly (r = 0.25). Is "nearly the same
    result" the right claim, given both are within target in 9-10 of 10 sessions?
-8. **Slate pose predictor retirement** (B5): date and reason are still inferred (2026-09, confident
+8. **Task 3 follow-ups that need compute or your input:**
+   - **3a:** the full ~60k-image slate scan has not run. The spread result uses the 1,403 labelled
+     slate frames.
+   - **3b:** the detector project's line-mask gain re-picks the dot inside the corridor. Testing it
+     with an own-prediction line needs re-running inference on T3's frames (NAS + GPU, about 11 h
+     last time). Run it?
+   - **3e:** needs the per-camera mount material and dates (item 2).
+   - **3f:** a clean RAW-vs-JPEG number needs JPEG epoch_007 re-evaluated through the canonical
+     full-validation path in the detector repo.
+   - **New:** after 2026-07-27, 85% of "unseeded" laser labels copy the prediction to 0.00 px
+     (no parent link, origin "manual"). How do accepted pre-fills lose their provenance:
+     auto-accept write-back or the UI?
+9. **Slate pose predictor retirement** (B5): date and reason are still inferred (2026-09, confident
    false fits). Needed for the "reverted" marker in the automation figure.
 
 

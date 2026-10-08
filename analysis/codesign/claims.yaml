@@ -302,6 +302,46 @@
   confounds: "|O| is the 104.0 mm stand-in (\\todo{design |O|}); rigid fish models in a pool; the end-to-end gap is head/tail, not laser calibration; the stored calibration and size constancy use the same slate sessions"
   paper_section: 5, 7
 
+- claim: "Field footage rarely carries what size constancy needs: of 150 field dives with labelled slate frames, 11 (7%) have >= 8 slate frames with a laser dot and >= 1.5x apparent-size spread (all 11 also reach 2x); the pool sessions, shot for calibration, mostly do."
+  number: "field: median 2 slate frames per dive; 38 dives with >= 2 dot frames; spread >= 1.5x among dot frames 26 dives (17%), >= 2x 17 (11%); with >= 8 dot frames: >= 1.5x 11 (7.3%), >= 2x 11 (7.3%). Pool (15 sessions): >= 2x among dot frames 12 (80%); with >= 8 dot frames 7-8. Slate-presence classifier false positives at p >= 0.5: 1 in 5,425 not-slate frames (117 dives)."
+  evidence_level: retrospective
+  lesson: 3
+  source: analysis/codesign/slate_spread.py -> analysis/codesign/results/slate_spread_summary.csv, slate_spread_dives.csv; masks from 2026-10-03_slate_detector data/masks/sam3; dots data/db_extracts/laser_dots.psv (sql/extract_laser_dots.sql); setting data/db_extracts/dive_environment.psv
+  confounds: "labelled slate frames only (1,403 frames, 168 dives) - the full ~60k-image scan has not run, so dives may hold unlabelled slate frames; masks chosen by the slate project (label outline first); setting from a path keyword rule; a current human dot is required (superseded labels excluded)"
+  paper_section: 6
+
+- claim: "A per-dive laser line fitted to the detector's own predictions gates detections as well as one fitted to human labels: the labels' line is not needed, so the line step leaks nothing."
+  number: "T3, 839 dot frames on 89 dives (>= 5 frames each): hit within 3 px - no gate 78.5% (CI 74.2-82.4), own-prediction line 76.0% (71.5-80.3), human-label line 75.0% (69.9-79.7); precision among kept 85.6 / 87.5 / 87.2%; green 74.0 / 68.4 / 66.3%, red 80.9 / 80.0 / 79.5%"
+  evidence_level: retrospective
+  lesson: 4
+  source: analysis/codesign/detector_leakage.py -> analysis/codesign/results/detector_leakage.csv (T3 predictions, laser_detection_analysis/)
+  confounds: "post-hoc reject gate on final predictions: it cannot re-pick a dot inside the corridor as the detector project's line mask does (that gain, 0.895 -> 0.908 val, used label lines; \\todo{re-run inference with an own-prediction line mask}); lines from <= 11 other frames are looser than a full dive's; the production-prediction set (291 dots, 10 dives) is dominated by one parked overexposed dive and is reported only as a secondary check"
+  paper_section: 7
+
+- claim: "After pre-fills began, 'unseeded' labels stopped being independent: of laser annotations with no parent link and a 'manual' origin made from 2026-07-27, 85% sit exactly (0.00 px) on the detector's prediction; before that date, none do."
+  number: "production run3 predictions with the earliest such label: from 2026-07-27, 383 dots, 84.6% at 0.00 px; before, 291 dots, 0.0% at 0.00 px (median 3.2 px)"
+  evidence_level: retrospective
+  lesson: 4
+  source: analysis/codesign/detector_leakage.py (load, split by FIRST_PREFILL); data/db_extracts/laser_pred_label.psv (sql/extract_laser_pred_label.sql)
+  confounds: "the route by which pre-filled dots lose their provenance (auto-accept write-back or the labelling UI) is not established; production prediction timestamps were rewritten on 2026-09-16, so the split uses the first pre-fill date, not per-prediction times"
+  paper_section: 7
+
+- claim: "Size-constancy laser calibration works on 4 of the 8 calibrated reef dives; the other 4 lack slate frames with a current laser dot (2-3 usable each, < 8), not spread."
+  number: "dives 341/347/349/436 calibrated (12-30 frames, spread 2.0-3.1x; vanishing point -3.5/+2.2/+1.8/+8.5 px from stored); 279, 383, 465, 471 have 3, 2, 3, 2 usable frames (279: 8 dots, 5 off the board mask); lengths vs manual: calibration only MAE 2.5%; fully automatic 6.0% (stored 5.0%)"
+  evidence_level: retrospective
+  lesson: 2
+  source: analysis/codesign/reef_size_constancy.py -> analysis/codesign/results/reef_size_constancy_{cal,summary,dives}.csv; earlier corner-labelled run calibration_analysis/e1j_size_constancy/reef_labelfree.py
+  confounds: "no tape on the reef (agreement with the manual pipeline); human dot on the slate frames (the deployed detector made no predictions on them); |O| stand-in drives most of dive 347's difference"
+  paper_section: 5, 7
+
+- claim: "The RAW + Bayer-excess input narrowed the detector's red/green gap (dive-averaged ~0.27 -> ~0.06 hit within 3 px) while overall accuracy barely moved (0.477 -> 0.485); the large overall gains came from the inference fixes (recipe +0.041, pixel-bias offset +0.272, fp32 + sub-pixel to 0.895 val / 0.854 test)."
+  number: "per the detector project's notes; JPEG 0.477 is a per-epoch validation subsample, RAW 0.485 the full 3,625-frame validation; per-colour before 0.57/0.30 (epoch-7 audit), after 0.51/0.53 frame-weighted"
+  evidence_level: designed_experiment
+  lesson: 3
+  source: analysis/codesign/results/raw_vs_jpeg_comparability.md (UCSD-E4E/2026-05-02_laser_detector notes/state.md, notes/phase2_results.md)
+  confounds: "overall numbers come from different evaluation sets (subsample vs full), per-colour numbers from different evaluation paths; \\todo{re-evaluate JPEG epoch_007 through the canonical path}; not re-run here"
+  paper_section: 5, 6
+
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop

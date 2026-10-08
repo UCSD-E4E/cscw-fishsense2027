@@ -91,6 +91,10 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-07 | Credit corrections (size constancy is this paper's, not WUWNet's) in timeline, claims, questions, FIGURES.md, PAPER.md, p2-tests.md | prose | assistant (author's correction) | this commit (Experiences brief: tasks 1-2...) |
 | 2026-10-07 | Task 2: size constancy with SAM 3 vs labelled corners per pool session (`analysis/codesign/size_constancy_sam.py`); stage ladder rerun with a SAM 3 laser calibration (`e2e_measurement/score.py` configs D2, F2) | analysis | assistant | this commit (Experiences brief: tasks 1-2...) |
 | 2026-10-07 | Task 1: two-track laser calibration figure and automation-attempts figure (`figures.py` paper_laser_calibration, paper_automation; `laser_calibration_tracks.yaml`, `automation_attempts.yaml`) | figures | assistant | this commit (Experiences brief: tasks 1-2...) |
+| 2026-10-07 | Task 3a field slate spread (`analysis/codesign/slate_spread.py`; `sql/extract_dive_environment.sql`, `sql/extract_laser_dots.sql`) | analysis | assistant | this commit (task 3...) |
+| 2026-10-07 | Task 3b detector line gate without leakage (`analysis/codesign/detector_leakage.py`; `sql/extract_laser_pred_label.sql`) | analysis | assistant | this commit (task 3...) |
+| 2026-10-07 | Task 3c reef size constancy on all calibrated reef dives (`analysis/codesign/reef_size_constancy.py`) | analysis | assistant | this commit (task 3...) |
+| 2026-10-07 | Task 3f RAW vs JPEG comparability, from the detector repo's notes (`analysis/codesign/results/raw_vs_jpeg_comparability.md`) | prose | assistant | this commit (task 3...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
