@@ -6,7 +6,8 @@ Stages, each either human or automatic:
                                           | ... seeded by the automatic dot (ht_auto; the e2e path)
   calibration stored slate calibration    | label-free unknown-size fit (E1j) + |O| from the mount
               (production's own pairing:    design (fleet median 104.0 mm stands in until the CAD
-               fish dive <- slate session)  value arrives)
+               fish dive <- slate session)  value arrives); the size measure is image registration
+                                            (D, F) or SAM 3 mask area (D2, F2)
 
 Geometry is production's (laser_geometry.py): the dot's depth is the closest point between
 the camera ray and the laser ray; head and tail are back-projected onto the plane at that
@@ -55,12 +56,15 @@ def length(K, Z, hx, hy, tx, ty):
     return float(np.linalg.norm(Ki @ [hx, hy, 1.0] * Z - Ki @ [tx, ty, 1.0] * Z))
 
 
-def calibrations():
+def calibrations(labelfree_file: str = "labelfree_tv.csv"):
+    """(stored, label-free, intrinsics). labelfree_file picks the label-free fit: labelfree_tv.csv
+    (image registration, register.py) or labelfree_sam3_tv.csv (SAM 3 mask area,
+    analysis/codesign/size_constancy_sam.py)."""
     E = pd.read_csv(HERE / "extrinsics.psv", sep="|")
     stored = {int(r.dive_id): (np.array(json.loads(r.laser_position)), np.array(json.loads(r.laser_axis))) for r in E.itertuples()}
     intr = {int(r.camera_id): np.array(json.loads(r.camera_matrix)) for r in pd.read_csv(REPO / "laser_detection_analysis/intrinsics.csv").itertuples()}
     cams = {int(r.dive_id): int(r.camera_id) for r in E.itertuples()}
-    L = pd.read_csv(REPO / "calibration_analysis/e1j_size_constancy/labelfree_tv.csv")
+    L = pd.read_csv(REPO / "calibration_analysis/e1j_size_constancy" / labelfree_file)
     labelfree = {}
     for r in L.itertuples():
         K = intr[cams[int(r.dive)]]; u = np.array([r.ux, r.uy]); n = np.array([-u[1], u[0]])
@@ -78,6 +82,7 @@ def build():
     F["L_true"] = F.model.map(KNOWN)
     dots, ht = jsonl("dots.jsonl"), jsonl("headtail.jsonl")
     stored, labelfree, intr = calibrations()
+    _, sam3, _ = calibrations("labelfree_sam3_tv.csv")
     rows = []
     for r in F.itertuples():
         K = intr[int(r.camera_id)]; cal_dive = PAIR[int(r.dive_id)]
@@ -88,7 +93,7 @@ def build():
         for k, key in (("auto_humandot", "ht_humandot"), ("auto", "ht_auto")):
             e = h.get(key) or {}
             HT[k] = (e.get("head_x"), e.get("head_y"), e.get("tail_x"), e.get("tail_y")) if e.get("status") == "predicted" else (None,) * 4
-        CAL = {"stored": stored.get(cal_dive), "labelfree": labelfree.get(cal_dive)}
+        CAL = {"stored": stored.get(cal_dive), "labelfree": labelfree.get(cal_dive), "sam3": sam3.get(cal_dive)}
         for name, dk, hk, ck in LADDER:
             x, y = DOT[dk]; hh = HT[hk]; cal = CAL[ck]
             L = np.nan
@@ -109,6 +114,9 @@ LADDER = [  # name, dot, head/tail, calibration
     ("D label-free calibration", "human", "human", "labelfree"),
     ("E auto dot + head/tail", "auto", "auto", "stored"),
     ("F end-to-end automatic", "auto", "auto", "labelfree"),
+    # the label-free laser calibration from SAM 3 mask area (the machine path); D and F above use image registration
+    ("D2 label-free laser calibration (SAM 3)", "human", "human", "sam3"),
+    ("F2 end-to-end automatic (SAM 3)", "auto", "auto", "sam3"),
 ]
 
 

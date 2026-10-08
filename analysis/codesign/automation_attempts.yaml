@@ -1,0 +1,112 @@
+# Automation attempts per labelling task, for the section-3/4 figure (analysis/codesign/figures.py,
+# paper_automation). Each entry points to its timeline.yaml entry (timeline_label); sources are there.
+#
+# outcome:
+#   deployed       used in Lite's labelling or laser calibration (mobile app noted where it applies)
+#   reverted       used, then replaced by human labels
+#   dropped        not kept: poor accuracy (author, 2026-10-07), or replaced by another model where noted
+#   evaluated      evaluated in analysis only, not deployed
+#   unrecorded     no record of outcome
+# start/end: dates of the attempt (YYYY-MM-DD); end_event: the date the outcome happened, if known.
+
+- task: laser dot
+  label: guess-correction script
+  start: 2023-07-11
+  outcome: unrecorded
+  timeline_label: "laser-dot guess correction"
+- task: laser dot
+  label: CLI neural detector (demo checkpoint)
+  start: 2023-09-22
+  outcome: unrecorded
+  timeline_label: "CLI laser detector"
+- task: laser dot
+  label: neural detector in laser calibration
+  start: 2024-09-13
+  end_event: 2025-01-21
+  outcome: reverted
+  reason: accuracy (author, 2026-10-07)
+  timeline_label: "NN laser detector, then back to human labels"
+- task: laser dot
+  label: neural-detector pre-fill in Label Studio
+  start: 2024-11-09
+  end_event: "2024-11"
+  outcome: reverted
+  reason: shown to labellers at scale, found poor, reverted to unlabelled tasks (author, 2026-10-07); end date approximate (only 2024-11 seeded labels survive)
+  timeline_label: "CLI Label Studio pre-fill"
+- task: laser dot
+  label: Gaussian-mixture detector
+  start: 2025-04-21
+  outcome: dropped
+  reason: poor accuracy (author); ~1,009 px RMS vs human labels on 3,048 frames
+  timeline_label: "GMM laser detector"
+- task: laser dot
+  label: Depth Anything detector
+  start: 2025-08-29
+  end_event: 2025-11-30
+  outcome: dropped
+  reason: poor accuracy (author)
+  timeline_label: "Depth Anything laser detector"
+- task: laser dot
+  label: RAW U-Net detector (run3) pre-fill, then auto-accept
+  start: 2026-05-02
+  end_event: 2026-07-27
+  outcome: deployed
+  timeline_label: "laser detector (run3), deployed"
+
+- task: laser calibration
+  label: classical slate detection (CLI)
+  start: 2025-03-25
+  end_event: 2025-04-08
+  outcome: unrecorded
+  timeline_label: "classical slate detection"
+- task: laser calibration
+  label: slate pose predictor pre-fill
+  start: 2026-08-02
+  end_event: "2026-09"
+  outcome: reverted
+  reason: retired; "per-frame ECC gate passed confident false fits" (fishsense-lite c388e214); retirement date approximate (2026-09)
+  timeline_label: "slate predictor retired"
+- task: laser calibration
+  label: checkerboard laser calibration automated (lab)
+  start: 2026-09-08
+  outcome: deployed
+  timeline_label: "checkerboard calibration automated"
+- task: laser calibration
+  label: size constancy, SAM 3 (this paper)
+  start: 2026-09-26
+  outcome: evaluated
+  timeline_label: "label-free slate calibration"
+
+- task: head/tail
+  label: Fishial mask + mask axis (mobile app)
+  start: 2024-05-20
+  end_event: 2024-06-25
+  outcome: deployed
+  note: deployed in the separate mobile app, not in Lite labelling
+  timeline_label: "Fishial mask + head/tail (mobile)"
+- task: head/tail
+  label: Fishial mask pre-fill in Label Studio
+  start: 2024-11-12
+  end_event: "2024-11"
+  outcome: reverted
+  reason: shown at scale, found poor, reverted (author, 2026-10-07); end date approximate
+  timeline_label: "CLI Label Studio pre-fill"
+- task: head/tail
+  label: SAM 3 pre-fill (swapped for SAM 3.1 next day)
+  start: 2026-09-04
+  end_event: 2026-09-05
+  outcome: dropped
+  reason: reverted to the previous model and replaced by SAM 3.1 (fishsense-lite 07350d4a); not reverted to humans
+  timeline_label: "SAM 3.1 head/tail pre-fill"
+- task: head/tail
+  label: SAM 3.1 pre-fill
+  start: 2026-09-07
+  outcome: deployed
+  timeline_label: "SAM 3.1 head/tail pre-fill"
+
+- task: species
+  label: BioCLIP 2.5 + trained head
+  start: 2026-09-29
+  outcome: evaluated
+  note: analysis in this repo (e2e_measurement/species), not deployed; species labels stay human
+  timeline_label: null

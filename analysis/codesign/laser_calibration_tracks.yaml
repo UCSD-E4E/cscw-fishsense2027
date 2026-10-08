@@ -1,0 +1,33 @@
+# Laser calibration as two parallel tracks (author, 2026-10-07): the lab used the checkerboard because a
+# machine could find it; the field used the slate because divers carry one and a person could label it.
+# For the section-3 figure (analysis/codesign/figures.py, paper_laser_calibration). Each event points to its
+# timeline.yaml entry; sources are there.
+#
+# interface: who finds the calibration target / dot in the images - human (people click) or machine
+# kind: used | attempted (not deployed or outcome unrecorded) | reverted (replaced by human labels) | proposed
+# Lens calibration is a separate once-per-camera step (in air, LEGO bricks + Pinax; wuwnet) and is not shown.
+
+lab:
+  - {date: 2023-08-14, end: 2023-08-18, label: "checkerboard (pool sessions)", interface: machine, kind: used, timeline_label: "lab: checkerboard"}
+  - {date: 2024-09-13, end: 2025-01-21, label: "neural dot detector, then human labels", interface: machine, kind: reverted, timeline_label: "NN laser detector, then back to human labels"}
+  - {date: 2025-01-17, label: "TG-7 checkerboard sessions", interface: machine, kind: used, timeline_label: "TG-7 checkerboard sessions"}
+  - {date: 2026-09-08, label: "checkerboard laser calibration automated", interface: machine, kind: used, timeline_label: "checkerboard calibration automated"}
+
+field:
+  - {date: 2023-08-01, label: "H slate (improvised after a mount broke)", interface: human, kind: used, timeline_label: "field: H slate"}
+  - {date: 2023-08-29, end: 2023-11-14, label: "tic-tac-toe slate (more points to click)", interface: human, kind: used, timeline_label: "H → tic-tac-toe slate"}
+  - {date: 2024-03-13, end: 2024-12-10, label: "chevron slate (no symmetry for labellers)", interface: human, kind: used, timeline_label: "tic-tac-toe → chevron slate"}
+  - {date: 2024-09-15, end: 2025-01-21, label: "neural dot detector, then human labels", interface: machine, kind: reverted, timeline_label: "NN laser detector, then back to human labels"}
+  - {date: 2025-03-25, end: 2025-04-08, label: "classical slate detection", interface: machine, kind: attempted, timeline_label: "classical slate detection"}
+  - {date: "2025-11", label: "slate corners in Label Studio", interface: human, kind: used, timeline_label: "slate-corner labelling"}
+  - {date: 2026-08-02, end: "2026-09", label: "slate pose predictor (retired)", interface: machine, kind: reverted, timeline_label: "slate predictor retired"}
+  - {date: 2026-09-26, label: "size constancy, SAM 3 (this paper)", interface: machine, kind: proposed, timeline_label: "label-free slate calibration"}
+
+# The homography-to-slate-PDF attempt goes here once the author describes it (questions.md); no date or
+# details are recorded yet, so it is listed in the figure's footnote, not placed.
+pending: ["homography to the slate PDF (\\todo: description and date from the author)"]
+
+mount:
+  span: [2023-08-01, 2025-01-17]
+  label: "PLA laser mount: redesigned after field breakage (revision dates not recorded); later aluminium for field units (date not recorded)"
+  trigger: "before 2023-08: the first partner unit's PLA mount warped and broke, so laser calibration became per dive"

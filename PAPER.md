@@ -23,7 +23,7 @@ We make both steps automatic, using only commodity hardware and still images.
 
 - **Calibration:** we tested every commodity cue for recovering the laser's angle from dive
   images alone (dot size, brightness, beam scatter, defocus, flat-port refraction). All fail
-  at full laser power, for reasons we identify. What does work is *size constancy* [P4-laser]:
+  at full laser power, for reasons we identify. What does work is *size constancy* (this paper):
   any rigid object shot near and far with the dot on it fixes the angle, with no known size and
   no printed template. We add a variant that needs no human labels either. On 10 pool calibration sessions it matches the known-size
   slate calibration within 0.05° on 9 (median 0.02°). It costs 0.4 percentage points of
@@ -82,7 +82,7 @@ two steps that remain after [P4]:
   (§3).
 - **C2, a map of commodity calibration cues.** We test every depth cue available to a single
   full-power laser and a consumer camera without extra hardware, and explain why each fails.
-  We then adopt size constancy [P4-laser], make it label-free, and measure its end-to-end cost
+  We then introduce size constancy, make it label-free, and measure its end-to-end cost
   (§4).
 - **C3, an end-to-end automatic pipeline.** It runs from the laser dot to fish length and
   species with no human input. We evaluate it against tape-measured models in a pool and
@@ -240,10 +240,11 @@ any future method can extract from this hardware.
 locus, the scale ambiguity along it, why a mount prior cannot close it, and the invariance of
 the estimator to constant errors in the size measure. We cite it there and use only the
 result. This paper covers the apparent-size calibration itself: the procedure, the size
-measure, the label-free variant, and its evaluation. The method and its first evaluation were
-developed in the flat-port work [P4-laser].
+measure, the label-free variant, and its evaluation. Size constancy and its evaluation are this paper's contribution (corrected 2026-10-07; earlier
+drafts credited them to the flat-port paper).
 
-Its key results, from [P4-laser]:
+Its key results, from the sections prepared for this paper
+(`wuwnet-fishsense2026/correspondence/p2/LASER_SECTIONS_FOR_P2.md`):
 
 - **End to end with no reference object in the water.** The camera is calibrated in air.
   The laser is calibrated only from the apparent size of a swinging fish decoy whose size is
@@ -620,9 +621,10 @@ clustered dives have above-average frame coverage, so this is optimistic.
 - [P1] FishSense Lite system characterization. IMWUT (companion).
 - [P4] Calibrating an underwater camera in air (flat-port refraction, LEGO targets). WUWNet
   (companion).
-- [P4-laser] Reference-free per-dive laser calibration, draft sections extracted from the
-  flat-port paper for P2 (`wuwnet-fishsense2026/correspondence/p2/LASER_SECTIONS_FOR_P2.md`,
-  2026-09-19; code `fishsense_wuwnet.laser`, `refraction_analysis/laser_per_dive.ipynb`).
+- (removed 2026-10-07) [P4-laser] is not a separate work: the size-constancy sections in
+  `wuwnet-fishsense2026/correspondence/p2/LASER_SECTIONS_FOR_P2.md` (2026-09-19; code
+  `fishsense_wuwnet.laser`) were prepared for this paper. WUWNet [P4] covers in-air lens
+  calibration (LEGO bricks, Pinax flat-port model).
 - [CG] [class-project authors]. Coral Gardeners fish detector. UCSD CSE
   237D class project, 2026.
 - [SAM3] Segment Anything 3 / 3.1 (Meta).

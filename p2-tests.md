@@ -329,9 +329,11 @@ span a narrower range than 0.5–4 m.
 
 ### E1j — Size constancy: the same object measured at several ranges fixes φ *(pillar 1)* — **PROMISING (pool), 2026-09-26**
 
-> **Credit, added 2026-09-29.** Size constancy is not new to this work. It is E1b above
-> (`scalefree_laser_selfcal.ipynb`) and the method of `wuwnet-fishsense2026/correspondence/p2/
-> LASER_SECTIONS_FOR_P2.md` (2026-09-19). That document has the locus geometry, a decoy
+> **Credit, corrected 2026-10-07 (author).** Size constancy, its label-free variant and the
+> slate-frame detector are this paper's contributions, not WUWNet's. WUWNet covers in-air lens
+> calibration (LEGO, Pinax). The sections in `wuwnet-fishsense2026/correspondence/p2/
+> LASER_SECTIONS_FOR_P2.md` (2026-09-19) were prepared for this paper, and E1b above
+> (`scalefree_laser_selfcal.ipynb`) is its earlier form here. That document has the locus geometry, a decoy
 > end-to-end test (+0.0% median on a held-out board, −0.4% absolute scale), the production
 > cross-check (Box 0.003°), the thickness failure mode, and the rule that size must be
 > measured on the dot's surface without range drift (√mask area best). E1j re-derived it.

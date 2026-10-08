@@ -20,7 +20,7 @@ One figure (or pair) per section of the paper outline. Rebuild:
 Not in the SenSys set (CSCW-era figures kept in `figures/`, not deleted):
 - fig1 pipeline: replaced by sensys_system.
 - fig2 stage time and fig8 labelling time: content folded into the text and sensys_labelling.
-- fig3 size constancy: the principle is WUWNet's; sensys_calibration (a) carries the comparison.
+- fig3 size constancy: superseded by the SenSys figures; size constancy is this paper's method.
 - fig10 size measures: superseded by sensys_calibration (a), which adds the board fit.
 - fig6 coverage, fig7 species, fig11-14 laser detector and head/tail: candidates for text or an appendix.
 - codesign_frames_fish and codesign_spread: folded into sensys_capture (b) and sensys_calibration (b).

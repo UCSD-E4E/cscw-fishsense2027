@@ -70,7 +70,7 @@
   number: R^2 = 0.999 (one session)
   evidence_level: designed_experiment
   source: calibration_analysis/e1j_size_constancy/slate_unknown.py; figures/fig3_size_constancy (panel a, session 71)
-  confounds: one session shown; method credited to the WUWNet paper (LASER_SECTIONS_FOR_P2.md)
+  confounds: one session shown; method is this paper's (credit corrected 2026-10-07)
   paper_section: 5
 
 - claim: Scored against measured fish-model lengths, the label-free calibration matches production's labelled known-size calibration.
@@ -286,6 +286,23 @@
   source: "analysis/codesign/timeline.yaml (automation entries, each citing repo commits); UCSD-E4E repos fishsense-lite-cli, fishsense-2025-04-16-laser-detect-analysis, fishsense-laser-detector, 2026-05-02_laser_detector; reasons: author account 2026-10-07"
   confounds: "reasons are the author's account, with committed metrics only for the GMM and the 2026 detector; repo records only, so unrecorded experiments are missing; how many 2024-11 pre-filled tasks labellers saw is not recoverable (38 seeded annotations survive)"
   paper_section: 2, 3, 8
+- claim: "Size constancy reaches the stored known-size laser calibration through either interface: with SAM 3 mask area (machine) every pool session is within 0.05 deg; with labelled corners (human) on the same frames, 9 of 10 are."
+  number: "10 pool sessions, same frames per session (17-33): SAM 3 |err| median 0.023 deg, max 0.043, 10/10 within 0.05; corners median 0.016, max 0.060 (session 87), 9/10; SAM 3 minus corners median |diff| 0.019 deg, max 0.072 (session 94); bootstrap SE 0.011-0.046 deg"
+  evidence_level: designed_experiment
+  lesson: 2
+  source: analysis/codesign/size_constancy_sam.py -> analysis/codesign/results/size_constancy_sessions.csv; sizes from calibration_analysis/e1j_size_constancy/sam_sizes.py (SAM 3.1 checkpoint), corners from slate_unknown.py
+  confounds: "the reference is the stored calibration, not truth (it fits |O| per dive from the same slate frames); pool sessions only (red laser, Aug 2023); the human dot is used on the slate frames; the two interfaces' errors are weakly correlated (r = 0.25), so neither tracks the reference closely below ~0.05 deg; earlier figures (9/10, median ~0.02 deg) were the registration variant"
+  paper_section: 5
+
+- claim: "Against tape, a SAM 3 laser calibration costs nothing measurable: per-fish length error 3.02% vs 3.01% with the stored known-size calibration (registration: 3.37%); fully automatic 10.1% vs 10.5% with registration."
+  number: "1,528 frames, 10 dives, 31 fish-model x dive groups: A manual (stored) 3.01%; D label-free, registration 3.37%; D2 label-free, SAM 3 3.02%; F end-to-end, registration 10.46%; F2 end-to-end, SAM 3 10.11% (per-fish p90 estimator, mean |error| vs tape)"
+  evidence_level: designed_experiment
+  lesson: 2
+  source: e2e_measurement/score.py (configs D2, F2 added 2026-10-07) -> e2e_measurement/lengths.csv; calibration from calibration_analysis/e1j_size_constancy/labelfree_sam3_tv.csv (analysis/codesign/size_constancy_sam.py)
+  confounds: "|O| is the 104.0 mm stand-in (\\todo{design |O|}); rigid fish models in a pool; the end-to-end gap is head/tail, not laser calibration; the stored calibration and size constancy use the same slate sessions"
+  paper_section: 5, 7
+
+# ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop
   reason: mixes waiting, the manual-notebook era and labelling (author, 2026-10-01); already removed from PAPER.md

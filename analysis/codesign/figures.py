@@ -6,6 +6,11 @@
   codesign_redgreen      what green cost the detector, the pipeline and the labeller: red vs green rates, matched comparison noted (3d, 3e)
   design_rules.tex       LaTeX design-rules table from design_rules.yaml + claims.yaml (evidence level, section)
 
+Experiences-paper figures (2026-10-07 brief):
+  paper_laser_calibration  s3  laser calibration as two parallel tracks (lab checkerboard, field slate) and the
+                               mount band; colour = who finds the target (person or machine)
+  paper_automation         s3/s4  automation attempts per labelling task, by outcome (automation_attempts.yaml)
+
 SenSys figure set, one per paper section (the rest of the set reuses figures above and in figures/):
   sensys_system          s2  each stage as designed for a person, as redesigned for a machine, and what the
                              machine needed from the rest of the system
@@ -360,6 +365,101 @@ def sensys_labelling():
     fig.tight_layout(w_pad=2.0); save(fig, "sensys_labelling")
 
 
+# ---------------------------------------------------------------- Experiences paper (2026-10-07)
+def _ts(x):
+    """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
+    x = str(x)
+    return pd.Timestamp(x + "-15") if len(x) == 7 else pd.Timestamp(x)
+
+
+def _place_labels(fig, ax, items, levels=(0.26, -0.26, 0.46, -0.46, 0.66, -0.66), size=5.8, late_from="2026-01-01"):
+    """items: (x, y, text). Each label goes to the first level and side that overlaps nothing placed."""
+    fig.canvas.draw(); r = fig.canvas.get_renderer(); placed = []
+    for x, y, _ in items:
+        cx, cy = ax.transData.transform((mdates.date2num(x), y))
+        placed.append(Bbox([[cx - 8, cy - 8], [cx + 8, cy + 8]]))
+    for x, y, text in items:
+        prefer = ("right", "left") if x >= pd.Timestamp(late_from) else ("left", "right")
+        for dy, ha in [(d, h) for d in levels for h in prefer]:
+            t = ax.text(x, y + dy, text, fontsize=size, color=INK2, ha=ha, va="center")
+            bb = t.get_window_extent(r).expanded(1.08, 1.3)
+            if not any(bb.overlaps(q) for q in placed):
+                placed.append(bb); ax.plot([x, x], [y, y + dy * 0.8], color=MUTED, lw=0.5, zorder=1); break
+            t.remove()
+        else:
+            raise RuntimeError(f"no room for label {text!r}")
+
+
+def paper_laser_calibration():
+    T = yaml.safe_load(open(HERE / "laser_calibration_tracks.yaml"))
+    COL = {"human": BLUE, "machine": ORANGE}
+    fig, ax = plt.subplots(figsize=(TWO, 3.0))
+    ax.axvspan(pd.Timestamp("2023-08-01"), pd.Timestamp("2025-01-17"), color=GRID, alpha=0.55, lw=0, zorder=0)
+    ax.text(pd.Timestamp("2023-08-10"), 2.72, "dives captured (2023-08 .. 2025-01)", fontsize=6.3, color=INK2, va="top")
+    ys = {"lab": 2.0, "field": 1.0}
+    items = []
+    for track, y in ys.items():
+        for e in T[track]:
+            t0 = _ts(e["date"]); t1 = _ts(e["end"]) if e.get("end") else t0
+            col = COL[e["interface"]]
+            if t1 > t0:
+                ax.plot([t0, t1], [y, y], color=col, lw=4, alpha=0.5, solid_capstyle="butt", zorder=2)
+            hollow = e["kind"] in ("attempted", "proposed")
+            ax.scatter([t0], [y], s=34, zorder=3, color="white" if hollow else col, edgecolor=col, linewidth=1.3,
+                       marker="D" if e["kind"] == "proposed" else "o")
+            if e["kind"] == "reverted":       # replaced by human labels: a blue cross at the end of the bar
+                ax.scatter([t1], [y], s=40, zorder=4, color=BLUE, marker="X", edgecolor="white", linewidth=0.6)
+            items.append((t0, y, e["label"]))
+    m = T["mount"]; m0, m1 = (_ts(x) for x in m["span"])
+    ax.plot([m0, m1], [0.15, 0.15], color=MUTED, lw=6, alpha=0.45, solid_capstyle="butt")
+    ax.text(m1 + pd.Timedelta(days=20), 0.15, "PLA, redesigned after field breakage; later aluminium for field units\n"
+            "(revision and switch dates not recorded). Before 2023-08 a PLA mount warped,\nso laser calibration became per dive.",
+            fontsize=5.6, color=INK2, va="center")
+    _place_labels(fig, ax, items)
+    ax.set_yticks([2.0, 1.0, 0.15], ["lab\n(checkerboard)", "field\n(dive slate)", "laser mount"])
+    ax.set_ylim(-0.25, 2.8); ax.set_xlim(pd.Timestamp("2023-06-01"), pd.Timestamp("2026-12-31")); ax.grid(axis="y", visible=False)
+    for lab, col, mk, fc in (("a person finds it", BLUE, "o", BLUE), ("a machine finds it", ORANGE, "o", ORANGE),
+                             ("attempted", MUTED, "o", "white"), ("proposed (this paper)", ORANGE, "D", "white"),
+                             ("replaced by human labels", BLUE, "X", BLUE)):
+        ax.scatter([], [], s=30, marker=mk, color=fc, edgecolor=col, label=lab)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.1), ncol=5, frameon=False, fontsize=6.3, handletextpad=0.2)
+    ax.text(0.0, -0.24, "Not placed: " + "; ".join(T["pending"]) + ". Lens calibration is a separate once-per-camera step and is not shown.",
+            transform=ax.transAxes, fontsize=5.6, color=INK2, va="top")
+    ax.set_title("Laser calibration ran on two tracks: the lab for a machine, the field for a person", loc="left", color=INK2)
+    save(fig, "paper_laser_calibration")
+
+
+def paper_automation():
+    A = yaml.safe_load(open(HERE / "automation_attempts.yaml"))
+    tasks = ["laser dot", "laser calibration", "head/tail", "species"]
+    OUTC = {"deployed": ("deployed", BLUE, "o", BLUE), "reverted": ("reverted to human labels", ORANGE, "X", ORANGE),
+            "dropped": ("dropped or replaced", MUTED, "o", "white"), "evaluated": ("evaluated only", AQUA, "D", "white"),
+            "unrecorded": ("outcome not recorded", MUTED, "s", GRID)}
+    fig, ax = plt.subplots(figsize=(TWO, 2.9))
+    ax.axvspan(pd.Timestamp("2023-08-01"), pd.Timestamp("2025-01-17"), color=GRID, alpha=0.55, lw=0, zorder=0)
+    ax.text(pd.Timestamp("2023-08-10"), len(tasks) - 0.25, "dives captured", fontsize=6.3, color=INK2, va="top")
+    items, seen = [], []
+    for e in A:
+        y0 = len(tasks) - 1 - tasks.index(e["task"])
+        t0 = _ts(e["start"]); t1 = _ts(e["end_event"]) if e.get("end_event") else t0
+        near = sum(1 for yy, tt in seen if yy == y0 and abs((tt - t1).days) <= 14)   # keep near-coincident markers visible
+        y = y0 + [0, 0.13, -0.13][min(near, 2)]; seen.append((y0, t1))
+        lab, col, mk, fc = OUTC[e["outcome"]]
+        edge = col if e["outcome"] != "unrecorded" else MUTED
+        if t1 > t0:
+            ax.plot([t0, t1], [y, y], color=edge, lw=3, alpha=0.5, solid_capstyle="butt", zorder=2)
+        ax.scatter([t1], [y], s=36, marker=mk, color=fc, edgecolor=edge, linewidth=1.2, zorder=3)
+        items.append((t1, y, e["label"]))
+    _place_labels(fig, ax, items, levels=(0.24, -0.24, 0.42, -0.42), size=5.6)
+    ax.set_yticks(range(len(tasks)), tasks[::-1]); ax.set_ylim(-0.6, len(tasks) - 0.2)
+    ax.set_xlim(pd.Timestamp("2023-06-01"), pd.Timestamp("2026-12-31")); ax.grid(axis="y", visible=False)
+    for k, (lab, col, mk, fc) in OUTC.items():
+        ax.scatter([], [], s=30, marker=mk, color=fc, edgecolor=col, label=lab)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.1), ncol=5, frameon=False, fontsize=6.3, handletextpad=0.2)
+    ax.set_title("Machine labelling: three years of attempts before the first deployment (marker at the outcome)", loc="left", color=INK2)
+    save(fig, "paper_automation")
+
+
 LEVEL = {"designed_experiment": "designed experiment", "deployment_before_after": "deployment before/after",
          "retrospective": "retrospective", "projected": "projected"}
 
@@ -398,5 +498,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling):
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling,
+              paper_laser_calibration, paper_automation):
         f()

@@ -144,7 +144,7 @@
   confidence: high
   dives_before: n/a
   dives_after: n/a
-  note: projected, not a deployed revision. Size constancy and its first evaluation are the WUWNet paper's (wuwnet-fishsense2026/correspondence/p2/LASER_SECTIONS_FOR_P2.md).
+  note: projected, not a deployed revision. Size constancy, its label-free variant and the slate-frame detector are this paper's contributions (author, 2026-10-07); the sections in wuwnet-fishsense2026/correspondence/p2/LASER_SECTIONS_FOR_P2.md were prepared for this paper.
 
 # ---------------------------------------------------------------- hardware
 - date: 2023-08 .. 2024-12 (staggered by camera)

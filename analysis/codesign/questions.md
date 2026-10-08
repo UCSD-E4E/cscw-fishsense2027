@@ -1,4 +1,27 @@
-# Questions and open items for the SenSys 2027 co-design paper
+# Questions and open items for the SenSys 2027 Experiences paper (result parity vs task parity)
+
+## N. From the 2026-10-07 brief (open)
+
+1. **Homography-to-slate-PDF laser calibration attempt.** Waiting on your description. It is a
+   placeholder in the laser-calibration figure footnote, not placed, with no date or details invented.
+2. **Per-camera mount material and approximate dates** (see B4). The figure draws the mount as one
+   band; redesign ticks and the aluminium switch need dates.
+3. **Which green laser product was on which camera** (B1).
+4. **Camera naming across papers.** WUWNet says "OM System TG-6"; the timeline has Olympus TG-6
+   (FSL-01..07) and OM System TG-7 (FSL-08+). Which names should this paper use?
+5. **"SAM 3" vs "SAM 3.1".** Every SAM run here used the SAM 3.1 checkpoint (sam3.1_multiplex.pt,
+   production's model). Should the paper say SAM 3.1, or SAM 3 with the checkpoint in a footnote?
+6. **Spread threshold for task 3a.** The brief asks for the share of field dives with >= 1.5x
+   apparent-size spread. Task 3c found that 1.5x gets the median fit within 0.05 deg, but 2x is
+   needed for 98% of fits. Report both?
+7. **Task 2 result to check: the two interfaces agree to 0.019 deg median, not exactly.** SAM 3 and
+   labelled corners both land near the stored calibration, but their per-session difference reaches
+   0.072 deg (session 94), and their errors correlate only weakly (r = 0.25). Is "nearly the same
+   result" the right claim, given both are within target in 9-10 of 10 sessions?
+8. **Slate pose predictor retirement** (B5): date and reason are still inferred (2026-09, confident
+   false fits). Needed for the "reverted" marker in the automation figure.
+
+
 
 Round 1 asked 2026-10-06; answered by the author the same day. Section R records those answers.
 Sections A-D are what is still open.
@@ -159,7 +182,8 @@ Sections A-D are what is still open.
    - Dives 279, 465 and 471 have only 2-3 slate frames with a dot. Detector-positive slate frames
      without a dot would need the laser detector on raw frames.
 2. **The two 0.003 deg figures are separate results:**
-   - WUWNet production-corpus reproduction: 2,927 frames, 32 dives.
+   - Production-corpus size-constancy cross-check (2,927 frames, 32 dives), from the sections
+     prepared for this paper (LASER_SECTIONS_FOR_P2.md); not a WUWNet result.
    - The Pinax figure: wrong. It is 0.015 deg at a 50 mm standoff. Corrected in claims.yaml.
 3. **|O|:** no CAD value. The fleet median of 104.0 mm stands as \todo. A second estimate, the
    fitted origin (|O| ~106 mm over 6 calibrations, fingerprint roadmap), is consistent with it.
