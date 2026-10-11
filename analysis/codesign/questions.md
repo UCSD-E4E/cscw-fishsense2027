@@ -24,10 +24,10 @@
    - **Protocol.** The notes are the first record of protocol reasoning: volunteer task overload,
      "1 individual fish per species per minute", and ~5 m maximum range. Did any of this become an
      instruction to divers? If not, the paper still says "communicated at trainings" with a \todo.
-   - **Video.** Continuous video with object tracking was suggested in 2023 to solve repeat counting
-     and was not adopted. Is the reason recorded anywhere? It fits the future-work paragraph.
-   - **Naming under double-blind.** The notes name the partner program (SMILE) and REEF. Should the
-     paper name them, or say "a citizen-science partner"?
+   - **Video: answered (author, 2026-10-11).** Not adopted because laser detection needed the RAW
+     stills; video is still on the to-do list (future work).
+   - **Naming: answered (author, 2026-10-11).** The paper says "a citizen-science partner", not the
+     program's name.
    - **The PDF names people**, so it is cited from your copy and not committed.
 9. **Task 3 follow-ups that need compute or your input:**
    - **3a:** the full ~60k-image slate scan has not run. The spread result uses the 1,403 labelled

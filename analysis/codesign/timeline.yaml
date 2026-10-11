@@ -247,7 +247,7 @@
   confidence: high
   dives_before: n/a
   dives_after: n/a
-  note: "First record of protocol reasoning; whether these became instructions to divers is not recorded. Video was suggested in 2023 but not adopted (reason not recorded)."
+  note: "First record of protocol reasoning; whether these became instructions to divers is not recorded. Video was suggested in 2023 but not adopted: laser detection needed the camera RAWs, which stills provide (author, 2026-10-11); video remains on the to-do list (future work). In the paper the partner program is 'a citizen-science partner' (author, 2026-10-11)."
 
 # ---------------------------------------------------------------- automation (plan and early attempts)
 - date: 2023
