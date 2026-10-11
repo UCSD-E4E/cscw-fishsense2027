@@ -95,6 +95,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-07 | Task 3b detector line gate without leakage (`analysis/codesign/detector_leakage.py`; `sql/extract_laser_pred_label.sql`) | analysis | assistant | this commit (task 3...) |
 | 2026-10-07 | Task 3c reef size constancy on all calibrated reef dives (`analysis/codesign/reef_size_constancy.py`) | analysis | assistant | this commit (task 3...) |
 | 2026-10-07 | Task 3f RAW vs JPEG comparability, from the detector repo's notes (`analysis/codesign/results/raw_vs_jpeg_comparability.md`) | prose | assistant | this commit (task 3...) |
+| 2026-10-11 | Labeling-interface figure rebuilt with production's own preprocessing (`analysis/codesign/labeling_interface.py`; frame 102654) | figure | assistant | this commit (fig: labeling interface...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
