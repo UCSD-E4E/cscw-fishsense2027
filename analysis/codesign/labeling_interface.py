@@ -14,7 +14,7 @@ under it"), and encodes a JPEG. This script calls those same functions; nothing 
 
 Writes analysis/codesign/figures/labeling_interface_full.jpg (the JPEG bytes as production makes them)
 and labeling_interface{,_inset}.{pdf,png}: the image at column width, plain and with a zoomed inset of
-the dot. In the figure only, the region outline is redrawn at 1.3 pt so it survives scaling (production
+the dot. In the figure only, the region outline is redrawn at 0.8 pt (the width of the zoom lines) so it survives scaling (production
 draws 2 px on the 4014-px image), and the inset, its box and connectors are ours, not part of what
 labellers see.
 
@@ -35,7 +35,7 @@ OUT = HERE / "figures"
 IMAGE_ID, CAMERA_ID = 102654, 6
 RAW = Path.home() / ".cache/cscw-fishsense2027/tail_stage" / f"{IMAGE_ID}.ORF"
 ONE = 3.33   # ACM column width, inches
-OUTLINE_PT = 1.3   # figure-only outline width; production draws 2 px
+OUTLINE_PT = 0.8   # figure-only outline width, matching the white zoom lines; production draws 2 px
 
 
 def production_jpeg() -> bytes:
