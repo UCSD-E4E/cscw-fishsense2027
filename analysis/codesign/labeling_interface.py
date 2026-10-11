@@ -14,7 +14,9 @@ under it"), and encodes a JPEG. This script calls those same functions; nothing 
 
 Writes analysis/codesign/figures/labeling_interface_full.jpg (the JPEG bytes as production makes them)
 and labeling_interface{,_inset}.{pdf,png}: the image at column width, plain and with a zoomed inset of
-the dot (the inset frame is ours, not part of what labellers see).
+the dot. In the figure only, the region outline is redrawn at 1.3 pt so it survives scaling (production
+draws 2 px on the 4014-px image), and the inset, its box and connectors are ours, not part of what
+labellers see.
 
 Run from fishsense-lite's venv (fishsense_core, the worker package and temporalio installed):
   ../fishsense-lite/.venv/bin/python analysis/codesign/labeling_interface.py
@@ -33,6 +35,7 @@ OUT = HERE / "figures"
 IMAGE_ID, CAMERA_ID = 102654, 6
 RAW = Path.home() / ".cache/cscw-fishsense2027/tail_stage" / f"{IMAGE_ID}.ORF"
 ONE = 3.33   # ACM column width, inches
+OUTLINE_PT = 1.3   # figure-only outline width; production draws 2 px
 
 
 def production_jpeg() -> bytes:
@@ -52,6 +55,11 @@ def figure(jpeg: bytes, inset: bool):
     h, w = img.shape[:2]
     fig, ax = plt.subplots(figsize=(ONE, ONE * h / w))
     ax.imshow(img, interpolation="lanczos"); ax.set_axis_off()
+    # production's outline is 2 px on a 4014-px image, too thin once scaled to a column: redraw the same
+    # polygon in the same green at a print-visible width (the caption says the outline is thickened)
+    from fishsense_shared.laser_region import LASER_REGION_POLYGON
+    poly = np.array(LASER_REGION_POLYGON + LASER_REGION_POLYGON[:1], float)
+    ax.plot(poly[:, 0], poly[:, 1], color=(0, 1, 0), linewidth=OUTLINE_PT, solid_joinstyle="round")
     if inset:
         import csv
         dot = next((float(r["laser_x"]), float(r["laser_y"])) for r in csv.DictReader(open(REPO / "e2e_measurement/tail/frames.csv"))
@@ -63,7 +71,14 @@ def figure(jpeg: bytes, inset: bool):
         ia.set_xlim(x0, x0 + 2 * half); ia.set_ylim(y0 + 2 * half, y0); ia.set_xticks([]); ia.set_yticks([])
         for sp in ia.spines.values():
             sp.set_edgecolor("white"); sp.set_linewidth(1.2)
-        ax.indicate_inset_zoom(ia, edgecolor="white", alpha=0.9, linewidth=0.8)
+        from matplotlib.patches import ConnectionPatch
+        x1, y1 = x0 + 2 * half, y0 + 2 * half
+        ax.add_patch(plt.Rectangle((x0, y0), 2 * half, 2 * half, fill=False, edgecolor="white", linewidth=0.9))
+        # corner to matching corner: the box's bottom-left to the inset's bottom-left, top-right to top-right,
+        # so the two lines frame the zoom instead of crossing it (image y grows downward)
+        for corner in ((x0, y1), (x1, y0)):
+            fig.add_artist(ConnectionPatch(xyA=corner, coordsA=ax.transData, xyB=corner, coordsB=ia.transData,
+                                           color="white", linewidth=0.8, alpha=0.9))
     fig.subplots_adjust(0, 0, 1, 1)
     name = "labeling_interface" + ("_inset" if inset else "")
     fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None}, dpi=300)
