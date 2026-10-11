@@ -6,7 +6,9 @@
    placeholder in the laser-calibration figure footnote, not placed, with no date or details invented.
 2. **Per-camera mount material and approximate dates** (see B4). The figure draws the mount as one
    band; redesign ticks and the aluminium switch need dates.
-3. **Which green laser product was on which camera** (B1).
+3. **Which green laser product was on which camera** (B1). The 2023-12-14 stakeholder notes record
+   pool testing of "laser brands and how they attenuate relative to one another", and a search for a
+   push-button laser because the red ones leaked. Do those test results survive anywhere?
 4. **Camera naming across papers.** WUWNet says "OM System TG-6"; the timeline has Olympus TG-6
    (FSL-01..07) and OM System TG-7 (FSL-08+). Which names should this paper use?
 5. **"SAM 3" vs "SAM 3.1".** Every SAM run here used the SAM 3.1 checkpoint (sam3.1_multiplex.pt,
@@ -18,7 +20,16 @@
    labelled corners both land near the stored calibration, but their per-session difference reaches
    0.072 deg (session 94), and their errors correlate only weakly (r = 0.25). Is "nearly the same
    result" the right claim, given both are within target in 9-10 of 10 sessions?
-8. **Task 3 follow-ups that need compute or your input:**
+8. **From the 2023-12-14 stakeholder notes (added to timeline.yaml):**
+   - **Protocol.** The notes are the first record of protocol reasoning: volunteer task overload,
+     "1 individual fish per species per minute", and ~5 m maximum range. Did any of this become an
+     instruction to divers? If not, the paper still says "communicated at trainings" with a \todo.
+   - **Video.** Continuous video with object tracking was suggested in 2023 to solve repeat counting
+     and was not adopted. Is the reason recorded anywhere? It fits the future-work paragraph.
+   - **Naming under double-blind.** The notes name the partner program (SMILE) and REEF. Should the
+     paper name them, or say "a citizen-science partner"?
+   - **The PDF names people**, so it is cited from your copy and not committed.
+9. **Task 3 follow-ups that need compute or your input:**
    - **3a:** the full ~60k-image slate scan has not run. The spread result uses the 1,403 labelled
      slate frames.
    - **3b:** the detector project's line-mask gain re-picks the dot inside the corridor. Testing it
@@ -30,7 +41,7 @@
    - **New:** after 2026-07-27, 85% of "unseeded" laser labels copy the prediction to 0.00 px
      (no parent link, origin "manual"). How do accepted pre-fills lose their provenance:
      auto-accept write-back or the UI?
-9. **Slate pose predictor retirement** (B5): date and reason are still inferred (2026-09, confident
+10. **Slate pose predictor retirement** (B5): date and reason are still inferred (2026-09, confident
    false fits). Needed for the "reverted" marker in the automation figure.
 
 

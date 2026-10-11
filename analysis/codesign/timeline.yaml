@@ -159,6 +159,18 @@
   dives_after: "mostly-green dives 2024-03..2024-12: 97 (red still on FSL-03 until 2024-12)"
   note: "Staggered adoption gives concurrent red and green dives at the same sites; usable for task 3d. The IMWUT text gives the rationale at the time (penetration, reliable detection); this paper reports the outcome: easier for divers, harder for the detector (missed +16 pt within camera and setting) and slower to label (+1.8 s within labeller). Red was chosen first because fish behaviour should be less affected (author account 2026-10-06)."
 
+- date: 2023-12-14
+  component: hardware
+  change: "Field cameras (7 Olympus TG-6) use red lasers. Recorded observations: fish seemed to run from green; red easier to get onto fish; red attenuates faster; in a bright, clear pool the laser was hard to see and red seemed blown out, so testing switched back to green. Red lasers start to leak after a few months; a push-button laser is sought."
+  label: "laser colour trade-offs recorded"
+  driver: human
+  driver_detail: "as recorded: attenuation and laser visibility in bright, clear water favour green; fish behaviour and getting the dot onto fish favour red (the notes do not mention divers seeing the dot)"
+  evidence: "SMILE stakeholder meeting notes, 2023-12-14 (author's copy, SMILE StakeholderMeeting_12.14.2023.pdf; not committed: it names people)"
+  confidence: high
+  dives_before: n/a
+  dives_after: n/a
+  note: "A record of the trade-off three months before the field switch (first mostly-green dives 2024-03), not a revision itself. Documents the fish-side cost of green as a stakeholder observation and is consistent with the IMWUT rationale (green penetrates further). Also recorded: laser-brand attenuation testing in the pool ('laser brands and how they attenuate relative to one another') and a proposed project to test commercial lasers and mounts - relevant to which lasers were used (questions.md B1)."
+
 - date: 2023-08 onward (constraint, not a revision)
   component: hardware
   change: "Lasers are commodity, eye-safe dive laser pointers; their power was never controlled. Recorded models: 'Innovative Scuba Aluminum Laser Pointer (Red)' ($89.95, IMWUT cost table). Green: two different products, a 'Shark' laser (apparently no longer sold) and an Orca Torch laser (author account 2026-10-06); the IMWUT text describes the green as a 'Class IIIA waterproof green (532 nm) pointer' without naming a product."
@@ -226,6 +238,17 @@
   dives_before: unknown
   dives_after: unknown
 
+- date: 2023-12-14
+  component: protocol
+  change: "Capture protocol discussed around volunteer burden: 'need to consider task overload with volunteers'; marking a new fish with a photo of a hand or of the bottom was raised but loses the laser on the fish and slows divers; a standardization rule of one individual per species per minute was proposed to avoid double counting; divers need 1-2 dives to adapt; ~5 m maximum range for getting the laser on fish. Continuous video with object tracking was suggested to solve repeat counting."
+  label: "protocol shaped by volunteer load"
+  driver: human
+  evidence: "SMILE stakeholder meeting notes, 2023-12-14 (author's copy, SMILE StakeholderMeeting_12.14.2023.pdf; not committed: it names people)"
+  confidence: high
+  dives_before: n/a
+  dives_after: n/a
+  note: "First record of protocol reasoning; whether these became instructions to divers is not recorded. Video was suggested in 2023 but not adopted (reason not recorded)."
+
 # ---------------------------------------------------------------- automation (plan and early attempts)
 - date: 2023
   component: automation
@@ -238,6 +261,18 @@
   dives_before: n/a
   dives_after: n/a
   note: "Machine work started early but did not work until much later (author). The pre-fill entries keep driver: unknown for the specific decision but follow this plan."
+
+- date: 2023-12-14
+  component: automation
+  change: "Stakeholder meeting records processing as mostly manual, with plans to automate: laser detection from dot brightness (peak-based), Fishial segmentation for head/tail; training AI (e.g. for visibility) would need data to train."
+  label: "plan: automate later (documented)"
+  driver: other
+  driver_detail: humans-first, machines-later plan, documented at the time
+  evidence: "SMILE stakeholder meeting notes, 2023-12-14 (author's copy, SMILE StakeholderMeeting_12.14.2023.pdf; not committed: it names people)"
+  confidence: high
+  dives_before: n/a
+  dives_after: n/a
+  note: "Corroborates the author's account of the humans-first plan. Quotes: 'Process more manual now, moving forward trying to make it more automated'; 'How bright the laser is also helpful - peak base laser detection'; 'ML through fishial ... Segmentation of fish - can use to calculate location of head and tail of fish'."
 
 - date: 2023-07-11
   component: automation
