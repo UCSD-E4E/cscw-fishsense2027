@@ -19,7 +19,8 @@ False positives: the slate-presence classifier's dive-grouped out-of-fold predic
 (data/slate_detector/oof_cv_q1.csv) at the operating threshold p >= 0.5, on frames labelled not-slate,
 per dive.
 
-Writes analysis/codesign/results/slate_spread_dives.csv and slate_spread_summary.csv.
+Writes analysis/codesign/results/slate_spread_dives.csv, slate_spread_summary.csv and slate_spread_by_month.csv
+(field dives by month of capture: slate frames per dive, to look for the out-and-back sweep protocol).
 Run: uv run python analysis/codesign/slate_spread.py
 """
 from __future__ import annotations
@@ -84,6 +85,16 @@ def main():
     print(S.round(3).to_string(index=False))
     print(f"\nfalse positives at p >= {THRESH}: {int(allfp.sum())} in {len(neg):,} not-slate frames on {neg.dive_id.nunique()} dives; "
           f"dives with any: {int((allfp > 0).sum())}; max per dive {int(allfp.max())}")
+    # by month of capture: does a shift to ~10-frame slate sweeps show up in the field data? (timeline: slate sweep protocol)
+    T = pd.read_csv(REPO / "data/db_extracts/dives.psv", sep="|", header=None, names=["dive_id", "camera_id", "t"])
+    T["month"] = T.t.str[:7]
+    fd = T[T.dive_id.map(env).fillna("other") != "pool"]
+    M = (D[D.environment != "pool"].merge(T[["dive_id", "month"]], on="dive_id")
+         .groupby("month").agg(dives_with_slate=("dive_id", "size"), median_slate_frames=("frames", "median"),
+                               dives_ge8_frames=("frames", lambda x: int((x >= MIN_FRAMES).sum())), median_spread=("spread", "median")))
+    M = fd.groupby("month").dive_id.size().rename("field_dives").to_frame().join(M)
+    M.to_csv(OUT / "slate_spread_by_month.csv", float_format="%.3f")
+    print(M.round(2).to_string())
     f = D[D.environment != "pool"]
     print(f"field dives: {len(f)}; median slate frames {f.frames.median():.0f}; with a dot on >= 2 slate frames: {int((f.frames_with_dot >= 2).sum())}")
 

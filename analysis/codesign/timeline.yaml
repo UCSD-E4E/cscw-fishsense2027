@@ -217,6 +217,29 @@
   dives_after: 8
 
 # ---------------------------------------------------------------- protocol
+- date: 2023-08-01
+  component: protocol
+  change: "User manual Revision 0: laser calibrated against a calibration board, tracking out then back in (10-50 images); the dive slate is only a validation step: three pictures at three meters, of an H-taped slate scanned at 1200 DPI. Burst mode and RAW output (LF + raw) specified. Field guidelines: aim at the fish's centre of body mass, optical axis roughly at right angles to the fish, 0.5-5 m with 3 m ideal, fish illuminated and flat in the image, no zoom, do not touch the laser; decommission if calibration drift causes > 10% depth error."
+  label: "manual rev 0: slate validation, 3 photos at 3 m"
+  driver: human
+  evidence: "FishSense Lite User Manual, Revision 0, 2023-08-01 (author's copy, Fishsense_Lite_User_Manual Revision 0.pdf; not committed): s4.2 Laser Calibration Procedure, s4.3 Laser Calibration Validation Procedure, s5.1 Camera Settings"
+  confidence: high
+  dives_before: 0
+  dives_after: n/a
+  note: "The first written capture protocol (the IMWUT submission s4.1: units were distributed with a written manual). Three slate photos at one distance give size constancy no range spread; consistent with field dives' median of 2 slate frames (analysis/codesign/slate_spread.py). Names the laser: 'Innovative Scuba Aluminum Laser Pointer High-Intensity Red Beam'."
+
+- date: unknown
+  component: protocol
+  change: "Protocol revised with the deployment partner: the slate becomes the field laser-calibration target, shot in an out-and-back range sweep at the start of the dive, aiming for about ten frames."
+  label: "slate sweep protocol"
+  driver: machine
+  driver_detail: "range spread for the fit - the IMWUT submission s3.4 states 'Sweeping in range is what fixes the laser's direction'; author to confirm (2026-10)"
+  evidence: "FishSense Lite IMWUT submission (author's copy, 2026-10 build), s3.4 Calibration: 'At the start of the dive, the diver moves away from the slate until the laser becomes hard to keep on it and then back in, photographing the slate whenever the dot is on it. Divers aim for about ten frames ... Sweeping in range is what fixes the laser's direction'; author account (2026-10)"
+  confidence: medium
+  dives_before: unknown
+  dives_after: unknown
+  note: "Intentional change agreed with collaborators. Its date and the dives it covers are needed before this paper can say whether the thin field laser calibrations predate it (questions.md). In the field data no month shows a shift toward ~10-frame sweeps: from 2023-09 to 2024-12 field dives with labelled slate frames have a median of 1-5 slate frames per dive, and at most 3 dives a month reach 8 (analysis/codesign/results/slate_spread_by_month.csv). Either the dives predate the sweep or the sweep was not followed; the record does not say which."
+
 - date: 2023-08 onward
   component: protocol
   change: Field dives carry their own slate frames for per-dive laser calibration; pool fish-model dives borrow a sibling slate session's calibration (~30 min earlier).
@@ -229,12 +252,12 @@
 
 - date: unknown
   component: protocol
-  change: Diver capture protocol communicated at stakeholder meetings and trainings; no written protocol or revision record found.
+  change: Diver capture protocol communicated at stakeholder meetings and trainings, alongside the written user manual (Revision 0, 2023-08-01).
   label: "protocol at trainings"
   driver: unknown
   evidence: "author account 2026-10-06 (believed shared at meetings and trainings; author did not attend); searched imwut_2026_fishsense_lite, papers/fishsense-lite-imwut, fishsense-lite/docs, fishsense-services, wuwnet, this repo, DB dive notes; p2-results.md T7 notes no evidence divers were told frame/range requirements. The only statement found is papers/fishsense-lite-imwut/Sections/system.tex L165 ('Divers are instructed to frame fish broadside ... when possible'), a paper claim with no source document."
   confidence: low
-  note: the paper must not claim a written protocol; describe it as communicated at trainings and mark \todo.
+  note: "Superseded in part (2026-10-18): a written protocol exists - User Manual Revision 0, 2023-08-01 (see 'manual rev 0'), and the IMWUT submission s4.1 says units were distributed with it. Later revisions of the manual, if any, are not on file."
   dives_before: unknown
   dives_after: unknown
 

@@ -1,5 +1,19 @@
 # Questions and open items for the SenSys 2027 Experiences paper (result parity vs task parity)
 
+## N0. From the user manual and the IMWUT submission (2026-10-18)
+
+- **A written protocol exists.** User Manual Revision 0 (2023-08-01) covers field procedure,
+  photo guidelines, the laser calibration (board, out and back, 10-50 images) and slate validation
+  (three photos at three meters). The IMWUT submission s4.1 says units were distributed with it.
+  "No written protocol" is withdrawn.
+- **Open: when did the out-and-back slate sweep (~10 frames, IMWUT s3.4) replace the manual's
+  three-photo validation, and which dives does it cover?** The field data shows no month with a
+  shift toward sweep-sized slate bursts (median 1-5 slate frames per field dive, 2023-09..2024-12;
+  results/slate_spread_by_month.csv). Were there later manual revisions? Please confirm the driver
+  as well (recorded as machine, from s3.4's "sweeping in range is what fixes the laser's direction").
+- **Laser product.** The manual names the red laser: Innovative Scuba Aluminum Laser Pointer
+  High-Intensity Red Beam. The green products (Shark, Orca Torch) by camera are still open (B1).
+
 ## N. From the 2026-10-07 brief (open)
 
 1. **Homography-to-slate-PDF laser calibration attempt.** Waiting on your description. It is a
