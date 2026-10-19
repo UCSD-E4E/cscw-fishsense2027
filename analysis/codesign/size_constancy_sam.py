@@ -106,7 +106,9 @@ def main():
             xy = dots.loc[ids, ["dot_x", "dot_y"]].to_numpy(float)
             t = xy @ u; s = np.array([size(i) for i in ids], float)
             tv = su.fit_tv(t, s)
-            boots = [su.fit_tv(t[k], s[k]) for k in (rng.integers(0, len(t), len(t)) for _ in range(N_BOOT))]
+            # one generator per (session, method), so a fit's bootstrap does not depend on which other variants run
+            brng = np.random.default_rng([int(dive), ["sam3", "corners", "sam3_all", "sam3_predline"].index(name)])
+            boots = [su.fit_tv(t[k], s[k]) for k in (brng.integers(0, len(t), len(t)) for _ in range(N_BOOT))]
             v = tv * u + off * n
             ax = np.linalg.solve(K, [v[0], v[1], 1.0]); ax /= np.linalg.norm(ax)
             tv_true = float((vs[:2] / vs[2]) @ u)
