@@ -350,6 +350,14 @@
   confounds: "why each dot was superseded is not recorded per frame (validator or relabel); 'Laser not on slate' is the labeller's judgement, not checked here; the stored calibration is the reference, not truth; slate frames come from labelled and scanned frames, not the full ~60k corpus"
   paper_section: 4, 5
 
+- claim: "The dive's laser line can come from the detector's own predictions instead of human dots: with that line, a SAM 3 size-constancy laser calibration gives the same tape-measured lengths (3.02% per-fish error, as with the human line; stored 3.01%)."
+  number: "10 pool sessions; detector lines from 4-19 confident predictions per dive (T3 sample, RANSAC 10 px). Along-line vanishing-point error unchanged (median 0.023 deg, 10/10 within 0.05); full 3D laser angle vs stored loosens (median 0.048 deg, 6/10 within 0.05, vs 0.030 deg, 9/10 with the human line). Stage ladder: D3 3.02% vs D2 3.02%; F3 10.11% vs F2 10.11%."
+  evidence_level: designed_experiment
+  lesson: 2
+  source: analysis/codesign/size_constancy_sam.py (sam3_predline) -> results/size_constancy_sessions.csv, calibration_analysis/e1j_size_constancy/labelfree_sam3_predline_tv.csv; e2e_measurement/score.py configs D3, F3 -> e2e_measurement/lengths.csv
+  confounds: "the dot on each slate frame is still the human click (the detector has not been run on the slate frames); |O| is still the 104 mm physical stand-in; prediction lines rest on few points (4 on session 114); pool sessions only"
+  paper_section: 5
+
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop

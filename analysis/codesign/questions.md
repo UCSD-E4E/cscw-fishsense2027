@@ -1,5 +1,15 @@
 # Questions and open items for the SenSys 2027 Experiences paper (result parity vs task parity)
 
+## N1. Toward image-only laser calibration (author preference, 2026-10-19: image measurements, not physical ones)
+
+Remaining non-image inputs in the label-free laser calibration:
+1. **The slate-frame dots are human clicks.** Running the deployed detector on the ~326 pool and reef
+   slate frames would remove them. It needs NAS raws plus the GPU (T3 ran at about 7 s a frame,
+   limited by the NAS). Run it?
+2. **The laser offset |O| is the 104 mm stand-in**, a physical value. Images can only supply metric
+   scale through a target of known size, e.g. the lab checkerboard, whose laser calibration is
+   automatic and per rig. Use that, re-measured whenever the rig is rebuilt?
+
 ## N0. From the user manual and the IMWUT submission (2026-10-18)
 
 - **A written protocol exists.** User Manual Revision 0 (2023-08-01) covers field procedure,

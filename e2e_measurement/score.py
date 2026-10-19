@@ -83,6 +83,7 @@ def build():
     dots, ht = jsonl("dots.jsonl"), jsonl("headtail.jsonl")
     stored, labelfree, intr = calibrations()
     _, sam3, _ = calibrations("labelfree_sam3_tv.csv")
+    _, sam3p, _ = calibrations("labelfree_sam3_predline_tv.csv")
     rows = []
     for r in F.itertuples():
         K = intr[int(r.camera_id)]; cal_dive = PAIR[int(r.dive_id)]
@@ -93,7 +94,7 @@ def build():
         for k, key in (("auto_humandot", "ht_humandot"), ("auto", "ht_auto")):
             e = h.get(key) or {}
             HT[k] = (e.get("head_x"), e.get("head_y"), e.get("tail_x"), e.get("tail_y")) if e.get("status") == "predicted" else (None,) * 4
-        CAL = {"stored": stored.get(cal_dive), "labelfree": labelfree.get(cal_dive), "sam3": sam3.get(cal_dive)}
+        CAL = {"stored": stored.get(cal_dive), "labelfree": labelfree.get(cal_dive), "sam3": sam3.get(cal_dive), "sam3p": sam3p.get(cal_dive)}
         for name, dk, hk, ck in LADDER:
             x, y = DOT[dk]; hh = HT[hk]; cal = CAL[ck]
             L = np.nan
@@ -117,6 +118,9 @@ LADDER = [  # name, dot, head/tail, calibration
     # the label-free laser calibration from SAM 3 mask area (the machine path); D and F above use image registration
     ("D2 label-free laser calibration (SAM 3)", "human", "human", "sam3"),
     ("F2 end-to-end automatic (SAM 3)", "auto", "auto", "sam3"),
+    # as D2/F2, with the dive's laser line fitted to the detector's own predictions instead of human dots
+    ("D3 label-free laser calibration (SAM 3, detector line)", "human", "human", "sam3p"),
+    ("F3 end-to-end automatic (SAM 3, detector line)", "auto", "auto", "sam3p"),
 ]
 
 

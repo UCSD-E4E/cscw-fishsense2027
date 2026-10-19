@@ -26,6 +26,11 @@ stage ladder in e2e_measurement/score.py).
   se_deg        bootstrap SE of the vanishing point (resampling frames), in degrees
 Target: 0.05 deg.
 
+A fourth row per session, sam3_predline, replaces the human-fitted laser line (direction from the
+dive's divelaserline, offset from the human dots) with a line fitted to the deployed detector's own
+confident predictions on that dive (T3's sample, laser_detection_analysis/; RANSAC, 10 px, then total
+least squares). It still uses the human dot on each slate frame.
+
 Writes analysis/codesign/results/size_constancy_sessions.csv and, for the stage ladder,
 calibration_analysis/e1j_size_constancy/labelfree_sam3_tv.csv (same schema as labelfree_tv.csv,
 from the sam3_all fit).
@@ -47,6 +52,32 @@ import score as S  # noqa: E402
 
 OUT = REPO / "analysis/codesign/results"
 TARGET, N_BOOT = 0.05, 500
+RANSAC_TOL = 10.0
+
+
+def prediction_lines() -> dict:
+    """Per dive: (u, offset) of a line fitted to the deployed detector's confident predictions (T3 sample)."""
+    T = pd.read_csv(REPO / "laser_detection_analysis/sample.csv")[["image_id", "dive_id"]]
+    P = pd.read_csv(REPO / "laser_detection_analysis/predictions.csv")
+    P = P[(P.condition == "production") & (P.confidence >= 0.5)].merge(T, on="image_id")
+    rng = np.random.default_rng(0); out = {}
+    for dive, g in P.groupby("dive_id"):
+        xy = g[["pred_x", "pred_y"]].to_numpy(float)
+        if len(xy) < 3:
+            continue
+        best = None
+        for _ in range(500):
+            i, j = rng.choice(len(xy), 2, replace=False); d = xy[j] - xy[i]
+            if np.hypot(*d) < 1:
+                continue
+            nn = np.array([-d[1], d[0]]) / np.hypot(*d)
+            inl = np.abs(xy @ nn - nn @ xy[i]) <= RANSAC_TOL
+            if best is None or inl.sum() > best.sum():
+                best = inl
+        q = xy[best]; m = q.mean(0); u = np.linalg.svd(q - m)[2][0]
+        u = u if u[1] < 0 else -u                      # same orientation convention as slate_unknown.frame
+        out[int(dive)] = (u, float(m @ np.array([-u[1], u[0]])), int(best.sum()), len(xy))
+    return out
 
 
 def main():
@@ -58,25 +89,34 @@ def main():
     corners, *_ = su.load()
     corners = corners.set_index("image_id")
     rng = np.random.default_rng(0)
-    rows, lf = [], []
+    PL = prediction_lines()
+    rows, lf, lfp = [], [], []
     for dive in L.index:
         u = np.array([L.loc[dive, "ux"], L.loc[dive, "uy"]]); off = L.loc[dive, "line_offset"]; n = np.array([-u[1], u[0]])
         K = intr[cams[dive]]
         sa = stored[dive][1] / np.linalg.norm(stored[dive][1]); vs = K @ sa; tv_true = float((vs[:2] / vs[2]) @ u)
         f_all = [i for i in dots.index[dots.dive_id == dive] if i in sam.index]
         f_common = [i for i in f_all if i in corners.index]
-        variants = [("sam3", f_common, lambda i: sam[i]), ("corners", f_common, lambda i: corners.loc[i, "size"]),
-                    ("sam3_all", f_all, lambda i: sam[i])]
-        for name, ids, size in variants:
+        variants = [("sam3", f_common, lambda i: sam[i], u, off), ("corners", f_common, lambda i: corners.loc[i, "size"], u, off),
+                    ("sam3_all", f_all, lambda i: sam[i], u, off)]
+        if dive in PL:
+            variants.append(("sam3_predline", f_all, lambda i: sam[i], PL[dive][0], PL[dive][1]))
+        for name, ids, size, u, off in variants:
+            n = np.array([-u[1], u[0]])
             xy = dots.loc[ids, ["dot_x", "dot_y"]].to_numpy(float)
             t = xy @ u; s = np.array([size(i) for i in ids], float)
             tv = su.fit_tv(t, s)
             boots = [su.fit_tv(t[k], s[k]) for k in (rng.integers(0, len(t), len(t)) for _ in range(N_BOOT))]
             v = tv * u + off * n
             ax = np.linalg.solve(K, [v[0], v[1], 1.0]); ax /= np.linalg.norm(ax)
+            tv_true = float((vs[:2] / vs[2]) @ u)
             rows.append(dict(session=int(dive), method=name, frames=len(ids), size_spread=float(s.max() / s.min()),
+                             line_points=(f"{PL[dive][2]}/{PL[dive][3]}" if name == "sam3_predline" else ""),
                              err_deg=float(np.degrees((tv - tv_true) / su.F_PX)), angle_deg=float(np.degrees(np.arccos(np.clip(ax @ sa, -1, 1)))),
                              se_deg=float(np.degrees(np.std(boots) / su.F_PX))))
+            if name == "sam3_predline":
+                lfp.append(dict(dive=int(dive), ux=u[0], uy=u[1], line_offset=off, frames=len(ids), size_ratio=float(s.max() / s.min()),
+                                tv_fit=tv, se_px=float(np.std(boots)), err_px=float(tv - tv_true), err_deg=float(np.degrees((tv - tv_true) / su.F_PX))))
             if name == "sam3_all":
                 lf.append(dict(dive=int(dive), ux=u[0], uy=u[1], line_offset=off, frames=len(ids), size_ratio=float(s.max() / s.min()),
                                tv_fit=tv, se_px=float(np.std(boots)), err_px=float(tv - tv_true),
@@ -86,10 +126,11 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     R.to_csv(OUT / "size_constancy_sessions.csv", index=False, float_format="%.5f")
     pd.DataFrame(lf).to_csv(E1J / "labelfree_sam3_tv.csv", index=False)
+    pd.DataFrame(lfp).to_csv(E1J / "labelfree_sam3_predline_tv.csv", index=False)
     piv = R.pivot(index="session", columns="method", values="err_deg")
     pd.set_option("display.width", 200)
     print(R.pivot(index="session", columns="method", values=["frames", "size_spread", "err_deg", "se_deg"]).round(3).to_string())
-    for m in ("sam3", "corners", "sam3_all"):
+    for m in ("sam3", "corners", "sam3_all", "sam3_predline"):
         e = R[R.method == m].err_deg.abs()
         print(f"{m:9s} |err| median {e.median():.3f} deg, max {e.max():.3f}; within 0.05: {(e <= TARGET).sum()}/{len(e)}")
     d = (piv.sam3 - piv.corners)
