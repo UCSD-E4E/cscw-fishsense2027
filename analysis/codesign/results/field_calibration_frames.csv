@@ -1,0 +1,159 @@
+image_id,dive_id,taken,detector_slate,species_answer,stage13,has_dot,laser_x,laser_y,dot_source,sam_size,sam,range_on_stored_ray_m
+78666,279,2023-11-13 12:03:31+00,True,"Slate, Laser not on slate",no slate-corner label,True,1970.1600,1340.3491,live,,dot not on any SAM board mask,1.9676
+78667,279,2023-11-13 12:03:31+00,True,"Slate, Laser not on slate",no slate-corner label,False,1976.3589,1339.5893,superseded,,dot not on any SAM board mask,1.9794
+78668,279,2023-11-13 12:03:32+00,True,"Slate, Laser not on slate",no slate-corner label,False,1977.6403,1344.4945,superseded,,dot not on any SAM board mask,2.0495
+78669,279,2023-11-13 12:03:32+00,True,"Slate, Laser not on slate",no slate-corner label,False,1976.5837,1340.7051,superseded,,dot not on any SAM board mask,1.9948
+78670,279,2023-11-13 12:03:32+00,True,"Slate, Laser not on slate",no slate-corner label,False,1977.3049,1341.1600,superseded,,dot not on any SAM board mask,2.0030
+78671,279,2023-11-13 12:03:32+00,True,"Slate, Laser not on slate",no slate-corner label,False,1977.0024,1340.9818,superseded,,dot not on any SAM board mask,1.9997
+78672,279,2023-11-13 12:03:39+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78673,279,2023-11-13 12:03:39+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78674,279,2023-11-13 12:03:39+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78675,279,2023-11-13 12:03:40+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78676,279,2023-11-13 12:03:40+00,True,"Slate, Laser not on slate",no slate-corner label,False,2320.7626,1220.4341,superseded,,dot not on any SAM board mask,0.3063
+78677,279,2023-11-13 12:03:40+00,True,"Slate, Laser not on slate",no slate-corner label,False,2192.0742,1143.7799,superseded,92.2226,ok,0.5518
+78678,279,2023-11-13 12:03:45+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78679,279,2023-11-13 12:03:45+00,True,"Slate, Laser not on slate",no slate-corner label,False,1994.3000,1394.8875,superseded,,dot not on any SAM board mask,3.2457
+78680,279,2023-11-13 12:03:45+00,True,"Slate, Laser not on slate",no slate-corner label,False,1994.4226,1394.6113,superseded,,dot not on any SAM board mask,3.2365
+78681,279,2023-11-13 12:03:46+00,True,"Slate, Laser not on slate",no slate-corner label,False,1994.3194,1393.0344,superseded,,dot not on any SAM board mask,3.1809
+78682,279,2023-11-13 12:03:46+00,True,"Slate, Laser not on slate",no slate-corner label,False,1817.1132,826.7217,superseded,,dot not on any SAM board mask,0.4376
+78683,279,2023-11-13 12:03:46+00,True,"Slate, Laser not on slate",no slate-corner label,False,1993.4755,1391.9164,superseded,,dot not on any SAM board mask,3.1389
+78684,279,2023-11-13 12:03:46+00,True,"Slate, Laser not on slate",no slate-corner label,False,1993.9684,1393.2916,superseded,,dot not on any SAM board mask,3.1880
+78685,279,2023-11-13 12:03:46+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78686,279,2023-11-13 12:03:52+00,True,"Slate, Laser on slate",laser dot superseded,False,1850.5887,902.2704,superseded,309.2006,ok,0.4943
+78687,279,2023-11-13 12:03:52+00,True,"Slate, Laser on slate",laser dot superseded,False,1838.0605,847.3288,superseded,299.3059,ok,0.4537
+78688,279,2023-11-13 12:03:52+00,True,"Slate, Laser on slate",laser dot superseded,False,1818.5265,810.3765,superseded,285.7884,ok,0.4285
+78689,279,2023-11-13 12:03:53+00,True,"Slate, Laser not on slate",no slate-corner label,False,1951.9293,1255.6113,superseded,,dot not on any SAM board mask,1.2464
+78690,279,2023-11-13 12:03:53+00,True,"Slate, Laser not on slate",no slate-corner label,False,1951.7924,1255.3072,superseded,,dot not on any SAM board mask,1.2446
+78691,279,2023-11-13 12:03:53+00,True,"Slate, Laser not on slate",no slate-corner label,False,1954.8981,1265.1960,superseded,,dot not on any SAM board mask,1.3015
+78692,279,2023-11-13 12:04:01+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78693,279,2023-11-13 12:04:01+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78694,279,2023-11-13 12:04:01+00,True,"Slate, Laser not on slate",no slate-corner label,False,2217.4372,2087.2712,superseded,,dot not on any SAM board mask,0.4730
+78695,279,2023-11-13 12:04:02+00,True,"Slate, Laser not on slate",no slate-corner label,False,1997.3339,1407.1906,superseded,,dot not on any SAM board mask,3.7755
+78696,279,2023-11-13 12:04:02+00,True,"Slate, Laser not on slate",no slate-corner label,False,2217.4280,2087.2467,superseded,,dot not on any SAM board mask,0.4730
+78697,279,2023-11-13 12:04:02+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78698,279,2023-11-13 12:04:02+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78797,279,2023-11-13 12:33:55+00,True,"Slate, Laser on slate",used in the fit,True,1951.4809,1273.4501,live,202.8324,ok,1.3434
+78798,279,2023-11-13 12:33:55+00,True,"Slate, Laser on slate",used in the fit,True,1951.8983,1274.1973,live,208.7271,ok,1.3485
+78799,279,2023-11-13 12:33:55+00,True,"Slate, Laser not on slate",no slate-corner label,True,1957.3295,1291.6908,live,,dot not on any SAM board mask,1.4720
+78800,279,2023-11-13 12:33:56+00,True,"Slate, Laser not on slate",no slate-corner label,True,1959.0744,1295.0944,live,,dot not on any SAM board mask,1.5002
+78801,279,2023-11-13 12:33:56+00,True,"Slate, Laser not on slate",no slate-corner label,False,2217.2865,2087.2021,superseded,,dot not on any SAM board mask,0.4731
+78802,279,2023-11-13 12:33:56+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78803,279,2023-11-13 12:33:56+00,True,"Slate, Laser not on slate",no slate-corner label,True,1958.1601,1297.2810,live,,dot not on any SAM board mask,1.5144
+78804,279,2023-11-13 12:34:00+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78805,279,2023-11-13 12:34:00+00,True,"Slate, Laser not on slate",no slate-corner label,True,1982.8509,1379.7874,live,,dot not on any SAM board mask,2.7246
+78806,279,2023-11-13 12:34:01+00,True,"Slate, Laser not on slate",no slate-corner label,False,1999.4596,1561.5265,superseded,,dot not on any SAM board mask,3.2797
+78807,279,2023-11-13 12:34:01+00,True,"Slate, Laser on slate",used in the fit,True,1983.8933,1382.8800,live,100.7125,ok,2.8098
+78808,279,2023-11-13 12:34:03+00,True,"Slate, Laser not on slate",no slate-corner label,False,1927.8030,1228.8617,superseded,80.3803,ok,1.0947
+78809,279,2023-11-13 12:34:04+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78810,279,2023-11-13 12:34:04+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78811,279,2023-11-13 12:34:04+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78812,279,2023-11-13 12:34:04+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78813,279,2023-11-13 12:34:06+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78814,279,2023-11-13 12:34:07+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78815,279,2023-11-13 12:34:07+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78816,279,2023-11-13 12:34:07+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78817,279,2023-11-13 12:34:07+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78818,279,2023-11-13 12:34:07+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78819,279,2023-11-13 12:34:08+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+78820,279,2023-11-13 12:34:08+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+101258,341,2024-03-13 23:19:58+00,True,"Slate, Laser on slate",laser dot superseded,False,1900.5664,1198.2932,superseded,215.1325,ok,1.3161
+101259,341,2024-03-13 23:19:59+00,True,"Slate, Laser on slate",used in the fit,True,1907.5768,1192.1251,live,218.8150,ok,1.2964
+101260,341,2024-03-13 23:19:59+00,True,"Slate, Laser on slate",used in the fit,True,1906.5012,1189.1740,live,222.4073,ok,1.2788
+101261,341,2024-03-13 23:19:59+00,True,"Slate, Laser on slate",used in the fit,True,1905.1119,1185.0586,live,225.0644,ok,1.2552
+101262,341,2024-03-13 23:19:59+00,True,"Slate, Laser on slate",used in the fit,True,1903.8840,1181.7670,live,227.9430,ok,1.2368
+101263,341,2024-03-13 23:19:59+00,True,"Slate, Laser on slate",used in the fit,True,1902.6706,1178.5998,live,230.3758,ok,1.2195
+101264,341,2024-03-13 23:20:00+00,True,"Slate, Laser on slate",used in the fit,True,1900.4004,1175.4060,live,234.2477,ok,1.2010
+101265,341,2024-03-13 23:20:00+00,True,"Slate, Laser on slate",used in the fit,True,1902.6412,1176.0832,live,236.7763,ok,1.2075
+101266,341,2024-03-13 23:20:13+00,True,"Slate, Laser on slate",used in the fit,True,1933.9943,1273.6790,live,135.1111,ok,2.0829
+101267,341,2024-03-13 23:20:13+00,True,"Slate, Laser on slate",used in the fit,True,1932.7486,1277.0964,live,133.8170,ok,2.1261
+101268,341,2024-03-13 23:20:13+00,True,"Slate, Laser on slate",used in the fit,True,1933.5188,1275.4152,live,132.9586,ok,2.1055
+101269,341,2024-03-13 23:20:13+00,True,"Slate, Laser on slate",used in the fit,True,1933.5722,1276.6153,live,133.5028,ok,2.1231
+101270,341,2024-03-13 23:20:13+00,True,"Slate, Laser on slate",used in the fit,True,1933.8475,1277.4572,live,133.0038,ok,2.1368
+101271,341,2024-03-13 23:20:13+00,True,"Slate, Laser on slate",used in the fit,True,1932.6600,1277.6702,live,132.4122,ok,2.1341
+101272,341,2024-03-13 23:20:14+00,True,"Slate, Laser on slate",laser dot superseded,False,1940.8302,1283.6632,superseded,131.8408,ok,2.2672
+101273,341,2024-03-13 23:20:14+00,True,"Fish, Stoplight Parrotfish (Sparisoma viride)",used in the fit,True,1932.2908,1277.0698,live,131.2669,ok,2.1234
+101274,341,2024-03-13 23:20:14+00,True,"Slate, Laser on slate",used in the fit,True,1937.1447,1285.0366,live,131.5561,ok,2.2730
+101275,341,2024-03-13 23:20:25+00,True,"Slate, Laser on slate",used in the fit,True,1943.4774,1305.4505,live,105.9575,ok,2.7248
+101276,341,2024-03-13 23:20:25+00,True,"Slate, Laser on slate",used in the fit,True,1942.8477,1306.0465,live,105.6598,ok,2.7343
+101277,341,2024-03-13 23:20:25+00,True,"Slate, Laser on slate",used in the fit,True,1943.0940,1306.2669,live,105.2331,ok,2.7416
+101278,341,2024-03-13 23:20:25+00,True,"Slate, Laser on slate",used in the fit,True,1942.2280,1306.2787,live,105.1475,ok,2.7349
+101279,341,2024-03-13 23:20:25+00,True,"Slate, Laser on slate",used in the fit,True,1941.7084,1306.9452,live,104.8475,ok,2.7466
+101280,341,2024-03-13 23:20:26+00,True,"Slate, Laser on slate",used in the fit,True,1941.6132,1300.4226,live,105.1808,ok,2.5954
+101281,341,2024-03-13 23:20:26+00,True,"Slate, Laser on slate",used in the fit,True,1943.1720,1300.5198,live,104.9571,ok,2.6081
+101282,341,2024-03-13 23:20:26+00,True,"Slate, Laser on slate",used in the fit,True,1942.4585,1304.8319,live,106.2262,ok,2.7021
+101283,341,2024-03-13 23:20:26+00,True,"Slate, Laser on slate",used in the fit,True,1942.2625,1303.8059,live,106.7661,ok,2.6765
+101284,341,2024-03-13 23:20:26+00,True,"Slate, Laser on slate",used in the fit,True,1943.7463,1302.9860,live,106.7895,ok,2.6681
+101285,341,2024-03-13 23:20:44+00,True,"Slate, Laser on slate",used in the fit,True,1944.2681,1303.6407,live,107.4011,ok,2.6871
+101286,341,2024-03-13 23:20:44+00,True,"Slate, Laser on slate",used in the fit,True,1943.1774,1303.5995,live,108.2589,ok,2.6785
+101287,341,2024-03-13 23:20:45+00,True,"Slate, Laser on slate",used in the fit,True,1942.9369,1302.8504,live,108.9633,ok,2.6594
+101288,341,2024-03-13 23:20:45+00,True,"Fish, Stoplight Parrotfish (Sparisoma viride)",used in the fit,True,1942.6256,1302.3510,live,109.4121,ok,2.6457
+101289,341,2024-03-13 23:20:45+00,True,"Slate, Laser on slate",laser dot superseded,False,1945.3010,1306.3581,superseded,109.3343,ok,2.7605
+101290,341,2024-03-13 23:20:45+00,True,"Slate, Laser on slate",used in the fit,True,1941.4947,1302.5375,live,109.2108,ok,2.6416
+101291,341,2024-03-13 23:20:45+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+101292,341,2024-03-13 23:20:46+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102731,347,2024-03-14 11:19:48+00,True,"Slate, Laser on slate",used in the fit,True,1968.9319,1228.7305,live,232.2477,ok,1.2522
+102732,347,2024-03-14 11:19:48+00,True,"Slate, Laser on slate",used in the fit,True,1961.3319,1221.5026,live,238.3506,ok,1.2043
+102733,347,2024-03-14 11:19:48+00,True,"Slate, Laser on slate",used in the fit,True,1967.4637,1229.6172,live,227.3104,ok,1.2542
+102734,347,2024-03-14 11:19:49+00,True,"Slate, Laser on slate",used in the fit,True,1970.5037,1238.5742,live,217.9151,ok,1.3071
+102735,347,2024-03-14 11:19:49+00,True,"Slate, Laser on slate",used in the fit,True,1968.8878,1234.8951,live,222.4972,ok,1.2842
+102736,347,2024-03-14 11:19:49+00,True,"Slate, Laser on slate",used in the fit,True,1971.9605,1243.3889,live,214.0023,ok,1.3370
+102737,347,2024-03-14 11:19:49+00,True,"Slate, Laser on slate",used in the fit,True,1974.9694,1252.6332,live,206.0607,ok,1.3991
+102738,347,2024-03-14 11:19:49+00,True,"Slate, Laser on slate",used in the fit,True,1973.1130,1247.9163,live,210.2499,ok,1.3660
+102739,347,2024-03-14 11:19:50+00,True,"Slate, Laser on slate",used in the fit,True,1976.7620,1254.8083,live,201.8663,ok,1.4169
+102740,347,2024-03-14 11:19:50+00,True,"Slate, Laser on slate",used in the fit,True,1981.1671,1256.6758,live,198.1136,ok,1.4383
+102741,347,2024-03-14 11:19:54+00,True,"Slate, Laser not on slate",no slate-corner label,False,2001.8205,1335.2454,superseded,,dot not on any SAM board mask,2.3955
+102742,347,2024-03-14 11:19:54+00,True,"Slate, Laser not on slate",no slate-corner label,False,2001.5354,1332.5591,superseded,,dot not on any SAM board mask,2.3447
+102743,347,2024-03-14 11:19:55+00,True,"Slate, Laser on slate",laser dot superseded,False,2069.8758,1411.7721,superseded,109.9545,ok,3.3541
+102744,347,2024-03-14 11:19:55+00,True,"Slate, Laser on slate",used in the fit,True,2005.5233,1343.5728,live,108.7566,ok,2.5886
+102745,347,2024-03-14 11:19:55+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102746,347,2024-03-14 11:19:55+00,True,"Slate, Laser on slate",no laser dot (no-dot answer),False,,,,,,
+102747,347,2024-03-14 11:19:55+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102748,347,2024-03-14 11:19:56+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102749,347,2024-03-14 11:19:56+00,True,"Slate, Laser on slate",laser dot superseded,False,1923.2180,1378.7323,superseded,108.0370,ok,1.6055
+102750,347,2024-03-14 11:19:58+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102751,347,2024-03-14 11:19:59+00,True,"Slate, Laser on slate",used in the fit,True,2014.1746,1373.3114,live,78.7972,ok,3.5704
+102752,347,2024-03-14 11:19:59+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102753,347,2024-03-14 11:19:59+00,True,"Slate, Laser on slate",used in the fit,True,2014.8361,1375.0958,live,77.2140,ok,3.6558
+102754,347,2024-03-14 11:19:59+00,True,"Slate, Laser on slate",used in the fit,True,2014.4768,1371.6339,live,79.7872,ok,3.5066
+102755,347,2024-03-14 11:19:59+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102757,347,2024-03-14 11:20:00+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+102758,347,2024-03-14 11:20:00+00,True,"Slate, Laser not on slate",no slate-corner label,False,2084.6460,1360.8304,superseded,76.7594,ok,2.0646
+102759,347,2024-03-14 11:20:00+00,True,"Slate, Laser on slate",laser dot superseded,False,1912.5201,1496.5954,superseded,77.2787,ok,0.1104
+102533,349,2024-03-14 10:18:50+00,True,"Slate, Laser on slate",used in the fit,True,1954.2183,1433.4535,live,197.0863,ok,1.3980
+102534,349,2024-03-14 10:18:50+00,True,"Slate, Laser on slate",used in the fit,True,1957.2421,1446.4234,live,190.5492,ok,1.4903
+102535,349,2024-03-14 10:18:51+00,True,"Slate, Laser on slate",used in the fit,True,1952.8478,1426.1761,live,203.4380,ok,1.3515
+102536,349,2024-03-14 10:18:51+00,True,"Slate, Laser on slate",used in the fit,True,1950.2568,1422.9072,live,209.7737,ok,1.3286
+102537,349,2024-03-14 10:19:05+00,True,"Slate, Laser on slate",used in the fit,True,1973.9441,1506.6111,live,129.4875,ok,2.1612
+102538,349,2024-03-14 10:19:05+00,True,"Slate, Laser on slate",used in the fit,True,1974.4367,1506.2882,live,129.4720,ok,2.1584
+102539,349,2024-03-14 10:19:08+00,True,"Slate, Laser on slate",used in the fit,True,1977.3274,1517.6535,live,121.4455,ok,2.3575
+102540,349,2024-03-14 10:19:08+00,True,"Slate, Laser on slate",used in the fit,True,1975.9558,1517.4324,live,120.5778,ok,2.3468
+102541,349,2024-03-14 10:19:08+00,True,"Slate, Laser on slate",used in the fit,True,1976.2199,1515.7415,live,121.6676,ok,2.3186
+102542,349,2024-03-14 10:19:11+00,True,"Slate, Laser on slate",used in the fit,True,1980.6019,1530.2734,live,104.3168,ok,2.6269
+102543,349,2024-03-14 10:19:11+00,True,"Slate, Laser on slate",used in the fit,True,1979.6882,1531.1072,live,102.8445,ok,2.6399
+102544,349,2024-03-14 10:19:11+00,True,"Slate, Laser on slate",used in the fit,True,1980.0790,1529.2193,live,103.8749,ok,2.6006
+111909,383,2024-06-26 06:53:31+00,True,"Slate, Laser on slate",laser dot superseded,False,2043.1891,1355.6552,superseded,232.1831,ok,1.2706
+111910,383,2024-06-26 06:53:33+00,True,"Slate, Laser on slate",laser dot superseded,False,2038.0742,1316.7110,superseded,265.2697,ok,1.0891
+111911,383,2024-06-26 06:53:42+00,True,"Slate, Laser on slate",laser dot superseded,False,2065.2679,1415.7350,superseded,165.8493,ok,1.7201
+111912,383,2024-06-26 06:53:53+00,True,"Slate, Laser on slate",laser dot superseded,False,2080.9388,1470.1673,superseded,109.4623,ok,2.5106
+111913,383,2024-06-26 06:54:01+00,True,"Slate, Laser on slate",laser dot superseded,False,2087.9944,1500.6975,superseded,82.0914,ok,3.3679
+111945,383,2024-06-26 07:52:25+00,True,"Slate, Laser on slate",used in the fit,True,1964.4359,1194.5305,live,391.4844,ok,0.7347
+111946,383,2024-06-26 07:52:30+00,True,"Slate, Laser on slate",laser dot superseded,False,2011.0402,1346.4123,superseded,241.3338,ok,1.1903
+111947,383,2024-06-26 07:52:37+00,True,"Slate, Laser on slate",used in the fit,True,2040.2011,1429.1776,live,158.5654,ok,1.8197
+111948,383,2024-06-26 07:52:45+00,True,"Slate, Laser on slate",laser dot superseded,False,2033.5628,1467.9944,superseded,123.0691,ok,2.2594
+129258,465,2024-12-10 09:18:08+00,True,"Slate, Laser on slate",laser dot superseded,False,1947.0000,1194.0000,superseded,230.9091,ok,1.1735
+129259,465,2024-12-10 09:18:08+00,True,"Slate, Laser on slate",used in the fit,True,1942.0000,1193.0000,live,236.6833,ok,1.1625
+129260,465,2024-12-10 09:18:09+00,True,"Slate, Laser on slate",laser dot superseded,False,1952.0000,1210.0000,superseded,216.1203,ok,1.2575
+129261,465,2024-12-10 09:18:09+00,True,"Slate, Laser on slate",laser dot superseded,False,1953.0000,1211.0000,superseded,215.3137,ok,1.2641
+129262,465,2024-12-10 09:18:13+00,True,"Slate, Laser on slate",laser dot superseded,False,1959.0000,1232.0000,superseded,192.3538,ok,1.3952
+129263,465,2024-12-10 09:18:16+00,True,"Slate, Laser on slate",laser dot superseded,False,1985.0000,1314.0000,superseded,110.8603,ok,2.3622
+129264,465,2024-12-10 09:18:17+00,True,"Slate, Laser not on slate",no slate-corner label,False,,,,,,
+129265,465,2024-12-10 09:18:17+00,True,"Slate, Laser on slate",laser dot superseded,False,1988.0000,1324.0000,superseded,101.2472,ok,2.5798
+129392,465,2024-12-10 10:09:30+00,True,"Slate, Laser on slate",laser dot superseded,False,1942.9162,1212.6407,superseded,221.2826,ok,1.2563
+129393,465,2024-12-10 10:09:32+00,True,"Slate, Laser on slate",used in the fit,True,1953.3325,1231.3349,live,200.7262,ok,1.3806
+129394,465,2024-12-10 10:09:36+00,True,"Slate, Laser on slate",used in the fit,True,1982.7498,1321.5001,live,110.2588,ok,2.4977
+129395,465,2024-12-10 10:09:37+00,True,"Slate, Laser not on slate",no slate-corner label,False,1853.0000,1365.0000,superseded,,dot not on any SAM board mask,1.0547
+129398,471,2024-12-10 09:16:33+00,True,"Slate, Laser on slate",used in the fit,True,2049.0000,1485.0000,live,254.1869,ok,1.1225
+129399,471,2024-12-10 09:17:02+00,True,"Slate, Laser on slate",laser dot superseded,False,2103.0000,1656.0000,superseded,82.2192,ok,3.4838
+129400,471,2024-12-10 09:17:03+00,True,"Slate, Laser on slate",laser dot superseded,False,2104.0000,1655.0000,superseded,81.2835,ok,3.4533
+129471,471,2024-12-10 10:08:37+00,True,"Slate, Laser on slate",laser dot superseded,False,2019.0000,1524.0000,superseded,122.2579,ok,1.2225
+129472,471,2024-12-10 10:08:37+00,True,"Slate, Laser on slate",used in the fit,True,2093.0000,1632.0000,live,107.7172,ok,2.6744

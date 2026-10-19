@@ -232,12 +232,13 @@
   component: protocol
   change: "Protocol revised with the deployment partner: the slate becomes the field laser-calibration target, shot in an out-and-back range sweep at the start of the dive, aiming for about ten frames."
   label: "slate sweep protocol"
-  driver: machine
-  driver_detail: "range spread for the fit - the IMWUT submission s3.4 states 'Sweeping in range is what fixes the laser's direction'; author to confirm (2026-10)"
+  driver: other
+  driver_detail: "the mount break: the mount moved and did not survive, so laser calibration had to be redone in the field at every dive, and the sweep was added (author, 2026-10-18). Not driven by the machine fit, although IMWUT s3.4 explains the sweep by the fit ('Sweeping in range is what fixes the laser's direction')."
   evidence: "FishSense Lite IMWUT submission (author's copy, 2026-10 build), s3.4 Calibration: 'At the start of the dive, the diver moves away from the slate until the laser becomes hard to keep on it and then back in, photographing the slate whenever the dot is on it. Divers aim for about ten frames ... Sweeping in range is what fixes the laser's direction'; author account (2026-10)"
   confidence: medium
   dives_before: unknown
   dives_after: unknown
+  date_note: "Date not known; it followed the mount break (author, 2026-10-18). The manual was never revised (author), so the sweep was communicated outside the manual."
   note: "Intentional change agreed with collaborators. Its date and the dives it covers are needed before this paper can say whether the thin field laser calibrations predate it (questions.md). In the field data no month shows a shift toward ~10-frame sweeps: from 2023-09 to 2024-12 field dives with labelled slate frames have a median of 1-5 slate frames per dive, and at most 3 dives a month reach 8 (analysis/codesign/results/slate_spread_by_month.csv). Either the dives predate the sweep or the sweep was not followed; the record does not say which."
 
 - date: 2023-08 onward

@@ -1,0 +1,8 @@
+dive_id,slate_frames,detector_slate,with_live_dot,with_superseded_dot,used_in_fit,trimmed,range_span_used_m,refit_vs_stored_deg,sc_live_usable,sc_live_size_spread,sc_live_range_span_m,sc_live_meets_0_6m,sc_all_usable,sc_all_size_spread,sc_all_range_span_m,sc_all_meets_0_6m,sc_live_angle_vs_stored_deg,sc_live_vp_vs_stored_px,sc_live_enough_frames,sc_all_angle_vs_stored_deg,sc_all_vp_vs_stored_px,sc_all_enough_frames
+279,57,57,8,25,3,0,1.4665,0.0000,3,2.0725,1.4664,True,8,3.8467,2.3812,True,0.1386,-4.7283,False,4.2447,-212.5613,True
+341,35,35,30,3,30,0,1.5266,0.0020,30,2.2583,1.5456,True,33,2.2583,1.5595,True,0.0750,-3.5187,True,0.0909,-4.3531,True
+347,28,28,14,6,14,0,2.4041,0.0017,14,3.0869,2.4514,True,18,3.1052,3.5454,True,0.1213,2.2100,True,1.9653,-98.6537,True
+349,12,12,12,0,12,0,1.2990,0.0000,12,2.0397,1.3114,True,12,2.0397,1.3114,True,0.0381,1.8367,True,0.0381,1.8367,True
+383,9,9,2,7,2,0,1.0850,0.0000,2,2.4689,1.0850,True,9,4.7689,2.6332,True,0.0484,-2.3938,False,0.0381,-1.8763,True
+465,12,12,3,8,3,0,1.3469,0.0342,3,2.1466,1.3352,True,10,2.3377,1.4173,True,0.0293,-0.2310,False,0.1103,5.3004,True
+471,5,5,2,3,2,0,1.5648,0.0228,2,2.3598,1.5519,True,5,3.1272,2.3614,True,0.0520,-1.5957,False,1.0851,-54.6146,False

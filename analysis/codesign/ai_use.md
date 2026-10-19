@@ -98,6 +98,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-11 | Labeling-interface figure rebuilt with production's own preprocessing (`analysis/codesign/labeling_interface.py`; frame 102654) | figure | assistant | this commit (fig: labeling interface...) |
 | 2026-10-11 | Three timeline entries from the 2023-12-14 stakeholder notes (drafted by the author; the assistant checked each against the PDF and narrowed two wordings to what the notes say) | data | author + assistant | this commit (timeline: 2023-12-14 stakeholder notes...) |
 | 2026-10-18 | Protocol entries from User Manual Revision 0 and the IMWUT submission s3.4 (drafted by the author, checked by the assistant against both PDFs); slate frames per field dive by month (`analysis/codesign/slate_spread.py` -> results/slate_spread_by_month.csv) | data + analysis | author + assistant | this commit (timeline: user manual rev 0...) |
+| 2026-10-18 | Field laser calibrations frame by frame: stage-13 replay with production's code, exclusion reasons from labelling records, size constancy on all slate frames (`analysis/codesign/field_calibration_frames.py`; `sql/extract_field_calibration_frames.sql`, `extract_field_calibration_extrinsics.sql`); sweep-protocol driver corrected from the author's answer | analysis | assistant | this commit (analysis: field calibration frames...) |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

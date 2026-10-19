@@ -6,11 +6,14 @@
   photo guidelines, the laser calibration (board, out and back, 10-50 images) and slate validation
   (three photos at three meters). The IMWUT submission s4.1 says units were distributed with it.
   "No written protocol" is withdrawn.
-- **Open: when did the out-and-back slate sweep (~10 frames, IMWUT s3.4) replace the manual's
-  three-photo validation, and which dives does it cover?** The field data shows no month with a
-  shift toward sweep-sized slate bursts (median 1-5 slate frames per field dive, 2023-09..2024-12;
-  results/slate_spread_by_month.csv). Were there later manual revisions? Please confirm the driver
-  as well (recorded as machine, from s3.4's "sweeping in range is what fixes the laser's direction").
+- **Sweep protocol: answered (author, 2026-10-18).** Date unknown; it was triggered by the mount
+  break (the mount moved and did not survive, so the sweep was added). The manual had no later
+  revisions. Driver recorded as other (mount break), not machine.
+- **Field calibrations, frame by frame (analysis/codesign/field_calibration_frames.py, 2026-10-18):**
+  - Of the slate frames on the seven field dives (all found by the slate detector), 65 were never
+    corner-labelled; each is answered "Laser not on slate" by the labeller.
+  - Another 26 answered "Laser on slate" had their laser dot superseded, so stage 13 never saw them.
+  - What superseded them (the line validator or a relabel) is not recorded per frame. Can you say?
 - **Laser product.** The manual names the red laser: Innovative Scuba Aluminum Laser Pointer
   High-Intensity Red Beam. The green products (Shark, Orca Torch) by camera are still open (B1).
 
