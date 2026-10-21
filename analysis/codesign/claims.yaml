@@ -10,8 +10,8 @@
 # Unless stated, detectors are scored against labels drawn without a pre-fill, and splits hold out whole dives.
 
 # ---------------------------------------------------------------- 3 How the design changed
-- claim: "Labellers shown a pre-filled laser label accept it unchanged 87% of the time; a \"moved\" seed moves a median <1 px."
-  number: 626 of 711 (87%)
+- claim: "Labellers shown a pre-filled laser label accept it unchanged 88% of the time; a \"moved\" seed moves a median <1 px."
+  number: "626 of 711 seeded pairs (88.0%; dive-resampled 95% CI 73-96%, 12 dives). The earlier 87% is 626 of 717, which counts the 6 pairs drawn with no seed (corrected 2026-10-20, intro_numbers.py)"
   evidence_level: retrospective
   source: p2-results.md T1/T2; annotation_analysis/laser_label_pairs.ipynb; fishsense_cscw/laser_pairs.py (tests/test_laser_pairs.py)
   confounds: seeds were earlier human labels (not model output); campaign ~260 days apart; one labelling interface
@@ -145,7 +145,7 @@
   paper_section: 6
 
 - claim: At deployed exposure 84% of laser dots are clipped (98-100% below 1.5 m); the Bayer mosaic does not rescue them.
-  number: 84%; green photosites clip on 11/20, red 13/20, blue 5/20
+  number: "84% (590 of 701 dots; dive-resampled 95% CI 78-90%, 24 dives); 99% below 1.5 m (259/262), 75% at 1.5 m and beyond. 700 of the 701 dots are red, so this is a red-laser number; green photosites clip on 11/20, red 13/20, blue 5/20 (raw-mosaic check)"
   evidence_level: retrospective
   source: p2-tests.md E1c, E1h
   confounds: pool dives, red lasers
@@ -357,6 +357,69 @@
   source: analysis/codesign/size_constancy_sam.py (sam3_predline) -> results/size_constancy_sessions.csv, calibration_analysis/e1j_size_constancy/labelfree_sam3_predline_tv.csv; e2e_measurement/score.py configs D3, F3 -> e2e_measurement/lengths.csv
   confounds: "the dot on each slate frame is still the human click (the detector has not been run on the slate frames); |O| is still the 104 mm physical stand-in; prediction lines rest on few points (4 on session 114); pool sessions only"
   paper_section: 5
+
+# ---------------------------------------------------------------- Introduction numbers (checked 2026-10-20)
+# All from analysis/codesign/intro_numbers.py -> results/intro_numbers.csv; 95% intervals resample whole dives (2,000 draws).
+- claim: The corpus holds 69,162 images.
+  number: "69,162 canonical images (one row per unique file checksum; 134,662 image rows with duplicates), all in dives captured 2023-08 to 2025-01"
+  evidence_level: census
+  lesson: 1
+  source: sql/extract_image_counts.sql -> data/db_extracts/image_counts.psv
+  paper_section: 1
+- claim: Labellers accept a pre-filled laser dot unchanged about 89% of the time.
+  number: "detector pre-fills kept within 0.5 px: 703 of 791 (88.9%, CI 83.6-92.3%, 40 dives); 126/143 (88.1%) before auto-accept, 577/648 (89.0%) after. Earlier-human-label pre-fills: 655/726 (90.2%, CI 78.9-97.1%, 8 dives)"
+  evidence_level: retrospective
+  lesson: 1
+  source: analysis/codesign/labelling.py (sql/extract_seed_moves.sql); intro_numbers.py item 2
+  confounds: "the 87% figure (T2) is a different population (two-project relabelling pairs) and was 626/717; IMWUT's 461/733 (62.9%, CI 18.8-88.8%, 11 dives) counts exact-duplicate repeat human pairs and 2,242/2,364 (94.8%, CI 92.4-96.7%, 43 dives) counts detector dots identical to the live human dot - both show copying, neither measures acceptance of a shown pre-fill"
+  paper_section: 1, 3
+- claim: The detector's contrast-enhanced input is the same image the labellers saw.
+  number: "same tone chain: rawpy linear decode, auto-gamma to mean V 20, skimage equalize_adapthist at defaults on HSV V (fishsense-core RawImage before 2026-09-04, now DecodeConfig.production()). Labellers' image adds cv2.undistort, a 2-px green region outline and JPEG encoding; the detector's cache is unrectified, JPEG quality 95"
+  evidence_level: code
+  lesson: 3
+  source: "detector repo src/laser_detector/preprocessing/image_loader.py (_decode_with_fishsense_core); fishsense-services laser_preprocess/overlay.py; fishsense-lite preprocess_laser_image.py; fishsense-core image/decode.py"
+  confounds: "fishsense-core 4.x (2026-09-04) changed RawImage's default to a global L* stretch with CLAHE off; fishsense-services pins 4.1.0 and passes no config, so labelling images rendered by it after that date no longer use CLAHE. Labels analysed here predate it"
+  paper_section: 1, 6
+- claim: Red 0.57 vs green 0.30 (JPEG model) and red 0.51 vs green 0.53 (RAW model) are a like-for-like before/after.
+  status: caveat
+  number: "not like-for-like: the 0.57/0.30 audit (epoch_007) does not state its weighting, and the after numbers come from a different evaluation path. Dive-averaged gap 0.27 -> 0.06 is the cleanest statement"
+  source: analysis/codesign/results/raw_vs_jpeg_comparability.md
+  paper_section: 1, 6
+- claim: The deployed laser detector reads RAW.
+  number: "6-channel input: linear RAW (rawpy, gamma 1, 16-bit, no CLAHE) plus Bayer-excess G/R (run3 epoch_021; fishsense-core LinearRawImage in production predict_laser_image.py)"
+  evidence_level: code
+  lesson: 3
+  source: detector repo image_loader.py (_decode_raw_linear, _decode_raw_bayer_excess); fishsense-core image/linear_raw_image.py
+  paper_section: 1, 6
+- claim: "Size constancy from SAM 3 masks places the laser's vanishing point within 0.05 deg of the stored calibration on 10 of 10 pool sessions (corners: 9 of 10)."
+  number: "SAM 3: median |error| 0.023 deg, max 0.043, 10/10 point estimates within 0.05; corners: median 0.016, max 0.060, 9/10. Per-session 95% intervals (error +/- 1.96 bootstrap SE over frames) lie wholly inside +/-0.05 deg on 3/10 (SAM 3) and 2/10 (corners)"
+  evidence_level: designed_experiment
+  lesson: 2
+  source: analysis/codesign/size_constancy_sam.py -> results/size_constancy_sessions.csv; intro_numbers.py item 5
+  confounds: "reference is the stored labelled calibration, not ground truth; the earlier 9/10 was the image-registration size measure, not SAM 3"
+  paper_section: 1, 5
+- claim: Green dots are missed 16 points more often than red within camera and environment.
+  number: "+15.9 pt (Mantel-Haenszel, camera x environment; CI 10.4-21.7; red 2.9% of 421 frames in 96 dives, green 16.8% of 382 in 72). Raw +11.0 pt (5.1-17.7); within half-year strata +12.5 (0.0-26.9); stagger window +12.1 (-7.0 to +21.0)"
+  evidence_level: retrospective
+  lesson: 3
+  source: analysis/codesign/redgreen.py -> results/redgreen.csv
+  confounds: "miss = presence confidence < 0.5 on a frame whose human dot was drawn without a pre-fill; colour assigned per dive (>= 90% of its labels); range, exposure and green product not controlled"
+  paper_section: 1, 6
+- claim: Human laser clicks carry 0.77 px of noise.
+  status: correct the definition
+  number: "0.77 px is production's divelaserline.residual_std (mean over 256 dives 0.75, CI 0.73-0.78; median 0.74): np.std of |perpendicular distance| of RANSAC inliers within 4 px, i.e. a folded, truncated spread, about 0.6 sigma. Implied Gaussian sigma ~1.2 px; robust perpendicular scatter of unseeded human dots about the dive line 1.59 px (CI 1.49-1.70, 182 dives). Repeat-label noise (IMWUT pairs, per label): across the line SD 0.65 px (CI 0.37-1.22), along 0.90 (0.41-1.99); robust 0.28 / 0.28"
+  evidence_level: retrospective
+  lesson: 4
+  source: data/db_extracts/lines.psv; fishsense-core line_fit.py fit_dive_line; IMWUT label_repeats.csv; intro_numbers.py item 8
+  confounds: "line scatter also includes mount motion and line misfit within a dive; repeat pairs include a second labeller nudging the first"
+  paper_section: 1
+- claim: "Replacing the human dot with the detector costs +0.1 pp and the label-free laser calibration +0.4 pp of per-fish p90 error."
+  number: "per-fish p90 MAE, stage minus A (3.01%), 10 pool dives, 1,528 frames, 31 fish x target units: B (detector dot) +0.12 pp (CI -0.08 to +0.37); D (image registration) +0.36 (-0.08 to +0.91); D2 (SAM 3) +0.01 (-0.24 to +0.25); F2 end-to-end +7.1 (5.2-8.6). On IMWUT's accuracy-cohort dives with Shark and Ruler held out (5 dives, 14 units): B +0.14 (-0.20 to +0.63), D +0.34 (+0.09 to +0.57), D2 +0.11 (-0.07 to +0.30), F2 +3.6 (1.3-5.2)"
+  evidence_level: designed_experiment
+  lesson: 4
+  source: e2e_measurement/score.py -> lengths.csv; intro_numbers.py item 9
+  confounds: "the 1,528 frames are every IMWUT-corpus measurement on the ten dives paired with the ten pool calibration sessions (score.py PAIR). IMWUT's 995-frame cohort shares five of the dives (58, 59, 61, 66, 84; 227 frames); it drops 60, 87, 94 and 114 as design hold-outs (87/94/114 are Snook-only angle-test dives) and 76 for a range trend, and holds out the Shark (wrong reference) and Ruler, which the 1,528 include. Only 10 dives: intervals are wide"
+  paper_section: 1, 9
 
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
