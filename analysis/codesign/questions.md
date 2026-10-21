@@ -1,5 +1,59 @@
 # Questions and open items for the SenSys 2027 Experiences paper (result parity vs task parity)
 
+## N3. Author responses to the citations and records report (author's account, 2026-10-19)
+
+Each item is the author's account. Where no commit or file backs it, the entry says so.
+
+1. **Laser colour (item 11).** Early testing used both red and green while the team worked out what
+   the system needed. Red was deployed first (User Manual Rev 0, 2023-08-01, lists the Innovative
+   Scuba red pointer; author's copy, not in the repo). The red pointers began to leak after a few
+   months of use (stakeholder notes, 2023-12-14; PDF to be added), and replacing them prompted the
+   team to reconsider red versus green: the leak is the **trigger**. Green was chosen because it
+   penetrates further in water and was expected to be easier for divers to see: that is the
+   **reason** for the choice. No 2024 record of the decision exists; the per-camera switch dates
+   (2024-03 to 2024-12) are from the DB. Recorded in `timeline.yaml` as two entries ("red pointers
+   leak", driver: other; "red → green laser", driver: human).
+2. **November 2024 pre-fill (item 9b).** Turned on to help labellers; its predictions were wrong
+   often, labellers found constantly correcting them annoying and found it faster to label without
+   assistance, so it was withdrawn. Dates are from fishsense-lite-cli c1c447d3..708a2ce3. **No revert
+   commit exists; the withdrawal rests on the author's account.**
+3. **Neural detector removed from laser calibration (item 9a).** Too inaccurate, the same reason as
+   the pre-fill; it is the same model that produced the pre-filled predictions. Removed in two steps:
+   checkerboard calibration 2025-01-21 (de881b42) and field calibration by 2025-03-25 (bf8cbc8a). The
+   steps are from the commits; **the reason has no commit, issue or note behind it.**
+4. **Classical slate detector (item 10a).** The homography-to-slate-PDF approach: match each image to
+   the slate's scan, compute the homography, transform the keypoints. Multiple keypoint-matching
+   methods were tried; none was consistently successful. **No per-method results are recorded.**
+   This answers N.1 (the homography-to-slate-PDF attempt).
+5. **Definition of "attempt" (item 8).** Count distinct detection methods; exclude the 2023
+   coordinate refiner (it refines a given location rather than finding the dot); count a model once
+   even if used in more than one place. Two classical methods came before the neural network:
+   brightest spot in the image (failed: bubbles, reflections and, in low light, sensor noise amplified
+   by the camera's gain are often brighter than the dot; low-light case to be linked to the dive 279
+   red-speck false positives) and a 2D Gaussian fit on the brightness channel (failed: the dot is
+   clipped, so its top is flat). Sequence of distinct methods: brightest spot; Gaussian fit; neural
+   network (2023 CLI demo / 2024 NNLaserDetector); Gaussian-mixture colour detector (2025);
+   fine-tuned Depth Anything (2025); ResNet-34 U-Net on RAW input (deployed 2026-07). **Open:** whether
+   the 2023-09 CLI demo checkpoint is the same network as the 2024 NNLaserDetector (five failed
+   methods before a sixth if the same; six before a seventh if not). Code and dates for the two
+   classical methods: being searched (pyFishSenseDev, fishsense-lite-cli, older E4E repos).
+
+## N2. Pending files (author, 2026-10-21)
+
+- `writing-rules.md` and the shared-facts file are not in the repo yet; the author will add both.
+  Until then, confirmed facts are kept here and in `claims.yaml`.
+- The 2023-12-14 stakeholder notes PDF will be added. Until it is, everything drawn from it (red
+  pointers leaking, early two-color pool testing) is a secondary summary in `timeline.yaml`.
+
+## N3. Records audit follow-ups (2026-10-21)
+
+- **Demo checkpoint (2023-09-22):** is `demo/data/models/laser_detection.pth` the NNLaserDetector
+  model or a different one? It decides whether the laser-dot count is 3 or 4 distinct methods
+  before the deployed detector (automation_attempts.yaml header).
+- **Red pointers leaking vs the switch to green:** the timeline carries the leak as the trigger
+  (author account, 2026-10-19), but no record links them, and the green-laser item in section B
+  says not to cite the leak as a driver. Which stands?
+
 ## N1. Toward image-only laser calibration (author preference, 2026-10-19: image measurements, not physical ones)
 
 Remaining non-image inputs in the label-free laser calibration:
@@ -68,7 +122,9 @@ Remaining non-image inputs in the label-free laser calibration:
    - **New:** after 2026-07-27, 85% of "unseeded" laser labels copy the prediction to 0.00 px
      (no parent link, origin "manual"). How do accepted pre-fills lose their provenance:
      auto-accept write-back or the UI?
-10. **Slate pose predictor retirement** (B5): date and reason are still inferred (2026-09, confident
+10. **Slate pose predictor retirement** (B5): **closed (records audit, 2026-10-21).** Retired
+   2026-08-02/03 (fishsense-lite@65582b6e, @e32bd9bc); reason recorded in 65582b6e: the ECC gate,
+   calibrated on 8 clear-water reef dives, passed confident false fits on pool frames. Was: inferred (2026-09, confident
    false fits). Needed for the "reverted" marker in the automation figure.
 
 
@@ -116,9 +172,13 @@ Sections A-D are what is still open.
    for shipping, so the H slate was improvised, and new cameras continued with the proven method.
    The DB dates interleave because cameras and techniques overlapped. The timeline now carries
    `track: lab | field`.
-2. **Green laser rationale: closed (author, 2026-10-07).** Green was chosen because it penetrates
-   further in water and was expected to be easier to see. IMWUT gives that rationale as it stood at
-   the time; this paper reports the outcome: easier for divers, harder for automated detection.
+2. **Green laser rationale: closed (author, 2026-10-07; reconfirmed 2026-10-19).** Green was chosen
+   because it penetrates further in water and was expected to be easier for divers to see. The
+   trigger for reconsidering the colour was the red pointers leaking (see N3.1). This is the
+   author's account; there is no 2024 record of the decision. The IMWUT sentence giving this
+   rationale is not a contemporaneous source: it was added 2026-09-29
+   (papers/fishsense-lite-imwut@25d7901) and removed 2026-10-19 (@364e022). This paper reports the
+   outcome: easier for divers, harder for automated detection.
 3. **The IMWUT cost table lists a red laser.** `system.tex` L11 lists "Innovative Scuba Aluminum
    Laser Pointer (Red)", while the text says a Class IIIA 532 nm green pointer.
 4. **The IMWUT draft says laser calibration is "performed once per dive site"** (`system.tex` L167).
@@ -174,7 +234,9 @@ Sections A-D are what is still open.
    - **Needed:** for each camera (FSL-01..06, 10), the earliest date by which it certainly had an
      aluminium mount, if any.
 5. **TG-6 -> TG-7 for FSL-08+ (Jan 2025):** availability, cost, or a sensing reason?
-6. **Slate pose predictor:** when was it retired, and why? (Inferred from the auto-accept commit:
+6. **Slate pose predictor: closed (records audit, 2026-10-21).** Retired 2026-08-02/03
+   (fishsense-lite@65582b6e, @e32bd9bc), about 14 hours after deployment; the commit body records
+   the reason (ECC gate does not transfer to pool frames; confident false fits). Was: when was it retired, and why? (Inferred from the auto-accept commit:
    confident false fits passed the ECC gate. Driver currently machine, medium confidence.)
 7. **Label Studio "Calibration Targets" branch (2026-07-21)** and **checkerboard calibration
    automation (2026-09-08):** why?
@@ -199,6 +261,14 @@ Sections A-D are what is still open.
    reverted to tasks with no pre-fill. Only 38 seeded annotations survive in the DB.
 3. **The Gaussian-mixture (2025-04) and Depth Anything (2025-08..11) detectors** were not used
    because of poor accuracy.
+
+Records audit (2026-10-21) of what the commits show for 1-2; the reasons remain the author's account:
+- fishsense-lite-cli@de881b42 (2025-01-21) replaced NNLaserDetector with LabelStudioLaserDetector in
+  checkerboard calibration (`commands/calibrate_laser.py`) only. Field calibration kept
+  NNLaserDetector until the jobs rewrite, @bf8cbc8a (2025-03-25). No commit records a reason.
+- The 2024-11 pre-fill is fishsense-lite-cli@c1c447d3 (2024-11-09) through @708a2ce3 (2024-11-13).
+  No revert commit exists; `commands/label_studio.py` was still present at @650d1ba9 (2025-03-31),
+  so the revert was operational.
 
 ## B'. For the slate project (found 2026-10-06, `rectfit_sizes.py`)
 

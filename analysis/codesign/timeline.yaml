@@ -111,17 +111,18 @@
   dives_before: n/a
   dives_after: n/a
 
-- date: 2026-09 (exact date unknown)
+- date: 2026-08-02 .. 2026-08-03
   component: calibration
-  change: Slate pose predictor retired.
+  change: "Slate pose predictor retired: its automatic schedule was stopped (2026-08-02) and actively deleted on worker startup (2026-08-03). The parent and backfill workflows stayed registered for on-demand use and the code was not deleted. The 37 pool predictions it had already seeded (dives 65 and 71) were deleted."
   label: "slate predictor retired"
   track: field
   driver: machine
-  evidence: 2026-10-03_slate_detector/README.md ("the retired predict_slate_image"); fishsense-lite commit c388e214 body ("the slate detector's per-frame ECC gate passed confident false fits")
-  confidence: medium
+  driver_detail: "the fishsense-core slate estimator's ECC gate was calibrated only on 8 clear-water reef dives and does not transfer out of distribution: pool calibration frames produce high-ECC (0.93-0.97) false fits that clear the 0.80 gate and land off the tape corners, verified in prod on dives 65 and 71; 'no threshold fixes it' (commit body, 65582b6e)"
+  evidence: "fishsense-lite@65582b6e 2026-08-02 'chore(api-worker): stop scheduling the slate-detector parent (#497)' (reason, deleted predictions); fishsense-lite@e32bd9bc 2026-08-03 'fix(api-worker): actively retire the slate-detector schedule on startup (#498)'; checked 2026-10-21. Earlier secondary mentions: fishsense-lite c388e214 body; 2026-10-03_slate_detector/README.md"
+  confidence: high
   dives_before: n/a
   dives_after: n/a
-  note: the retirement date and the deciding reason are inferred from the auto-accept commit's remark; see questions.md.
+  note: "Deployed 2026-08-02 09:42 (64b4024a) and unscheduled 23:41 the same day: it ran for about 14 hours. 'Retired' means automatic scheduling stopped, not removal. Date and reason replace the earlier inference (2026-09, from c388e214), records audit 2026-10-21."
 
 - date: 2026-09-08
   component: calibration
@@ -147,17 +148,29 @@
   note: projected, not a deployed revision. Size constancy, its label-free variant and the slate-frame detector are this paper's contributions (author, 2026-10-07); the sections in wuwnet-fishsense2026/correspondence/p2/LASER_SECTIONS_FOR_P2.md were prepared for this paper.
 
 # ---------------------------------------------------------------- hardware
-- date: 2023-08 .. 2024-12 (staggered by camera)
+- date: 2024-03 .. 2024-12 (staggered by camera)
   component: hardware
-  change: "Laser red -> green. Per camera (first mostly-green dive): FSL-02 2024-03, FSL-06 2024-03, FSL-01 2024-06, FSL-04 2024-06, FSL-05 2024-06, FSL-03 2024-12. Isolated green dives in 2023 (2023-10-19, 2023-10-27) are probably camera-clock or test dives."
+  change: "Laser red -> green. Per camera (first mostly-green dive): FSL-02 2024-03, FSL-06 2024-03, FSL-01 2024-06, FSL-04 2024-06, FSL-05 2024-06, FSL-03 2024-12. Isolated green dives in 2023 (2023-10-19, 2023-10-27) are probably camera-clock or test dives. Early testing used both colours while the team worked out what the system needed; red was deployed first (User Manual Rev 0, 2023-08-01, lists the Innovative Scuba red pointer)."
   label: "red → green laser"
   driver: human
-  driver_detail: "Green chosen because it penetrates further in water; expected to be easier to see. Outcome: easier for divers, harder for automated detection."
-  evidence: "DB laserlabel colour per dive (>=90% of a dive's labels one colour), grouped by camera and month; stated rationale at the time: papers/fishsense-lite-imwut/Sections/system.tex L163 (green 'penetrates water further'); outcome: project lead, analysis session 2026-09-26 (green lasers 'are easier on the diver'), author account 2026-10-07; detector and labeller cost: analysis/codesign/redgreen.py, before_after.py"
+  driver_detail: "Colour choice: green was chosen because it penetrates further in water and was expected to be easier for divers to see (author account, 2026-10-07 and 2026-10-19; no 2024 record of the decision). The trigger for reconsidering the colour was the red pointers leaking - see the separate 'red pointers leak' entry. Outcome: easier for divers, harder for automated detection."
+  evidence: "DB laserlabel colour per dive (>=90% of a dive's labels one colour), grouped by camera and month (re-counted from data/db_extracts/dive_laser_colour.psv 2026-10-21); rationale: author account 2026-10-07 and 2026-10-19 (the IMWUT sentence that gave it, system.tex 'penetrates water further', was written 2026-09-29 at papers/fishsense-lite-imwut@25d7901 and removed at @364e022, so it is not a contemporaneous record); outcome: project lead, analysis session 2026-09-26 (green lasers 'are easier on the diver'); detector and labeller cost: analysis/codesign/redgreen.py, before_after.py"
   confidence: medium
   dives_before: "mostly-red dives: 2023-08..2024-02: 171; 2024 mixed by camera"
   dives_after: "mostly-green dives 2024-03..2024-12: 97 (red still on FSL-03 until 2024-12)"
-  note: "Staggered adoption gives concurrent red and green dives at the same sites; usable for task 3d. The IMWUT text gives the rationale at the time (penetration, reliable detection); this paper reports the outcome: easier for divers, harder for the detector (missed +16 pt within camera and setting) and slower to label (+1.8 s within labeller). Red was chosen first because fish behaviour should be less affected (author account 2026-10-06)."
+  note: "Staggered adoption gives concurrent red and green dives at the same sites; usable for task 3d. This paper reports the outcome: easier for divers, harder for the detector (missed +16 pt within camera and setting) and slower to label (+1.8 s within labeller). Red was chosen first because fish behaviour should be less affected (author account 2026-10-06)."
+
+- date: 2023-12-14 (observed) .. 2024-03 (first green field dives)
+  component: hardware
+  change: "The red Innovative Scuba pointers began to leak after a few months of use. Replacing them prompted the team to reconsider red versus green, which led to the switch to green."
+  label: "red pointers leak (trigger for colour switch)"
+  driver: other
+  driver_detail: "hardware failure - the leaking red pointers triggered the reconsideration; the colour chosen was then decided by diver visibility and penetration (see 'red → green laser')"
+  evidence: "author account, 2026-10-19 (trigger); SMILE stakeholder meeting notes, 2023-12-14, 'red lasers start to leak after a few months' (author's copy; PDF to be added to the repo, not yet checked against this entry)"
+  confidence: medium
+  dives_before: n/a
+  dives_after: n/a
+  note: "No record links the leak to the switch to green (records audit 2026-10-21): the stakeholder notes record the leak, and the link rests on the author's account alone. The leak is the trigger for reconsidering, not the reason green was chosen. Until the stakeholder notes PDF is in the repo, the leak observation rests on the summary in the 2023-12-14 entry."
 
 - date: 2023-12-14
   component: hardware
@@ -333,12 +346,12 @@
 
 - date: 2024-09-10 .. 2025-01-21
   component: automation
-  change: "Neural laser detector (NNLaserDetector, a small CNN tile classifier in pyfishsensedev) drove the CLI's automatic laser calibration - lab checkerboard and field (2024-09-13..15). On 2025-01-21 the CLI replaced it with human labels from Label Studio (LabelStudioLaserDetector); the NN branch is commented out and raises NotImplementedError. From 2025-03 the CLI reads only human laser labels (Label Studio or the DB)."
+  change: "Neural laser detector (NNLaserDetector, a small CNN tile classifier in pyfishsensedev) drove the CLI's automatic laser calibration - lab checkerboard and field (2024-09-13..15). It was replaced by human labels in two steps: (1) checkerboard calibration on 2025-01-21 (de881b42: commands/calibrate_laser.py switches to LabelStudioLaserDetector; the NN branch is commented out and raises NotImplementedError); (2) field calibration by 2025-03-25 (bf8cbc8a: the jobs rewrite's get_laser_detector returns only LabelStudioLaserDetector or PSqlLabelDetector; commands/field_calibrate_laser.py still called NNLaserDetector at de881b42). From 2025-03 the CLI reads only human laser labels (Label Studio or the DB)."
   label: "NN laser detector, then back to human labels"
-  status: used, then replaced by human labels (2025-01-21)
+  status: used, then replaced by human labels (checkerboard 2025-01-21, field by 2025-03-25)
   driver: other
-  driver_detail: "accuracy - the detector was not accurate enough, so calibration went back to people's clicks (author, 2026-10-07)"
-  evidence: "UCSD-E4E/fishsense-lite-cli 2024-09-13 'laser checkerboard calibration', 2024-09-15 'functioning field laser calibration'; de881b42 2025-01-21 'fix: update raw processing and laser detection' (diff: NNLaserDetector -> LabelStudioLaserDetector, NN path raises NotImplementedError; checked 2026-10-07); pyFishSenseDev nn_laser_detector.py first commit 2024-09-10; no results recorded"
+  driver_detail: "accuracy - the detector was too inaccurate, so calibration went back to people's clicks; it is the same model that produced the 2024-11 pre-fill (author account, 2026-10-07 and 2026-10-19; no commit message, issue or note records the reason)"
+  evidence: "UCSD-E4E/fishsense-lite-cli 2024-09-13 'laser checkerboard calibration', 2024-09-15 'functioning field laser calibration'; de881b42 2025-01-21 'fix: update raw processing and laser detection' (checkerboard only; checked 2026-10-07 and 2026-10-21); bf8cbc8a 2025-03-25 'feat: field calibrate laser' (field; checked 2026-10-21); pyFishSenseDev nn_laser_detector.py first commit 2024-09-10; no results recorded"
   confidence: high
   dives_before: n/a
   dives_after: n/a
@@ -348,20 +361,22 @@
   component: automation
   change: "CLI 'label studio generator' writes the NN laser detector's dots and Fishial fish masks into Label Studio tasks as predictions (pre-fill); a laser task created 2024-10-24 carries one prediction."
   label: "CLI Label Studio pre-fill"
-  status: shown to labellers at scale, found poor, reverted to unlabelled tasks (author, 2026-10-07)
-  driver: unknown
-  outcome: "pre-fills were poor; labelling went back to tasks with no pre-fill (driver of the revert: accuracy). The DB keeps only 38 prediction-seeded laser annotations from 2024-11, so most pre-filled tasks did not survive into the dump."
+  status: shown to labellers at scale, then withdrawn; labelling went back to unlabelled tasks (author, 2026-10-07 and 2026-10-19)
+  driver: human
+  driver_detail: "turned on to help labellers; its predictions were wrong often, labellers found constantly correcting them annoying and found it faster to label without assistance, so it was withdrawn (author account, 2026-10-19). No revert commit exists: commands/label_studio.py was still present at fishsense-lite-cli 650d1ba9 (2025-03-31), so the withdrawal was operational and rests on the author's account. Dates are from the commits."
+  outcome: "pre-fills were poor; labelling went back to tasks with no pre-fill. The DB keeps only 38 prediction-seeded laser annotations from 2024-11, so most pre-filled tasks did not survive into the dump."
   evidence: "UCSD-E4E/fishsense-lite-cli c1c447d3 2024-11-09 'feat: label studio generator'; 531ab0c6 2024-11-12 'feat: generate fishial masks'; 8c6414f0 2024-11-13 'fix: up the vram requirement for nn_laser label studio'; UCSD-E4E/2025-11-29_laser-label-analysis notebook output (task with 'total_predictions': 1); DB: 38 laser annotations with parent_prediction in 2024-11; no results recorded"
   confidence: high (generator); medium (link to the 38 labels)
   dives_before: n/a
   dives_after: n/a
 
-- date: 2025-03-25 .. 2025-04-08
+- date: 2024-09-15 .. 2025-04-08
   component: automation
   change: CLI identifies each dive's slate with a classical slate detector (pyfishsensedev SlateDetector against each slate PDF, trying several rotations) and calibrates the laser from slate pose plus human laser labels (field_calibrate_laser).
   label: "classical slate detection"
-  status: attempted; results not recorded
+  status: "attempted, failed - none of the keypoint-matching methods was consistently successful (author account, 2026-10-19); no commit, issue or note records the failure or a per-method result (records audit 2026-10-21)"
   driver: unknown
+  method: "homography to the slate PDF: match each image to the slate's scan, compute the homography, transform the keypoints; multiple keypoint-matching methods were tried (author account, 2026-10-19). SlateDetector was already used in field_calibrate_laser at fishsense-lite-cli dd3adddf (2024-09-15), so the classical detector dates from 2024-09 at the latest; 2025-03-25 is when the CLI began detecting the slate per dive (records audit 2026-10-21)."
   evidence: "UCSD-E4E/fishsense-lite-cli b27fc7d3 2025-03-25 'support detecting slate for dives'; 4f7ef78c 2025-03-31 'support trying multiple rotations of the dive slate'; f62243ae 'don't calibrate if we have less than 4 valid points'; pyFishSenseDev experiments/slate_detector.ipynb 2025-03-31"
   confidence: high (exists); low (use)
   dives_before: n/a

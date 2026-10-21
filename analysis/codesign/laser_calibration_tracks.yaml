@@ -17,10 +17,10 @@ field:
   - {date: 2023-08-01, label: "H slate (improvised after a mount broke)", interface: human, kind: used, timeline_label: "field: H slate"}
   - {date: 2023-08-29, end: 2023-11-14, label: "tic-tac-toe slate (more points to click)", interface: human, kind: used, timeline_label: "H → tic-tac-toe slate"}
   - {date: 2024-03-13, end: 2024-12-10, label: "chevron slate (no symmetry for labellers)", interface: human, kind: used, timeline_label: "tic-tac-toe → chevron slate"}
-  - {date: 2024-09-15, end: 2025-01-21, label: "neural dot detector, then human labels", interface: machine, kind: reverted, timeline_label: "NN laser detector, then back to human labels"}
-  - {date: 2025-03-25, end: 2025-04-08, label: "classical slate detection", interface: machine, kind: attempted, timeline_label: "classical slate detection"}
+  - {date: 2024-09-15, end: 2025-03-25, label: "neural dot detector, then human labels", interface: machine, kind: reverted, timeline_label: "NN laser detector, then back to human labels"}
+  - {date: 2024-09-15, end: 2025-04-08, label: "classical slate detection", interface: machine, kind: attempted, timeline_label: "classical slate detection"}
   - {date: "2025-11", label: "slate corners in Label Studio", interface: human, kind: used, timeline_label: "slate-corner labelling"}
-  - {date: 2026-08-02, end: "2026-09", label: "slate pose predictor (retired)", interface: machine, kind: reverted, timeline_label: "slate predictor retired"}
+  - {date: 2026-08-02, end: 2026-08-03, label: "slate pose predictor (retired)", interface: machine, kind: reverted, timeline_label: "slate predictor retired"}
   - {date: 2026-09-26, label: "size constancy, SAM 3 (this paper)", interface: machine, kind: proposed, timeline_label: "label-free slate calibration"}
 
 # The homography-to-slate-PDF attempt goes here once the author describes it (questions.md); no date or

@@ -8,6 +8,21 @@
 #   evaluated      evaluated in analysis only, not deployed
 #   unrecorded     no record of outcome
 # start/end: dates of the attempt (YYYY-MM-DD); end_event: the date the outcome happened, if known.
+#
+# Counting laser-dot detection methods for the paper (author, 2026-10-19): count distinct detection
+# methods. Exclude the 2023 guess-correction script (it refines a given location rather than finding
+# the dot), and count a model once even if it was used in more than one place (method: groups uses of
+# one model). Entries without `method` are not counted.
+#
+# Definitions (records audit, 2026-10-21; claims.yaml uses these):
+#   attempt          one entry below: a dated use of a model or method on a labelling task.
+#                    Laser dot: 6 attempts before the deployed detector (2023-07..2025-11), 7 with it.
+#   distinct method  an attempt with `method`, counted once per method (rule above).
+#                    Laser dot: 3 before the deployed detector (NNLaserDetector, used twice; GMM;
+#                    Depth Anything), 4 with it. The 2023-09 demo checkpoint has no `method`: whether
+#                    it is a model distinct from NNLaserDetector is unrecorded (questions.md), so it
+#                    is not counted; if it is distinct, the counts are 4 and 5.
+# "About six" in the SenSys draft matches neither count; quote one of the two above.
 
 - task: laser dot
   label: guess-correction script
@@ -21,26 +36,30 @@
   timeline_label: "CLI laser detector"
 - task: laser dot
   label: neural detector in laser calibration
+  method: NNLaserDetector
   start: 2024-09-13
-  end_event: 2025-01-21
+  end_event: 2025-03-25
   outcome: reverted
-  reason: accuracy (author, 2026-10-07)
+  reason: "too inaccurate (author account, 2026-10-07 and 2026-10-19; no commit records the reason). Removed in two steps: checkerboard calibration 2025-01-21 (fishsense-lite-cli de881b42), field calibration by 2025-03-25 (bf8cbc8a). Same model as the 2024-11 pre-fill (author)."
   timeline_label: "NN laser detector, then back to human labels"
 - task: laser dot
   label: neural-detector pre-fill in Label Studio
+  method: NNLaserDetector
   start: 2024-11-09
   end_event: "2024-11"
   outcome: reverted
-  reason: shown to labellers at scale, found poor, reverted to unlabelled tasks (author, 2026-10-07); end date approximate (only 2024-11 seeded labels survive)
+  reason: "turned on to help labellers; predictions were wrong often, labellers found constantly correcting them annoying and found it faster to label without assistance, so it was withdrawn (author account, 2026-10-19). No revert commit exists; the withdrawal rests on the author's account. Dates from commits c1c447d3..708a2ce3; end date approximate (only 2024-11 seeded labels survive)"
   timeline_label: "CLI Label Studio pre-fill"
 - task: laser dot
   label: Gaussian-mixture detector
+  method: Gaussian-mixture colour detector
   start: 2025-04-21
   outcome: dropped
   reason: poor accuracy (author); ~1,009 px RMS vs human labels on 3,048 frames
   timeline_label: "GMM laser detector"
 - task: laser dot
   label: Depth Anything detector
+  method: fine-tuned Depth Anything
   start: 2025-08-29
   end_event: 2025-11-30
   outcome: dropped
@@ -48,6 +67,7 @@
   timeline_label: "Depth Anything laser detector"
 - task: laser dot
   label: RAW U-Net detector (run3) pre-fill, then auto-accept
+  method: ResNet-34 U-Net on RAW input
   start: 2026-05-02
   end_event: 2026-07-27
   outcome: deployed
@@ -55,16 +75,17 @@
 
 - task: laser calibration
   label: classical slate detection (CLI)
-  start: 2025-03-25
+  start: 2024-09-15     # SlateDetector in field_calibrate_laser at fishsense-lite-cli dd3adddf; per-dive detection from 2025-03-25 (b27fc7d3)
   end_event: 2025-04-08
-  outcome: unrecorded
+  outcome: dropped
+  reason: "homography-to-slate-PDF approach (match each image to the slate's scan, compute the homography, transform the keypoints); multiple keypoint-matching methods were tried and none was consistently successful (author account, 2026-10-19). No per-method results are recorded."
   timeline_label: "classical slate detection"
 - task: laser calibration
   label: slate pose predictor pre-fill
   start: 2026-08-02
-  end_event: "2026-09"
+  end_event: 2026-08-02
   outcome: reverted
-  reason: retired; "per-frame ECC gate passed confident false fits" (fishsense-lite c388e214); retirement date approximate (2026-09)
+  reason: "retired (automatic scheduling stopped; workflows kept for on-demand use): the ECC gate, calibrated on 8 clear-water reef dives, passed confident false fits on pool frames (ECC 0.93-0.97, off the tape corners, dives 65 and 71); 'no threshold fixes it' (fishsense-lite@65582b6e 2026-08-02, @e32bd9bc 2026-08-03)"
   timeline_label: "slate predictor retired"
 - task: laser calibration
   label: checkerboard laser calibration automated (lab)
