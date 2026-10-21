@@ -33,10 +33,21 @@ Each item is the author's account. Where no commit or file backs it, the entry s
    red-speck false positives) and a 2D Gaussian fit on the brightness channel (failed: the dot is
    clipped, so its top is flat). Sequence of distinct methods: brightest spot; Gaussian fit; neural
    network (2023 CLI demo / 2024 NNLaserDetector); Gaussian-mixture colour detector (2025);
-   fine-tuned Depth Anything (2025); ResNet-34 U-Net on RAW input (deployed 2026-07). **Open:** whether
-   the 2023-09 CLI demo checkpoint is the same network as the 2024 NNLaserDetector (five failed
-   methods before a sixth if the same; six before a seventh if not). Code and dates for the two
-   classical methods: being searched (pyFishSenseDev, fishsense-lite-cli, older E4E repos).
+   fine-tuned Depth Anything (2025); ResNet-34 U-Net on RAW input (deployed 2026-07).
+   **Closed (code search, 2026-10-21):** the 2023-09 CLI demo checkpoint and the 2024 NNLaserDetector
+   are the same network: identical architecture and byte-identical weights (sha256 57b19f89...4f08,
+   133,975 bytes; fishsense-lite-cli@860c801 and the Hugging Face annotator114/laser-detector file). So
+   five methods failed before a sixth worked. Classical methods:
+   - **Brightest spot: code found.** pyFishSenseDev_bak@1113e62 (2023-07-13) `detect_laser.py`
+     keeps saturated pixels inside the laser-line mask; threshold lowered at dac85dc (2023-07-31);
+     superseded by the packaged NN at 3b81397 (2023-09-21). The failure reason has no record behind
+     it (author's account). Dive 279's red specks taken for the laser are recorded in
+     imwut_2026_fishsense_lite `fish_model_analysis/IN_PLANE_DRIFT.md:347-358` (ce372d6,
+     2026-10-18), but that record does not mention low light or gain, so the low-light link rests on
+     the author's account.
+   - **2D Gaussian fit: no code found** in any searched repo or org-wide search
+     (pyFishSenseDev_bak2 not searched). It and its failure reason rest on the author's account; its
+     date is unknown (placed at 2023-08 in `automation_attempts.yaml` by the author's ordering).
 
 ## N2. Pending files (author, 2026-10-21)
 
@@ -47,12 +58,11 @@ Each item is the author's account. Where no commit or file backs it, the entry s
 
 ## N3. Records audit follow-ups (2026-10-21)
 
-- **Demo checkpoint (2023-09-22):** is `demo/data/models/laser_detection.pth` the NNLaserDetector
-  model or a different one? It decides whether the laser-dot count is 3 or 4 distinct methods
-  before the deployed detector (automation_attempts.yaml header).
-- **Red pointers leaking vs the switch to green:** the timeline carries the leak as the trigger
-  (author account, 2026-10-19), but no record links them, and the green-laser item in section B
-  says not to cite the leak as a driver. Which stands?
+- **Demo checkpoint (2023-09-22): closed.** It is NNLaserDetector (author's recollection,
+  2026-10-21; confirmed by byte-identical weights, automation_attempts.yaml header).
+- **Red pointers leaking vs the switch to green: closed (author, 2026-10-21).** The leak required
+  replacing the laser; the team evaluated new lasers and switched to the green Shark laser. The leak
+  is the driver of the replacement, the evaluation chose green. No written record of the evaluation.
 
 ## N1. Toward image-only laser calibration (author preference, 2026-10-19: image measurements, not physical ones)
 
@@ -174,7 +184,9 @@ Sections A-D are what is still open.
    `track: lab | field`.
 2. **Green laser rationale: closed (author, 2026-10-07; reconfirmed 2026-10-19).** Green was chosen
    because it penetrates further in water and was expected to be easier for divers to see. The
-   trigger for reconsidering the colour was the red pointers leaking (see N3.1). This is the
+   trigger for reconsidering the colour was the red pointers leaking (see N3.1): the leak required
+   replacing the laser, and the evaluation of replacements chose the green Shark laser (author,
+   2026-10-21). This is the
    author's account; there is no 2024 record of the decision. The IMWUT sentence giving this
    rationale is not a contemporaneous source: it was added 2026-09-29
    (papers/fishsense-lite-imwut@25d7901) and removed 2026-10-19 (@364e022). This paper reports the

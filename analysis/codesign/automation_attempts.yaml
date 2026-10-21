@@ -16,13 +16,17 @@
 #
 # Definitions (records audit, 2026-10-21; claims.yaml uses these):
 #   attempt          one entry below: a dated use of a model or method on a labelling task.
-#                    Laser dot: 6 attempts before the deployed detector (2023-07..2025-11), 7 with it.
+#                    Laser dot: 8 attempts before the deployed detector (2023-07..2025-11), 9 with it
+#                    (updated 2026-10-21 for the two classical methods).
 #   distinct method  an attempt with `method`, counted once per method (rule above).
-#                    Laser dot: 3 before the deployed detector (NNLaserDetector, used twice; GMM;
-#                    Depth Anything), 4 with it. The 2023-09 demo checkpoint has no `method`: whether
-#                    it is a model distinct from NNLaserDetector is unrecorded (questions.md), so it
-#                    is not counted; if it is distinct, the counts are 4 and 5.
-# "About six" in the SenSys draft matches neither count; quote one of the two above.
+#                    Laser dot (updated 2026-10-21): 5 before the deployed detector (brightest spot;
+#                    2D Gaussian fit; NNLaserDetector, used three times; GMM; Depth Anything), 6 with
+#                    it. The 2023-09 demo checkpoint and the 2024 NNLaserDetector are one model: same
+#                    architecture and byte-identical weights (sha256 57b19f89...4f08, 133,975 bytes, in
+#                    fishsense-lite-cli@860c801 demo/data/models/laser_detection.pth and in the Hugging
+#                    Face annotator114/laser-detector file that pyFishSenseDev@6410719 downloads). The 2D
+#                    Gaussian fit rests on the author's account alone (no code found).
+# The SenSys introduction's "five methods failed before a sixth worked" matches this count.
 
 - task: laser dot
   label: guess-correction script
@@ -30,9 +34,26 @@
   outcome: unrecorded
   timeline_label: "laser-dot guess correction"
 - task: laser dot
+  label: brightest spot (saturated-pixel blob on the laser line)
+  method: brightest spot
+  start: 2023-07-13
+  end_event: 2023-09-21
+  outcome: dropped
+  reason: "bubbles, reflections and, in low light, sensor noise amplified by the camera's gain are often brighter than the dot (author account, 2026-10-19; no code, commit or note records the reason). Code: pyFishSenseDev_bak@1113e62 2023-07-13 'Pulled changes from main and completed laser detection code' (detect_laser.py detect_laser_raw: cv2.inRange(masked_raw, 255, 256) on the max-normalised RAW inside the laser-line mask); threshold lowered to 250 at dac85dc 2023-07-31; still present at 004bfea 2023-09-18; superseded by the packaged NN laser_detector.py at 3b81397 2023-09-21. An argmax variant (average_pool_test.py, 310c771 2023-07-20) was commented out when added and deleted 2023-08-02 (8083155). The NN that followed still uses the brightest points as its candidates (peak_local_max on the red channel). Dive 279's red-speck false positives (imwut_2026_fishsense_lite fish_model_analysis/IN_PLANE_DRIFT.md:347-358, ce372d6 2026-10-18) show bright specks taken for the laser, but that record does not mention low light or gain."
+  timeline_label: null
+- task: laser dot
+  label: 2D Gaussian fit on the brightness channel
+  method: 2D Gaussian fit
+  start: "2023-08"
+  outcome: dropped
+  reason: "the laser dot is clipped, so its top is flat (author account, 2026-10-19). No code found: searched every pyFishSenseDev, pyFishSenseDev_bak, fishsense-lite-cli and older E4E FishSense repo history for curve_fit, least_squares, lmfit, Gaussian2D and similar, plus org-wide code, issue and PR search (2026-10-21); pyFishSenseDev_bak2 (2024-05..09) was not searched. The start date is inferred, not recorded: placed between the brightest-spot code (2023-07) and the neural network (2023-09) following the author's ordering."
+  timeline_label: null
+- task: laser dot
   label: CLI neural detector (demo checkpoint)
+  method: NNLaserDetector
   start: 2023-09-22
   outcome: unrecorded
+  note: "same model as the 2024 NNLaserDetector: identical architecture (Conv2d(3,32,3) -> AvgPool -> Linear(3200,10) -> Linear(10,1) on 20x20 tiles) and byte-identical weights (sha256 57b19f89...4f08). Code: pyFishSenseDev_bak@3b81397 2023-09-21 'support laser detection'; demo fishsense-lite-cli@860c801 (2023-09-21 23:50 -0700)."
   timeline_label: "CLI laser detector"
 - task: laser dot
   label: neural detector in laser calibration

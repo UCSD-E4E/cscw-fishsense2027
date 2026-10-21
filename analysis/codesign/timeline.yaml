@@ -162,15 +162,15 @@
 
 - date: 2023-12-14 (observed) .. 2024-03 (first green field dives)
   component: hardware
-  change: "The red Innovative Scuba pointers began to leak after a few months of use. Replacing them prompted the team to reconsider red versus green, which led to the switch to green."
+  change: "The red Innovative Scuba pointers began to leak after a few months of use, so the laser had to be replaced. The team evaluated new lasers and switched to the green Shark laser."
   label: "red pointers leak (trigger for colour switch)"
   driver: other
-  driver_detail: "hardware failure - the leaking red pointers triggered the reconsideration; the colour chosen was then decided by diver visibility and penetration (see 'red → green laser')"
-  evidence: "author account, 2026-10-19 (trigger); SMILE stakeholder meeting notes, 2023-12-14, 'red lasers start to leak after a few months' (author's copy; PDF to be added to the repo, not yet checked against this entry)"
+  driver_detail: "hardware failure - the leak forced a replacement laser; the evaluation of replacements chose the green Shark laser, for diver visibility and penetration (see 'red → green laser')"
+  evidence: "author account, 2026-10-19 and 2026-10-21 (leak -> replacement -> evaluation -> green Shark laser; no written record of the evaluation); SMILE stakeholder meeting notes, 2023-12-14, 'red lasers start to leak after a few months' (author's copy; PDF to be added to the repo, not yet checked against this entry)"
   confidence: medium
   dives_before: n/a
   dives_after: n/a
-  note: "No record links the leak to the switch to green (records audit 2026-10-21): the stakeholder notes record the leak, and the link rests on the author's account alone. The leak is the trigger for reconsidering, not the reason green was chosen. Until the stakeholder notes PDF is in the repo, the leak observation rests on the summary in the 2023-12-14 entry."
+  note: "The stakeholder notes record the leak; the step from leak to replacement to the green Shark laser is the author's account (2026-10-21), with no written record of the laser evaluation. The leak is why the laser was replaced; the evaluation is why the replacement was green. Until the stakeholder notes PDF is in the repo, the leak observation rests on the summary in the 2023-12-14 entry."
 
 - date: 2023-12-14
   component: hardware
