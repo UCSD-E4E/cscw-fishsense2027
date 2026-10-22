@@ -1,0 +1,13 @@
+pipeline,level,n,dives,sd_between,sd_within,between_share,share_ci
+all,frame,197,3,0.0317,0.0754,0.1498,"(np.float64(0.021993673310704683), np.float64(0.29662548333917044))"
+all,fish p90,83,3,0.0315,0.0758,0.1474,"(np.float64(0.0067830526872075), np.float64(0.3113796004701463))"
+dot+ht,frame,260,7,0.0034,0.0830,0.0017,"(np.float64(0.0), np.float64(0.07112929725874094))"
+dot+ht,fish p90,117,7,0.0267,0.0832,0.0935,"(np.float64(0.0), np.float64(0.31042872643593533))"
+"dot+ht, calibrated dives only",frame,197,3,0.0000,0.0769,0.0000,"(np.float64(0.0), np.float64(0.026973944539918235))"
+"dot+ht, calibrated dives only",fish p90,83,3,0.0000,0.0769,0.0000,"(np.float64(0.0), np.float64(0.020942716528848056))"
+calibration,frame,224,4,0.0254,0.0063,0.9429,"(np.float64(0.0), np.float64(0.9848112871769926))"
+calibration,fish p90,97,4,0.0262,0.0063,0.9450,"(np.float64(0.0), np.float64(0.9847010782496514))"
+head/tail,frame,266,7,0.0282,0.0867,0.0955,"(np.float64(0.00516986041190415), np.float64(0.24953860521080135))"
+head/tail,fish p90,120,7,0.0394,0.0932,0.1513,"(np.float64(0.0), np.float64(0.30950861452691963))"
+dot,frame,310,8,0.0000,0.2882,0.0000,"(np.float64(0.0), np.float64(0.043614237031505354))"
+dot,fish p90,149,8,0.0000,0.4178,0.0000,"(np.float64(0.0), np.float64(0.0461337499456337))"

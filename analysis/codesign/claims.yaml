@@ -421,6 +421,15 @@
   confounds: "the 1,528 frames are every IMWUT-corpus measurement on the ten dives paired with the ten pool calibration sessions (score.py PAIR). IMWUT's 995-frame cohort shares five of the dives (58, 59, 61, 66, 84; 227 frames); it drops 60, 87, 94 and 114 as design hold-outs (87/94/114 are Snook-only angle-test dives) and 76 for a range trend, and holds out the Shark (wrong reference) and Ruler, which the 1,528 include. Only 10 dives: intervals are wide"
   paper_section: 1, 9
 
+# ---------------------------------------------------------------- Field disagreement, automatic vs human (2026-10-21)
+- claim: "On reef dives, automatic and human lengths disagree mostly within a dive, through head/tail (the tail point); laser calibration sets each dive's offset; the laser dot contributes little except rare gross misses."
+  number: "Against the human pipeline (no tape). All automatic (detector dot, SAM 3.1 head/tail, SAM 3 size-constancy calibration; 197 frames, 3 dives): median +2.8% (CI -1.3 to +4.9), mean |d| 6.0% (1.9-8.1), 59% within 5%, 80% within 10%. Variance of log ratio: between-dive share 15% (2-30%), sd 3.2% between vs 7.5% within. One swap at a time, mean |d| per frame: dot 1.6% (0.7-2.5; 6 of 310 frames off by >10%, all gross detector misses), calibration 2.5% (0.5-4.5; constant within a dive, between share 94%), head/tail 5.6% (3.9-7.3). Head/tail endpoints: snout 1.2% of length, tail 7.6% (5.9-12.0); 96% of the largest 10% disagreements have tail error >10%. Hogfish run +4.7% long (other species -0.4%; difference 3.2-10.3 pp); frames where the mask shows a caudal notch have lower tail error (4.1% vs 8.4%). Per-dive offset tracks the calibration swap: dive 347 +4.3% calibration only, +4.9% all automatic; about 3 points of 347's offset is the 104 mm |O| stand-in (stored 101.0 mm)."
+  evidence_level: retrospective
+  lesson: 4
+  source: analysis/codesign/field_disagreement.py -> results/field_disagreement_*.csv
+  confounds: "the reference is the human pipeline, itself calibrated on these slate frames; size-constancy calibration on 4 dives only (436 has one measured frame), so the all-automatic comparison rests on 3 dives and the between-dive share is weakly identified; registration calibration was never run on field dives; fish = Label Studio cluster; species from labeller answers"
+  paper_section: 9
+
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop
