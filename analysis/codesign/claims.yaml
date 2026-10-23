@@ -430,6 +430,15 @@
   confounds: "the reference is the human pipeline, itself calibrated on these slate frames; size-constancy calibration on 4 dives only (436 has one measured frame), so the all-automatic comparison rests on 3 dives and the between-dive share is weakly identified; registration calibration was never run on field dives; fish = Label Studio cluster; species from labeller answers"
   paper_section: 9
 
+# ---------------------------------------------------------------- Underwater vs processing time per dive (2026-10-22)
+- claim: "A field dive takes people about two and a half times as long to label as the diver spent underwater; the machine pipeline takes minutes to tens of minutes."
+  number: "Field (reef) dives, 225 after excluding 17 implausible spans: underwater (first to last capture, a lower bound) median 48 min (CI 43-52); estimated human labelling 1.67 h (1.46-1.93), ratio 2.5x (2.2-2.8), exceeding underwater time on 84% of dives (79-88%); recorded Label Studio time (capped 300 s per annotation) 2.0 h on the 70 finished dives, ratio 3.3x (2.3-4.7). Machine (current workflow engine, 2026-09, 20 field dives with preprocessing and prediction runs) 15 min (6-43), ratio 0.6x (0.4-2.4). Per-task medians, drawn without a pre-fill: laser dot 12.9 s (12.4-13.3), snout/fork 15.2 s (14.9-15.5), species 12.1 s (9.5-14.6), slate corners 61.3 s per frame (55.6-67.4). Pool: underwater 3.6 min, human 35 min (10x), machine 21 min."
+  evidence_level: retrospective
+  lesson: 1
+  source: analysis/codesign/dive_time.py -> results/dive_time_*.csv, figures/dive_time.pdf; sql/extract_dive_effort.sql, sql/extract_lead_times_by_dive.sql; data/temporal/workflow_runs.csv
+  confounds: "underwater time is a lower bound (divers do not shoot continuously); fish-frame counts imputed on 178 dives whose laser labelling is unfinished, slate counts on 221 (slate is about 1% of the estimate); recorded time includes relabelling campaigns and idle tabs (uncapped sums are 6x the capped ones); machine time is wall-clock of the longest run per stage, so it includes queueing and worker start-up, covers only dives processed 2026-09-02..16, and adds intake as a 39 s constant"
+  paper_section: 1
+
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop

@@ -1,0 +1,5 @@
+,task,annotations,dives,median_s,ci,lead_times_csv_median_s
+laser,laser dot,47717,297,12.889,"(np.float64(12.385937499999999), np.float64(13.325087499999999))",12.88
+headtail,snout/fork,38744,227,15.248,"(np.float64(14.89095), np.float64(15.5295125))",14.98
+species,species,5407,75,12.145,"(np.float64(9.527425000000001), np.float64(14.552074999999999))",12.15
+slate,slate corners,483,27,61.319,"(np.float64(55.623400000000004), np.float64(67.419))",61.32

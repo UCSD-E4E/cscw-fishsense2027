@@ -1,0 +1,37 @@
+set,quantity,dives,value,ci_lo,ci_hi
+field (reef),"underwater time, h (lower bound)",225,0.7981,0.7189,0.8658
+field (reef),"estimated human labelling, h",225,1.6689,1.4613,1.9285
+field (reef),"estimated human labelling, h (counts not imputed)",24,1.1983,0.3802,2.3072
+field (reef),"recorded human labelling, h (capped 300 s; laser labelling done)",70,2.0138,1.4842,2.6523
+field (reef),"machine, h (dives with workflow runs)",20,0.2497,0.0971,0.7166
+field (reef),ratio estimated human / underwater,225,2.4865,2.2166,2.8120
+field (reef),ratio recorded human / underwater,70,3.3441,2.3286,4.6956
+field (reef),ratio machine / underwater,20,0.6053,0.3760,2.4070
+field (reef),share of dives: estimated human > underwater,225,0.8356,0.7867,0.8800
+pool,"underwater time, h (lower bound)",55,0.0603,0.0419,0.0911
+pool,"estimated human labelling, h",55,0.5850,0.5026,0.6411
+pool,"estimated human labelling, h (counts not imputed)",47,0.6181,0.5608,0.8115
+pool,"recorded human labelling, h (capped 300 s; laser labelling done)",53,0.6256,0.4664,0.8141
+pool,"machine, h (dives with workflow runs)",33,0.3565,0.3354,0.4749
+pool,ratio estimated human / underwater,55,10.3507,6.5434,16.4991
+pool,ratio recorded human / underwater,53,12.0347,6.9937,16.7322
+pool,ratio machine / underwater,33,7.4221,3.9994,10.1152
+pool,share of dives: estimated human > underwater,55,0.8545,0.7636,0.9455
+other,"underwater time, h (lower bound)",20,0.0094,0.0029,0.0833
+other,"estimated human labelling, h",20,0.2793,0.0987,1.0265
+other,"estimated human labelling, h (counts not imputed)",6,0.0410,0.0280,0.1417
+other,"recorded human labelling, h (capped 300 s; laser labelling done)",9,0.2749,0.0361,3.7417
+other,"machine, h (dives with workflow runs)",3,0.4843,0.0511,0.5838
+other,ratio estimated human / underwater,20,27.9835,13.4525,33.2000
+other,ratio recorded human / underwater,9,21.6305,4.1574,66.6307
+other,ratio machine / underwater,3,39.6537,3.1175,44.7078
+other,share of dives: estimated human > underwater,20,1.0000,1.0000,1.0000
+all,"underwater time, h (lower bound)",300,0.6685,0.5921,0.7189
+all,"estimated human labelling, h",300,1.2422,1.0136,1.5020
+all,"estimated human labelling, h (counts not imputed)",77,0.6221,0.5595,0.8115
+all,"recorded human labelling, h (capped 300 s; laser labelling done)",132,0.9935,0.7255,1.4345
+all,"machine, h (dives with workflow runs)",56,0.3530,0.3183,0.4712
+all,ratio estimated human / underwater,300,2.9899,2.6016,3.5623
+all,ratio recorded human / underwater,132,5.6343,3.9773,7.4399
+all,ratio machine / underwater,56,4.1336,2.6064,8.0928
+all,share of dives: estimated human > underwater,300,0.8500,0.8067,0.8900
