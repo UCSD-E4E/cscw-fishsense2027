@@ -1,0 +1,21 @@
+quantity,n
+project-10 labels,36795
+completed,36795
+positive (a dot),36795
+superseded,11265
+positive and superseded,11265
+"positive, dive has a stored line",36754
+"off the dive line (validator rule), all",6688
+"off the dive line, not superseded",3
+red: positive with a line,34534
+red: off the line,6018
+red: superseded,10370
+green: positive with a line,2220
+green: off the line,670
+green: superseded,885
+green project-10 labels with a later dive-based label,212
+  agree,204
+  later: other colour,3
+  later: no dot,3
+  > 10 px apart,2
+  of which the later label was pre-filled,208

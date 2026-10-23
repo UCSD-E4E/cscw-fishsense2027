@@ -439,6 +439,15 @@
   confounds: "underwater time is a lower bound (divers do not shoot continuously); fish-frame counts imputed on 178 dives whose laser labelling is unfinished, slate counts on 221 (slate is about 1% of the estimate); recorded time includes relabelling campaigns and idle tabs (uncapped sums are 6x the capped ones); machine time is wall-clock of the longest run per stage, so it includes queueing and worker start-up, covers only dives processed 2026-09-02..16, and adds intake as a 39 s constant"
   paper_section: 1
 
+# ---------------------------------------------------------------- Labelling-setup provenance (2026-10-22)
+- claim: "Most laser labels come from a randomized single project with no expected-laser region; the green detector gap survives restricting to dots on the dive's laser line."
+  number: "Laser labels by setup: randomized single project (Label Studio project 10, 2024-10..2025-04) 36,795, 11,265 superseded, 6,688 off the dive line by the validator's rule (all but 3 already superseded); green labels off the line 30% (670/2,220) vs red 17% (6,018/34,534). Randomized multi-dive projects 42/43 (2025-04..09) 7,332; dive-based without pre-fill 3,691; dive-based with pre-fill 2,165. Green misses minus red within camera x environment: +15.8 pt (10.4-21.7) as published; +14.5 pt (8.5-20.7; 576 frames, 142 dives) keeping only human dots on the dive line; +17.6 pt (-13.7 to +57.4) without project 10; not estimable from dive-based unseeded labels alone (2 frames in mixed strata). T3 green frames: missed 40% when the human dot is off the line vs 15% on it. Of 212 green project-10 labels with a later dive-based label, 204 agree, but 208 of those later labels were pre-filled from the earlier label. Detector training corpus rebuilt as of 2026-05-04: 30,715 positives (notes: 31,469), 83% from project 10 before and after its line filter (which removed 47)."
+  evidence_level: retrospective
+  lesson: 3
+  source: analysis/codesign/label_setup.py -> results/label_setup_*.csv; sql/extract_laser_label_setup.sql, sql/extract_laser_ann_project.sql
+  confounds: "setup assigned by project id, checked by labellers' annotation sequences (randomized: next annotation from the same dive 3% vs 98% in dive-based projects); the off-line rule uses the stored dive line, itself fitted by the validator after its own supersessions; the training rebuild misses labels superseded after 2026-05-04 and does not reproduce the 80/10/10 dive split, and its line filter flags far fewer than the detector notes' ~14.6% (the notes' figure may predate supersession)"
+  paper_section: 6
+
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop

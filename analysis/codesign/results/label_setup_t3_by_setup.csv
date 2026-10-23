@@ -1,0 +1,7 @@
+wavelength,setup,frames,dives,missed,dot_off_line,dot_superseded_now
+green,"dive-based, no pre-fill",43,6,0.0930,0.09302325581395349,0.3023
+green,randomized multi-dive,317,82,0.2429,0.30718954248366015,0.3754
+green,randomized single project,87,23,0.1839,0.3103448275862069,0.3793
+red,"dive-based, no pre-fill",58,22,0.3621,0.25862068965517243,0.3448
+red,randomized multi-dive,67,25,0.1791,0.15625,0.1940
+red,randomized single project,649,116,0.0169,0.16823899371069181,0.2404
