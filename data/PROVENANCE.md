@@ -175,3 +175,12 @@ Only image_id, dive_id, fold, label and p_slate are copied; file paths are dropp
 by tape or fish length board (project lead, 2026-10-05). The database carries notes for only two
 of them (Weasly Fish, Box); this records the rest. "Against tape" in the figures and text means
 against these measured lengths.
+
+## data/fishsense_api/missions_lab.csv (2026-10-24)
+
+Read-only pull from the FishSense v2 API through its MCP tool (`list_missions`, tenant `lab`), one row per
+mission. Mission numbers are the v1 dive ids. Kept: number, device name, camera-clock start, deployment
+number and the deployment's date (parsed from its name, which starts YYYY.MM.DD), slate template, purpose.
+Dropped: mission and deployment names and source paths, which can contain people's or site names. Used by
+`analysis/codesign/fig_timeline.py` to correct the six dives whose camera clock disagrees with their
+deployment by more than 14 days (252, 253, 336, 337, 451, 452).

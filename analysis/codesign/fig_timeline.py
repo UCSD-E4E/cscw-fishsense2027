@@ -1,10 +1,15 @@
 """Figure fig:timeline (SenSys section 4): how the input was shaped for people over the collection period.
 
 Time axis 2023-08 .. 2025-01 (the collection period). Two lanes:
-  dives   one stacked bar per month (all 525 dives, camera clock; data/db_extracts/timeline_dives.psv,
-          sql/extract_timeline_dives.sql) by laser color: red, green, or no color recorded (no completed laser
-          label with a dot). A dive's color is the majority color of its laser labels (>= 90% one color for
-          all but 12 mixed dives). Each class has a color AND a fill: red solid dark red, green light green
+  dives   one stacked bar per month (all 525 dives; data/db_extracts/timeline_dives.psv,
+          sql/extract_timeline_dives.sql) by laser color: red, green, or no color recorded (no live laser label
+          with a dot). A dive carries one laser, so its color is the majority color of its live (completed, not
+          superseded) laser labels; the minority labels on 30 dives (51 of their 4,350 labels, 50 from the
+          randomized labeling projects) are labeling errors. Date: the camera clock, except the six dives whose
+          clock disagrees with their deployment by more than 14 days (252, 253, 336, 337, 451, 452; FishSense
+          API missions, data/fishsense_api/missions_lab.csv), which take the deployment date. Checked by eye:
+          dive 253's dot is on a chevron slate (a 2024 pattern), dives 451/452 show red dots, dive 242 a green
+          one. Each class has a color AND a fill: red solid dark red, green light green
           with hatching, unknown white outline only, so it reads in grayscale and for red-green colorblind
           readers (checked here: grayscale luminance and a deuteranopia simulation, Machado et al. 2009).
   slate   H, tic-tac-toe, chevron (V), each from the first to the last dive known to use it, breaking at months
@@ -103,12 +108,17 @@ def main():
 
     D = pd.read_csv(REPO / "data/db_extracts/timeline_dives.psv", sep="|", header=None,
                     names="dive_id dive_datetime camera slate target images red green".split())
-    D["t"] = pd.to_datetime(D.dive_datetime, utc=True).dt.tz_localize(None); D["month"] = D.t.dt.to_period("M")
+    D["t"] = pd.to_datetime(D.dive_datetime, utc=True).dt.tz_localize(None)
+    M = pd.read_csv(REPO / "data/fishsense_api/missions_lab.csv", parse_dates=["deployment_date"])[["dive_id", "deployment_date"]]
+    D = D.merge(M, on="dive_id", how="left")
+    clock_off = (D.t - D.deployment_date).abs() > pd.Timedelta(days=14)
+    D.loc[clock_off, "t"] = D.loc[clock_off, "deployment_date"]   # camera clock wrong: take the deployment's date
+    D["month"] = D.t.dt.to_period("M")
     E = pd.read_csv(REPO / "data/db_extracts/dive_environment.psv", sep="|", header=None, names=["dive_id", "env"])
     D = D.merge(E, on="dive_id", how="left")
     lab = D.red + D.green
     D["laser"] = np.select([lab == 0, D.green > D.red], ["unknown", "green"], "red")
-    mixed = int(((lab > 0) & (D.red < 0.9 * lab) & (D.green < 0.9 * lab)).sum())
+    both = int(((D.red > 0) & (D.green > 0)).sum())
     months = pd.period_range("2023-08", "2025-01", freq="M")
     per = D.groupby(["month", "laser"]).size().unstack(fill_value=0).reindex(months, fill_value=0)
     for c in ("red", "green", "unknown"):
@@ -183,7 +193,7 @@ def main():
     fig.savefig(OUT / "fig_timeline.pdf", metadata={"Creator": None, "Producer": None, "CreationDate": None, "ModDate": None})
     fig.savefig(OUT / "fig_timeline.png", dpi=300, metadata={"Software": None})
     previews(OUT / "fig_timeline.png")
-    print("wrote fig_timeline; mixed dives assigned by majority:", mixed, "; dives by class:", D.laser.value_counts().to_dict(),
+    print("wrote fig_timeline; dives re-dated from deployment:", sorted(D.loc[clock_off, "dive_id"]), "; dives with minority-color labels:", both, "; dives by class:", D.laser.value_counts().to_dict(),
           "; luminance red/green:", round(luminance(RED), 3), round(luminance(GREEN), 3))
 
 
