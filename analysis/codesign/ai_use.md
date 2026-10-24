@@ -111,6 +111,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-24 | Dates for the deployment-timeline figure: dives per month, laser colour per camera, slate-pattern coverage, checkerboard dives (`analysis/codesign/timeline_dates.py`; `sql/extract_timeline_dives.sql`) | analysis | assistant | this commit (analysis: timeline dates...) |
 | 2026-10-24 | Deployment-timeline figure for the paper (`analysis/codesign/fig_timeline.py`, 59fa71a3); evidence map updated | figure | assistant | 59fa71a3 and this commit |
 | 2026-10-24 | Timeline slate lane rebuilt from the data: calibration-dive links and slate patterns read by the assistant from 13 slate frames (`analysis/codesign/slate_pattern_reads.csv`); American spelling in the figure (f7ce3a0a) | figure + data | assistant (visual reads) | f7ce3a0a and this commit |
+| 2026-10-24 | Timeline figure: laser color from live labels only, six clock-error dives re-dated from FishSense API deployment dates, four laser dots checked by eye (4f0e47e7) | figure + data | assistant | 4f0e47e7 and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
