@@ -1,0 +1,28 @@
+claim,quantity,value,ci_lo,ci_hi,n,definition,source
+1,laser dot: median s per label (scripted extract),12.8890,12.3859,13.3251,"47,717 annotations, 297 dives; > 300 s 1.2%, > 1 h 0.25%","Label Studio lead_time, annotations without a pre-filled seed, no cap",sql/extract_lead_times_by_dive.sql
+1,"laser dot: median s per label (lead_times.csv, the figure's file)",12.8800,12.7800,12.9700,"32,373 annotations (iid interval)",same field; unscripted extract,data/labeling/lead_times.csv (d219182d)
+1,snout/fork: median s per label (scripted extract),15.2480,14.8910,15.5295,"38,744 annotations, 227 dives; > 300 s 1.8%, > 1 h 0.34%","Label Studio lead_time, annotations without a pre-filled seed, no cap",sql/extract_lead_times_by_dive.sql
+1,"snout/fork: median s per label (lead_times.csv, the figure's file)",14.9800,14.8800,15.1100,"41,435 annotations (iid interval)",same field; unscripted extract,data/labeling/lead_times.csv (d219182d)
+1,species: median s per label (scripted extract),12.1450,9.5274,14.5521,"5,407 annotations, 75 dives; > 300 s 1.0%, > 1 h 0.15%","Label Studio lead_time, annotations without a pre-filled seed, no cap",sql/extract_lead_times_by_dive.sql
+1,"species: median s per label (lead_times.csv, the figure's file)",12.1500,11.8399,12.5700,"4,686 annotations (iid interval)",same field; unscripted extract,data/labeling/lead_times.csv (d219182d)
+1,slate corners: median s per label (scripted extract),61.3190,55.6234,67.4190,"483 annotations, 27 dives; > 300 s 3.7%, > 1 h 0.83%","Label Studio lead_time, annotations without a pre-filled seed, no cap",sql/extract_lead_times_by_dive.sql
+1,"slate corners: median s per label (lead_times.csv, the figure's file)",61.3200,58.5800,64.4500,483 annotations (iid interval),same field; unscripted extract,data/labeling/lead_times.csv (d219182d)
+1,"laser dot: median s, labels before 2026-07-27 only",12.9630,12.4820,13.4111,"45,970 annotations",excludes the period when unlinked laser labels can be copies of the detector's prediction,sql/extract_lead_times_by_dive.sql
+1,seeded annotations excluded,4675.0000,,,annotations with parent_prediction or parent_annotation,model pre-fills and earlier-human-label pre-fills both excluded,
+2-5,dive_time.py reproduces its stored results,1.0000,,,"{'dive_time_dives.csv': True, 'dive_time_summary.csv': True}",,
+2,share of field dives whose estimated labelling exceeds time underwater,0.8356,0.7867,0.8800,225 dives,share of dives: estimated human > underwater,analysis/codesign/dive_time.py
+3,median ratio estimated labelling / underwater,2.4865,2.2166,2.8120,225 dives,ratio estimated human / underwater,analysis/codesign/dive_time.py
+3,"median underwater time, h",0.7981,0.7189,0.8658,225 dives,"underwater time, h (lower bound)",analysis/codesign/dive_time.py
+3,"median estimated labelling, h",1.6689,1.4613,1.9285,225 dives,"estimated human labelling, h",analysis/codesign/dive_time.py
+3,field dives before exclusions,239.0000,,,,,
+3,field dives excluded,14.0000,,,"{'span > 3 h': 13, 'span <= 0': 1}",,
+5,"median machine time per field dive, h",0.2497,0.0971,0.7166,20 dives,"machine, h (dives with workflow runs)",analysis/codesign/dive_time.py
+4,laser: median share of a field dive's estimated labelling time,0.3679,0.3600,0.3750,225 dives,,
+4,snout/fork: median share of a field dive's estimated labelling time,0.2843,0.2787,0.2895,225 dives,,
+4,species: median share of a field dive's estimated labelling time,0.2264,0.2219,0.2306,225 dives,,
+4,slate: median share of a field dive's estimated labelling time,0.1199,0.1046,0.1346,225 dives,,
+4,"slate frames per dive, median, all field dives (imputed included)",12.0000,12.0000,12.0000,225 dives,,
+4,"slate frames per dive, median, field dives with a complete slate count",12.0000,5.0000,13.5000,34 dives,,
+4,"images per field dive, median",171.0000,146.0000,205.0000,225 dives,,
+4,laser dot: share of field dives where it is the largest task,0.7778,0.7244,0.8311,,,
+4,snout/fork + species: median combined share,0.5107,0.5006,0.5201,,,

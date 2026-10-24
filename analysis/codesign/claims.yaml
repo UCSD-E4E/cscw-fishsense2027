@@ -448,6 +448,22 @@
   confounds: "setup assigned by project id, checked by labellers' annotation sequences (randomized: next annotation from the same dive 3% vs 98% in dive-based projects); the off-line rule uses the stored dive line, itself fitted by the validator after its own supersessions; the training rebuild misses labels superseded after 2026-05-04 and does not reproduce the 80/10/10 dive split, and its line filter flags far fewer than the detector notes' ~14.6% (the notes' figure may predate supersession)"
   paper_section: 6
 
+# ---------------------------------------------------------------- Labelling-time claims checked (2026-10-24)
+- claim: "Median time per label, drawn without a pre-filled seed: laser dot 13 s, snout and fork 15 s, species 12 s, slate keypoints 61 s per frame."
+  number: "laser dot 12.9 s (12.4-13.3; 47,717 annotations, 297 dives), snout/fork 15.2 s (14.9-15.5; 38,744, 227), species 12.1 s (9.5-14.6; 5,407, 75), slate 61.3 s (55.6-67.4; 483, 27). Laser labels before 2026-07-27 only: 13.0 s. The figure's file (lead_times.csv) gives 12.9 / 15.0 / 12.2 / 61.3 s."
+  evidence_level: retrospective
+  lesson: 1
+  source: analysis/codesign/labelling_time_claims.py -> results/labelling_time_claims.csv; sql/extract_lead_times_by_dive.sql
+  confounds: "Label Studio lead_time counts the time a task was open (idle tabs: 1-4% of labels exceed 300 s), so medians, uncapped; 4,675 seeded annotations (model or earlier-label pre-fills) excluded; the figure reads data/labeling/lead_times.csv, which no script in the repo produces and whose counts differ from the scripted extract (laser 32,373 vs 47,717) while the medians agree within 0.3 s"
+  paper_section: 3
+- claim: "Of a field dive's estimated labelling time, the laser dot is the largest single share; the slate is slowest per frame but needs about 12 frames per dive."
+  number: "median shares per field dive (225): laser dot 36.8% (36.0-37.5), snout/fork 28.4%, species 22.6%, slate 12.0% (10.5-13.5); laser dot is the largest task on 78% of dives; snout/fork + species together 51%. Slate frames per dive median 12 (12 on the 34 dives with a complete count, CI 5-13.5). Images per field dive median 171 (146-205)."
+  evidence_level: retrospective
+  lesson: 1
+  source: analysis/codesign/labelling_time_claims.py (from dive_time.py's per-dive table)
+  confounds: "fish-frame counts imputed on unfinished dives and slate counts on dives without a complete count (dive_time.py); per-task medians held fixed in the intervals"
+  paper_section: 3
+
 # ---------------------------------------------------------------- no longer serve the framing (drop or demote)
 - claim: REEF dives took a median 773 days to become measurable; 43% never did.
   status: drop
