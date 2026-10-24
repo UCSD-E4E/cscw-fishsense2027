@@ -2,12 +2,16 @@
 
 Time axis 2023-08 .. 2025-01 (the collection period). Four lanes, all from the per-dive extract
 data/db_extracts/timeline_dives.psv (sql/extract_timeline_dives.sql) unless noted:
-  laser colour        per month, the share of laser-labelled dives that are green (a dive is red or
-                      green when >= 90% of its completed laser labels with a dot are that colour; mixed
+  laser color         per month, the share of laser-labeled dives that are green (a dive is red or
+                      green when >= 90% of its completed laser labels with a dot are that color; mixed
                       dives count as not green). Months with no dives are left empty. Red -> green with
                       lightness rising monotonically, so the lane reads in grayscale.
-  slate pattern       H, tic-tac-toe, chevron (V), each over its recorded first-to-last dive
-                      (dive.dive_slate_id; recorded on 36 of 525 dives); gaps hatched, "pattern unrecorded".
+  slate pattern       H, tic-tac-toe, chevron (V), each from the first to the last dive known to use it:
+                      dive.dive_slate_id (36 dives), a dive's calibration dive's slate (dive.calibration_dive_id,
+                      15 more), and slate frames read by eye (analysis/codesign/slate_pattern_reads.csv, image
+                      ids listed; tic-tac-toe on 2023-08-23 and 2023-12-01 .. 2024-02-03). The short changeovers
+                      between patterns (2023-08-04 .. 08-22, 2024-02-04 .. 03-12) are left blank; after
+                      2024-12-10 there are no field dives.
   calibration target  checkerboard engineering tests: 2023-08-14..18 (dive.calibration_target_id) and
                       2025-01-17 (TG-7 sessions; analysis/codesign/timeline.yaml); slate: the months with
                       field (reef) dives (data/db_extracts/dive_environment.psv).
@@ -34,7 +38,7 @@ OUT = REPO / "analysis/codesign/figures"
 W, H, FS = 7.0, 2.0, 7
 BLUE, ORANGE = "#2a78d6", "#eb6834"                     # reference palette slots 1-2 (slate, checkerboard)
 INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#8a8984", "#e4e3df"
-RED, MID, GREEN = "#a8322b", "#9a958c", "#b6e3a8"        # laser share: dark red -> grey -> light green
+RED, MID, GREEN = "#a8322b", "#9a958c", "#b6e3a8"        # laser share: dark red -> gray -> light green
 T0, T1 = pd.Timestamp("2023-08-01"), pd.Timestamp("2025-02-01")
 CB_TESTS = [("2023-08-14", "2023-08-18"), ("2025-01-17", "2025-01-17")]
 LANES = {"laser": 2, "slate": 1, "target": 0}
@@ -75,7 +79,7 @@ def main():
                                  gridspec_kw=dict(height_ratios=[3, 1.25], hspace=0.02))
     cmap = LinearSegmentedColormap.from_list("laser", [RED, MID, GREEN])
 
-    # lane 1: laser colour, share of labelled dives that are green
+    # lane 1: laser color, share of labeled dives that are green
     for m, r in per.iterrows():
         a, b = m.start_time, (m + 1).start_time
         if r.labelled:
@@ -86,25 +90,22 @@ def main():
     ax.text(mdates.date2num(pd.Timestamp("2024-07-15")), LANES["laser"] + BAR / 2 + 0.08, "switch staggered by camera, 2024-03 to 2024-12",
             va="bottom", ha="center", color=INK2, fontsize=FS)
 
-    # lane 2: slate pattern over its recorded first-to-last span; gaps unrecorded
-    pats = [("H", "2023-08-01", "2023-08-03"), ("tic-tac-toe", "2023-08-29", "2023-11-14"), ("chevron (V)", "2024-03-13", "2024-12-10")]
-    edges = [T0]
-    for name, a, b in pats:
-        a_, b_ = span(ax, LANES["slate"], a, b, fc=BLUE, ec="white", lw=1.0)
-        mid = mdates.date2num(a_ + (b_ - a_) / 2)
+    # lane 2: slate pattern from the first to the last dive known to use it (DB, calibration-dive link, image reads)
+    def pat(name):
+        n = str(name)
+        return "H" if n.startswith("H") else "tic-tac-toe" if n.startswith("Tic") else "chevron (V)" if n.startswith("V") else None
+    known = D.assign(pattern=D.slate.map(pat))[["t", "pattern"]].dropna()
+    link = pd.read_csv(REPO / "data/db_extracts/timeline_slate_links.psv", sep="|", header=None, names=["dive_id", "slate"])
+    link = link.merge(D[["dive_id", "t"]], on="dive_id").assign(pattern=lambda x: x.slate.map(pat))[["t", "pattern"]]
+    reads = pd.read_csv(REPO / "analysis/codesign/slate_pattern_reads.csv", parse_dates=["date"]).query("pattern != 'unreadable'")
+    reads = reads.rename(columns={"date": "t"})[["t", "pattern"]]
+    known = pd.concat([known, link, reads]).groupby("pattern").t.agg(["min", "max"])
+    for name in ("H", "tic-tac-toe", "chevron (V)"):
+        a_, b_ = span(ax, LANES["slate"], known.loc[name, "min"].normalize(), known.loc[name, "max"].normalize(), fc=BLUE, ec="white", lw=1.0)
         if name == "H":
             ax.text(mdates.date2num(b_) + 1, LANES["slate"], "H", va="center", ha="left", color=INK, fontsize=FS)
         else:
-            ax.text(mid, LANES["slate"], name, va="center", ha="center", color="white", fontsize=FS)
-        edges += [a_, b_]
-    edges.append(T1)
-    gaps = [(edges[i], edges[i + 1]) for i in range(2, len(edges) - 1, 2) if (edges[i + 1] - edges[i]).days > 31]   # the 26-day H -> tic-tac-toe changeover is not hatched
-    for a, b in gaps:
-        ax.add_patch(Rectangle((mdates.date2num(a), LANES["slate"] - BAR / 2), mdates.date2num(b) - mdates.date2num(a), BAR,
-                               fc="white", ec=MUTED, lw=0.6, hatch="////", alpha=1.0))
-    long_gap = max(gaps, key=lambda g: g[1] - g[0])
-    ax.text(mdates.date2num(long_gap[0] + (long_gap[1] - long_gap[0]) / 2), LANES["slate"], "pattern\nunrecorded", va="center", ha="center",
-            color=INK, fontsize=FS, linespacing=0.9, bbox=dict(fc="white", ec="none", pad=0.6))
+            ax.text(mdates.date2num(a_ + (b_ - a_) / 2), LANES["slate"], name, va="center", ha="center", color="white", fontsize=FS)
 
     # lane 3: calibration target; slate over months with field dives, checkerboard tests as short bars
     field = sorted(D[D.env == "reef"].month.unique())
@@ -128,7 +129,7 @@ def main():
                 xytext=(mdates.date2num(pd.Timestamp("2024-11-25")), LANES["target"] - 0.72), arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6))
     ax.text(mdates.date2num(pd.Timestamp("2024-11-23")), LANES["target"] - 0.72, "checkerboard", va="center", ha="right", fontsize=FS, color=INK)
 
-    ax.set_ylim(-1.05, 2.62); ax.set_yticks([2, 1, 0], ["laser colour\n(share green)", "slate pattern", "calibration target"])
+    ax.set_ylim(-1.05, 2.62); ax.set_yticks([2, 1, 0], ["laser color\n(share green)", "slate pattern", "calibration target"])
     ax.tick_params(axis="y", length=0); ax.tick_params(axis="x", which="both", length=0, labelbottom=False)
     for s in ("top", "right", "bottom", "left"):
         ax.spines[s].set_visible(False)
