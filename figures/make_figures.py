@@ -8,7 +8,7 @@
   fig5_reef_lengths    fully automatic vs manual length on real reef fish
   fig6_coverage        frames covered vs human-rejected frames measured, as the SAM cutoff moves
   fig7_species         confusion matrix of the trained BioCLIP species head
-  fig8_labeling_time   person-seconds per label by type, drawn from scratch (no prediction seed)
+  fig8_labeling_time   person-seconds per label by type, drawn from scratch (no pre-filled seed)
   fig9_slate_detector  slate-frame detector: precision-recall; per-dive recall
   fig10_size_measures  apparent-size measures for size-constancy calibration, scored against tape
   fig11_laser_recall   laser detector: found / wrong spot / missed by colour and setting
@@ -18,7 +18,7 @@
 
 Colours: the dataviz skill's validated reference palette (first three categorical slots pass
 all-pairs CVD checks on white; aqua is below 3:1 contrast, so it is always direct-labelled) and
-its blue sequential ramp. Run from the repo root:  uv run python figures/make_figures.py
+its blue sequential ramp. Run from the repo root:  uv run python figures/make_figures.py [figure names]
 """
 from __future__ import annotations
 
@@ -51,10 +51,12 @@ plt.rcParams.update({
 })
 
 
-def save(fig, name):
-    # no timestamps in the files, so a rebuild from the same data is byte-identical
-    fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None})
-    fig.savefig(OUT / f"{name}.png", metadata={"Software": None})
+def save(fig, name, exact=False):
+    # no timestamps in the files, so a rebuild from the same data is byte-identical;
+    # exact=True keeps the figure's own size (laid out inside it) instead of the tight bounding box
+    with plt.rc_context({"savefig.bbox": "standard"} if exact else {}):
+        fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None})
+        fig.savefig(OUT / f"{name}.png", metadata={"Software": None})
     plt.close(fig); print("wrote", name)
 
 
@@ -295,27 +297,29 @@ def fig7_species():
 
 # ---------------------------------------------------------------- fig 8
 def fig8_labeling_time():
-    """Person-time per label, drawn from scratch: no prediction or earlier label as a seed."""
-    d = pd.read_csv(REPO / "data/labeling/lead_times.csv")
-    d = d[d.seeded.astype(str).str.lower().isin(["f", "false"])]
-    names = {"laser_dot": "laser dot", "head_tail": "snout + fork", "species": "species", "slate_corners": "slate corners\n(per slate frame)"}
+    """Person-time per label, drawn from scratch: no prediction or earlier label as a seed.
+    Label Studio lead_time per annotation (data/db_extracts/lead_times_by_dive.psv, sql/extract_lead_times_by_dive.sql),
+    annotations without a parent_prediction / parent_annotation; no cap (idle tabs sit in the tail, beyond p90)."""
+    d = pd.read_csv(REPO / "data/db_extracts/lead_times_by_dive.psv", sep="|", header=None,
+                    names=["kind", "dive_id", "image_id", "lead_time_s", "seeded", "created_at"])
+    d = d[(d.seeded == "f") & d.lead_time_s.notna()]   # a few annotations carry no lead_time
+    names = {"laser": "laser dot", "headtail": "snout + fork", "species": "species", "slate": "slate corners\n(per slate frame)"}
     stats = []
-    for k, g in d.groupby("label_type"):
+    for k, g in d.groupby("kind"):
         v = g.lead_time_s.to_numpy()
         stats.append(dict(k=k, n=len(v), p10=np.percentile(v, 10), q1=np.percentile(v, 25), med=np.median(v),
                           q3=np.percentile(v, 75), p90=np.percentile(v, 90)))
     S = pd.DataFrame(stats).sort_values("med")
-    fig, ax = plt.subplots(figsize=(ONE, 2.1))
+    fig, ax = plt.subplots(figsize=(ONE, 2.1), layout="constrained")   # drawn at final size: one ACM column
     for i, r in enumerate(S.itertuples()):
         ax.plot([r.p10, r.p90], [i, i], color=BLUE, lw=1.2, solid_capstyle="round")
         ax.add_patch(plt.Rectangle((r.q1, i - 0.28), r.q3 - r.q1, 0.56, fc="#cde2fb", ec=BLUE, lw=1))
         ax.plot([r.med, r.med], [i - 0.28, i + 0.28], color=INK, lw=1.5)
-        ax.text(r.p90 + 3, i, f"{r.med:.0f} s  (n={r.n:,})", va="center", fontsize=6.5, color=INK2)
+        ax.text(r.p90 + 3, i, f"{r.med:.0f} s  (n={r.n:,})", va="center", fontsize=7, color=INK2)
     ax.set_yticks(range(len(S)), [names[k] for k in S.k]); ax.set_ylim(-0.6, len(S) - 0.4)
     ax.grid(axis="y", visible=False); ax.set_xlim(0, S.p90.max() * 1.55)
     ax.set_xlabel("seconds of a person's time per label")
-    ax.set_title("Labelling from scratch (no prediction): median, IQR, p10–p90", loc="left", color=INK2)
-    save(fig, "fig8_labeling_time")
+    save(fig, "fig8_labeling_time", exact=True)
 
 
 # ---------------------------------------------------------------- fig 9
@@ -492,5 +496,7 @@ def fig14_headtail_error():
 
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
-    for f in (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures, fig11_laser_recall, fig12_laser_position, fig13_headtail_examples, fig14_headtail_error):
+    ALL = (fig1_pipeline, fig2_stage_time, fig3_size_constancy, fig4_stage_ladder, fig5_reef_lengths, fig6_coverage, fig7_species, fig8_labeling_time, fig9_slate_detector, fig10_size_measures, fig11_laser_recall, fig12_laser_position, fig13_headtail_examples, fig14_headtail_error)
+    # optional figure names on the command line build only those (e.g. fig8_labeling_time); none builds all
+    for f in [g for g in ALL if g.__name__ in sys.argv[1:]] or ALL:
         f()
