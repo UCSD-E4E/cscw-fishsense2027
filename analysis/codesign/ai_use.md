@@ -109,6 +109,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-24 | Labelling-time claims checked: per-task medians with dive intervals, dive-time results reproduced, task shares per field dive (`analysis/codesign/labelling_time_claims.py`) | analysis | assistant | this commit (analysis: labelling-time claims...) |
 | 2026-10-24 | Figure fig8_labeling_time repointed at the scripted lead-time extract, in-figure title removed, saved at one column (`figures/make_figures.py`, 893a36a4); evidence map updated | figure | assistant | 893a36a4 and this commit |
 | 2026-10-24 | Dates for the deployment-timeline figure: dives per month, laser colour per camera, slate-pattern coverage, checkerboard dives (`analysis/codesign/timeline_dates.py`; `sql/extract_timeline_dives.sql`) | analysis | assistant | this commit (analysis: timeline dates...) |
+| 2026-10-24 | Deployment-timeline figure for the paper (`analysis/codesign/fig_timeline.py`, 59fa71a3); evidence map updated | figure | assistant | 59fa71a3 and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
