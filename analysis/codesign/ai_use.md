@@ -107,6 +107,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-22 | Underwater time vs human and machine processing time per dive (`analysis/codesign/dive_time.py`; `sql/extract_dive_effort.sql`, `sql/extract_lead_times_by_dive.sql`) and its figure (figures/dive_time) | analysis + figure | assistant | this commit (analysis: underwater vs processing time...) |
 | 2026-10-22 | Labelling-setup provenance of laser labels and its effect on the red/green miss comparison and the detector training corpus (`analysis/codesign/label_setup.py`; `sql/extract_laser_label_setup.sql`, `sql/extract_laser_ann_project.sql`) | analysis | assistant | this commit (analysis: labelling-setup provenance...) |
 | 2026-10-24 | Labelling-time claims checked: per-task medians with dive intervals, dive-time results reproduced, task shares per field dive (`analysis/codesign/labelling_time_claims.py`) | analysis | assistant | this commit (analysis: labelling-time claims...) |
+| 2026-10-24 | Figure fig8_labeling_time repointed at the scripted lead-time extract, in-figure title removed, saved at one column (`figures/make_figures.py`, 893a36a4); evidence map updated | figure | assistant | 893a36a4 and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

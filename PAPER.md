@@ -601,7 +601,7 @@ clustered dives have above-average frame coverage, so this is optimistic.
 | claim | where |
 |---|---|
 | time by stage (Table 1, Fig 2) | `p2-results.md` §"Where the time goes"; `data/temporal/workflow_runs.csv`; `fishsense_cscw/turnaround.py` |
-| labelling time (Fig 8) | `data/labeling/lead_times.csv` |
+| labelling time (Fig 8) | `figures/make_figures.py` `fig8_labeling_time` (commit 893a36a4) ← `data/db_extracts/lead_times_by_dive.psv` (`sql/extract_lead_times_by_dive.sql`); per-task medians with dive intervals: `analysis/codesign/labelling_time_claims.py` (c1b7dedc). Was `data/labeling/lead_times.csv`, which no script produces |
 | anchoring, 87% | `p2-results.md` T1/T2; `annotation_analysis/laser_label_pairs.ipynb` |
 | frames per animal, range | `p2-results.md` T7 |
 | failed calibration cues (Table 2) | `p2-tests.md` E1c, E1d, E1e, E1h, E1i, E1k; `calibration_analysis/` |
