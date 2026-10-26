@@ -12,8 +12,13 @@ laser    red / green. `labels`: majority of the dive's live (completed, not supe
 pattern  H / tic-tac-toe / chevron, or None (unrecorded). `dive_slate`: dive.dive_slate_id. `calibration_link`:
          the slate of the dive's calibration dive (data/db_extracts/timeline_slate_links.psv,
          sql/extract_timeline_slate_links.sql). `read_by_eye`: slate frames read by the assistant
-         (analysis/codesign/slate_pattern_reads.csv, image ids listed). `inherited`: an imageless duplicate dive
-         takes the pattern of the dives holding its images when they agree.
+         (analysis/codesign/slate_pattern_reads.csv, image ids listed). `read_by_eye_fishsense`: the 256 dives
+         with images and none of the above, read by eye by a separate assistant session from each dive's own
+         FishSense slate-detector frames, blind to date and neighbors (analysis/codesign/slate_pattern_reads_fishsense.csv,
+         capture ids listed; blind control on the 35 dives with a FishSense template and a detector frame:
+         family 35/35, analysis/codesign/slate_pattern_reads_fishsense_control.tsv). `hash` is a slate that is not
+         one of the 11 templates (dives 508, 510). `inherited`: an imageless duplicate dive takes the pattern of
+         the dives holding its images when they agree; dive 333, a merged import whose sources disagree, stays unrecorded.
 """
 from __future__ import annotations
 
@@ -28,10 +33,12 @@ def pattern(name):
     return "H" if n.startswith("H") else "tic-tac-toe" if n.startswith("Tic") else "chevron" if n.startswith("V") else None
 
 
-def _inherit(dup, values):
+def _inherit(dup, values, mixed=()):
+    """Value for each imageless duplicate dive whose source dives agree; `mixed` lists the known merged imports
+    whose sources disagree, which stay unset."""
     v = dup.assign(v=dup.src.map(values)).dropna(subset=["v"]).groupby("dive_id").v.agg(lambda s: s.iloc[0] if s.nunique() == 1 else "conflict")
-    assert (v != "conflict").all(), v[v == "conflict"]
-    return v
+    assert sorted(v[v == "conflict"].index) == sorted(mixed), v[v == "conflict"]
+    return v[v != "conflict"]
 
 
 def load():
@@ -60,11 +67,15 @@ def load():
     D["pattern_source"] = np.where(D.pattern.notna(), "dive_slate", None)
     link = pd.read_csv(REPO / "data/db_extracts/timeline_slate_links.psv", sep="|", header=None, names=["dive_id", "slate"])
     reads = pd.read_csv(REPO / "analysis/codesign/slate_pattern_reads.csv").query("pattern != 'unreadable'")
+    fs = pd.read_csv(REPO / "analysis/codesign/slate_pattern_reads_fishsense.csv").dropna(subset=["family"]).set_index("dive_id").family
+    fs = fs.map(lambda f: "hash" if f.startswith("other: hash") else pattern(f))
+    assert fs.notna().all(), fs[fs.isna()]
     for src, s in (("calibration_link", link.set_index("dive_id").slate.map(pattern)),
-                   ("read_by_eye", reads.set_index("dive_id").pattern.replace({"chevron (V)": "chevron"}))):
+                   ("read_by_eye", reads.set_index("dive_id").pattern.replace({"chevron (V)": "chevron"})),
+                   ("read_by_eye_fishsense", fs)):
         got = D.pattern.isna() & D.dive_id.isin(s.dropna().index)
         D.loc[got, "pattern"], D.loc[got, "pattern_source"] = D.loc[got, "dive_id"].map(s), src
-    inh = _inherit(dup, D.set_index("dive_id").pattern)
+    inh = _inherit(dup, D.set_index("dive_id").pattern, mixed=[333])   # 333 merges FSL-04 dives of 2023-12-11 (tic-tac-toe) and FSL-01 dive 344 of 2024-03-14 (chevron)
     got = D.pattern.isna() & D.dive_id.isin(inh.index)
     D.loc[got, "pattern"], D.loc[got, "pattern_source"] = D.loc[got, "dive_id"].map(inh), "inherited"
     return D

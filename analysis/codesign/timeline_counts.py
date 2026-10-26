@@ -36,7 +36,7 @@ def main():
     L = D.groupby(["month", "laser"]).size().unstack(fill_value=0).reindex(MONTHS, fill_value=0)
     nolab = (D.red + D.green == 0).groupby(D.month).sum().reindex(MONTHS, fill_value=0).rename("no_laser_labels")
     P = D.assign(pattern=D.pattern.fillna("unrecorded")).groupby(["month", "pattern"]).size().unstack(fill_value=0).reindex(MONTHS, fill_value=0)
-    P = P.reindex(columns=["H", "tic-tac-toe", "chevron", "unrecorded"], fill_value=0)
+    P = P.reindex(columns=["H", "tic-tac-toe", "chevron", "hash", "unrecorded"], fill_value=0)
     src = D.groupby(["month", "pattern_source"]).size().unstack(fill_value=0).reindex(MONTHS, fill_value=0).add_prefix("pattern_from_")
 
     U = D[D.pattern.isna() & (D.images > 0)]
@@ -51,7 +51,7 @@ def main():
     cov.insert(0, "unrecorded_with_images", U.groupby("month").size().reindex(MONTHS, fill_value=0))
 
     X = pd.concat([n, L[["red", "green"]], nolab, P, src, cov], axis=1)
-    X["recorded_share"] = (X[["H", "tic-tac-toe", "chevron"]].sum(axis=1) / X.dives.where(X.dives > 0)).round(3)
+    X["recorded_share"] = (X[["H", "tic-tac-toe", "chevron", "hash"]].sum(axis=1) / X.dives.where(X.dives > 0)).round(3)
     RES.mkdir(parents=True, exist_ok=True)
     X.to_csv(RES / "timeline_counts_by_month.csv", index_label="month")
 
