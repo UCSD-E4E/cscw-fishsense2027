@@ -2,15 +2,18 @@
 
 Time axis 2023-08 .. 2025-01 (the collection period). Two lanes:
   dives   one stacked bar per month (all 525 dives; data/db_extracts/timeline_dives.psv,
-          sql/extract_timeline_dives.sql) by laser color: red, green, or no color recorded (no live laser label
-          with a dot). A dive carries one laser, so its color is the majority color of its live (completed, not
-          superseded) laser labels; the minority labels on 30 dives (51 of their 4,350 labels, 50 from the
-          randomized labeling projects) are labeling errors. Date: the camera clock, except the six dives whose
+          sql/extract_timeline_dives.sql) by laser color, red or green. A dive carries one laser, so its color is
+          the majority color of its live (completed, not superseded) laser labels; the minority labels on 30 dives
+          (51 of their 4,350 labels, 50 from the randomized labeling projects) are labeling errors. The 19 dives
+          with images but no such label take FishSense's laser_colors (data/fishsense_api/laser_colors_unlabeled.csv:
+          laser-stage predictions for 4, the unvalidated automatic dot color for 15). The 208 dives holding no
+          canonical image hold byte-identical copies of other dives' images (data/db_extracts/duplicate_dives.psv,
+          sql/extract_duplicate_dives.sql) and take those dives' color. Date: the camera clock, except the six dives whose
           clock disagrees with their deployment by more than 14 days (252, 253, 336, 337, 451, 452; FishSense
           API missions, data/fishsense_api/missions_lab.csv), which take the deployment date. Checked by eye:
           dive 253's dot is on a chevron slate (a 2024 pattern), dives 451/452 show red dots, dive 242 a green
           one. Each class has a color AND a fill: red solid dark red, green light green
-          with hatching, unknown white outline only, so it reads in grayscale and for red-green colorblind
+          with hatching, so it reads in grayscale and for red-green colorblind
           readers (checked here: grayscale luminance and a deuteranopia simulation, Machado et al. 2009).
   slate   H, tic-tac-toe, chevron (V), each from the first to the last dive known to use it, breaking at months
           with no dives: dive.dive_slate_id (36 dives), a dive's calibration dive's slate
@@ -101,8 +104,8 @@ def previews(png):
 
 
 def main():
-    # the three dive classes must differ in lightness (grayscale) and after a deuteranopia simulation
-    sim = {k: lin(to_rgb(c)) @ DEUTAN.T for k, c in (("red", RED), ("green", GREEN), ("unknown", "#ffffff"))}
+    # the two dive classes must differ in lightness (grayscale) and after a deuteranopia simulation
+    sim = {k: lin(to_rgb(c)) @ DEUTAN.T for k, c in (("red", RED), ("green", GREEN))}
     assert luminance(RED) < 0.15 < luminance(GREEN) < 0.9, (luminance(RED), luminance(GREEN))
     assert abs(float(sim["red"] @ [0.2126, 0.7152, 0.0722]) - float(sim["green"] @ [0.2126, 0.7152, 0.0722])) > 0.3
 
@@ -117,11 +120,20 @@ def main():
     E = pd.read_csv(REPO / "data/db_extracts/dive_environment.psv", sep="|", header=None, names=["dive_id", "env"])
     D = D.merge(E, on="dive_id", how="left")
     lab = D.red + D.green
-    D["laser"] = np.select([lab == 0, D.green > D.red], ["unknown", "green"], "red")
+    D["laser"] = np.select([lab == 0, D.green > D.red], [None, "green"], "red")
     both = int(((D.red > 0) & (D.green > 0)).sum())
+    api = pd.read_csv(REPO / "data/fishsense_api/laser_colors_unlabeled.csv").set_index("dive_id").color
+    assert D.loc[D.dive_id.isin(api.index), "laser"].isna().all()
+    D["laser"] = D.laser.fillna(D.dive_id.map(api))
+    dup = pd.read_csv(REPO / "data/db_extracts/duplicate_dives.psv", sep="|", header=None, names=["dive_id", "src", "n"])
+    dup["color"] = dup.src.map(D.set_index("dive_id").laser)
+    inherit = dup.groupby("dive_id").color.agg(lambda s: s.iloc[0] if s.nunique() == 1 else "conflict")
+    assert inherit.notna().all() and (inherit != "conflict").all(), inherit[inherit.isna() | (inherit == "conflict")]
+    D["laser"] = D.laser.fillna(D.dive_id.map(inherit))
+    assert D.laser.notna().all(), D[D.laser.isna()].dive_id.tolist()
     months = pd.period_range("2023-08", "2025-01", freq="M")
     per = D.groupby(["month", "laser"]).size().unstack(fill_value=0).reindex(months, fill_value=0)
-    for c in ("red", "green", "unknown"):
+    for c in ("red", "green"):
         if c not in per:
             per[c] = 0
     empty = [m for m in months if per.loc[m].sum() == 0]
@@ -132,14 +144,13 @@ def main():
                          "hatch.linewidth": 0.6, "pdf.fonttype": 42, "savefig.bbox": "standard"})
     fig, (dx, sx) = plt.subplots(2, 1, figsize=(W, H), sharex=True, layout="constrained", gridspec_kw=dict(height_ratios=[2.2, 0.75]))
 
-    # lane 1: dives per month, stacked red / green / unknown
+    # lane 1: dives per month, stacked red / green
     style = {"red": dict(color=RED, edgecolor=RED, lw=0.6),
-             "green": dict(color=GREEN, edgecolor=GREEN_HATCH, hatch="//////", lw=0.6),
-             "unknown": dict(color="white", edgecolor=INK2, lw=0.6)}
+             "green": dict(color=GREEN, edgecolor=GREEN_HATCH, hatch="//////", lw=0.6)}
     bottom = np.zeros(len(months))
-    for c in ("red", "green", "unknown"):
+    for c in ("red", "green"):
         v = per[c].to_numpy(float)
-        dx.bar(mid, v, width=BAR_DAYS, bottom=bottom, **style[c])
+        dx.bar(mid[v > 0], v[v > 0], width=BAR_DAYS, bottom=bottom[v > 0], **style[c])   # empty bars would still draw an outline
         bottom += v
     dx.set_ylim(0, 160); dx.set_yticks([0, 50, 100, 150])
     dx.set_ylabel("dives", rotation=0, ha="right", va="center", labelpad=4, color=INK2)
@@ -184,10 +195,9 @@ def main():
 
     key = [Patch(facecolor=RED, edgecolor=RED, label="red laser"),
            Patch(facecolor=GREEN, edgecolor=GREEN_HATCH, hatch="//////", label="green laser"),
-           Patch(facecolor="white", edgecolor=INK2, label="laser color unknown"),
            Patch(facecolor="white", edgecolor=MUTED, hatch="////", label="pattern unrecorded"),
            Patch(facecolor=ORANGE, edgecolor=ORANGE, label="checkerboard (engineering tests)")]
-    fig.legend(handles=key, loc="outside upper center", ncol=5, frameon=False, handlelength=1.4, handleheight=0.9, columnspacing=1.2, borderaxespad=0.1)
+    fig.legend(handles=key, loc="outside upper center", ncol=4, frameon=False, handlelength=1.4, handleheight=0.9, columnspacing=1.2, borderaxespad=0.1)
 
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / "fig_timeline.pdf", metadata={"Creator": None, "Producer": None, "CreationDate": None, "ModDate": None})

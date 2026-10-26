@@ -184,3 +184,13 @@ number and the deployment's date (parsed from its name, which starts YYYY.MM.DD)
 Dropped: mission and deployment names and source paths, which can contain people's or site names. Used by
 `analysis/codesign/fig_timeline.py` to correct the six dives whose camera clock disagrees with their
 deployment by more than 14 days (252, 253, 336, 337, 451, 452).
+
+## data/fishsense_api/laser_colors_unlabeled.csv (2026-10-26)
+
+Read-only pull from the FishSense v2 API through its MCP tool (`get_mission`, tenant `lab`, field
+`laser_colors`) for the 19 dives that hold canonical images but no live laser label with a dot. `source` is the
+count used: `predictions` (the human path's laser-stage predictions) where present, else `automatic` (the
+automatic laser dot's color, read off its render by fishsense-core's `classify_laser_color`; written by
+backfill run laser-colour-backfill-apply-20261026T190119Z, dry run 98.6% agreement with labelers on 1,316
+frames). Automatic results are unvalidated (`validated: false`). `color` is the majority; dive 376's minority
+is explained in `note`. Used by `analysis/codesign/fig_timeline.py`.
