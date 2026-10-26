@@ -191,6 +191,6 @@ Read-only pull from the FishSense v2 API through its MCP tool (`get_mission`, te
 `laser_colors`) for the 19 dives that hold canonical images but no live laser label with a dot. `source` is the
 count used: `predictions` (the human path's laser-stage predictions) where present, else `automatic` (the
 automatic laser dot's color, read off its render by fishsense-core's `classify_laser_color`; written by
-backfill run laser-colour-backfill-apply-20261026T190119Z, dry run 98.6% agreement with labelers on 1,316
+backfill run laser-colour-backfill-apply-20261026T190119Z, re-read 2026-10-26 after the write finished, no automatic dot left unread except ones too close to classify; dry run 98.6% agreement with labelers on 1,316
 frames). Automatic results are unvalidated (`validated: false`). `color` is the majority; dive 376's minority
 is explained in `note`. Used by `analysis/codesign/fig_timeline.py`.
