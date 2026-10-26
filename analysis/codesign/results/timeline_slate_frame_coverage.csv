@@ -1,0 +1,14 @@
+quantity,value
+dives,525.0
+dives with a recorded pattern,130.0
+dives without a recorded pattern,395.0
+... of which hold their own images,256.0
+... scanned by the detector,251.0
+... with a human-labeled slate frame,0.0
+... with a detector slate frame (p >= 0.5),120.0
+... with either,120.0
+... imageless duplicates of those (would inherit),66.0
+detector CV frames,6828.0
+detector CV precision,0.9993
+detector CV recall,0.9801
+detector CV false positives,1.0
