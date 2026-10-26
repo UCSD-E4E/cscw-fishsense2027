@@ -116,6 +116,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-26 | Timeline figure: "pattern unrecorded" hatch removed; the one field dive in a slate gap (45) predates the slate procedure per the author (30d35bf9) | figure | assistant | 30d35bf9 and this commit |
 | 2026-10-26 | Timeline figure: checkerboard engineering-test marks removed at the author's request (01837bc3) | figure | assistant | 01837bc3 and this commit |
 | 2026-10-26 | Timeline figure redrawn as one panel to the author's spec: slate pattern as month-snapped background shading behind the laser-color bars; final FishSense laser-color counts recorded (19ae932d) (35d6ba89) | figure + data | assistant | 35d6ba89 and this commit |
+| 2026-10-26 | Timeline step 1: per-month dive counts by laser color and slate pattern, and slate-frame coverage of unrecorded dives from the slate detector's scan (`analysis/codesign/timeline_counts.py`, `timeline_dives.py`; 04b080fe) | analysis | assistant | 04b080fe and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
