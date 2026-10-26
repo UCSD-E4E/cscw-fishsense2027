@@ -16,8 +16,9 @@ pattern  H / tic-tac-toe / chevron, or None (unrecorded). `dive_slate`: dive.div
          with images and none of the above, read by eye by a separate assistant session from each dive's own
          FishSense slate-detector frames, blind to date and neighbors (analysis/codesign/slate_pattern_reads_fishsense.csv,
          capture ids listed; blind control on the 35 dives with a FishSense template and a detector frame:
-         family 35/35, analysis/codesign/slate_pattern_reads_fishsense_control.tsv). `hash` is a slate that is not
-         one of the 11 templates (dives 508, 510). `inherited`: an imageless duplicate dive takes the pattern of
+         family 35/35, analysis/codesign/slate_pattern_reads_fishsense_control.tsv). Dives 508 and 510 (pool,
+         2023-08-18) show a hash-marked board that is a size reference, not a slate (the author, 2026-10-26),
+         so they and dive 511 (copies of 510's images) have no pattern. `inherited`: an imageless duplicate dive takes the pattern of
          the dives holding its images when they agree; dive 333, a merged import whose sources disagree, stays unrecorded.
 """
 from __future__ import annotations
@@ -68,7 +69,9 @@ def load():
     link = pd.read_csv(REPO / "data/db_extracts/timeline_slate_links.psv", sep="|", header=None, names=["dive_id", "slate"])
     reads = pd.read_csv(REPO / "analysis/codesign/slate_pattern_reads.csv").query("pattern != 'unreadable'")
     fs = pd.read_csv(REPO / "analysis/codesign/slate_pattern_reads_fishsense.csv").dropna(subset=["family"]).set_index("dive_id").family
-    fs = fs.map(lambda f: "hash" if f.startswith("other: hash") else pattern(f))
+    no_slate = fs.index[fs.str.startswith("other: hash")]   # the hash board is a size reference, not a slate (the author, 2026-10-26)
+    assert sorted(no_slate) == [508, 510], no_slate
+    fs = fs.drop(no_slate).map(pattern)
     assert fs.notna().all(), fs[fs.isna()]
     for src, s in (("calibration_link", link.set_index("dive_id").slate.map(pattern)),
                    ("read_by_eye", reads.set_index("dive_id").pattern.replace({"chevron (V)": "chevron"})),
