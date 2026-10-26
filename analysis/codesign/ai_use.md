@@ -113,6 +113,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-24 | Timeline slate lane rebuilt from the data: calibration-dive links and slate patterns read by the assistant from 13 slate frames (`analysis/codesign/slate_pattern_reads.csv`); American spelling in the figure (f7ce3a0a) | figure + data | assistant (visual reads) | f7ce3a0a and this commit |
 | 2026-10-24 | Timeline figure: laser color from live labels only, six clock-error dives re-dated from FishSense API deployment dates, four laser dots checked by eye (4f0e47e7) | figure + data | assistant | 4f0e47e7 and this commit |
 | 2026-10-26 | Timeline figure: every dive colored (no unknown class); 19 unlabeled dives from FishSense laser_colors (automatic dot colors produced by a separate assistant session's backfill run), 208 imageless duplicates inherit from their source dives; dive 376's mixed reading resolved by the assistant from FSL-03's labeled dives; empty bars no longer outlined (e376f653) | figure + data | assistant | e376f653 and this commit |
+| 2026-10-26 | Timeline figure: "pattern unrecorded" hatch removed; the one field dive in a slate gap (45) predates the slate procedure per the author (30d35bf9) | figure | assistant | 30d35bf9 and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
