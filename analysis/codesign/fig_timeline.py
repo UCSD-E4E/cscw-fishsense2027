@@ -20,8 +20,8 @@ Time axis 2023-08 .. 2025-01 (the collection period). Two lanes:
           (data/db_extracts/timeline_slate_links.psv, sql/extract_timeline_slate_links.sql, 15 more), slate frames
           read by eye (analysis/codesign/slate_pattern_reads.csv, image ids listed). Gaps stay blank: the one
           field dive in a gap, dive 45 (2023-08-17), has no slate and likely predates the slate procedure (the
-          author, 2026-10-26). Orange: checkerboard engineering tests, 2023-08-14..18
-          (dive.calibration_target_id) and 2025-01-17 (TG-7 sessions; analysis/codesign/timeline.yaml).
+          author, 2026-10-26). Checkerboard engineering tests (2023-08-14..18, 2025-01-17) are not shown (the
+          author, 2026-10-26); their dives still count in the dives lane.
 One key row; direct labels only for the slate pattern names. Dates are tabulated by
 analysis/codesign/timeline_dates.py.
 
@@ -44,11 +44,10 @@ from fishsense_cscw.paths import REPO
 
 OUT = REPO / "analysis/codesign/figures"
 W, H, FS = 7.0, 1.6, 7
-BLUE, ORANGE = "#2a78d6", "#eb6834"                     # reference palette slots 1-2 (slate, checkerboard)
+BLUE = "#2a78d6"                                        # reference palette slot 1 (slate)
 INK, INK2, MUTED, GRID = "#0b0b0b", "#52514e", "#8a8984", "#e4e3df"
 RED, GREEN, GREEN_HATCH = "#a8322b", "#c4e8b8", "#3f7a37"
 T0, T1 = pd.Timestamp("2023-08-01"), pd.Timestamp("2025-02-01")
-CB_TESTS = [("2023-08-14", "2023-08-18"), ("2025-01-17", "2025-01-17")]
 BAR, MIN_DAYS, BAR_DAYS = 0.62, 4, 24
 DEUTAN = np.array([[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.011820, 0.042940, 0.968881]])  # Machado 2009, severity 1
 
@@ -157,7 +156,7 @@ def main():
     dx.set_ylabel("dives", rotation=0, ha="right", va="center", labelpad=4, color=INK2)
     dx.grid(axis="y", color=GRID, lw=0.6); dx.set_axisbelow(True)
 
-    # lane 2: slate pattern; orange = checkerboard tests
+    # lane 2: slate pattern
     known = D.assign(pattern=D.slate.map(pattern))[["t", "pattern"]].dropna()
     link = pd.read_csv(REPO / "data/db_extracts/timeline_slate_links.psv", sep="|", header=None, names=["dive_id", "slate"])
     link = link.merge(D[["dive_id", "t"]], on="dive_id").assign(pattern=lambda d: d.slate.map(pattern))[["t", "pattern"]]
@@ -174,8 +173,6 @@ def main():
     order = sorted(spans.items(), key=lambda kv: kv[1][0])
     gap = pd.concat([D[(D.t >= b0) & (D.t < a1) & (D.env == "reef")] for (_, (_, b0)), (_, (a1, _)) in zip(order, order[1:])])
     assert gap.dive_id.tolist() == [45], gap.dive_id.tolist()   # predates the slate procedure; any other needs a look
-    for a, b in CB_TESTS:
-        lane_box(sx, a, pd.Timestamp(b) + pd.Timedelta(days=1), fc=ORANGE, ec="white", lw=0.6, zorder=3)
     h0 = spans["H"]
     sx.text(x(h0[0]), BAR / 2 + 0.05, "H", va="bottom", ha="left", color=INK, fontsize=FS)
     sx.set_ylim(-0.55, 0.9); sx.set_yticks([])
@@ -193,9 +190,8 @@ def main():
     sx.set_xlim(x(T0), x(T1))
 
     key = [Patch(facecolor=RED, edgecolor=RED, label="red laser"),
-           Patch(facecolor=GREEN, edgecolor=GREEN_HATCH, hatch="//////", label="green laser"),
-           Patch(facecolor=ORANGE, edgecolor=ORANGE, label="checkerboard (engineering tests)")]
-    fig.legend(handles=key, loc="outside upper center", ncol=3, frameon=False, handlelength=1.4, handleheight=0.9, columnspacing=1.2, borderaxespad=0.1)
+           Patch(facecolor=GREEN, edgecolor=GREEN_HATCH, hatch="//////", label="green laser")]
+    fig.legend(handles=key, loc="outside upper center", ncol=2, frameon=False, handlelength=1.4, handleheight=0.9, columnspacing=1.2, borderaxespad=0.1)
 
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / "fig_timeline.pdf", metadata={"Creator": None, "Producer": None, "CreationDate": None, "ModDate": None})
