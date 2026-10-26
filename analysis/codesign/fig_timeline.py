@@ -18,8 +18,9 @@ Time axis 2023-08 .. 2025-01 (the collection period). Two lanes:
   slate   H, tic-tac-toe, chevron (V), each from the first to the last dive known to use it, breaking at months
           with no dives: dive.dive_slate_id (36 dives), a dive's calibration dive's slate
           (data/db_extracts/timeline_slate_links.psv, sql/extract_timeline_slate_links.sql, 15 more), slate frames
-          read by eye (analysis/codesign/slate_pattern_reads.csv, image ids listed). Hatched: field dives whose
-          pattern is unrecorded (2023-08-17, 2024-02-28). Orange: checkerboard engineering tests, 2023-08-14..18
+          read by eye (analysis/codesign/slate_pattern_reads.csv, image ids listed). Gaps stay blank: the one
+          field dive in a gap, dive 45 (2023-08-17), has no slate and likely predates the slate procedure (the
+          author, 2026-10-26). Orange: checkerboard engineering tests, 2023-08-14..18
           (dive.calibration_target_id) and 2025-01-17 (TG-7 sessions; analysis/codesign/timeline.yaml).
 One key row; direct labels only for the slate pattern names. Dates are tabulated by
 analysis/codesign/timeline_dates.py.
@@ -156,7 +157,7 @@ def main():
     dx.set_ylabel("dives", rotation=0, ha="right", va="center", labelpad=4, color=INK2)
     dx.grid(axis="y", color=GRID, lw=0.6); dx.set_axisbelow(True)
 
-    # lane 2: slate pattern; hatched = field dives with the pattern unrecorded; orange = checkerboard tests
+    # lane 2: slate pattern; orange = checkerboard tests
     known = D.assign(pattern=D.slate.map(pattern))[["t", "pattern"]].dropna()
     link = pd.read_csv(REPO / "data/db_extracts/timeline_slate_links.psv", sep="|", header=None, names=["dive_id", "slate"])
     link = link.merge(D[["dive_id", "t"]], on="dive_id").assign(pattern=lambda d: d.slate.map(pattern))[["t", "pattern"]]
@@ -171,10 +172,8 @@ def main():
             widest = max(parts, key=lambda q: q[1] - q[0])
             sx.text(x(widest[0] + (widest[1] - widest[0]) / 2), 0, p, va="center", ha="center", color="white", fontsize=FS)
     order = sorted(spans.items(), key=lambda kv: kv[1][0])
-    for (_, (_, b0)), (_, (a1, _)) in zip(order, order[1:]):
-        if len(D[(D.t >= b0) & (D.t < a1) & (D.env == "reef")]):
-            for pa, pb in pieces(b0, a1, empty):
-                lane_box(sx, pa, pb, fc="white", ec=MUTED, lw=0.6, hatch="////")
+    gap = pd.concat([D[(D.t >= b0) & (D.t < a1) & (D.env == "reef")] for (_, (_, b0)), (_, (a1, _)) in zip(order, order[1:])])
+    assert gap.dive_id.tolist() == [45], gap.dive_id.tolist()   # predates the slate procedure; any other needs a look
     for a, b in CB_TESTS:
         lane_box(sx, a, pd.Timestamp(b) + pd.Timedelta(days=1), fc=ORANGE, ec="white", lw=0.6, zorder=3)
     h0 = spans["H"]
@@ -195,9 +194,8 @@ def main():
 
     key = [Patch(facecolor=RED, edgecolor=RED, label="red laser"),
            Patch(facecolor=GREEN, edgecolor=GREEN_HATCH, hatch="//////", label="green laser"),
-           Patch(facecolor="white", edgecolor=MUTED, hatch="////", label="pattern unrecorded"),
            Patch(facecolor=ORANGE, edgecolor=ORANGE, label="checkerboard (engineering tests)")]
-    fig.legend(handles=key, loc="outside upper center", ncol=4, frameon=False, handlelength=1.4, handleheight=0.9, columnspacing=1.2, borderaxespad=0.1)
+    fig.legend(handles=key, loc="outside upper center", ncol=3, frameon=False, handlelength=1.4, handleheight=0.9, columnspacing=1.2, borderaxespad=0.1)
 
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / "fig_timeline.pdf", metadata={"Creator": None, "Producer": None, "CreationDate": None, "ModDate": None})
