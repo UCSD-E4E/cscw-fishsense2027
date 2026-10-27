@@ -27,7 +27,7 @@ import timeline_dives as T  # noqa: E402
 
 RES = REPO / "analysis/codesign/results"
 SD = REPO.parent / "2026-10-03_slate_detector"
-MONTHS = pd.period_range("2023-08", "2025-01", freq="M")
+MONTHS = pd.period_range("2023-08", "2024-12", freq="M")
 
 
 def main():
