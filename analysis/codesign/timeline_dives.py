@@ -23,6 +23,9 @@ pattern  H / tic-tac-toe / chevron, or None (unrecorded). `dive_slate`: dive.div
          family 35/35, analysis/codesign/slate_pattern_reads_fishsense_control.tsv); its reads of dives 508 and 510
          (a hash-marked size-reference board, not a slate) fall in excluded deployment 3. `inherited`: an imageless duplicate dive takes the pattern of
          the dives holding its images when they agree; dive 333, a merged import whose sources disagree, stays unrecorded.
+         `same_camera_day`: a session split into several dives often has its slate frames in only one of them, so a
+         dive still without a pattern takes the pattern of the camera's other dives that day (the author, 2026-10-27);
+         no camera-day mixes patterns. Dive 333 is left out: its date is one of its two sources' and says nothing of the other.
 """
 from __future__ import annotations
 
@@ -87,4 +90,10 @@ def load():
     inh = _inherit(dup, D.set_index("dive_id").pattern, mixed=[333])   # 333 merges FSL-04 dives of 2023-12-11 (tic-tac-toe) and FSL-01 dive 344 of 2024-03-14 (chevron)
     got = D.pattern.isna() & D.dive_id.isin(inh.index)
     D.loc[got, "pattern"], D.loc[got, "pattern_source"] = D.loc[got, "dive_id"].map(inh), "inherited"
+    day = D.t.dt.date.rename("day")
+    sib = D.dropna(subset=["pattern"]).groupby([D.camera, day]).pattern.agg(lambda s: s.iloc[0] if s.nunique() == 1 else None)
+    assert sib.notna().all(), sib[sib.isna()]
+    got = D.pattern.isna() & (D.dive_id != 333)
+    fill = pd.Series([sib.get((c, d)) for c, d in zip(D.camera[got], day[got])], index=D.index[got], dtype=object).dropna()
+    D.loc[fill.index, "pattern"], D.loc[fill.index, "pattern_source"] = fill, "same_camera_day"
     return D
