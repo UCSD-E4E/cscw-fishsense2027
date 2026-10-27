@@ -118,6 +118,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-26 | Timeline figure redrawn as one panel to the author's spec: slate pattern as month-snapped background shading behind the laser-color bars; final FishSense laser-color counts recorded (19ae932d) (35d6ba89) | figure + data | assistant | 35d6ba89 and this commit |
 | 2026-10-26 | Timeline step 1: per-month dive counts by laser color and slate pattern, and slate-frame coverage of unrecorded dives from the slate detector's scan (`analysis/codesign/timeline_counts.py`, `timeline_dives.py`; 04b080fe) | analysis | assistant | 04b080fe and this commit |
 | 2026-10-26 | Slate patterns for 256 unrecorded dives read by eye by a separate assistant session (fishsense-services) from FishSense slate-detector frames, blind control 35/35 on family (`analysis/codesign/slate_pattern_reads_fishsense.csv`, `_control.tsv`); merged into the timeline per-dive table (da801d3c) | data (visual reads) | assistant (other session) | da801d3c and this commit |
+| 2026-10-26 | Dives 508, 510, 511 set to no slate pattern: the hash board is a size reference, not a slate (the author) (fe44ca6d) | analysis | assistant | fe44ca6d and this commit |
+| 2026-10-27 | Timeline dive counts exclude FishSense deployments 2, 3, 4 (pool tests 2023-08-14/18, test session 2025-01-17; 44 dives), not field data per the author; 481 dives remain (1a40d749) | analysis | assistant | 1a40d749 and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
