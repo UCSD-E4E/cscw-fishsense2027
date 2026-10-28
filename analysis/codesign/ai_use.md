@@ -122,6 +122,7 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-10-27 | Timeline dive counts exclude FishSense deployments 2, 3, 4 (pool tests 2023-08-14/18, test session 2025-01-17; 44 dives), not field data per the author; 481 dives remain (1a40d749) | analysis | assistant | 1a40d749 and this commit |
 | 2026-10-27 | Timeline slate pattern: a dive without one takes the same camera's same-day pattern (split sessions), per the author; 32 dives filled, 5 of 481 remain without (0cc2495d) | analysis | assistant | 0cc2495d and this commit |
 | 2026-10-27 | fig:timeline redrawn as two aligned histograms to the author's brief: laser color (top) and slate pattern (bottom) per month, shared one-row key; data from `timeline_dives.load()`; evidence map updated (c7d17eef) | figure | assistant | c7d17eef and this commit |
+| 2026-10-27 | fig:timeline final month labeled; evidence map gives the population and counts per category and per pattern source, including the 32 same-camera-day inferences (c9df6889) | figure + docs | assistant | c9df6889 and this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
