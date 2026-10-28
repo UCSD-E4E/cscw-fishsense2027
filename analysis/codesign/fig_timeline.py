@@ -5,7 +5,8 @@ each month's bar has the same height in both panels and only the split differs.
   top     dives per month by laser color, red or green.
   bottom  dives per month by slate pattern: H, tic-tac-toe, chevron, or pattern unknown (outline only).
 Per dive (date, laser color, slate pattern, each with its source): analysis/codesign/timeline_dives.py, which
-documents every rule; 481 dives, the pool and test deployments excluded (the author, 2026-10-27). Laser color is
+documents every rule; 274 dives, each counted once (re-imported records dropped), the pool and test
+deployments excluded (the author, 2026-10-27). Laser color is
 from the dive's labels where it has them, else FishSense laser_colors (for 15 of 19 dives the unvalidated
 automatic dot color), else the dives whose images an imageless duplicate holds. Counts per month:
 analysis/codesign/results/timeline_counts_by_month.csv (timeline_counts.py).
@@ -42,7 +43,7 @@ RED, GREEN, GREEN_HATCH = "#a8322b", "#c4e8b8", "#3f7a37"
 SLATE = {"H": "#2f3f52", "tic-tac-toe": "#8395aa", "chevron": "#dbe2ea"}
 SLATE_HATCH = "#4f5f72"
 MONTHS = pd.period_range("2023-08", "2024-12", freq="M")
-BAR, YMAX = 0.78, 125
+BAR, YMAX = 0.78, 60
 DEUTAN = np.array([[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413], [-0.011820, 0.042940, 0.968881]])  # Machado 2009, severity 1
 
 LASER = {"red": dict(facecolor=RED, edgecolor=RED, lw=0.6),
@@ -84,7 +85,7 @@ def stack(ax, per, styles):
         v = per[k].to_numpy(float)
         ax.bar(pos[v > 0], v[v > 0], width=BAR, bottom=bottom[v > 0], zorder=2, **st)   # empty bars would still draw an outline
         bottom += v
-    ax.set_ylim(0, YMAX); ax.set_yticks([0, 50, 100])
+    ax.set_ylim(0, YMAX); ax.set_yticks([0, 25, 50])
     ax.set_ylabel("dives", rotation=0, ha="right", va="center", labelpad=4, color=INK2)
     ax.grid(axis="y", color=GRID, lw=0.6, zorder=1)
     for s in ("top", "right", "left"):

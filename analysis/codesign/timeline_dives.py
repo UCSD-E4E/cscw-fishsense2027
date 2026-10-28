@@ -3,6 +3,10 @@
 dives    all dives except FishSense deployments 2, 3 and 4 (data/fishsense_api/missions_lab.csv): the 2023-08-14 and
          2023-08-18 private-pool tests and the 2025-01-17 test session, 44 dives that are not field data (the
          author, 2026-10-27). No duplicate-image link crosses this boundary.
+         Each physical dive is counted once: the 207 remaining records that hold no canonical image are re-imports
+         of the same card from a later data dump (every image a byte-identical copy, same file name, capture time
+         and camera, of a canonical image in another record; dive 333 copies two cameras' records). They are used
+         to carry values to and from their source records, then dropped, leaving 274 dives (the author, 2026-10-27).
 
 date     the camera clock, except the six dives whose clock disagrees with their deployment by more than 14 days
          (252, 253, 336, 337, 451, 452; data/fishsense_api/missions_lab.csv), which take the deployment date.
@@ -96,4 +100,5 @@ def load():
     got = D.pattern.isna() & (D.dive_id != 333)
     fill = pd.Series([sib.get((c, d)) for c, d in zip(D.camera[got], day[got])], index=D.index[got], dtype=object).dropna()
     D.loc[fill.index, "pattern"], D.loc[fill.index, "pattern_source"] = fill, "same_camera_day"
-    return D
+    assert (D.images == 0).sum() == 207 and D.dive_id[D.images == 0].isin(dup.dive_id).all()
+    return D[D.images > 0].reset_index(drop=True)   # re-imported records: their images are counted in their source dives
