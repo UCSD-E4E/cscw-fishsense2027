@@ -194,3 +194,12 @@ automatic laser dot's color, read off its render by fishsense-core's `classify_l
 backfill run laser-colour-backfill-apply-20261026T190119Z, re-read 2026-10-26 after the write finished, no automatic dot left unread except ones too close to classify; dry run 98.6% agreement with labelers on 1,316
 frames). Automatic results are unvalidated (`validated: false`). `color` is the majority; dive 376's minority
 is explained in `note`. Used by `analysis/codesign/fig_timeline.py`.
+
+## data/db_extracts/dive_checksums.psv, dive_overlap.psv (2026-10-27)
+
+Read-only extracts from the restored production DB (dump 2026-09-25) by `sql/extract_dive_checksums.sql` and
+`sql/extract_dive_overlap.sql`: per dive record, its image rows, distinct checksums, canonical images, capture
+span and image cameras; and per ordered pair of records holding byte-identical images, how many of the first
+record's distinct checksums the second also holds. Ids, counts and timestamps only. Used by
+`analysis/codesign/physical_dives.py`, which maps each record to the physical dive it belongs to (duplicates:
+re-imports holding no canonical image; fragments: records wholly inside another same-camera record).

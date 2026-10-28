@@ -5,8 +5,8 @@ each month's bar has the same height in both panels and only the split differs.
   top     dives per month by laser color, red or green.
   bottom  dives per month by slate pattern: H, tic-tac-toe, chevron, or pattern unknown (outline only).
 Per dive (date, laser color, slate pattern, each with its source): analysis/codesign/timeline_dives.py, which
-documents every rule; 274 dives, each counted once (re-imported records dropped), the pool and test
-deployments excluded (the author, 2026-10-27). Laser color is
+documents every rule; 257 dives, each physical dive counted once (physical_dives.py: duplicates and
+fragments dropped), the pool and test deployments excluded (the author, 2026-10-27). Laser color is
 from the dive's labels where it has them, else FishSense laser_colors (for 15 of 19 dives the unvalidated
 automatic dot color), else the dives whose images an imageless duplicate holds. Counts per month:
 analysis/codesign/results/timeline_counts_by_month.csv (timeline_counts.py).
