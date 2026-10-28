@@ -119,7 +119,8 @@ def main():
     assert (a == b).all() and a.sum() == len(D)
     top.tick_params(axis="x", which="both", length=0)
     bot.set_xticks(np.arange(len(MONTHS)), minor=True)
-    major = [i for i, m in enumerate(MONTHS) if m.month in (2, 5, 8, 11)]
+    major = [i for i, m in enumerate(MONTHS) if m.month in (4, 8, 12)]   # every fourth month, so the first and last are labeled
+    assert major[0] == 0 and major[-1] == len(MONTHS) - 1
     bot.set_xticks(major, [MONTHS[i].strftime("%b %Y") for i in major])
     bot.tick_params(axis="x", which="minor", length=2, color=MUTED); bot.tick_params(axis="x", which="major", length=3, color=MUTED)
     bot.set_xlim(-0.6, len(MONTHS) - 0.4)
