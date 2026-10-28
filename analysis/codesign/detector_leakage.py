@@ -31,10 +31,19 @@ without re-running the model.
 Reported per gate, overall and per colour: hit (kept and within 3 px of the human dot) as a share of
 all dot frames, the share kept, and precision (within 3 px among kept). 95% intervals resample dives.
 
+--physical: each physical dive counted once (analysis/codesign/physical_dives.py): T3's frames come from
+redgreen.frames(), which under the same flag gives them the dive id of the record standing for their physical dive
+after colour is looked up per record, so the leave-one-out lines, the dive counts and the resampling treat the
+records of one physical dive as one dive. T3's sample (capped per dive) is not redrawn. The production set's
+evaluated dives are all distinct physical dives and stay per record (its lines.psv lookup is per record). Writes
+detector_leakage_physical.csv.
+
 Writes analysis/codesign/results/detector_leakage.csv.
-Run: uv run python analysis/codesign/detector_leakage.py
+Run: uv run python analysis/codesign/detector_leakage.py [--physical]
 """
 from __future__ import annotations
+
+import sys
 
 import numpy as np
 import pandas as pd
@@ -44,6 +53,8 @@ from fishsense_cscw.paths import REPO
 OUT = REPO / "analysis/codesign/results"
 FIRST_PREFILL = pd.Timestamp("2026-07-27", tz="UTC")
 HIT_PX, CORRIDOR, RANSAC_TOL, N_BOOT = 3.0, 25.0, 10.0, 2000
+PHYSICAL = "--physical" in sys.argv   # read by redgreen.frames() too
+SUFFIX = "_physical" if PHYSICAL else ""
 COLS = "image_id dive_id pred_x pred_y confidence pred_colour rejected label_x label_y label_colour label_t pred_t".split()
 
 
@@ -98,7 +109,6 @@ def gates(d: pd.DataFrame) -> pd.DataFrame:
 
 def t3_gates() -> pd.DataFrame:
     """T3's frames with a dot (dive-level colour), with own-prediction and human-dot leave-one-out lines."""
-    import sys
     sys.path.insert(0, str(REPO / "analysis/codesign"))
     from redgreen import by_dive_colour, frames
     d = by_dive_colour(frames())
@@ -149,7 +159,7 @@ def main():
                 rows.append(dict(data=data, subset=subset, gate=gate, frames=len(sub), dives=sub.dive_id.nunique(), **m, hit_lo=lo, hit_hi=hi))
     R = pd.DataFrame(rows)
     OUT.mkdir(parents=True, exist_ok=True)
-    R.to_csv(OUT / "detector_leakage.csv", index=False, float_format="%.4f")
+    R.to_csv(OUT / f"detector_leakage{SUFFIX}.csv", index=False, float_format="%.4f")
     pd.set_option("display.width", 200)
     print(R.round(3).to_string(index=False))
 

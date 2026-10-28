@@ -41,10 +41,17 @@ project population and label sync are not processing and are excluded.
 Not included: the time between a dive and its data reaching the lab (organisational delay).
 Intervals: 95%, resampling dives (2,000 draws).
 
+--physical: count each physical dive once (analysis/codesign/physical_dives.py). Every record is mapped to the
+record standing for its physical dive: per-dive counts are summed, capture spans and write times span all of
+its records, annotations and slate-detector frames are pooled, and machine time is the sum of its records'
+runs. Writes the same files with a _physical suffix (the stored results stay as they are) and no figure.
+
 Writes analysis/codesign/results/dive_time_{dives,tasks,summary}.csv and figures/dive_time.{pdf,png}.
-Run: uv run python analysis/codesign/dive_time.py
+Run: uv run python analysis/codesign/dive_time.py [--physical]
 """
 from __future__ import annotations
+
+import sys
 
 import numpy as np
 import pandas as pd
@@ -63,6 +70,22 @@ STAGES = {"PreprocessLaserImagesWorkflow": "preprocess", "PreprocessHeadtailImag
           "PerformLaserCalibrationWorkflow": "calibration", "ComputeLaserDepthsWorkflow": "depths + measurement",
           "MeasureFishWorkflow": "depths + measurement"}
 TASKS = {"laser": "laser dot", "headtail": "snout/fork", "species": "species", "slate": "slate corners"}
+PHYSICAL = "--physical" in sys.argv
+SUFFIX = "_physical" if PHYSICAL else ""
+if PHYSICAL:
+    sys.path.insert(0, str(REPO / "analysis/codesign"))
+    import physical_dives  # noqa: E402
+    PHYS = physical_dives.physical()
+
+
+def to_physical(D):
+    """Per-record dive_effort rows -> one row per physical dive."""
+    D = D.assign(dive_id=D.dive_id.map(PHYS))
+    t = [c for c in D.columns if c in ("first", "last") or c.endswith(("_first", "_last"))]
+    D[t] = D[t].apply(pd.to_datetime, utc=True)
+    agg = {c: "sum" for c in ("images", "laser_labelled", "valid_laser", "species_labelled", "slate_species", "preds", "conf")}
+    agg |= {c: ("min" if c == "first" or c.endswith("_first") else "max") for c in t} | {"camera_id": "first"}
+    return D.groupby("dive_id", as_index=False).agg(agg)
 
 
 def boot(x: pd.Series | np.ndarray, f=np.median, seed=0):
@@ -89,6 +112,8 @@ def task_times(A):
 def slate_frames(D):
     man = pd.read_csv(SLATE / "data/manifest.csv"); scan = pd.read_csv(SLATE / "runs/scan/predictions.csv")
     oof = pd.read_csv(REPO / "data/slate_detector/oof_cv_q1.csv")
+    if PHYSICAL:
+        man, scan, oof = (x.assign(dive_id=x.dive_id.map(PHYS)) for x in (man, scan, oof))
     pos = pd.concat([man[man.label == 1][["image_id", "dive_id"]], oof[oof.p_slate >= 0.5][["image_id", "dive_id"]],
                      scan[scan.flag == "likely_slate"][["image_id", "dive_id"]]]).drop_duplicates("image_id")
     seen = pd.concat([man[["image_id", "dive_id"]], scan[["image_id", "dive_id"]]]).drop_duplicates("image_id").groupby("dive_id").size()
@@ -106,6 +131,8 @@ def machine(D):
     pl = pl.dropna(subset=["lp_first"])
     tol = pd.Timedelta(seconds=5)
     inside = ((pd.to_datetime(pl.lp_first, utc=True) >= pl.start_time - tol) & (pd.to_datetime(pl.lp_last, utc=True) <= pl.close_time + tol))
+    if PHYSICAL:                                          # a physical dive's machine time: the sum of its records' runs
+        longest = longest.assign(dive_id=longest.dive_id.map(PHYS))
     per = longest.assign(stage=longest.workflow_type.map(STAGES)).pivot_table(index="dive_id", columns="stage", values="s", aggfunc="sum")
     per["machine_s"] = per.sum(axis=1) + ingest.median()
     return per, dict(ingest_runs=len(ingest), ingest_median_s=ingest.median(), predict_runs_checked=len(pl), predict_runs_matching=int(inside.sum()),
@@ -114,6 +141,8 @@ def machine(D):
 
 def main():
     D = pd.read_csv(REPO / "data/db_extracts/dive_effort.psv", sep="|", header=None, names=COLS)
+    if PHYSICAL:
+        D = to_physical(D)
     D = D.merge(pd.read_csv(REPO / "data/db_extracts/dive_environment.psv", sep="|", header=None, names=["dive_id", "env"]), on="dive_id", how="left")
     D["env"] = D.env.fillna("other")
     D["underwater_h"] = (pd.to_datetime(D["last"]) - pd.to_datetime(D["first"])).dt.total_seconds() / 3600
@@ -121,6 +150,8 @@ def main():
 
     A = pd.read_csv(REPO / "data/db_extracts/lead_times_by_dive.psv", sep="|", header=None, names=["kind", "dive_id", "image_id", "lead", "seeded", "created"])
     A["seeded"] = A.seeded.eq("t")
+    if PHYSICAL:
+        A["dive_id"] = A.dive_id.map(PHYS)
     T = task_times(A); t = T.median_s.astype(float)
 
     # (a) estimated human time
@@ -155,8 +186,8 @@ def main():
     D["machine_h"] = np.where(D.preprocess.notna() & D.prediction.notna(), D.machine_s / 3600, np.nan)
 
     OUT.mkdir(parents=True, exist_ok=True)
-    D.drop(columns=["first", "last"]).to_csv(OUT / "dive_time_dives.csv", index=False, float_format="%.4f")
-    T.to_csv(OUT / "dive_time_tasks.csv")
+    D.drop(columns=["first", "last"]).to_csv(OUT / f"dive_time_dives{SUFFIX}.csv", index=False, float_format="%.4f")
+    T.to_csv(OUT / f"dive_time_tasks{SUFFIX}.csv")
     ok = D[D.span_flag == "ok"]
     rows = []
     for env, X in [("field (reef)", ok[ok.env == "reef"]), ("pool", ok[ok.env == "pool"]), ("other", ok[ok.env == "other"]), ("all", ok)]:
@@ -173,7 +204,7 @@ def main():
         add("ratio recorded human / underwater", X[X.recorded_complete].human_rec_h / X[X.recorded_complete].underwater_h)
         add("ratio machine / underwater", X.machine_h / X.underwater_h)
         add("share of dives: estimated human > underwater", (X.human_est_h > X.underwater_h).astype(float), np.mean)
-    S = pd.DataFrame(rows); S.to_csv(OUT / "dive_time_summary.csv", index=False, float_format="%.4f")
+    S = pd.DataFrame(rows); S.to_csv(OUT / f"dive_time_summary{SUFFIX}.csv", index=False, float_format="%.4f")
 
     pd.set_option("display.width", 220)
     print("Per-task median lead time (drawn without a pre-fill):"); print(T.to_string()); print()
@@ -183,6 +214,8 @@ def main():
     print("Recorded (capped vs raw, all labelled dives): capped", round(D.human_rec_h.sum(), 1), "h, raw", round(D.human_rec_raw_h.sum(), 1), "h;",
           "pre-filled share of capped time", round((D.rec_prefilled_capped.sum() / (D.rec_scratch_capped + D.rec_prefilled_capped).sum()), 3))
     print(); print(S.round(3).to_string(index=False))
+    if PHYSICAL:
+        return
 
     import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
     fig, ax = plt.subplots(figsize=(3.4, 3.0))

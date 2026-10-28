@@ -69,6 +69,11 @@ def load():
     return out.reset_index()
 
 
+def physical():
+    """dive_id -> the record standing for its physical dive (all 525 records)."""
+    return load().set_index("dive_id").physical_dive
+
+
 def main():
     X = load()
     X.to_csv(REPO / "analysis/codesign/results/physical_dives.csv", index=False)

@@ -1,0 +1,9 @@
+stage,setup,positives,share,total,dives,removed_by_filter
+before the line filter,randomized single project,25530,0.8312,30715,247,31.0000
+before the line filter,randomized multi-dive,3521,0.1146,30715,247,3.0000
+before the line filter,"dive-based, no pre-fill",1189,0.0387,30715,247,13.0000
+before the line filter,"dive-based, pre-fill",475,0.0155,30715,247,0.0000
+after the line filter,randomized single project,25499,0.8315,30668,247,
+after the line filter,randomized multi-dive,3518,0.1147,30668,247,
+after the line filter,"dive-based, no pre-fill",1176,0.0383,30668,247,
+after the line filter,"dive-based, pre-fill",475,0.0155,30668,247,

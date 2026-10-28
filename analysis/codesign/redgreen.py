@@ -41,10 +41,17 @@ e2e_measurement/tail (automatic dot -> SAM mask -> production head/tail), by div
   of manual" is reported too (all three dives have a stored calibration). One red dive: the
   interval resamples three dives and is indicative only, and colour is still confounded with camera.
 
+--physical: each physical dive counted once (analysis/codesign/physical_dives.py): after colour and calibration
+are looked up per record, frames take the dive id of the record standing for their physical dive, so the
+resampling and the dive counts treat a fragment and its containing record as one dive. T3's sample (capped per
+dive per cell) is not redrawn. Writes the same files with a _physical suffix.
+
 Writes analysis/codesign/results/redgreen.csv, redgreen_strata.csv and redgreen_coverage.csv.
-Run: uv run python analysis/codesign/redgreen.py
+Run: uv run python analysis/codesign/redgreen.py [--physical]
 """
 from __future__ import annotations
+
+import sys
 
 import numpy as np
 import pandas as pd
@@ -56,6 +63,16 @@ OUT = REPO / "analysis/codesign/results"
 OUTCOMES = ("missed", "found", "confident-wrong")
 WINDOW = ("2024-03-01", "2025-01-01")
 N_BOOT = 2000
+PHYSICAL = "--physical" in sys.argv
+SUFFIX = "_physical" if PHYSICAL else ""
+
+
+def to_physical(d: pd.DataFrame) -> pd.DataFrame:
+    if not PHYSICAL:
+        return d
+    sys.path.insert(0, str(REPO / "analysis/codesign"))
+    import physical_dives
+    return d.assign(dive_id=d.dive_id.map(physical_dives.physical()))
 
 
 def frames() -> pd.DataFrame:
@@ -75,7 +92,7 @@ def frames() -> pd.DataFrame:
     d["green"] = d.wavelength == "green"
     for o in OUTCOMES:
         d[o] = d.outcome == o
-    return d
+    return to_physical(d)
 
 
 def dive_colours() -> pd.Series:
@@ -129,7 +146,7 @@ def coverage_frames() -> pd.DataFrame:
     c = c[c.label_colour == c.dive_colour].copy()
     c["green"] = c.dive_colour == "green"
     c["fish_q"] = quartile(c.fish_px_share).astype(str)
-    return c
+    return to_physical(c)
 
 
 def by_dive_colour(d: pd.DataFrame) -> pd.DataFrame:
@@ -234,9 +251,9 @@ def main():
                     found=("found", "mean"), confident_wrong=("confident-wrong", "mean"))
                .reset_index())
     OUT.mkdir(parents=True, exist_ok=True)
-    R.to_csv(OUT / "redgreen.csv", index=False, float_format="%.4f")
-    strata.to_csv(OUT / "redgreen_strata.csv", index=False, float_format="%.4f")
-    CV.to_csv(OUT / "redgreen_coverage.csv", index=False, float_format="%.4f")
+    R.to_csv(OUT / f"redgreen{SUFFIX}.csv", index=False, float_format="%.4f")
+    strata.to_csv(OUT / f"redgreen_strata{SUFFIX}.csv", index=False, float_format="%.4f")
+    CV.to_csv(OUT / f"redgreen_coverage{SUFFIX}.csv", index=False, float_format="%.4f")
     pd.set_option("display.width", 200)
     print(R.round(3).to_string(index=False)); print(); print(CV.round(3).to_string(index=False))
 

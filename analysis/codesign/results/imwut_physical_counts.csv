@@ -1,0 +1,8 @@
+quantity,records,physical_dives
+dives,525,299
+"dives, field (excluding deployments 2, 3, 4)",481,257
+dives with measurements,47,41
+"dives with measurements, field",28,22
+units (cameras),9,9
+units with measurements,7,7
+measurements,3130,3130

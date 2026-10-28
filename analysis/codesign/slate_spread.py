@@ -19,11 +19,19 @@ False positives: the slate-presence classifier's dive-grouped out-of-fold predic
 (data/slate_detector/oof_cv_q1.csv) at the operating threshold p >= 0.5, on frames labelled not-slate,
 per dive.
 
+--physical: each physical dive counted once (analysis/codesign/physical_dives.py): after the setting is looked up
+per record, frames take the dive id of the record standing for their physical dive, so per-dive frame counts,
+spreads and false positives pool its records; the field dives per month count only the records standing for a
+physical dive. The out-of-fold predictions are not recomputed (their folds were grouped by record). Writes the
+same files with a _physical suffix.
+
 Writes analysis/codesign/results/slate_spread_dives.csv, slate_spread_summary.csv and slate_spread_by_month.csv
 (field dives by month of capture: slate frames per dive, to look for the out-and-back sweep protocol).
-Run: uv run python analysis/codesign/slate_spread.py
+Run: uv run python analysis/codesign/slate_spread.py [--physical]
 """
 from __future__ import annotations
+
+import sys
 
 import numpy as np
 import pandas as pd
@@ -34,6 +42,16 @@ SLATE = REPO.parent / "2026-10-03_slate_detector"
 OUT = REPO / "analysis/codesign/results"
 THRESH = 0.5
 MIN_FRAMES = 8   # the fewest frames the size-constancy fits here use (slate_unknown.MIN_FRAMES)
+PHYSICAL = "--physical" in sys.argv
+SUFFIX = "_physical" if PHYSICAL else ""
+
+
+def to_physical(d: pd.DataFrame) -> pd.DataFrame:
+    if not PHYSICAL:
+        return d
+    sys.path.insert(0, str(REPO / "analysis/codesign"))
+    import physical_dives
+    return d.assign(dive_id=d.dive_id.map(physical_dives.physical()))
 
 
 def mask_size(image_id: int) -> float:
@@ -51,6 +69,7 @@ def main():
     env = pd.read_csv(REPO / "data/db_extracts/dive_environment.psv", sep="|", header=None, names=["dive_id", "environment"]).set_index("dive_id").environment
     # a current human laser dot (latest completed, non-superseded label with coordinates), as in reef_size_constancy.py
     with_dot = set(pd.read_csv(REPO / "data/db_extracts/laser_dots.psv", sep="|", header=None, names=["image_id", "x", "y", "label"]).image_id)
+    oof = to_physical(oof.assign(environment=oof.dive_id.map(env).fillna("unknown")))   # setting per record
     pos = oof[(oof.label == 1) & ~oof.cutting_board.astype(bool)].copy()
     pos["size"] = [mask_size(i) for i in pos.image_id]
     pos["has_dot"] = pos.image_id.isin(with_dot)
@@ -58,7 +77,7 @@ def main():
     rows = []
     for dive, g in pos.groupby("dive_id"):
         s, sd = g["size"].to_numpy(), g.loc[g.has_dot, "size"].to_numpy()
-        rows.append(dict(dive_id=int(dive), environment=env.get(dive, "unknown"), frames=len(g), frames_with_dot=len(sd),
+        rows.append(dict(dive_id=int(dive), environment=g.environment.iloc[0], frames=len(g), frames_with_dot=len(sd),
                          spread=s.max() / s.min() if len(s) >= 2 else np.nan,
                          spread_robust=np.percentile(s, 90) / np.percentile(s, 10) if len(s) >= 5 else np.nan,
                          spread_dot=sd.max() / sd.min() if len(sd) >= 2 else np.nan))
@@ -79,8 +98,8 @@ def main():
     S = pd.DataFrame(S)
     allfp = neg.assign(fp=neg.p_slate >= THRESH).groupby("dive_id").fp.sum()
     OUT.mkdir(parents=True, exist_ok=True)
-    D.to_csv(OUT / "slate_spread_dives.csv", index=False, float_format="%.4f")
-    S.to_csv(OUT / "slate_spread_summary.csv", index=False, float_format="%.4f")
+    D.to_csv(OUT / f"slate_spread_dives{SUFFIX}.csv", index=False, float_format="%.4f")
+    S.to_csv(OUT / f"slate_spread_summary{SUFFIX}.csv", index=False, float_format="%.4f")
     pd.set_option("display.width", 200)
     print(S.round(3).to_string(index=False))
     print(f"\nfalse positives at p >= {THRESH}: {int(allfp.sum())} in {len(neg):,} not-slate frames on {neg.dive_id.nunique()} dives; "
@@ -88,12 +107,13 @@ def main():
     # by month of capture: does a shift to ~10-frame slate sweeps show up in the field data? (timeline: slate sweep protocol)
     T = pd.read_csv(REPO / "data/db_extracts/dives.psv", sep="|", header=None, names=["dive_id", "camera_id", "t"])
     T["month"] = T.t.str[:7]
+    T = T[to_physical(T).dive_id == T.dive_id]             # --physical: the records standing for a physical dive
     fd = T[T.dive_id.map(env).fillna("other") != "pool"]
     M = (D[D.environment != "pool"].merge(T[["dive_id", "month"]], on="dive_id")
          .groupby("month").agg(dives_with_slate=("dive_id", "size"), median_slate_frames=("frames", "median"),
                                dives_ge8_frames=("frames", lambda x: int((x >= MIN_FRAMES).sum())), median_spread=("spread", "median")))
     M = fd.groupby("month").dive_id.size().rename("field_dives").to_frame().join(M)
-    M.to_csv(OUT / "slate_spread_by_month.csv", float_format="%.3f")
+    M.to_csv(OUT / f"slate_spread_by_month{SUFFIX}.csv", float_format="%.3f")
     print(M.round(2).to_string())
     f = D[D.environment != "pool"]
     print(f"field dives: {len(f)}; median slate frames {f.frames.median():.0f}; with a dot on >= 2 slate frames: {int((f.frames_with_dot >= 2).sum())}")

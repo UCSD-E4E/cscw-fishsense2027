@@ -1,0 +1,5 @@
+variant,frames_after_dive_colour,green_frames,red_frames,strata_frames,strata_green,strata_red,strata_dives,green_minus_red_missed,ci_lo,ci_hi,raw_green_minus_red
+as published (all setups),1117,382,735,803,382,421,165,0.1585,0.1067,0.2152,0.1104
+without the randomized single project,418,319,99,217,180,37,58,0.1764,-0.1365,0.5819,-0.0745
+"dive-based, no pre-fill only",101,43,58,2,1,1,2,0.0000,0.0000,0.0000,-0.2690
+"human dot on the dive line (validator rule), all setups",881,286,595,576,286,290,139,0.1453,0.0850,0.2035,0.1170

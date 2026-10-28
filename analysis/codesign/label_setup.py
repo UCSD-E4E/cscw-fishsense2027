@@ -39,8 +39,13 @@ served randomly or by dive; pre-fill from the label's first annotation.
    applied to the rebuild. Counts are for the whole corpus; train is 80% of its dives (seed-0 split, not
    reproduced here).
 
+--physical: each physical dive counted once (analysis/codesign/physical_dives.py): dive colour, the stored line and
+the detector's line filter are looked up or fitted per record, then labels and T3 frames take the dive id of the
+record standing for their physical dive, so the dive counts and the resampling treat the records of one physical
+dive as one dive. T3's sample (capped per dive) is not redrawn. Writes the same files with a _physical suffix.
+
 No label is changed. Writes analysis/codesign/results/label_setup_{counts,redgreen,t3_by_setup,random_project,training}.csv.
-Run: uv run python analysis/codesign/label_setup.py
+Run: uv run python analysis/codesign/label_setup.py [--physical]
 """
 from __future__ import annotations
 
@@ -54,6 +59,10 @@ from fishsense_cscw.paths import REPO
 sys.path.insert(0, str(REPO / "analysis/codesign"))
 import redgreen as RG  # noqa: E402
 
+PHYSICAL = "--physical" in sys.argv
+SUFFIX = "_physical" if PHYSICAL else ""
+RG.PHYSICAL = False   # T3 frames per record: dive colour is recomputed per record below, then remapped (to_physical)
+
 OUT = REPO / "analysis/codesign/results"
 _spec = importlib.util.spec_from_file_location("core_line_fit", REPO.parent / "fishsense-core/python/fishsense_core/fishsense_core/line_fit.py")
 LF = importlib.util.module_from_spec(_spec); sys.modules["core_line_fit"] = LF; _spec.loader.exec_module(LF)
@@ -61,6 +70,13 @@ COLS = ("label_id image_id dive_id camera_id taken project task completed supers
         "n_ann url annotator").split()
 TRAIN_PULL = pd.Timestamp("2026-05-04", tz="UTC")
 HIT_PX = 10.0
+
+
+def to_physical(d: pd.DataFrame) -> pd.DataFrame:
+    if not PHYSICAL:
+        return d
+    import physical_dives  # noqa: E402
+    return d.assign(dive_id=d.dive_id.map(physical_dives.physical()))
 
 
 def setup(r) -> str:
@@ -99,7 +115,7 @@ def item2(L):
         sh = lab.groupby("dive_id").colour.apply(lambda s: (s == "green").mean())
         dc = pd.Series(np.select([sh >= 0.9, sh <= 0.1], ["green", "red"], "mixed"), index=sh.index)
         d = keep_t3(t3).drop(columns="dive_colour").assign(dive_colour=lambda x: x.dive_id.map(dc))
-        d = RG.by_dive_colour(d)
+        d = to_physical(RG.by_dive_colour(d))
         s = RG.informative(d, ["camera_id", "environment"])
         f = lambda x: RG.mh_diff(x, "missed", ["camera_id", "environment"])
         lo, hi = RG.boot(s, f) if len(s) and s.green.any() and (~s.green).any() else (np.nan, np.nan)
@@ -107,7 +123,7 @@ def item2(L):
                          strata_frames=len(s), strata_green=int(s.green.sum()), strata_red=int((~s.green).sum()),
                          strata_dives=s.dive_id.nunique(), green_minus_red_missed=f(s) if len(s) else np.nan, ci_lo=lo, ci_hi=hi,
                          raw_green_minus_red=RG.raw_diff(d, "missed") if d.green.any() and (~d.green).any() else np.nan))
-    return pd.DataFrame(rows), t3
+    return pd.DataFrame(rows), to_physical(t3)
 
 
 def offline(L):
@@ -169,6 +185,7 @@ def item4(L):
         mad_folded = LF.MAD_TO_SIGMA * np.median(np.abs(dist - np.median(dist)))   # the detector's copy: MAD of |distance|
         flags.append(pd.Series(dist > 3.0 * max(mad_folded, LF.LABEL_NOISE_MAD_FLOOR_PX), index=g.index))
     C["outlier"] = pd.concat(flags)
+    C = to_physical(C)                                    # the filter ran per record, as the detector's does
     for name, X in (("before the line filter", C), ("after the line filter", C[~C.outlier])):
         tot = len(X)
         for s, n in X.setup.value_counts().items():
@@ -182,14 +199,14 @@ def item4(L):
 def main():
     L = load()
     OUT.mkdir(parents=True, exist_ok=True)
-    C1 = L.groupby("setup").agg(labels=("label_id", "size"), completed=("completed", "sum"), positives=("positive", "sum"),
+    C1 = to_physical(L).groupby("setup").agg(labels=("label_id", "size"), completed=("completed", "sum"), positives=("positive", "sum"),
                                 green=("colour", lambda s: (s == "green").sum()), superseded=("superseded", "sum"),
                                 projects=("project", "nunique"), dives=("dive_id", "nunique"),
                                 first=("t", "min"), last=("t", "max"))
-    C1.to_csv(OUT / "label_setup_counts.csv")
+    C1.to_csv(OUT / f"label_setup_counts{SUFFIX}.csv")
     pd.set_option("display.width", 230); pd.set_option("display.max_columns", 20)
     print("1. Laser labels by setup"); print(C1.to_string()); print()
-    R2, t3 = item2(L); R2.to_csv(OUT / "label_setup_redgreen.csv", index=False, float_format="%.4f")
+    R2, t3 = item2(L); R2.to_csv(OUT / f"label_setup_redgreen{SUFFIX}.csv", index=False, float_format="%.4f")
     print("2. Green - red missed, camera x environment (Mantel-Haenszel)"); print(R2.round(3).to_string(index=False)); print()
     # where the T3 misses sit: by setup of the human dot, and whether that dot is off the dive line now
     A = pd.read_csv(REPO / "data/db_extracts/laser_ann_project.psv", sep="|", header=None,
@@ -199,7 +216,7 @@ def main():
     t3["off_line"] = t3.label_id.map(P.off_line); t3["superseded_now"] = t3.label_id.map(L.set_index("label_id").superseded)
     M = t3.groupby(["wavelength", "setup"]).agg(frames=("missed", "size"), dives=("dive_id", "nunique"), missed=("missed", "mean"),
                                                  dot_off_line=("off_line", "mean"), dot_superseded_now=("superseded_now", "mean"))
-    M.to_csv(OUT / "label_setup_t3_by_setup.csv", float_format="%.4f")
+    M.to_csv(OUT / f"label_setup_t3_by_setup{SUFFIX}.csv", float_format="%.4f")
     print("2b. T3 dot frames by colour and labelling setup"); print(M.round(3).to_string())
     mm = t3[t3.green].groupby("off_line").missed.agg(["size", "mean"])
     print("   green frames, missed by whether the human dot is off the dive line:", mm.round(3).to_dict())
@@ -209,12 +226,12 @@ def main():
     extra = dict(variant="human dot on the dive line (validator rule), all setups", frames_after_dive_colour=len(on), green_frames=int(on.green.sum()),
                  red_frames=int((~on.green).sum()), strata_frames=len(so), strata_green=int(so.green.sum()), strata_red=int((~so.green).sum()),
                  strata_dives=so.dive_id.nunique(), green_minus_red_missed=f(so), ci_lo=lo, ci_hi=hi, raw_green_minus_red=RG.raw_diff(on, "missed"))
-    R2 = pd.concat([R2, pd.DataFrame([extra])], ignore_index=True); R2.to_csv(OUT / "label_setup_redgreen.csv", index=False, float_format="%.4f")
+    R2 = pd.concat([R2, pd.DataFrame([extra])], ignore_index=True); R2.to_csv(OUT / f"label_setup_redgreen{SUFFIX}.csv", index=False, float_format="%.4f")
     print("   on-line variant:", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in extra.items()}); print()
-    T3, J = item3(L); T3.drop(columns="share_of_first_row_in_block").to_csv(OUT / "label_setup_random_project.csv", index=False)
+    T3, J = item3(L); T3.drop(columns="share_of_first_row_in_block").to_csv(OUT / f"label_setup_random_project{SUFFIX}.csv", index=False)
     print("3. Randomized single project (10)"); print(T3.drop(columns="share_of_first_row_in_block").to_string(index=False))
     print("   distance when both are green dots: median", round(J.loc[J.outcome.isin(["agree", f"> {HIT_PX:g} px apart"]), "dist"].median(), 2), "px"); print()
-    O, C = item4(L); O.to_csv(OUT / "label_setup_training.csv", index=False, float_format="%.4f")
+    O, C = item4(L); O.to_csv(OUT / f"label_setup_training{SUFFIX}.csv", index=False, float_format="%.4f")
     print(f"4. Detector training corpus rebuilt ({len(C)} positives, {C.dive_id.nunique()} dives; notes: 31,469 positives, 264 dives)")
     print(O.round(3).to_string(index=False))
     print("   green share of the randomized-project positives removed by the filter:",

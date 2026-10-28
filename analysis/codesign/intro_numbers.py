@@ -25,8 +25,14 @@ or result.
   9  stage ladder                     e2e_measurement/lengths.csv (score.py): per-fish p90 MAE, each
                                       stage minus A; also on IMWUT's accuracy-cohort subset
 
+--physical: each physical dive counted once (analysis/codesign/physical_dives.py): after each record's line is
+looked up, rows take the dive id of the record standing for their physical dive, so the resampling and the dive
+counts treat a duplicate or fragment and its source record as one dive (item 2c: 508 inside 510; item 8b: dives 18,
+222, 247, 255, 345; item 8c keeps one production line per physical dive, the standing record's). Item 6 reads
+redgreen_physical.csv. Writes intro_numbers_physical.csv.
+
 Writes analysis/codesign/results/intro_numbers.csv.
-Run: uv run python analysis/codesign/intro_numbers.py
+Run: uv run python analysis/codesign/intro_numbers.py [--physical]
 """
 from __future__ import annotations
 
@@ -48,7 +54,16 @@ N_BOOT = 2000
 FIRST_PREFILL = pd.Timestamp("2026-07-27", tz="UTC")   # detector pre-fills begin
 IMWUT_COHORT = (58, 59, 61, 66, 84)                   # cal.accuracy_cohort dives among the ladder's ten
 HELD_OUT = ("Shark", "Ruler")                         # IMWUT's held-out targets
+PHYSICAL = "--physical" in sys.argv
+SUFFIX = "_physical" if PHYSICAL else ""
 rows = []
+
+
+def to_physical(d: pd.DataFrame, col="dive_id") -> pd.DataFrame:
+    if not PHYSICAL:
+        return d
+    import physical_dives
+    return d.assign(**{col: d[col].map(physical_dives.physical())})
 
 
 def cboot(d: pd.DataFrame, stat, key="dive_id", seed=0):
@@ -79,26 +94,26 @@ def item1():
 
 def item2():
     a = laser_pairs.load_annotations(); p = laser_pairs.pairs(a)
-    s = p[p.later_action.isin(["accepted", "moved"])].copy(); s["acc"] = s.later_action.eq("accepted")
+    s = to_physical(p[p.later_action.isin(["accepted", "moved"])].copy()); s["acc"] = s.later_action.eq("accepted")
     prop(2, "T2: seed (earlier human label) accepted unchanged", s, "acc",
          "pairs of labels by two labellers on one image whose later label was seeded from the earlier; "
          "accepted = Label Studio origin 'prediction' (not moved)", "fishsense_cscw/laser_pairs.py")
     R = pd.read_csv(IMWUT / "label_repeats.csv", sep="|")
     d = R[(R.kind == "dot") & (R.source == "human")].sort_values(["image_id", "label_id"])
     g = d.groupby("image_id"); fa, la = g.first(), g.last()
-    rp = pd.DataFrame(dict(dive_id=fa.dive_id, dup=np.hypot(la.x - fa.x, la.y - fa.y) < 0.01))
+    rp = to_physical(pd.DataFrame(dict(dive_id=fa.dive_id, dup=np.hypot(la.x - fa.x, la.y - fa.y) < 0.01)))
     prop(2, "IMWUT: repeat human dot pairs that are exact duplicates", rp, "dup",
          "first vs last human dot on frames with two, distance < 0.01 px", "imwut label_repeats.csv; tests/test_triangulation_noise.py")
     dd = R[R.kind == "dot"]
     det = dd[dd.source == "detector"].set_index("image_id")[["x", "y", "dive_id"]]
     hum = dd[dd.source == "human_live"].groupby("image_id")[["x", "y"]].first()
-    j = det.join(hum, rsuffix="_h", how="inner"); j["same"] = np.hypot(j.x - j.x_h, j.y - j.y_h) < 0.01
+    j = to_physical(det.join(hum, rsuffix="_h", how="inner")); j["same"] = np.hypot(j.x - j.x_h, j.y - j.y_h) < 0.01
     prop(2, "IMWUT: detector dot identical to live human dot", j, "same",
          "detector prediction vs the frame's live human dot, distance < 0.01 px", "imwut label_repeats.csv")
     sm = labelling.seed_moves()
     sm = sm[sm.kind == "laser"].copy()
     dive = pd.read_csv(REPO / "data/db_extracts/annotations.psv", sep="|", header=None, usecols=[2, 3], names=["image_id", "dive_id"]).drop_duplicates("image_id")
-    sm = sm.merge(dive, on="image_id", how="left"); sm["unch"] = sm.dist < labelling.UNCHANGED_PX
+    sm = to_physical(sm.merge(dive, on="image_id", how="left")); sm["unch"] = sm.dist < labelling.UNCHANGED_PX
     sm["created"] = pd.to_datetime(sm.created_at, format="ISO8601", utc=True)
     for name, x in (("seed moves: detector seeds kept (< 0.5 px)", sm[sm.seed == "model"]),
                     ("seed moves: detector seeds kept, before auto-accept (2026-07-27..09-02)", sm[(sm.seed == "model") & (sm.created < pd.Timestamp("2026-09-03", tz="UTC"))]),
@@ -125,7 +140,7 @@ def item5():
 
 
 def item6():
-    R = pd.read_csv(OUT / "redgreen.csv")
+    R = pd.read_csv(OUT / f"redgreen{SUFFIX}.csv")
     for r in R[R.outcome == "missed"].itertuples():
         add(6, f"green - red missed, {r.design}", r.green_minus_red, r.ci_lo, r.ci_hi,
             f"red {r.red_rate:.3f} of {r.n_red} ({r.dives_red} dives), green {r.green_rate:.3f} of {r.n_green} ({r.dives_green} dives)",
@@ -138,7 +153,7 @@ def item7():
     W = W[W.fit.notna()].copy()
     W["sat"] = W.fit.map(lambda f: f["saturated_px"]); W["clipped"] = W.sat > 5
     fr = pd.read_csv(REPO / "calibration_analysis/e1c_dot_size/frames.csv")[["image_id", "depth_m"]].drop_duplicates("image_id")
-    W = W.merge(fr, on="image_id", how="left")
+    W = to_physical(W.merge(fr, on="image_id", how="left"))
     defn = ("> 5 pixels at the frame's maximum in the dot's colour channel, in the 61 x 61 patch at the human dot, "
             "after LinearRawImage (camera white balance, 16-bit); pool calibration-target frames")
     src = "calibration_analysis/e1c_dot_size/widths.jsonl (run_widths.py, score.py)"
@@ -162,7 +177,7 @@ def item8():
     g = d.groupby("image_id"); a, b = g.first(), g.last()
     n = np.hypot(a.line_a, a.line_b); ux, uy = a.line_b / n, -a.line_a / n
     dx, dy = b.x - a.x, b.y - a.y; dist = np.hypot(dx, dy); keep = (dist >= 0.01) & (dist < 20)
-    P = pd.DataFrame(dict(dive_id=a.dive_id, along=dx * ux + dy * uy, across=-dx * uy + dy * ux))[keep]
+    P = to_physical(pd.DataFrame(dict(dive_id=a.dive_id, along=dx * ux + dy * uy, across=-dx * uy + dy * ux))[keep])
     for comp in ("along", "across"):
         for k, label in ((0, "SD"), (1, "robust (MAD)")):
             v = _sd(P[comp])[k]; lo, hi = cboot(P, lambda x, c=comp, k=k: _sd(x[c])[k])
@@ -181,6 +196,7 @@ def item8():
     D = D[D.dive_id.isin(L.index)].copy()
     l = L.loc[D.dive_id]
     D["perp"] = (l.a.to_numpy() * D.x + l.b.to_numpy() * D.y + l.c.to_numpy()) / np.hypot(l.a, l.b).to_numpy()
+    D = to_physical(D)
     D = D[D.groupby("dive_id").perp.transform("size") >= 10]
     rob = lambda x: float(1.4826 * (x.perp - x.groupby("dive_id").perp.transform("median")).abs().median())
     lo, hi = cboot(D, rob)
@@ -194,6 +210,9 @@ def item8():
     # production's own per-dive number (divelaserline.residual_std): np.std of |perpendicular distance| over the RANSAC
     # inliers (4 px tolerance), fishsense-core line_fit.fit_dive_line. For Gaussian scatter sigma, std|X| = 0.603 sigma.
     P = L.reset_index()
+    if PHYSICAL:                                          # one production line per physical dive: the standing record's
+        P = to_physical(P.assign(record=P.dive_id))
+        P = P.assign(other=P.record != P.dive_id).sort_values(["other", "record"]).drop_duplicates("dive_id")
     for name, f in (("mean", np.mean), ("median", np.median)):
         lo, hi = cboot(P, lambda x, f=f: float(f(x.resid)))
         add(8, f"production divelaserline.residual_std, {name} over dives", float(f(P.resid)), lo, hi, f"{len(P)} dives",
@@ -217,7 +236,7 @@ def item9():
     for subset, X in (("all 10 dives, 1,528 frames", W),
                       ("IMWUT accuracy-cohort dives, Shark and Ruler held out", W[W.dive_id.isin(IMWUT_COHORT) & ~W.model.isin(HELD_OUT)])):
         for s in ("B", "D", "D2", "D3", "F", "F2", "F3"):
-            Y = X.dropna(subset=["A", s])
+            Y = to_physical(X.dropna(subset=["A", s]))
             stat = lambda x, s=s: 100 * (x[s].mean() - x["A"].mean())
             lo, hi = cboot(Y, stat)
             add(9, f"{s} - A per-fish p90 MAE (pp), {subset}", stat(Y), lo, hi,
@@ -231,7 +250,7 @@ def main():
         f()
     R = pd.DataFrame(rows)
     OUT.mkdir(parents=True, exist_ok=True)
-    R.to_csv(OUT / "intro_numbers.csv", index=False, float_format="%.4f")
+    R.to_csv(OUT / f"intro_numbers{SUFFIX}.csv", index=False, float_format="%.4f")
     pd.set_option("display.width", 250); pd.set_option("display.max_colwidth", 90)
     print(R[~R.quantity.str.contains("session \\d", regex=True)][["item", "quantity", "value", "ci_lo", "ci_hi", "n"]].round(4).to_string(index=False))
 

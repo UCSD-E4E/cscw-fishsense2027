@@ -14,9 +14,11 @@
 4  Each task's share of a field dive's estimated labelling time, and slate frames per dive (all field dives,
    imputed included, and only dives whose slate count is complete).
 Intervals: 95%, resampling dives (2,000 draws).
+--physical: each physical dive counted once (dive_time.py --physical; annotations regrouped by physical dive);
+reads and writes the _physical files.
 
 Writes analysis/codesign/results/labelling_time_claims.csv.
-Run: uv run python analysis/codesign/labelling_time_claims.py
+Run: uv run python analysis/codesign/labelling_time_claims.py [--physical]
 """
 from __future__ import annotations
 
@@ -58,7 +60,7 @@ def reproduce():
         with contextlib.redirect_stdout(io.StringIO()):
             DT.main()
         ok = {}
-        for f in ("dive_time_dives.csv", "dive_time_summary.csv"):
+        for f in (f"dive_time_dives{DT.SUFFIX}.csv", f"dive_time_summary{DT.SUFFIX}.csv"):
             a, b = pd.read_csv(Path(tmp) / f), pd.read_csv(RES / f)
             ok[f] = a.shape == b.shape and np.allclose(a.select_dtypes("number").fillna(-1), b.select_dtypes("number").fillna(-1), rtol=0, atol=1e-6)
     return ok
@@ -66,6 +68,8 @@ def reproduce():
 
 def main():
     A = pd.read_csv(REPO / "data/db_extracts/lead_times_by_dive.psv", sep="|", header=None, names=["kind", "dive_id", "image_id", "lead", "seeded", "created"])
+    if DT.PHYSICAL:
+        A["dive_id"] = A.dive_id.map(DT.PHYS)
     A["created"] = pd.to_datetime(A.created, utc=True, format="ISO8601"); U = A[A.seeded == "f"]
     C = pd.read_csv(REPO / "data/labeling/lead_times.csv"); C = C[C.seeded.astype(str).str.lower().isin(["f", "false"])]
     ref = {"laser": "laser_dot", "headtail": "head_tail", "species": "species", "slate": "slate_corners"}
@@ -85,8 +89,8 @@ def main():
 
     ok = reproduce()
     add("2-5", "dive_time.py reproduces its stored results", float(all(ok.values())), n=str(ok))
-    S = pd.read_csv(RES / "dive_time_summary.csv").set_index(["set", "quantity"])
-    D = pd.read_csv(RES / "dive_time_dives.csv")
+    S = pd.read_csv(RES / f"dive_time_summary{DT.SUFFIX}.csv").set_index(["set", "quantity"])
+    D = pd.read_csv(RES / f"dive_time_dives{DT.SUFFIX}.csv")
     f = ("field (reef)",)
     def put(claim, q, label):
         r = S.loc[f + (q,)]
@@ -101,7 +105,7 @@ def main():
     put(5, "machine, h (dives with workflow runs)", "median machine time per field dive, h")
 
     # 4: task shares per field dive
-    t = pd.read_csv(RES / "dive_time_tasks.csv", index_col=0).median_s.astype(float)
+    t = pd.read_csv(RES / f"dive_time_tasks{DT.SUFFIX}.csv", index_col=0).median_s.astype(float)
     F = D[(D.env == "reef") & (D.span_flag == "ok")].copy()
     tot = F.images * t["laser"] + F.fish_frames * (t["headtail"] + t["species"]) + F.slate_frames * t["slate"]
     F["laser"], F["snout/fork"], F["species"], F["slate"] = (F.images * t["laser"] / tot, F.fish_frames * t["headtail"] / tot,
@@ -115,7 +119,7 @@ def main():
         iboot((F.laser >= F[["snout/fork", "species", "slate"]].max(axis=1)).astype(float), np.mean))
     add(4, "snout/fork + species: median combined share", (F["snout/fork"] + F.species).median(), iboot(F["snout/fork"] + F.species))
 
-    R = pd.DataFrame(rows); R.to_csv(RES / "labelling_time_claims.csv", index=False, float_format="%.4f")
+    R = pd.DataFrame(rows); R.to_csv(RES / f"labelling_time_claims{DT.SUFFIX}.csv", index=False, float_format="%.4f")
     pd.set_option("display.width", 250); pd.set_option("display.max_colwidth", 80)
     print(R[["claim", "quantity", "value", "ci_lo", "ci_hi", "n"]].round(3).to_string(index=False))
 
