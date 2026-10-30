@@ -495,3 +495,12 @@
 - claim: Measurability-gate failure and SAM prompt variants.
   status: demote to one sentence
   reason: "negative results that support \"SAM's score is already the gate\""
+
+- claim: "On fish models the trained snout/fork model, alone or as the fork beside the mask rule's head, measures worse than the mask rule against tape under the per-fish p90 estimator; on reef fish both agree better with the human clicks, almost entirely at the fork."
+  number: "pool, held out by physical dive (8 sessions, 27 fish), human dot: per-fish p90 MAE rule 10.8% (9.0-12.2), model 16.4% (11.2-20.9), rule head + model fork 18.2% (12.6-23.1); paired +5.6 (+1.9 to +9.3) and +7.4 (+3.3 to +11.2) points; Snook improves (5.0 -> 3.1 / 3.4%), Grouper and Purple Angel worsen. All 10 sessions: 10.2 / 15.4 / 17.1%. Reef (7 dives, 265 frames, human dot, stored calibration): mean |d| rule 5.5% (4.0-7.1), model 3.0% (2.1-3.9), hybrid 2.7% (1.9-3.6); median fork error 10.4 / 1.2 / 1.2% of length, snout 1.6 / 1.1 / 1.2%; rule swapped 22%"
+  evidence_level: designed_experiment
+  source: analysis/codesign/headtail_compare.py -> results/headtail_compare_pool.csv, headtail_compare_reef.csv; keypoints from UCSD-E4E/2026-10-22_headtail_keypoints results/model_keypoints_simcc_sam.csv (26ad628)
+  physical_dives: "test pool dives 94 and 114 each have a duplicate record (91, 106) in the model's training split holding a byte-identical copy of one of their images; the held-out rows drop both. The 8 reef test dives are distinct physical dives with no training record"
+  confounds: "the hybrid takes its orientation from the model's fork (so it is never swapped) and is not deployed; fishsense-services head/tail v5 takes both points from the model on real fish and keeps the rule for fish models; the reef reference is the human click convention, not truth; 34 training frames come from the pool; the model was scored on double-JPEG crops, production feeds uncompressed frames (unmeasured)"
+  paper_section: 5
+
