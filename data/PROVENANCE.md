@@ -203,3 +203,16 @@ span and image cameras; and per ordered pair of records holding byte-identical i
 record's distinct checksums the second also holds. Ids, counts and timestamps only. Used by
 `analysis/codesign/physical_dives.py`, which maps each record to the physical dive it belongs to (duplicates:
 re-imports holding no canonical image; fragments: records wholly inside another same-camera record).
+
+## data/db_extracts/detector_label_frames.psv (2026-10-30)
+
+Read-only extract from the restored production DB (container p2-fishsense-db, dump 2026-09-25) by
+`sql/extract_detector_label_frames.sql`: one row per laser label with its image, dive record, canonical flag and
+the positive rule of the deployed RAW laser detector's frame table; the image checksum is replaced by a group
+number. Ids and flags only. Used by `analysis/codesign/detector_split_exposure.py`.
+
+## data/slate_detector/oof_cv_q1_physical.csv (2026-10-30)
+
+Out-of-fold predictions of the slate-presence classifier rerun with folds grouped by physical dive
+(`analysis/codesign/slate_cv_physical.py`; detector repo at 4fa1c8d, unedited; same manifest, labels and config as
+`oof_cv_q1.csv`). Same columns as `oof_cv_q1.csv`; dive_id is the record, fold the physical-dive fold.

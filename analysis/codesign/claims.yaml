@@ -105,6 +105,7 @@
   evidence_level: retrospective
   source: data/slate_detector/oof_cv_q1.csv; scripts/reproduce_slate_detector.sh; figures/fig9
   confounds: review-round positives partly model-flagged (selection bias); cutting-board slate (53 frames) excluded post hoc; 2 pool frames relabelled on review; same-day sessions split across folds (no measurable inflation, 99.3% vs 99.2%)
+  physical_dives: "each physical dive counted once (physical_dives.py, 2026-10-27): folds regrouped by physical dive and the CV rerun on the same frames, labels and config (slate_cv_physical.py, 2026-10-30; the stored folds split dives 18 and 26): 166 of 167 dives (390 missed in both), precision 99.6% (5 false alarms in 5,425; was 99.9%, 1), recall 99.9% (1 missed of 1,350; was 99.4%, 8); the shifts are fold-assignment noise in opposite directions, not leakage (results/slate_cv_physical.csv; data/slate_detector/oof_cv_q1_physical.csv)"
   paper_section: 5, 8
 
 - claim: Production's per-dive fit of the laser offset |O| varies by about +-1.5 mm between dives on one mount, with one failure at 129.5 mm; the design value (stand-in 104.0 mm) is steadier.
@@ -305,7 +306,7 @@
 
 - claim: "Field footage rarely carries what size constancy needs: of 150 field dives with labelled slate frames, 11 (7%) have >= 8 slate frames with a laser dot and >= 1.5x apparent-size spread (all 11 also reach 2x); the pool sessions, shot for calibration, mostly do."
   number: "field: median 2 slate frames per dive; 38 dives with >= 2 dot frames; spread >= 1.5x among dot frames 26 dives (17%), >= 2x 17 (11%); with >= 8 dot frames: >= 1.5x 11 (7.3%), >= 2x 11 (7.3%). Pool (15 sessions): >= 2x among dot frames 12 (80%); with >= 8 dot frames 7-8. Slate-presence classifier false positives at p >= 0.5: 1 in 5,425 not-slate frames (117 dives)."
-  physical_dives: "each physical dive counted once (physical_dives.py, 2026-10-27): unchanged: the 167 slate-positive records are 167 physical dives (slate_spread_summary_physical.csv identical); classifier false positives 1 in 5,425 not-slate frames on 111 dives (was 117). The classifier's out-of-fold folds were grouped by record, and dives 18 and 26 have records in different folds (not recomputed)"
+  physical_dives: "each physical dive counted once (physical_dives.py, 2026-10-27): unchanged: the 167 slate-positive records are 167 physical dives (slate_spread_summary_physical.csv identical); classifier false positives 1 in 5,425 not-slate frames on 111 dives (was 117). The classifier's out-of-fold folds were grouped by record, and dives 18 and 26 have records in different folds; rerun with folds by physical dive (slate_cv_physical.py, 2026-10-30): 5 false positives in 5,425 not-slate frames"
   evidence_level: retrospective
   lesson: 3
   source: analysis/codesign/slate_spread.py -> analysis/codesign/results/slate_spread_summary.csv, slate_spread_dives.csv; masks from 2026-10-03_slate_detector data/masks/sam3; dots data/db_extracts/laser_dots.psv (sql/extract_laser_dots.sql); setting data/db_extracts/dive_environment.psv
@@ -343,6 +344,7 @@
   lesson: 3
   source: analysis/codesign/results/raw_vs_jpeg_comparability.md (UCSD-E4E/2026-05-02_laser_detector notes/state.md, notes/phase2_results.md)
   confounds: "overall numbers come from different evaluation sets (subsample vs full), per-colour numbers from different evaluation paths; \\todo{re-evaluate JPEG epoch_007 through the canonical path}; not re-run here"
+  physical_dives: "each physical dive counted once (physical_dives.py, 2026-10-27): the detector splits train/val/test by dive record and keeps non-canonical images. No positive label sits on a non-canonical image and no image is labeled positive in two records, so no byte-identical frame can cross the split; but in 8 physical dives the positives span several records (1,667 positives, mostly fragments beside their container). The actual split is not available (dive_splits.parquet not committed); over 2,000 random 80/10/10 record splits, a median 1.6% (95% of draws 0-19.4%) of test positives have a record of the same physical dive in training (detector_split_exposure.py, results/detector_split_exposure.csv)"
   paper_section: 5, 6
 
 - claim: "The thin field laser calibrations are thin because of labels, not capture: the seven field dives hold 158 slate frames, all found by the slate detector, but 65 were never corner-labelled (each answered 'Laser not on slate') and 26 lost their laser dot to supersession, leaving 2-3 fit frames on four dives."
