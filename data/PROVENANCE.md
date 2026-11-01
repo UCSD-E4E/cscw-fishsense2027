@@ -216,3 +216,14 @@ number. Ids and flags only. Used by `analysis/codesign/detector_split_exposure.p
 Out-of-fold predictions of the slate-presence classifier rerun with folds grouped by physical dive
 (`analysis/codesign/slate_cv_physical.py`; detector repo at 4fa1c8d, unedited; same manifest, labels and config as
 `oof_cv_q1.csv`). Same columns as `oof_cv_q1.csv`; dive_id is the record, fold the physical-dive fold.
+
+## data/db_extracts/slate_templates.psv, slate_label_points.psv, slate_frame_predictions.psv, dive_slate_template.psv (2026-10-31)
+
+Read-only extracts from the restored production DB (container p2-fishsense-db, dump 2026-09-25):
+- `sql/extract_slate_templates.sql`: the slate templates' printed reference points at the scan's dpi;
+- `sql/extract_slate_label_points.sql`: live human slate labels' reference points, skipped-point indices and
+  upside-down flag;
+- `sql/extract_slate_frame_predictions.sql`: the latest automatic laser dot on each image with a slate label;
+- `sql/extract_dive_slate_template.sql`: whether each dive record has a slate template (`dive.dive_slate_id`).
+Ids and numbers only. Used by `analysis/codesign/field_failure.py` (the first three) and
+`analysis/codesign/slate_coverage.py` (the last).
