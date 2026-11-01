@@ -557,3 +557,35 @@
   confounds: "the stereo match rests on dive names; Black Grouper's SV1 stereo length (300.2 mm) disagrees with the collaborators' own measurement from the Lite images (FSL01 row, 421.9 mm) and with both pipelines (~0.58 m), so it is probably a different individual; dive 32's calibrations come from 2 slate frames at short range and are extrapolated to 3-4 m, where Nassau's lengths grow with range in both pipelines; three fish, one dive"
   paper_section: 6
 
+# ---------------------------------------------------------------- §7 trust: calibration checks (2026-11-01)
+- claim: "Production's calibration checks refuse rather than guess: v1 refused 4 of 27 physical dives with human slate labels (range span, implausible laser baseline); the slate-pose fit refuses 30 of 139 on the first laser aim, mostly where the fit disagrees with the dive's own laser dots."
+  number: "v1 (frozen dump), 27 physical dives with live human slate labels: 20 calibrated, 2 refused for a range span < 0.6 m, 2 for a laser baseline outside 7.8-14.5 cm, 3 neither (466, 525, 526). Checkerboard dives (15, all in the excluded test deployments): 11 calibrated, 3 refused for < 2 usable laser points, 1 for range span. Slate-pose-6 (services, 2026-10-31), first aim, 139 physical dives: 109 accepted; refused: fit disagrees with mission 12, ambiguous dot line 8, too few frames 7, slates disagree 2, no candidates 1. Second aim, 22: 16 accepted, too few frames 4, fit disagrees 2. The 2026-10-27 replay that was switched on (services 8adb936, record only): 102 of 143 missions, refused for lever arm 13, fit disagrees 11, ambiguous line 8, too few slates 8, no candidates 1"
+  evidence_level: retrospective
+  source: analysis/codesign/calibration_trust.py -> results/calibration_trust.csv (data/db_extracts/dive_calibration_status.psv, sql/extract_dive_calibration_status.sql; data/fishsense_services/slate_pose_calibrations.csv); the 2026-10-27 breakdown from fishsense-services commit 8adb936's message
+  physical_dives: "counted as physical dives"
+  confounds: "the 2026-10-27 replay's refusal mix is not the current one (the fit changed after: slate-pose-6 cast from the housing origin removed the lever-arm gate, and templates were assigned); v1 recorded refusal reasons only from 2026-09 on, so 'neither' may be dives never attempted"
+  paper_section: 7
+
+- claim: "The laser's aim shifts partway through a dive more often than expected: 37 missions have a recorded beam move, and the part after it needs its own calibration."
+  number: "Detector (fishsense-services beam_moves.py): per mission, the time split where two near-parallel lines (< 3 deg apart) through the automatic dots before and after hold clearly more dots than one line (10 px tolerance, >= 8 dots a side, >= 16 dots). Corpus run 2026-10-25: 258 missions checkable, 36 moves; 37 recorded 2026-10-26. Beam direction change about 0.3-4 deg, dot lines 15-200 px apart (21 of 63 V-Slate missions on first look). Human dots agree where they cover both sides (3 missions: 250, 425, 437). About 4,300 frames after moves were refused until 2026-10-30, when each aim was calibrated on its own: 32 physical dives in the export have a second-aim fit attempt, 20 got a second-aim calibration (16 own slate-pose, 4 borrowed); 1,136 new unreviewed lengths on 17 missions. Timing examples: the move came after the first 9, 15, 28, 56 and 99 min (475, 456, 463, 397, 409)"
+  evidence_level: retrospective
+  source: analysis/codesign/calibration_trust.py (second-aim counts, physical dives); fishsense-services beam_moves.py docstring and the services session record of 2026-10-25..30 (corpus counts, sizes, timing, frames)
+  physical_dives: "the 32 missions with a second-aim row are 32 physical dives; the 258 / 36 / 37 corpus counts are missions, not mapped to physical dives"
+  confounds: "the detector misses a second move, a wobbling laser (several interleaved lines) and a move only the slates show; the effect on lengths of measuring across a move with one calibration is not quantified in the record (383: dots 24-33 px off the human line before the move); moves are found from automatic dots, which the frozen dump mostly lacks"
+  paper_section: 7
+
+- claim: "About one field dive in eight that has an automatic calibration borrows it from another dive."
+  number: "32 field physical dives use an accepted borrowed slate-pose fit where their own is not accepted (29 on the first aim, 4 on the second), from 28 lending dives (at most 4 borrowers per lender); against 109 physical dives with their own accepted first-aim fit"
+  evidence_level: retrospective
+  source: analysis/codesign/calibration_trust.py -> results/calibration_trust.csv (data/fishsense_services/slate_pose_calibrations.csv)
+  physical_dives: "counted as physical dives (own mission row of the canonical record)"
+  confounds: "a borrow is accepted only after the lender's beam reads the borrower's own dot line (and slates, where it has them); borrowed fits carry a widened error bar (e.g. ~13% on physical dive 15)"
+  paper_section: 7
+
+- claim: "Size constancy's predicted error tracked its real error only weakly (rank correlation 0.22; real errors 1.5-3x the prediction)."
+  status: "not reproducible from committed code"
+  number: "services session 2026-10-23 15:59: 601 accepted bootstrap draws on 18 pool controls of the SAM-size replay (calibration-v3-replay with the noise-aware trim, #321); Spearman 0.22; predicted SD 1.0-1.5% -> median error 1.7% (159 draws), 1.5-2.0% -> 3.0% (206), 2.0-3.0% -> 3.2% (187)"
+  source: fishsense-services session record only; the draws live in the services database and the analysis script (v3analyze.py) was never committed; the prediction itself is committed (services automatic_calibration/v3.py scale_sd)
+  confounds: "reproducing needs a read-only export of that replay's draws (laser position/axis, scale_sd per draw) and the production calibrations of the 18 controls"
+  paper_section: 7
+

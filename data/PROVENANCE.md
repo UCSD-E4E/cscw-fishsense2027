@@ -256,3 +256,9 @@ read-only, frozen dump 2026-09-25: id, camera, NAS-relative path) and `headtail.
 chain's output on them (SAM 3.1 fish at the stored run3 dot, SimCC keypoints, the mask rule's points), produced by
 `analysis/codesign/rejected_headtail.py` on the local GPU on 2026-11-01 in the fishsense-services processor's
 locked environment (fishsense-core 4.3.2). Automatic keypoints, not reviewed.
+
+## data/db_extracts/dive_calibration_status.psv (2026-11-01)
+
+Read-only extract from the restored production DB (dump 2026-09-25) by `sql/extract_dive_calibration_status.sql`:
+per dive record, whether v1 has a laser calibration, v1's recorded refusal reason (its own text), live human slate
+labels with points, and the checkerboard target. Used by `analysis/codesign/calibration_trust.py`.

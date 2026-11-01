@@ -1,0 +1,42 @@
+item,population,outcome,physical_dives,of
+v1 slate (physical dives with live human slate labels),all,calibrated,20,27
+v1 slate (physical dives with live human slate labels),all,neither,3,27
+v1 slate (physical dives with live human slate labels),all,refused: range span < 0.6 m,2,27
+v1 slate (physical dives with live human slate labels),all,refused: laser baseline outside 7.8-14.5 cm,2,27
+v1 slate (physical dives with live human slate labels),field,calibrated,20,27
+v1 slate (physical dives with live human slate labels),field,neither,3,27
+v1 slate (physical dives with live human slate labels),field,refused: range span < 0.6 m,2,27
+v1 slate (physical dives with live human slate labels),field,refused: laser baseline outside 7.8-14.5 cm,2,27
+v1 checkerboard (physical dives with a checkerboard target),all,calibrated,11,15
+v1 checkerboard (physical dives with a checkerboard target),all,refused: checkerboard: < 2 usable laser points,3,15
+v1 checkerboard (physical dives with a checkerboard target),all,refused: range span < 0.6 m,1,15
+"slate-pose-6, aim 0",all,accepted,109,139
+"slate-pose-6, aim 0",all,refused: fit_disagrees_with_mission,12,139
+"slate-pose-6, aim 0",all,refused: ambiguous_line,8,139
+"slate-pose-6, aim 0",all,refused: too_few_frames,7,139
+"slate-pose-6, aim 0",all,refused: slates_disagree,2,139
+"slate-pose-6, aim 0",all,refused: no_candidates,1,139
+"slate-pose-6, aim 0",field,accepted,109,139
+"slate-pose-6, aim 0",field,refused: fit_disagrees_with_mission,12,139
+"slate-pose-6, aim 0",field,refused: ambiguous_line,8,139
+"slate-pose-6, aim 0",field,refused: too_few_frames,7,139
+"slate-pose-6, aim 0",field,refused: slates_disagree,2,139
+"slate-pose-6, aim 0",field,refused: no_candidates,1,139
+"slate-pose-6, aim 1",all,accepted,16,22
+"slate-pose-6, aim 1",all,refused: too_few_frames,4,22
+"slate-pose-6, aim 1",all,refused: fit_disagrees_with_mission,2,22
+"slate-pose-6, aim 1",field,accepted,16,22
+"slate-pose-6, aim 1",field,refused: too_few_frames,4,22
+"slate-pose-6, aim 1",field,refused: fit_disagrees_with_mission,2,22
+beam move with a second-aim fit attempt,all,moved,32,299
+beam move with a second-aim fit attempt,all,second aim calibrated (own or borrowed),20,32
+beam move with a second-aim fit attempt,field,moved,32,257
+beam move with a second-aim fit attempt,field,second aim calibrated (own or borrowed),20,32
+borrowed calibration in use,all,aim 0,29,299
+borrowed calibration in use,all,aim 1,4,299
+borrowed calibration in use,all,any aim,32,299
+borrowed calibration in use,all,lenders,28,4
+borrowed calibration in use,field,aim 0,29,257
+borrowed calibration in use,field,aim 1,4,257
+borrowed calibration in use,field,any aim,32,257
+borrowed calibration in use,field,lenders,28,4
