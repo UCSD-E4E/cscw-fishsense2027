@@ -10,7 +10,7 @@ field measured,4 automatic,313,7,0.7763578274760383,0.5915492957746479,0.8574259
 field rejected,1 human,77,6,0.0,0.0,0.0
 field rejected,2 auto dot,77,6,0.0,0.0,0.0
 field rejected,3 + auto cal,77,6,0.0,0.0,0.0
-field rejected,4 automatic,77,6,0.0,0.0,0.0
+field rejected,4 automatic,77,6,0.2857142857142857,0.10344827586206896,0.39028780487804854
 436 measured,1 human,1,1,1.0,,
 436 measured,2 auto dot,1,1,1.0,,
 436 measured,3 + auto cal,1,1,1.0,,

@@ -17,7 +17,10 @@ Components:
                   ht_auto). Real fish (reef): the SimCC keypoints on the SAM box at the automatic dot
                   (2026-10-22_headtail_keypoints results/model_keypoints_simcc_sam.csv, seed auto); a frame whose
                   SimCC and mask-rule pixel lengths differ by more than 15% of the rule's goes to review and gets
-                  no length (fishsense-services KEYPOINT_DISAGREEMENT = 0.15).
+                  no length (fishsense-services KEYPOINT_DISAGREEMENT = 0.15). The experiment ran only on frames
+                  people measured; the 32 human-rejected field frames with a mask but no experiment row were run
+                  through the same chain (SAM 3.1 at the same dot, SimCC, fishsense-core 4.3.2) by
+                  rejected_headtail.py (data/e2e_rejected/headtail.jsonl), whose own rule points serve the 15% check.
 
 Pool (tape): the stage ladder's 10 fish-model dives (score.py: 58, 59, 60, 61, 66, 76, 84, 87, 94, 114, every
 IMWUT-corpus measurement). Per fish (one model in one dive): production's p90 over frames; error = p90 / tape - 1;
@@ -27,7 +30,10 @@ reference is configuration 1; d = length / human length - 1 per frame. Coverage:
 head/tail label with coordinates) and the human-rejected frames (a head/tail row without coordinates, reef only),
 the share each configuration gives a length. Every dive is its own physical dive (physical_dives.py); 95%
 intervals resample dives (2,000 draws, seed 0).
-Writes analysis/codesign/results/stage_comparison_{pool,field,coverage}.csv and stage_comparison_frames.csv.
+Configuration 4's outcome per field frame (stage_comparison_v5_outcomes.csv): no automatic dot (none, or outside the
+region), no SAM mask at the automatic dot, sent to review, no length from the slate-pose calibration (none, or the
+dot's depth not positive), or a length. Automatic lengths are not reviewed by a person.
+Writes analysis/codesign/results/stage_comparison_{pool,field,coverage,v5_outcomes}.csv and stage_comparison_frames.csv.
 Run: uv run python analysis/codesign/stage_comparison.py
 """
 from __future__ import annotations
@@ -48,6 +54,7 @@ from laser_region import in_region  # noqa: E402
 OUT = REPO / "analysis/codesign/results"
 KP = REPO.parent / "2026-10-22_headtail_keypoints/results/model_keypoints_simcc_sam.csv"
 SLATE_POSE = REPO / "data/fishsense_services/slate_pose_calibrations.csv"
+REJECTED = REPO / "data/e2e_rejected/headtail.jsonl"
 FIELD = (279, 341, 347, 349, 383, 465, 471)
 SEPARATE = (436,)
 DISAGREE = 0.15
@@ -114,6 +121,7 @@ def field(dots, stored, sp, intr):
     T = T[(T.set == "reef") & T.dive_id.isin(FIELD + SEPARATE)]
     kp = pd.read_csv(KP).query("split == 'test' and seed == 'auto' and status == 'predicted'").set_index("image_id")
     rule = pd.read_csv(REPO / "e2e_measurement/tail/keypoints.csv").query("seed == 'auto'").set_index("image_id")
+    rej = {r["image_id"]: r for r in map(json.loads, REJECTED.open())} if REJECTED.exists() else {}
     rows = []
     for r in T.itertuples():
         K, d = intr[int(r.camera_id)], int(r.dive_id)
@@ -123,15 +131,24 @@ def field(dots, stored, sp, intr):
         # v5: SimCC where the SAM box exists at the automatic dot, unless it disagrees with the rule by > 15%
         sam_ok = r.image_id in rule.index and pd.notna(rule.loc[r.image_id, "head_x"])
         aht, v5 = None, "no mask" if not sam_ok else "no SimCC row"
+        pts = None
         if sam_ok and r.image_id in kp.index:
             k = kp.loc[r.image_id]
-            ls = np.hypot(k.head_x - k.tail_x, k.head_y - k.tail_y); lr = np.hypot(k.sam_head_x - k.sam_tail_x, k.sam_head_y - k.sam_tail_y)
+            pts = ((k.head_x, k.head_y), (k.tail_x, k.tail_y), (k.sam_head_x, k.sam_head_y), (k.sam_tail_x, k.sam_tail_y))
+        elif sam_ok and "simcc_head" in rej.get(r.image_id, {}):
+            q = rej[r.image_id]
+            pts = (q["simcc_head"], q["simcc_tail"], q["rule_head"], q["rule_tail"])
+        if pts is not None:
+            ls, lr = np.hypot(*np.subtract(pts[0], pts[1])), np.hypot(*np.subtract(pts[2], pts[3]))
             v5 = "review" if abs(ls / lr - 1) > DISAGREE else "measured"
             if v5 == "measured":
-                aht = (k.head_x, k.head_y, k.tail_x, k.tail_y)
+                aht = (*pts[0], *pts[1])
         L = [length(K, stored.get(d), (r.laser_x, r.laser_y), hh), length(K, stored.get(d), ad, hh),
              length(K, sp.get(d), ad, hh), length(K, sp.get(d), ad, aht)]
-        rows.append(dict(set="field", image_id=r.image_id, dive=d, measured=measured, v5=v5, auto_dot=ad is not None, **dict(zip(CONFIGS, L))))
+        outcome = ("no automatic dot" if ad is None else v5 if v5 != "measured"
+                   else "length" if np.isfinite(L[3]) else "no length from the slate-pose calibration")
+        rows.append(dict(set="field", image_id=r.image_id, dive=d, measured=measured, v5=v5, v5_outcome=outcome,
+                         auto_dot=ad is not None, **dict(zip(CONFIGS, L))))
     return pd.DataFrame(rows)
 
 
@@ -180,8 +197,14 @@ def main():
             rows.append(dict(set=label, config=c, frames=len(D), dives=D.dive.nunique(), share_with_length=est, lo=lo, hi=hi))
     R = pd.DataFrame(rows); R.to_csv(OUT / "stage_comparison_coverage.csv", index=False)
     print(R.round(4).to_string(index=False))
-    v = Fd[Fd.dive.isin(FIELD)].groupby("measured").v5.value_counts().unstack(fill_value=0)
-    print("v5 head/tail status on field frames (measured True/False):\n", v.to_string())
+    rows = []
+    for label, D in (("field measured", Fd[Fd.dive.isin(FIELD) & Fd.measured]), ("field rejected", Fd[Fd.dive.isin(FIELD) & ~Fd.measured])):
+        # the share's 95% interval is the coverage table's (configuration 4), not drawn again here
+        row = dict(set=label, frames=len(D), dives=D.dive.nunique(), share_with_length=(D.v5_outcome == "length").mean())
+        row.update(D.v5_outcome.value_counts().to_dict())
+        rows.append(row)
+    R = pd.DataFrame(rows).fillna(0); R.to_csv(OUT / "stage_comparison_v5_outcomes.csv", index=False)
+    print("configuration 4 outcomes on field frames:\n", R.round(4).to_string(index=False))
 
 
 if __name__ == "__main__":

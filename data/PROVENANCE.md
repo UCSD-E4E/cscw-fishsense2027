@@ -248,3 +248,11 @@ The three stereo-measured fish outside IMWUT's seven (`analysis/codesign/stereo_
   fishsense-services processor's locked environment).
 Stereo lengths: the collaborators' archive (SMILE_Archive_LengthData.csv, held in the IMWUT repo as
 `fish_model_analysis/data/stereo_archive.csv`), SV1 rows of 2023-08-03, matched by site, species and number.
+
+## data/e2e_rejected/ (2026-11-01)
+
+The 32 human-rejected field frames the §6 stage comparison had no SimCC keypoints for: `images.psv` (`images.sql`,
+read-only, frozen dump 2026-09-25: id, camera, NAS-relative path) and `headtail.jsonl`, the automatic head/tail
+chain's output on them (SAM 3.1 fish at the stored run3 dot, SimCC keypoints, the mask rule's points), produced by
+`analysis/codesign/rejected_headtail.py` on the local GPU on 2026-11-01 in the fishsense-services processor's
+locked environment (fishsense-core 4.3.2). Automatic keypoints, not reviewed.
