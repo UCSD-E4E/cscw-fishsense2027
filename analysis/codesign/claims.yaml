@@ -574,8 +574,8 @@
   confounds: "the detector misses a second move, a wobbling laser (several interleaved lines) and a move only the slates show; the effect on lengths of measuring across a move with one calibration is not quantified in the record (383: dots 24-33 px off the human line before the move); moves are found from automatic dots, which the frozen dump mostly lacks"
   paper_section: 7
 
-- claim: "About one field dive in eight that has an automatic calibration borrows it from another dive."
-  number: "32 field physical dives use an accepted borrowed slate-pose fit where their own is not accepted (29 on the first aim, 4 on the second), from 28 lending dives (at most 4 borrowers per lender); against 109 physical dives with their own accepted first-aim fit"
+- claim: "About one field dive in four that has an automatic slate-pose calibration borrows it from another dive."
+  number: "32 field physical dives use an accepted borrowed slate-pose fit where their own is not accepted (29 on the first aim, 4 on the second), from 28 lending dives (at most 4 borrowers per lender); against 109 physical dives with their own accepted first-aim fit (first aim: 29 of 138 calibrated physical dives borrow, 21%; any aim: 32 of 141, 23%)"
   evidence_level: retrospective
   source: analysis/codesign/calibration_trust.py -> results/calibration_trust.csv (data/fishsense_services/slate_pose_calibrations.csv)
   physical_dives: "counted as physical dives (own mission row of the canonical record)"
