@@ -1,0 +1,17 @@
+set,config,frames,dives,share_with_length,lo,hi
+pool measured,1 human,1528,10,1.0,1.0,1.0
+pool measured,2 auto dot,1528,10,0.9954188481675392,0.987143892241834,0.9984514910612008
+pool measured,3 + auto cal,1528,10,0.9397905759162304,0.7473012318029115,0.9983044738023691
+pool measured,4 automatic,1528,10,0.8697643979057592,0.6318985844028482,0.9644439462014407
+field measured,1 human,313,7,1.0,1.0,1.0
+field measured,2 auto dot,313,7,0.9808306709265175,0.9661963888594727,0.9960824856258292
+field measured,3 + auto cal,313,7,0.9808306709265175,0.9659863945578231,0.9965898466979803
+field measured,4 automatic,313,7,0.7763578274760383,0.5915492957746479,0.8574259579286098
+field rejected,1 human,77,6,0.0,0.0,0.0
+field rejected,2 auto dot,77,6,0.0,0.0,0.0
+field rejected,3 + auto cal,77,6,0.0,0.0,0.0
+field rejected,4 automatic,77,6,0.0,0.0,0.0
+436 measured,1 human,1,1,1.0,,
+436 measured,2 auto dot,1,1,1.0,,
+436 measured,3 + auto cal,1,1,1.0,,
+436 measured,4 automatic,1,1,0.0,,

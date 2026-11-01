@@ -227,3 +227,13 @@ Read-only extracts from the restored production DB (container p2-fishsense-db, d
 - `sql/extract_dive_slate_template.sql`: whether each dive record has a slate template (`dive.dive_slate_id`).
 Ids and numbers only. Used by `analysis/codesign/field_failure.py` (the first three) and
 `analysis/codesign/slate_coverage.py` (the last).
+
+## data/fishsense_services/slate_pose_calibrations.csv, export.sql (2026-10-31)
+
+Read-only export from the fishsense-services production database (a READ ONLY transaction, rolled back), run by a
+fishsense-services session at this repo's request on 2026-10-31 (`export.sql`, verbatim). One row per lab mission,
+method and laser aim: the current slate-pose calibrations (all slate-pose-6), borrowed slate-pose fits, the current
+human calibrations, and a "none" row for missions with neither. mission_number = v1 dive_id on every row. Human rows
+match v1 `laserextrinsics` exactly on all 30 dives shared with `e2e_measurement/extrinsics.psv` (436 is withdrawn
+in services). Used by `analysis/codesign/stage_comparison.py`. Postdates the frozen 2026-09-25 dump: slate-pose was
+switched on 2026-10-27.
