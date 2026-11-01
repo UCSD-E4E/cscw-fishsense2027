@@ -549,3 +549,11 @@
   confounds: "the field reference is the human pipeline, not truth; field configuration 4's SimCC keypoints come from crops that were JPEG-encoded twice (production feeds uncompressed frames); 383 has two laser aims and the frame-to-aim split is not exported, so all its frames use aim 0; the pool head/tail rule rows are the 2026-09-29 run (v1 rule); slate-pose-6 postdates the frozen dump; per-fish p90 on the field is not computed (frame level)"
   paper_section: 6
 
+- claim: "Three stereo-measured fish outside the IMWUT comparison: the fully automatic pipeline reproduces the human pipeline on them to within 2-4%, but both are far from stereo, from a doubtful identity match and from calibration extrapolated to 3-4 m."
+  number: "Conch Reef, FSL-01, physical dive 15 (records 12-14, 17, 37, 43), dive 32's slate-pose-6 calibration, automatic lengths not reviewed. Hogfish1: stereo 331.0 mm, automatic p90 387.8 mm (+17.2%), 5 of 5 frames measured; human pipeline p90 379.1 mm on 4 frames; automatic vs human on the same frames median +1.8%. Black Grouper: stereo 300.2 mm, automatic 621.5 mm (+107%), 8 of 10 frames (one 19 mm frame from a stray dot); human 583.5 mm on 3 frames; +2.1%. Nassau Grouper: stereo 441.5 mm, automatic 708.8 mm (+60.6%; median 498.1), 8 of 9; human 667.3 mm on 4 frames; +4.0%. Lengths on Nassau rise with range in both pipelines (about 440 mm at 1.8 m to 670 mm at 3.6 m). A fourth candidate (BlueParrot02, record 40) is byte-identical copies of IMWUT's Blue Parrotfish1 and is not a new fish"
+  evidence_level: retrospective
+  source: analysis/codesign/stereo_new_fish.py -> results/stereo_new_fish.csv, stereo_new_fish_frames.csv; data/stereo/ (frames run 2026-11-01); stereo archive and IMWUT pairs from imwut_2026_fishsense_lite fish_model_analysis/data/
+  physical_dives: "all three fish are in physical dive 15 (one dive: no between-dive interval possible)"
+  confounds: "the stereo match rests on dive names; Black Grouper's SV1 stereo length (300.2 mm) disagrees with the collaborators' own measurement from the Lite images (FSL01 row, 421.9 mm) and with both pipelines (~0.58 m), so it is probably a different individual; dive 32's calibrations come from 2 slate frames at short range and are extrapolated to 3-4 m, where Nassau's lengths grow with range in both pipelines; three fish, one dive"
+  paper_section: 6
+

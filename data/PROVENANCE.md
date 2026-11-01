@@ -237,3 +237,14 @@ human calibrations, and a "none" row for missions with neither. mission_number =
 match v1 `laserextrinsics` exactly on all 30 dives shared with `e2e_measurement/extrinsics.psv` (436 is withdrawn
 in services). Used by `analysis/codesign/stage_comparison.py`. Postdates the frozen 2026-09-25 dump: slate-pose was
 switched on 2026-10-27.
+
+## data/stereo/ (2026-11-01)
+
+The three stereo-measured fish outside IMWUT's seven (`analysis/codesign/stereo_new_fish.py`):
+- `new_fish_images.psv` (`new_fish_images.sql`): the 24 canonical frames' NAS-relative paths, frozen dump 2026-09-25;
+- `new_fish_human_labels.psv` (`sql/extract_stereo_new_fish_human.sql`): live human dots and head/tail clicks on them;
+- `new_fish_frames.jsonl`: the automatic chain's output per frame (run3 dot, SAM 3.1 fish at the dot, SimCC
+  keypoints), produced by the script's `run` mode on the local GPU on 2026-11-01 with fishsense-core 4.3.2 (the
+  fishsense-services processor's locked environment).
+Stereo lengths: the collaborators' archive (SMILE_Archive_LengthData.csv, held in the IMWUT repo as
+`fish_model_analysis/data/stereo_archive.csv`), SV1 rows of 2023-08-03, matched by site, species and number.

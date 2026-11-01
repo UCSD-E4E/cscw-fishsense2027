@@ -8,8 +8,7 @@ Configurations (dot, laser calibration, head/tail):
 
 Components:
   automatic dot   the deployed RAW detector (run3 epoch_021; e2e_measurement/dots.jsonl, tail/reef_dots.jsonl, from
-                  run_e2e.py), kept only inside production's laser region (fishsense-services contracts
-                  laser_region.py LASER_REGION_POLYGON at db0b895, rectified px), as laser_predict does.
+                  run_e2e.py), kept only inside production's laser region (laser_region.py), as laser_predict does.
   calibrations    production: v1 laserextrinsics (e2e_measurement/extrinsics.psv; identical to the services human rows
                   for all 30 shared dives). Slate-pose: fishsense-services' current slate-pose-6 calibrations, exported
                   read-only on 2026-10-31 (data/fishsense_services/slate_pose_calibrations.csv): the mission's own
@@ -43,25 +42,17 @@ from fishsense_cscw.paths import REPO
 
 sys.path.insert(0, str(REPO / "e2e_measurement"))
 import score as S  # noqa: E402
+sys.path.insert(0, str(REPO / "analysis/codesign"))
+from laser_region import in_region  # noqa: E402
 
 OUT = REPO / "analysis/codesign/results"
 KP = REPO.parent / "2026-10-22_headtail_keypoints/results/model_keypoints_simcc_sam.csv"
 SLATE_POSE = REPO / "data/fishsense_services/slate_pose_calibrations.csv"
-REGION = [(1580, 570), (1700, 465), (2335, 395), (2455, 525), (2470, 1610), (2185, 1890), (1920, 1905), (1625, 1365)]
 FIELD = (279, 341, 347, 349, 383, 465, 471)
 SEPARATE = (436,)
 DISAGREE = 0.15
 CONFIGS = ["1 human", "2 auto dot", "3 + auto cal", "4 automatic"]
 RNG = np.random.default_rng(0)
-
-
-def in_region(x, y):
-    pos = neg = False
-    for i, (ax, ay) in enumerate(REGION):
-        bx, by = REGION[(i + 1) % len(REGION)]
-        c = (bx - ax) * (y - ay) - (by - ay) * (x - ax)
-        pos |= c > 0; neg |= c < 0
-    return not (pos and neg)
 
 
 def auto_dots():
