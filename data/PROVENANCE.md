@@ -262,3 +262,9 @@ locked environment (fishsense-core 4.3.2). Automatic keypoints, not reviewed.
 Read-only extract from the restored production DB (dump 2026-09-25) by `sql/extract_dive_calibration_status.sql`:
 per dive record, whether v1 has a laser calibration, v1's recorded refusal reason (its own text), live human slate
 labels with points, and the checkerboard target. Used by `analysis/codesign/calibration_trust.py`.
+
+## data/db_extracts/dive_laser_dots.psv (2026-11-01)
+
+Read-only extract from the restored production DB (dump 2026-09-25) by `sql/extract_dive_laser_dots.sql`: each
+image's latest completed, live human laser dot with its dive and camera. Used by
+`analysis/codesign/slatepose_vs_human.py`.

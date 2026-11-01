@@ -589,3 +589,11 @@
   confounds: "reproducing needs a read-only export of that replay's draws (laser position/axis, scale_sd per draw) and the production calibrations of the 18 controls"
   paper_section: 7
 
+- claim: "The deployed slate-pose calibration agrees with the human calibrations to about 1%, inside its own error bars, with a small shared lean high."
+  number: "17 physical dives with an accepted slate-pose-6 first-aim fit and a current human calibration (32, 62, 63, 65, 71, 80, 83, 87, 94, 114, 279, 341, 347, 349, 383, 465, 471; 436 excluded, its human calibration withdrawn): median |length difference| 1.28% (95% CI 0.62-1.52, dives resampled); within one error bar 14 of 17, within two 17 of 17; reading high 14 of 17, median signed +0.85%. Outside one bar: 62 (+2.1%, 1.18 bars), 383 (-2.7%, 1.29), 465 (+2.6%, 1.31)"
+  evidence_level: retrospective
+  source: analysis/codesign/slatepose_vs_human.py -> results/slatepose_vs_human.csv (data/fishsense_services/slate_pose_calibrations.csv, export 2026-10-31; data/db_extracts/dive_laser_dots.psv, sql/extract_dive_laser_dots.sql)
+  physical_dives: "17 physical dives, all canonical records"
+  confounds: "length difference = median range ratio at the dive's own human laser dots (length scales with range); the bar is scale_sd_by_range at the dive's median dot range; human calibrations are the reference, not truth; 383's human calibration may sit on its second laser aim while the slate-pose fit compared is its first; 10 of the 17 are pool calibration sessions; the services record's 2026-10-27 figures (17 missions, median 1.7%, 10 within one bar) came from an earlier fit version"
+  paper_section: 6
+
