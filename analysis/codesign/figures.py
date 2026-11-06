@@ -424,6 +424,36 @@ def fig_stage_breakdown():
     save(fig, "fig_stage_breakdown", bare=True)
 
 
+def fig_size_constancy():
+    """Size constancy's premise on field_failure.py's inputs (slate_unknown.load: complete human slate labels with a
+    human laser dot; e2e_measurement/extrinsics.psv stored calibrations). Apparent size = RMS distance of the slate's
+    labeled reference points from their centroid (px). Offset = the dot's distance from the stored calibration's
+    vanishing point along the dive line, A / Z (A = fx |O_perp|, Z = the stored beam's range at the human dot).
+    Both go as 1 / Z, so a rigid slate held face-on falls on a line through the origin (k = least squares through the
+    origin, per dive). (a) size against offset; (b) size / (k offset) - 1 against range, which shows the bend.
+    Pool session 71 (the pool session with the most frames); reef dive 347, whose slate tilts away from the camera as
+    range grows (field_failure_tilt.csv: slope of log cos tilt on log range). Dive 436 (mirrored labels) unused."""
+    sys.path.insert(0, str(HERE)); sys.path.insert(0, str(REPO / "calibration_analysis/e1j_size_constancy"))
+    import field_failure as FF  # noqa: E402
+    cal = FF.stored(); d, _ = FF.slate_frames(cal)
+    fig, (a, b) = plt.subplots(1, 2, figsize=(ONE, 1.8), layout="constrained")
+    for dive, name, col, mk in ((71, "pool", INK2, "s"), (347, "reef", MACHINE, "o")):
+        g = d[d.dive_id == dive]
+        x, y, Z = cal[dive]["A"] / g.Z.to_numpy(), g["size"].to_numpy(), g.Z.to_numpy()
+        k = float(x @ y / (x @ x))
+        a.plot([0, 300], [0, 300 * k], color=col, lw=0.8, ls=(0, (3, 2)))
+        a.scatter(x, y, s=9, marker=mk, color=col, edgecolor="white", linewidth=0.3, zorder=3)
+        b.scatter(Z, 100 * (y / (k * x) - 1), s=9, marker=mk, color=col, edgecolor="white", linewidth=0.3, zorder=3)
+        a.text(300, 300 * k, f" {name}", va="center", fontsize=7, color=col)
+        b.text(Z.max() + 0.1, -4.2 if name == "reef" else 1.4, name, va="center", fontsize=7, color=col)
+    a.set_xlim(0, 300); a.set_ylim(0, 320)
+    a.set_xlabel("dot offset from the\nvanishing point, px"); a.set_ylabel("slate apparent size, px")
+    b.axhline(0, color=MUTED, lw=0.8, ls=(0, (3, 2)))
+    b.set_xlim(1, 4.1); b.set_ylim(-6, 3)
+    b.set_xlabel("range, m"); b.set_ylabel("size off the line, %")
+    save(fig, "fig_size_constancy", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -557,6 +587,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy,
               paper_laser_calibration, paper_automation):
         f()
