@@ -454,6 +454,35 @@ def fig_size_constancy():
     save(fig, "fig_size_constancy", bare=True)
 
 
+def fig_headtail_compare():
+    """Three typical reef fish (headtail_examples_select.py: near both methods' median endpoint error, three dives),
+    each with the human snout and fork clicks, the SAM 3.1 mask's axis rule and the trained snout/fork model (SimCC), all
+    at the human dot's mask. Crops rendered by headtail_examples_render.py (fishsense-core default decode, rectified)."""
+    import matplotlib.image as mpimg
+    from matplotlib.lines import Line2D
+    E = pd.read_csv(RES / "headtail_examples.csv")
+    C = pd.read_csv(REPO / "data/headtail_examples/crops.csv").set_index("image_id")
+    fig, axes = plt.subplots(1, 3, figsize=(TWO, 2.05), layout="constrained")
+    styles = (("human", PEOPLE, "o", "-", "human clicks"), ("rule", MACHINE, "s", (0, (2, 1.5)), "axis rule"),
+              ("model", MACHINE, "^", "-", "trained model"))
+    for ax, r in zip(axes, E.itertuples()):
+        c = C.loc[r.image_id]; sx = c.out_w / (c.x1 - c.x0)
+        ax.imshow(mpimg.imread(REPO / f"data/headtail_examples/{r.image_id}.jpg"))
+        for key, col, mk, ls, _ in styles[1:] + styles[:1]:   # human drawn last, on top
+            hx, hy, tx, ty = ((getattr(r, f"{key}_{v}") - o) * sx for v, o in (("hx", c.x0), ("hy", c.y0), ("tx", c.x0), ("ty", c.y0)))
+            ax.plot([hx, tx], [hy, ty], color=col, lw=0.9 if key == "model" else 1.6, ls=ls,
+                    zorder={"human": 2, "rule": 2.4, "model": 2.6}[key])   # model above the human line it overlaps
+            ax.scatter([hx, tx], [hy, ty], s=60 if key == "human" else 16, marker=mk, zorder=4 if key == "human" else 3,
+                       facecolor="none" if key != "model" else col, edgecolor=col, linewidth=1.3)
+        ax.set_axis_off()
+        ax.set_title(f"dive {r.dive}: endpoint error, % of length\naxis rule {100 * r.rule_err:.1f}, trained model {100 * r.model_err:.1f}",
+                     fontsize=7, color=INK2, loc="left")
+    handles = [Line2D([], [], color=col, ls=ls, marker=mk, markerfacecolor=col if key == "model" else "none", lw=1.2, label=lab)
+               for key, col, mk, ls, lab in styles]
+    fig.legend(handles=handles, loc="outside lower center", ncol=3, frameon=False, fontsize=7)
+    save(fig, "fig_headtail_compare", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -587,6 +616,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare,
               paper_laser_calibration, paper_automation):
         f()
