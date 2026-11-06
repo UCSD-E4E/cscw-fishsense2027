@@ -140,7 +140,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-11-01 | §7 calibration trust counts: v1 refusals, slate-pose refusals, beam moves, borrowed calibrations by physical dive (`calibration_trust.py`, new extract `dive_calibration_status`); services record traced for the uncertainty check and the beam-move method | analysis | assistant | this commit |
 | 2026-11-01 | Slate pose vs human calibrations on the 2026-10-31 export, by physical dive (`slatepose_vs_human.py`, new extract `dive_laser_dots`) | analysis | assistant | 0d78e783 |
 | 2026-11-05 | Figure fig8_labeling_time redrawn as two panels (seconds per label; share of a field dive's labeling time by physical dive), tasks in automation order, existing results only; PDF without Creator/Producer (`figures/make_figures.py`) | figure | assistant | bb5e82eb |
-| 2026-11-05 | §7 figure fig_prefill (sensys_labelling panel b alone, one column, 0.5 px unchanged threshold stated; `figures.py`) and the reconciliation of the human-seeded 655/726 with the paper's 626/711 (`prefill_reconcile.py`) | figure + analysis | assistant | this commit |
+| 2026-11-05 | §7 figure fig_prefill (sensys_labelling panel b alone, one column, 0.5 px unchanged threshold stated; `figures.py`) and the reconciliation of the human-seeded 655/726 with the paper's 626/711 (`prefill_reconcile.py`) | figure + analysis | assistant | d6eb876a |
+| 2026-11-05 | SenSys item 2: one-step-at-a-time field disagreement with the current components, axis rule and trained head/tail (`stage_breakdown.py`, minimal analysis allowed by the author) and figure fig_stage_breakdown (`figures.py`) | figure + analysis | assistant | this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

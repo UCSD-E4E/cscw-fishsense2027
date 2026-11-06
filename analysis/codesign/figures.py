@@ -400,6 +400,30 @@ def fig_prefill():
     save(fig, "fig_prefill", bare=True)
 
 
+PEOPLE, MACHINE = "#E69F00", "#0072B2"   # the SenSys paper's colors
+
+
+def fig_stage_breakdown():
+    """Mean |length / human length - 1| on the 7 field dives when one step, then every step, is automatic, with 95%
+    intervals resampling dives (stage_breakdown.py -> results/stage_breakdown.csv). Filled = trained snout/fork model
+    (v5) or no head/tail swap; open = the mask's axis rule."""
+    R = pd.read_csv(RES / "stage_breakdown.csv").set_index("swap")
+    rows = [("only dot", "dot only", None), ("only calibration", "calibration only (slate pose)", None),
+            ("only head/tail, axis rule", "head/tail only, axis rule", "rule"), ("only head/tail, trained", "head/tail only, trained model", "trained"),
+            ("all automatic, axis rule", "all automatic, axis rule", "rule"), ("all automatic, trained", "all automatic, trained model", "trained")]
+    fig, ax = plt.subplots(figsize=(ONE, 2.2), layout="constrained")
+    for i, (key, lab, ht) in enumerate(rows):
+        r = R.loc[key]; m, lo, hi = 100 * r.mean_abs_d, 100 * r.lo, 100 * r.hi
+        ax.barh(i, m, height=0.6, color="white" if ht == "rule" else MACHINE, edgecolor=MACHINE, lw=1.2)
+        ax.plot([lo, hi], [i, i], color=INK, lw=1)
+        ax.text(hi + 0.25, i, f"{m:.1f}%  ({int(r.frames)} frames)", va="center", fontsize=7, color=INK2)
+    ax.set_yticks(range(len(rows)), [l for _, l, _ in rows]); ax.set_ylim(len(rows) - 0.5, -0.5)
+    ax.axhline(3.5, color=MUTED, lw=0.6, ls=(0, (2, 2)))
+    ax.tick_params(axis="y", length=0); ax.grid(axis="y", visible=False)
+    ax.set_xlim(0, 11); ax.set_xlabel("mean |difference| from the human pipeline, %")
+    save(fig, "fig_stage_breakdown", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -533,6 +557,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown,
               paper_laser_calibration, paper_automation):
         f()
