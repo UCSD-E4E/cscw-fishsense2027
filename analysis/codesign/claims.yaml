@@ -12,6 +12,7 @@
 # ---------------------------------------------------------------- 3 How the design changed
 - claim: "Labellers shown a pre-filled laser label accept it unchanged 88% of the time; a \"moved\" seed moves a median <1 px."
   number: "626 of 711 seeded pairs (88.0%; dive-resampled 95% CI 73-96%, 12 dives). The earlier 87% is 626 of 717, which counts the 6 pairs drawn with no seed (corrected 2026-10-20, intro_numbers.py)"
+  reconciliation: "626/711 (Label Studio origin flag, two-labeler pairs) vs 655/726 = 90.2% (saved keypoint within 0.5 px of the seed, every earlier-human-label pre-fill; figure fig_prefill). On the 673 images both hold, the flag keeps 604 and the 0.5 px rule 611; they agree on 662 (9 flagged moved sit within 0.5 px, 2 flagged kept moved). The rest is population: 38 pairs with no matched seed keypoint (22 kept by flag), 51 seeded keypoints in no pair (42 within 0.5 px) (prefill_reconcile.py -> results/prefill_reconcile.csv)"
   evidence_level: retrospective
   source: p2-results.md T1/T2; annotation_analysis/laser_label_pairs.ipynb; fishsense_cscw/laser_pairs.py (tests/test_laser_pairs.py)
   confounds: seeds were earlier human labels (not model output); campaign ~260 days apart; one labelling interface
@@ -376,7 +377,7 @@
   physical_dives: "each physical dive counted once (physical_dives.py, 2026-10-27): detector seeds kept 88.87% (83.53-92.26), 40 dives (unchanged); IMWUT detector dot = live human dot 94.84% (92.39-96.71), 43 -> 42 dives (intro_numbers_physical.csv)"
   evidence_level: retrospective
   lesson: 1
-  source: analysis/codesign/labelling.py (sql/extract_seed_moves.sql); intro_numbers.py item 2
+  source: analysis/codesign/labelling.py (sql/extract_seed_moves.sql); intro_numbers.py item 2; figure fig_prefill (figures.py)
   confounds: "the 87% figure (T2) is a different population (two-project relabelling pairs) and was 626/717; IMWUT's 461/733 (62.9%, CI 18.8-88.8%, 11 dives) counts exact-duplicate repeat human pairs and 2,242/2,364 (94.8%, CI 92.4-96.7%, 43 dives) counts detector dots identical to the live human dot - both show copying, neither measures acceptance of a shown pre-fill"
   paper_section: 1, 3
 - claim: The detector's contrast-enhanced input is the same image the labellers saw.

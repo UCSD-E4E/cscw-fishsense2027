@@ -13,6 +13,7 @@ One figure (or pair) per section of the paper outline. Rebuild:
 | 6 Sensing hardware | what green cost the detector, the pipeline and the labeller (red vs green, matched comparison under each panel) | `analysis/codesign/figures/codesign_redgreen` | results/redgreen*.csv, results/before_after.csv |
 | 7 Capture protocol | (a) frames per fish delivered; (b) what each frame buys | `analysis/codesign/figures/sensys_capture` | frames_per_fish.py |
 | 8 Labelling | (a) seconds per label, scratch vs accepted pre-fill; (b) what labellers do with a pre-fill | `analysis/codesign/figures/sensys_labelling` | labelling.py, data/labeling/lead_times.csv |
+| 7 Pre-fills | panel (b) of sensys_labelling alone, one column: unchanged (< 0.5 px) / nudged (0.5-20 px) / replaced (> 20 px), per pre-filled keypoint; copied to the SenSys paper as `images/graphs/fig_prefill.pdf` | `analysis/codesign/figures/fig_prefill` (`figures.py` `fig_prefill`) | labelling.py -> results/labelling_seeds.csv; prefill_reconcile.py |
 | 9 End-to-end | pool stage ladder vs tape | `figures/fig4_stage_ladder` | e2e_measurement/ |
 | 9 End-to-end | reef automatic vs manual length | `figures/fig5_reef_lengths` | e2e_measurement/tail/ |
 | 10 Design rules | table | `analysis/codesign/design_rules.tex` | design_rules.yaml + claims.yaml |

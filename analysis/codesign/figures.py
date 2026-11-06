@@ -19,6 +19,8 @@ SenSys figure set, one per paper section (the rest of the set reuses figures abo
   sensys_capture         s7  (a) frames per fish divers delivered; (b) what each extra frame buys
   sensys_labelling       s8  (a) a person's seconds per label, from scratch vs accepting a model pre-fill;
                              (b) what labellers do with a pre-fill (unchanged / nudged / replaced)
+  fig_prefill            s7  panel (b) alone at one column: what labelers do with a pre-fill, unchanged = saved
+                             within 0.5 px of the seed (the definition of the paper's 703 of 791)
 
 Style, colours and ACM column widths come from figures/make_figures.py. Output goes to
 analysis/codesign/figures/ (PDF and PNG, no timestamps, so rebuilds are byte-identical).
@@ -49,9 +51,10 @@ DRIVER = {"human": ("human", BLUE), "machine": ("machine", ORANGE), "other": ("o
           "unknown": ("no record of why", MUTED)}
 
 
-def save(fig, name):
+def save(fig, name, bare=False):
+    # bare=True also drops the PDF's Creator and Producer
     OUT.mkdir(exist_ok=True)
-    fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None})
+    fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None} | ({"Creator": None, "Producer": None} if bare else {}))
     fig.savefig(OUT / f"{name}.png", metadata={"Software": None})
     plt.close(fig); print("wrote", name)
 
@@ -365,6 +368,38 @@ def sensys_labelling():
     fig.tight_layout(w_pad=2.0); save(fig, "sensys_labelling")
 
 
+def fig_prefill():
+    """sensys_labelling (b) alone, one ACM column. Per pre-filled keypoint (labelling.py -> results/labelling_seeds.csv):
+    unchanged = saved within 0.5 px of the seed, nudged 0.5-20 px, replaced > 20 px. Laser rows have one keypoint per
+    annotation except 2 of the 724 human-seeded annotations (726 keypoints). The human-seeded row (655 of 726) and the
+    paper's 626 of 711 differ in population and rule: prefill_reconcile.py."""
+    S = pd.read_csv(RES / "labelling_seeds.csv")
+    bars = [("laser dot, seeded by an earlier human label", S[(S.kind == "laser") & (S.seed == "earlier human label")]),
+            ("laser dot, seeded by the detector", S[(S.kind == "laser") & (S.seed == "model")]),
+            ("snout, seeded by SAM 3.1", S[(S.kind == "headtail") & (S.label == "Snout")]),
+            ("fork, seeded by SAM 3.1", S[(S.kind == "headtail") & (S.label == "Fork")])]
+    parts = [("unchanged", "unchanged (< 0.5 px)", BLUE), ("nudged", "nudged (0.5\u201320 px)", AQUA),
+             ("replaced", "replaced (> 20 px)", ORANGE)]
+    fig, b = plt.subplots(figsize=(ONE, 2.0), layout="constrained")
+    y = np.arange(len(bars))[::-1] * 1.0
+    for yi, (lab, g) in zip(y, bars):
+        w = g.keypoints.to_numpy(); left = 0.0
+        b.text(0, yi + 0.33, f"{lab} (n = {int(w.sum()):,})", fontsize=7, color=INK, va="bottom")
+        for key, plab, col in parts:
+            v = float(np.average(g[key], weights=w)) * 100
+            b.barh(yi, v, left=left, height=0.5, color=col, edgecolor="white", linewidth=1, label=plab if yi == y[0] else None)
+            if v >= 9:
+                b.text(left + v / 2, yi, f"{v:.1f}%" if key == "unchanged" else f"{v:.0f}%", ha="center", va="center",
+                       fontsize=7, color=INK if col == AQUA else "white")   # aqua is below 3:1 against white text
+            left += v
+    b.set_yticks([]); b.set_xlim(0, 100); b.set_ylim(-0.4, y[0] + 0.85); b.grid(visible=False)
+    b.spines["left"].set_visible(False)
+    b.set_xlabel("pre-filled keypoints, %")
+    fig.legend(*b.get_legend_handles_labels(), loc="outside lower center", ncol=3, frameon=False, fontsize=7,
+               handletextpad=0.3, columnspacing=0.8, handlelength=1.2)
+    save(fig, "fig_prefill", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -498,6 +533,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill,
               paper_laser_calibration, paper_automation):
         f()

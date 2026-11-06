@@ -1,0 +1,10 @@
+quantity,kept,of,share
+pairs: kept by origin flag (the paper's 626 / 711),626,711,0.8805
+seeded keypoints: kept within 0.5 px (the figure's 655 / 726),655,726,0.9022
+shared images: kept by origin flag,604,673,0.8975
+shared images: kept within 0.5 px,611,673,0.9079
+shared images: flag kept and within 0.5 px,602,673,0.8945
+shared images: flag moved but within 0.5 px,9,673,0.0134
+shared images: flag kept but moved >= 0.5 px,2,673,0.0030
+pairs only (no matched seed keypoint): kept by origin flag,22,38,0.5789
+seeded keypoints only (not in a pair): kept within 0.5 px,42,51,0.8235
