@@ -143,7 +143,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-11-05 | §7 figure fig_prefill (sensys_labelling panel b alone, one column, 0.5 px unchanged threshold stated; `figures.py`) and the reconciliation of the human-seeded 655/726 with the paper's 626/711 (`prefill_reconcile.py`) | figure + analysis | assistant | d6eb876a |
 | 2026-11-05 | SenSys item 2: one-step-at-a-time field disagreement with the current components, axis rule and trained head/tail (`stage_breakdown.py`, minimal analysis allowed by the author) and figure fig_stage_breakdown (`figures.py`) | figure + analysis | assistant | 8ef69ef1 |
 | 2026-11-05 | SenSys item 1: datasets table counts by physical dive from committed results (`datasets_table.py`) | analysis | assistant | 02535696 |
-| 2026-11-05 | SenSys item 3: figure fig_size_constancy (pool session 71 and reef dive 347 on field_failure.py's inputs; size against offset and off-line ratio against range; `figures.py`) | figure | assistant | this commit |
+| 2026-11-05 | SenSys item 3: figure fig_size_constancy (pool session 71 and reef dive 347 on field_failure.py's inputs; size against offset and off-line ratio against range; `figures.py`) | figure | assistant | 902943c5 |
+| 2026-11-05 | SenSys item 5 (partial): typical reef frames chosen for the head/tail comparison figure (`headtail_examples_select.py`); figure not drawn, the RAW share was not mounted | analysis | assistant | this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
