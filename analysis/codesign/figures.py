@@ -526,6 +526,39 @@ def fig_spread():
     save(fig, "fig_spread", bare=True)
 
 
+def fig_redgreen():
+    """codesign_redgreen (a) and (c) for SenSys, by physical dive. (a) The run3 detector's missed and wrong-spot
+    (confident-wrong) rates by laser color within the same camera and setting (redgreen.py --physical: Mantel-Haenszel
+    over camera x environment strata holding both colors; dive color = >= 90% of its labels; T3 sample, human dots
+    drawn without a pre-fill), with the green-minus-red gap and its 95% interval resampling physical dives.
+    (c) A labeler's median seconds per unseeded laser label by the dive's laser color (before_after.py), with the
+    within-labeler difference and its 95% interval resampling labelers."""
+    R = pd.read_csv(RES / "redgreen_physical.csv"); B = pd.read_csv(RES / "before_after.csv")
+    RED, GRN = "#D7301F", "#1A9850"                       # the lasers' own colors
+    fig, (a, c) = plt.subplots(1, 2, figsize=(ONE, 2.2), layout="constrained", gridspec_kw=dict(width_ratios=[2, 1]))
+    rows = [R[(R.design == "camera x environment") & (R.outcome == o)].iloc[0] for o in ("missed", "confident-wrong")]
+    for k, (name, r) in enumerate(zip(("missed", "wrong spot"), rows)):
+        for dx, v, col in ((-0.2, 100 * r.red_rate, RED), (0.2, 100 * r.green_rate, GRN)):
+            a.bar(k + dx, v, width=0.38, color=col, edgecolor="white", lw=1)
+            a.text(k + dx, v + 0.4, f"{v:.1f}%", ha="center", va="bottom", fontsize=7, color=INK)
+        g = 100 * r.green_minus_red
+        a.text(k, 26.5, f"{g:+.1f} pt\n{100 * r.ci_lo:.1f} to {100 * r.ci_hi:.1f}".replace("-", "\u2212").replace("\u22120.0", "0.0"),
+               ha="center", va="top", fontsize=7, color=INK2, linespacing=1.1)
+    a.set_xticks([0, 1], ["missed", "wrong spot"]); a.set_xlim(-0.6, 1.6); a.set_ylim(0, 27)
+    a.set_ylabel("dot frames, %"); a.grid(axis="x", visible=False)
+    lb = B[B.revision.str.startswith("laser red")].iloc[0]
+    for dx, v, col in ((-0.2, lb.pooled_median_a, RED), (0.2, lb.pooled_median_b, GRN)):
+        c.bar(dx, v, width=0.38, color=col, edgecolor="white", lw=1)
+        c.text(dx, v + 0.3, f"{v:.1f}", ha="center", va="bottom", fontsize=7, color=INK)
+    c.text(0, 22.0, f"{lb.within_annotator_diff:+.1f} s\n{lb.ci_lo:.1f} to {lb.ci_hi:.1f}",
+           ha="center", va="top", fontsize=7, color=INK2, linespacing=1.1)
+    c.set_xticks([0], ["per laser\nlabel"]); c.set_xlim(-0.55, 0.55); c.set_ylim(0, 22.4)
+    c.set_ylabel("labeler's median seconds"); c.grid(axis="x", visible=False)
+    handles = [MF.matplotlib.patches.Patch(color=RED, label="red laser"), MF.matplotlib.patches.Patch(color=GRN, label="green laser")]
+    fig.legend(handles=handles, loc="outside lower center", ncol=2, frameon=False, fontsize=7)
+    save(fig, "fig_redgreen", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -659,6 +692,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement, fig_spread,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement, fig_spread, fig_redgreen,
               paper_laser_calibration, paper_automation):
         f()
