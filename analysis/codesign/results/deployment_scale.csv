@@ -1,0 +1,12 @@
+item,value,note
+field physical dives,257,canonical records outside test deployments 2-4
+cameras (units) used on field dives,7,distinct devices
+field capture period,2023-08-01 .. 2024-12-10,camera clock
+field deployments,33,
+labels: all,97026,96 labelers; 2024-10-24 .. 2026-09-16
+labels: laser,49921,73 labelers; 2024-10-24 .. 2026-09-16
+labels: headtail,40472,48 labelers; 2025-04-15 .. 2026-09-16
+labels: species,6150,5 labelers; 2025-10-15 .. 2026-09-16
+labels: slate,483,3 labelers; 2025-11-24 .. 2026-09-16
+"person-hours recorded, capped 300 s",803.2,"95195 of 97026 annotations carry a lead_time; uncapped 3,882 h"
+"person-hours estimated, field dives",618.1,257 field physical dives with a dive_time row

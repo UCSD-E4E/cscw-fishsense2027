@@ -268,3 +268,5 @@ labels with points, and the checkerboard target. Used by `analysis/codesign/cali
 Read-only extract from the restored production DB (dump 2026-09-25) by `sql/extract_dive_laser_dots.sql`: each
 image's latest completed, live human laser dot with its dive and camera. Used by
 `analysis/codesign/slatepose_vs_human.py`.
+
+- `data/db_extracts/labeler_counts.psv` (2026-11-05): `sql/extract_labeler_counts.sql` on the frozen 2026-09-25 snapshot (container p2-fishsense-db, read-only); labels and distinct labeler counts per task, summed lead times. Counts only.
