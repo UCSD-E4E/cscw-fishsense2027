@@ -146,7 +146,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-11-05 | SenSys item 3: figure fig_size_constancy (pool session 71 and reef dive 347 on field_failure.py's inputs; size against offset and off-line ratio against range; `figures.py`) | figure | assistant | 902943c5 |
 | 2026-11-05 | SenSys item 5 (partial): typical reef frames chosen for the head/tail comparison figure (`headtail_examples_select.py`); figure not drawn, the RAW share was not mounted | analysis | assistant | 647ffc08 |
 | 2026-11-05 | SenSys item 5: three example crops rendered (`headtail_examples_render.py`, three RAW files from the NAS) and figure fig_headtail_compare (`figures.py`); selection script now stores points and crop boxes | figure | assistant | 0393827f |
-| 2026-11-05 | SenSys fig_reef_agreement: Bland-Altman of fully automatic vs human on the seven reef dives (`reef_agreement.py` from stage_comparison frames; `figures.py`) | figure + analysis | assistant | this commit |
+| 2026-11-05 | SenSys fig_reef_agreement: Bland-Altman of fully automatic vs human on the seven reef dives (`reef_agreement.py` from stage_comparison frames; `figures.py`) | figure + analysis | assistant | 3b353107 |
+| 2026-11-05 | SenSys fig_spread from codesign_spread (calibration_spread.py re-run, reproduces; `figures.py`) | figure | assistant | this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

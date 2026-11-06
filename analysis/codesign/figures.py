@@ -503,6 +503,29 @@ def fig_reef_agreement():
     save(fig, "fig_reef_agreement", bare=True)
 
 
+def fig_spread():
+    """codesign_spread for SenSys: size constancy's angle error against the slate's size spread (largest / smallest
+    apparent size among the frames fitted). calibration_spread.py on the 10 pool slate sessions (253 frames; human
+    laser dots, SAM 3.1 text-prompted slate sizes): random subsets of m >= 8 frames, 400 per m per session, fitted as
+    slate_unknown.fit_tv; error = angle to the session's own all-frame fit. Median and 90th percentile per spread bin,
+    plotted at the bin's midpoint; subsets and sessions per bin are in calibration_spread_bins.csv."""
+    B = pd.read_csv(RES / "calibration_spread_bins.csv")
+    B = B[B.frames == "m >= 8"]
+    lo = B.bin.str.extract(r"\(([\d.]+), ([\d.]+)\]").astype(float)
+    mid = ((lo[0] + lo[1]) / 2).to_numpy()
+    fig, ax = plt.subplots(figsize=(ONE, 2.2), layout="constrained")
+    ax.axhline(0.05, color=INK2, lw=1, ls=(0, (3, 2))); ax.text(3.08, 0.056, "0.05\u00b0 target", color=INK2, fontsize=7, ha="right", va="bottom")
+    ax.plot(mid, B.self_median, color=MACHINE, marker="o", ms=4, lw=1.6)
+    ax.plot(mid, B.self_p90, color=MACHINE, marker="o", ms=3, lw=1, ls=(0, (1, 1.5)), mfc="white")
+    ax.text(2.62, B.self_median.iloc[-1] * 0.62, "median", fontsize=7, color=MACHINE, va="top", ha="center")
+    ax.text(2.62, B.self_p90.iloc[-1] * 0.8, "90th percentile", fontsize=7, color=MACHINE, va="top", ha="center")
+    ax.set_yscale("log"); ax.set_ylim(0.003, 100); ax.set_xlim(1.0, 3.1)
+    ax.yaxis.set_major_formatter(MF.matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:g}"))
+    ax.set_xlabel("slate size spread, largest / smallest")
+    ax.set_ylabel("angle error, deg")
+    save(fig, "fig_spread", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -636,6 +659,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement, fig_spread,
               paper_laser_calibration, paper_automation):
         f()
