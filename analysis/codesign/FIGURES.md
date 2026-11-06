@@ -17,6 +17,7 @@ One figure (or pair) per section of the paper outline. Rebuild:
 | 6 Stage breakdown | mean |difference| from the human pipeline, 7 field dives: one step automatic (dot, slate-pose calibration, head/tail by axis rule or trained model) and all automatic; `images/graphs/fig_stage_breakdown.pdf` | `analysis/codesign/figures/fig_stage_breakdown` | stage_breakdown.py |
 | 5 Size constancy | slate apparent size against the dot's offset from the vanishing point, and size off the line against range: pool session 71, reef dive 347; `images/graphs/fig_size_constancy.pdf` | `analysis/codesign/figures/fig_size_constancy` | field_failure.py inputs (slate_unknown.load, extrinsics.psv) |
 | 6 Head/tail examples (full width) | three typical reef fish: human clicks, axis rule, trained model; `images/graphs/fig_headtail_compare.pdf` | `analysis/codesign/figures/fig_headtail_compare` | headtail_examples_select.py, headtail_examples_render.py |
+| 6 Reef agreement | Bland-Altman, fully automatic vs human, 7 reef dives, 243 frames (replaces fig5_reef_lengths); `images/graphs/fig_reef_agreement.pdf` | `analysis/codesign/figures/fig_reef_agreement` | reef_agreement.py <- stage_comparison_frames.csv |
 | 9 End-to-end | pool stage ladder vs tape | `figures/fig4_stage_ladder` | e2e_measurement/ |
 | 9 End-to-end | reef automatic vs manual length | `figures/fig5_reef_lengths` | e2e_measurement/tail/ |
 | 10 Design rules | table | `analysis/codesign/design_rules.tex` | design_rules.yaml + claims.yaml |

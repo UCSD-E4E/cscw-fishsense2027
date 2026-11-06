@@ -483,6 +483,26 @@ def fig_headtail_compare():
     save(fig, "fig_headtail_compare", bare=True)
 
 
+def fig_reef_agreement():
+    """Bland-Altman: fully automatic (run3 dot, slate-pose-6 calibration, head/tail v5) against the human pipeline on
+    the seven reef dives (reef_agreement.py; stage_comparison.py configuration 4 vs 1). Difference as % of the pair's
+    mean length; bias and 95% limits of agreement, shaded by their 95% intervals resampling dives."""
+    F = pd.read_csv(RES / "reef_agreement_frames.csv"); R = pd.read_csv(RES / "reef_agreement.csv").set_index("quantity")
+    fig, ax = plt.subplots(figsize=(ONE, 2.2), layout="constrained")
+    x0, x1 = 0, 80
+    for q, ls, lab in (("bias", "-", "bias"), ("lower limit", (0, (3, 2)), "lower limit"), ("upper limit", (0, (3, 2)), "upper limit")):
+        r = R.loc[q]
+        ax.axhspan(r.ci_lo, r.ci_hi, color="#cfe3f1", lw=0, zorder=0)
+        ax.axhline(r.value_pct, color=INK2, lw=1, ls=ls, zorder=1)
+        ax.text(x1, r.value_pct, f" {lab}\n {r.value_pct:+.1f}%".replace("-", "\u2212"), va="center", fontsize=7, color=INK2, linespacing=1.0)
+    ax.axhline(0, color=MUTED, lw=0.6, zorder=1)
+    ax.scatter(100 * F.mean_m, F.diff_pct, s=7, color=MACHINE, edgecolor="white", linewidth=0.3, alpha=0.85, zorder=2)
+    ax.set_xlim(x0, x1); ax.set_ylim(-20, 46)
+    ax.set_xlabel("mean of automatic and human length, cm")
+    ax.set_ylabel("automatic \u2212 human, % of mean")
+    save(fig, "fig_reef_agreement", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -616,6 +636,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement,
               paper_laser_calibration, paper_automation):
         f()

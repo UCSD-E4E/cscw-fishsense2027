@@ -1,0 +1,5 @@
+quantity,value_pct,ci_lo,ci_hi,frames,dives
+bias,1.8712,0.6506,2.6376,243,7
+lower limit,-7.9858,-10.3205,-4.3052,243,7
+upper limit,11.7283,6.5905,14.8684,243,7
+SD,5.0291,2.8043,6.3906,243,7
