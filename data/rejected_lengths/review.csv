@@ -1,23 +1,23 @@
-image_id,dive,length_cm,judgment
-78766,279,20.8,
-78785,279,13.5,
-101296,341,17.2,
-101321,341,11.5,
-101404,341,15.2,
-101426,341,30.6,
-102767,347,23.3,
-102787,347,15.7,
-102802,347,24.7,
-102810,347,16.2,
-102813,347,6.6,not usable
-102815,347,16.8,
-102883,347,19.0,not usable
-102946,347,31.8,
-102957,347,25.0,
-102972,347,19.9,
-102980,347,24.5,
-102981,347,26.9,
-102982,347,20.3,
-103009,347,14.1,not usable
-103018,347,25.0,not usable
-102563,349,18.1,
+image_id,dive,length_cm,judgment,note
+78766,279,20.8,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+78785,279,13.5,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+101296,341,17.2,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+101321,341,11.5,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+101404,341,15.2,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+101426,341,30.6,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102767,347,23.3,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102787,347,15.7,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102802,347,24.7,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102810,347,16.2,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102813,347,6.6,not usable,head/tail points or dot wrong
+102815,347,16.8,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102883,347,19.0,not usable,head/tail points or dot wrong
+102946,347,31.8,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102957,347,25.0,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102972,347,19.9,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102980,347,24.5,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102981,347,26.9,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+102982,347,20.3,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"
+103009,347,14.1,not usable,head/tail points or dot wrong
+103018,347,25.0,not usable,head/tail points or dot wrong
+102563,349,18.1,unsure,"head/tail points look right; fish probably off axis (not side-on), so the length may be short"

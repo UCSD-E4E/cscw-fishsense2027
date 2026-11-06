@@ -9,7 +9,8 @@ data/e2e_rejected/headtail.jsonl). Length = configuration 4's (slate-pose-6 cali
 Two steps:
   list    this repo's environment: uv run python analysis/codesign/rejected_lengths.py
           writes data/rejected_lengths/frames.csv (points) and review.csv (image_id, dive, length_cm, judgment blank:
-          usable / not usable / unsure)
+          usable / not usable / unsure). The author's judgments (2026-11-06) are filled in by hand in review.csv; re-running
+          this step blanks them, so don't
   render  NAS + the fishsense-services processor environment (fishsense-core 4.3.2):
           <procenv>/bin/python analysis/codesign/rejected_lengths.py render
           each frame as RectifiedImage(RawImage(raw)), fishsense-core's default decode, 2000 px wide, with the dot
