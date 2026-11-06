@@ -20,6 +20,7 @@ One figure (or pair) per section of the paper outline. Rebuild:
 | 6 Reef agreement | Bland-Altman, fully automatic vs human, 7 reef dives, 243 frames (replaces fig5_reef_lengths); `images/graphs/fig_reef_agreement.pdf` | `analysis/codesign/figures/fig_reef_agreement` | reef_agreement.py <- stage_comparison_frames.csv |
 | 5 Spread | size constancy's angle error against slate size spread, median and p90, m >= 8 frames, 0.05 deg line; `images/graphs/fig_spread.pdf` | `analysis/codesign/figures/fig_spread` | calibration_spread.py |
 | 4 Red vs green | detector missed / wrong spot within camera and setting, and a labeler's seconds per laser label, by laser color; `images/graphs/fig_redgreen.pdf` | `analysis/codesign/figures/fig_redgreen` | redgreen.py --physical, before_after.py |
+| 7 Dive 436 | mirrored slate labels on frame 121793: template as held, clicks as recorded (5.6 px) and re-numbered 2 1 0 5 4 (0.7 px); `images/graphs/fig_dive436.pdf` | `analysis/codesign/figures/fig_dive436` | slate_handedness.py inputs, dive436_render.py |
 | 9 End-to-end | pool stage ladder vs tape | `figures/fig4_stage_ladder` | e2e_measurement/ |
 | 9 End-to-end | reef automatic vs manual length | `figures/fig5_reef_lengths` | e2e_measurement/tail/ |
 | 10 Design rules | table | `analysis/codesign/design_rules.tex` | design_rules.yaml + claims.yaml |

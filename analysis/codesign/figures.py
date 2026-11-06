@@ -28,7 +28,7 @@ Run: uv run --with pyyaml python analysis/codesign/figures.py
 """
 from __future__ import annotations
 
-import re, sys
+import json, re, sys
 from pathlib import Path
 
 import matplotlib.dates as mdates
@@ -559,6 +559,54 @@ def fig_redgreen():
     save(fig, "fig_redgreen", bare=True)
 
 
+def fig_dive436():
+    """Dive 436's mirrored slate labels on frame 121793 (slate_handedness.py's inputs: slate_label_points.psv,
+    slate_templates.psv, the dive's slate from annotations.psv; the mirrored frame with the median recorded error).
+    Left: the template's numbering, turned 180 deg as the slate is held in this frame; middle: the clicks numbered as
+    recorded; right: the same clicks re-numbered (template points 2 1 0 5 4, the order
+    slate_handedness.py finds). Each panel also shows the template's reference points projected through the planar PnP
+    (IPPE) pose that numbering gives, with its reprojection RMS. The automatic slate pose's per-frame points are not
+    stored (only in workflow history), so they are not drawn. Crop: dive436_render.py."""
+    import matplotlib.image as mpimg
+    import matplotlib.patheffects as pe
+    sys.path.insert(0, str(HERE))
+    import slate_handedness as SH  # noqa: E402
+    tpl, name, L = SH.inputs()
+    obj = tpl[name[436]]
+    r = L[L.image_id == 121793].iloc[0]
+    img = np.array(json.loads(r.pts), float)
+    I = pd.read_csv(REPO / "laser_detection_analysis/intrinsics.csv").set_index("camera_id")
+    K = np.array(json.loads(I.loc[int(r.camera_id), "camera_matrix"]))
+    C = pd.read_csv(REPO / "data/dive436/crop.csv").iloc[0]; sx = C.out_w / (C.x1 - C.x0)
+    photo = mpimg.imread(REPO / "data/dive436/121793.jpg")
+    fig, axes = plt.subplots(1, 3, figsize=(ONE, 1.45), layout="constrained", gridspec_kw=dict(width_ratios=[0.75, 1, 1]))
+    outline = [pe.withStroke(linewidth=2, foreground="black")]
+    t = axes[0]                                         # the template with its point numbers, turned 180 deg as the slate is held
+    tp = -obj                                           # 180 deg in the image plane (y down, as the photo)
+    t.scatter(tp[:, 0], tp[:, 1], s=14, color=INK2)
+    for k, (x, y) in enumerate(tp):
+        t.text(x, y, f" {k}", fontsize=7, color=INK, va="center")
+    t.set_aspect("equal"); t.invert_yaxis(); t.set_axis_off(); t.margins(0.18)
+    t.text(0.5, -0.02, "template,\nas held", transform=t.transAxes, fontsize=7, color=INK2, ha="center", va="top", linespacing=1.0)
+    for ax, (label, order) in zip(axes[1:], (("as recorded", [0, 1, 2, 3, 4]), ("re-numbered", [2, 1, 0, 5, 4]))):
+        rms, Rm, tv, _ = SH.pnp(obj[order], img, K)
+        rv = SH.cv2.Rodrigues(Rm)[0]
+        proj = SH.cv2.projectPoints(np.c_[obj, np.zeros(len(obj))], rv, tv, K, None)[0].reshape(-1, 2)
+        ax.imshow(photo)
+        q = (proj - [C.x0, C.y0]) * sx; c = (img - [C.x0, C.y0]) * sx
+        ax.scatter(q[:, 0], q[:, 1], s=30, marker="s", facecolor="none", edgecolor="white", linewidth=1.1, zorder=3)
+        ax.scatter(c[:, 0], c[:, 1], s=14, color=PEOPLE, edgecolor="black", linewidth=0.4, zorder=4)
+        for (x, y), t in zip(c, order):
+            ax.text(x + 12, y - 12, str(t), fontsize=7, color="white", fontweight="bold", path_effects=outline, zorder=5)
+        ax.set_axis_off()
+        ax.text(0.5, -0.02, f"{label}, {rms:.1f} px", transform=ax.transAxes, fontsize=7, color=INK2, ha="center", va="top")
+    from matplotlib.lines import Line2D
+    fig.legend(handles=[Line2D([], [], ls="", marker="o", color=PEOPLE, markeredgecolor="black", label="click, with its template number"),
+                        Line2D([], [], ls="", marker="s", markerfacecolor="none", markeredgecolor=INK2, label="template projected by the pose")],
+               loc="outside lower center", ncol=1, frameon=False, fontsize=7, handletextpad=0.3)
+    save(fig, "fig_dive436", bare=True)
+
+
 # ---------------------------------------------------------------- Experiences paper (2026-10-07)
 def _ts(x):
     """A date from YAML: a date object, YYYY-MM-DD, or YYYY-MM (placed mid-month)."""
@@ -692,6 +740,6 @@ if __name__ == "__main__":
     design_rules_table()
     sys.path.insert(0, str(HERE))
     for f in (codesign_timeline, codesign_frames_fish, codesign_spread, codesign_redgreen,
-              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement, fig_spread, fig_redgreen,
+              sensys_system, sensys_calibration, sensys_capture, sensys_labelling, fig_prefill, fig_stage_breakdown, fig_size_constancy, fig_headtail_compare, fig_reef_agreement, fig_spread, fig_redgreen, fig_dive436,
               paper_laser_calibration, paper_automation):
         f()
