@@ -157,9 +157,12 @@ history is retained for about 30 days, so the machine times describe the current
 
 ![Figure 8](figures/fig8_labeling_time.png)
 
-*Figure 8. Person-time per label, for annotations drawn from scratch (no prediction or earlier
-label as a seed). A measured frame needs a laser dot, snout + fork and species (about 41 s at
-the medians); each dive also needs its slate frames' corners (61 s per frame).*
+*Figure 8. Where automation saves the most person-time, tasks in the order this paper automates
+them. (a) Seconds per label for annotations drawn from scratch (no prediction or earlier label as a
+seed): median, interquartile box, 10th–90th percentile whisker. (b) Each task's median share of a
+field dive's estimated labeling time, over 215 physical dives (laser dot 37%, 95% CI 36–38;
+snout + fork 28%, 28–29; species 22%, 22–23; slate corners 12%, 11–14; intervals resample physical
+dives; the four medians are taken separately).*
 
 ### 3.2 Human labels are anchored, so "agreement" is acceptance
 
@@ -610,7 +613,7 @@ clustered dives have above-average frame coverage, so this is optimistic.
 | stereo fish outside IMWUT's seven (§6) | `analysis/codesign/stereo_new_fish.py` (commit c28a0184) → `results/stereo_new_fish{,_frames}.csv`; frames ← `data/stereo/` (run 2026-11-01); stereo ← the IMWUT repo's `fish_model_analysis/data/stereo_archive.csv`. Three Conch Reef fish; the automatic pipeline is within 2–4% of the human pipeline on the same frames, both far from stereo (doubtful Black Grouper match; calibration extrapolated to 3–4 m) |
 | calibration trust: refusals, beam moves, borrowing (§7) | `analysis/codesign/calibration_trust.py` (this commit) → `results/calibration_trust.csv`, from `data/db_extracts/dive_calibration_status.psv` (`sql/extract_dive_calibration_status.sql`) and `data/fishsense_services/slate_pose_calibrations.csv`. Corpus beam-move counts, sizes and timing from fishsense-services `beam_moves.py` and the services session record (2026-10-25..30). Size constancy's predicted-vs-real error (0.22) is in the services record only, not reproducible here |
 | slate pose vs human calibrations (§6) | `analysis/codesign/slatepose_vs_human.py` (this commit) → `results/slatepose_vs_human.csv`, from the 2026-10-31 services export and `data/db_extracts/dive_laser_dots.psv` (`sql/extract_dive_laser_dots.sql`): 17 physical dives, median \|difference\| 1.28% (0.62–1.52), 14 within one bar, 17 within two, 14 high |
-| labelling time (Fig 8) | `figures/make_figures.py` `fig8_labeling_time` (commit 893a36a4) ← `data/db_extracts/lead_times_by_dive.psv` (`sql/extract_lead_times_by_dive.sql`); per-task medians with dive intervals: `analysis/codesign/labelling_time_claims.py` (c1b7dedc). Was `data/labeling/lead_times.csv`, which no script produces |
+| labelling time (Fig 8) | `figures/make_figures.py` `fig8_labeling_time` (two panels, 2026-11-05) ← (a) `data/db_extracts/lead_times_by_dive.psv` (`sql/extract_lead_times_by_dive.sql`); (b) `analysis/codesign/results/labelling_time_claims_physical.csv` claim 4 (`labelling_time_claims.py --physical` over `dive_time.py --physical`); per-task medians with dive intervals: `analysis/codesign/labelling_time_claims.py` (c1b7dedc). Was `data/labeling/lead_times.csv`, which no script produces |
 | anchoring, 87% | `p2-results.md` T1/T2; `annotation_analysis/laser_label_pairs.ipynb` |
 | frames per animal, range | `p2-results.md` T7 |
 | failed calibration cues (Table 2) | `p2-tests.md` E1c, E1d, E1e, E1h, E1i, E1k; `calibration_analysis/` |

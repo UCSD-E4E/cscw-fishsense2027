@@ -472,7 +472,7 @@
   physical_dives: "each physical dive counted once (physical_dives.py, 2026-10-27): 215 field dives: laser dot 37.2% (36.4-38.0), snout/fork 28.2%, species 22.4%, slate 12.3% (10.8-13.7); laser dot largest on 78%; snout/fork + species 51%. Slate frames per dive median 12 (12 on the 29 dives with a complete count, CI 9-16). Images per field dive median 174 (150-206) (labelling_time_claims_physical.csv)"
   evidence_level: retrospective
   lesson: 1
-  source: analysis/codesign/labelling_time_claims.py (from dive_time.py's per-dive table)
+  source: analysis/codesign/labelling_time_claims.py (from dive_time.py's per-dive table); figure fig8_labeling_time (b) plots the physical-dive values
   confounds: "fish-frame counts imputed on unfinished dives and slate counts on dives without a complete count (dive_time.py); per-task medians held fixed in the intervals"
   paper_section: 3
 

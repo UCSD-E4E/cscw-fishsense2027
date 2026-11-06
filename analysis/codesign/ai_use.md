@@ -138,7 +138,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-11-01 | Stereo fish outside IMWUT's seven: automatic chain run on 24 frames on the local GPU (fishsense-services processor environment built read-only from its lockfile), scored against stereo and against the human pipeline (`stereo_new_fish.py`); laser region moved to `laser_region.py` (stage comparison reproduces unchanged) | analysis | assistant | this commit |
 | 2026-11-01 | §6 stage comparison, human-rejected frames: the 32 frames without SimCC keypoints run through the automatic head/tail chain on the local GPU (`rejected_headtail.py`); configuration 4's outcome per frame added (`stage_comparison.py` → `stage_comparison_v5_outcomes.csv`); claims.yaml and evidence map updated | analysis | assistant | this commit |
 | 2026-11-01 | §7 calibration trust counts: v1 refusals, slate-pose refusals, beam moves, borrowed calibrations by physical dive (`calibration_trust.py`, new extract `dive_calibration_status`); services record traced for the uncertainty check and the beam-move method | analysis | assistant | this commit |
-| 2026-11-01 | Slate pose vs human calibrations on the 2026-10-31 export, by physical dive (`slatepose_vs_human.py`, new extract `dive_laser_dots`) | analysis | assistant | this commit |
+| 2026-11-01 | Slate pose vs human calibrations on the 2026-10-31 export, by physical dive (`slatepose_vs_human.py`, new extract `dive_laser_dots`) | analysis | assistant | 0d78e783 |
+| 2026-11-05 | Figure fig8_labeling_time redrawn as two panels (seconds per label; share of a field dive's labeling time by physical dive), tasks in automation order, existing results only; PDF without Creator/Producer (`figures/make_figures.py`) | figure | assistant | this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);

@@ -8,7 +8,8 @@
   fig5_reef_lengths    fully automatic vs manual length on real reef fish
   fig6_coverage        frames covered vs human-rejected frames measured, as the SAM cutoff moves
   fig7_species         confusion matrix of the trained BioCLIP species head
-  fig8_labeling_time   person-seconds per label by type, drawn from scratch (no pre-filled seed)
+  fig8_labeling_time   (a) seconds per label by task, drawn from scratch; (b) each task's share of a field dive's
+                       labeling time, by physical dive; tasks in automation order
   fig9_slate_detector  slate-frame detector: precision-recall; per-dive recall
   fig10_size_measures  apparent-size measures for size-constancy calibration, scored against tape
   fig11_laser_recall   laser detector: found / wrong spot / missed by colour and setting
@@ -51,11 +52,12 @@ plt.rcParams.update({
 })
 
 
-def save(fig, name, exact=False):
+def save(fig, name, exact=False, bare=False):
     # no timestamps in the files, so a rebuild from the same data is byte-identical;
-    # exact=True keeps the figure's own size (laid out inside it) instead of the tight bounding box
+    # exact=True keeps the figure's own size (laid out inside it) instead of the tight bounding box;
+    # bare=True also drops the PDF's Creator and Producer
     with plt.rc_context({"savefig.bbox": "standard"} if exact else {}):
-        fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None})
+        fig.savefig(OUT / f"{name}.pdf", metadata={"CreationDate": None, "ModDate": None} | ({"Creator": None, "Producer": None} if bare else {}))
         fig.savefig(OUT / f"{name}.png", metadata={"Software": None})
     plt.close(fig); print("wrote", name)
 
@@ -297,29 +299,46 @@ def fig7_species():
 
 # ---------------------------------------------------------------- fig 8
 def fig8_labeling_time():
-    """Person-time per label, drawn from scratch: no prediction or earlier label as a seed.
-    Label Studio lead_time per annotation (data/db_extracts/lead_times_by_dive.psv, sql/extract_lead_times_by_dive.sql),
-    annotations without a parent_prediction / parent_annotation; no cap (idle tabs sit in the tail, beyond p90)."""
+    """Where automation saves the most person-time, each physical dive counted once.
+    (a) seconds per label, annotations drawn without a pre-filled seed (no parent_prediction / parent_annotation):
+        median, interquartile box, 10th-90th percentile whisker; Label Studio lead_time, no cap
+        (data/db_extracts/lead_times_by_dive.psv, sql/extract_lead_times_by_dive.sql)
+    (b) each task's median share of a field dive's estimated labeling time, 95% interval resampling physical dives
+        (analysis/codesign/results/labelling_time_claims_physical.csv, claim 4, from labelling_time_claims.py --physical
+        over dive_time.py --physical). The four medians are taken separately, so they need not sum to 100%.
+    Tasks in the order the paper automates them; species is not automated in the paper."""
     d = pd.read_csv(REPO / "data/db_extracts/lead_times_by_dive.psv", sep="|", header=None,
                     names=["kind", "dive_id", "image_id", "lead_time_s", "seeded", "created_at"])
     d = d[(d.seeded == "f") & d.lead_time_s.notna()]   # a few annotations carry no lead_time
-    names = {"laser": "laser dot", "headtail": "snout + fork", "species": "species", "slate": "slate corners\n(per slate frame)"}
-    stats = []
-    for k, g in d.groupby("kind"):
-        v = g.lead_time_s.to_numpy()
-        stats.append(dict(k=k, n=len(v), p10=np.percentile(v, 10), q1=np.percentile(v, 25), med=np.median(v),
-                          q3=np.percentile(v, 75), p90=np.percentile(v, 90)))
-    S = pd.DataFrame(stats).sort_values("med")
-    fig, ax = plt.subplots(figsize=(ONE, 2.1), layout="constrained")   # drawn at final size: one ACM column
-    for i, r in enumerate(S.itertuples()):
-        ax.plot([r.p10, r.p90], [i, i], color=BLUE, lw=1.2, solid_capstyle="round")
-        ax.add_patch(plt.Rectangle((r.q1, i - 0.28), r.q3 - r.q1, 0.56, fc="#cde2fb", ec=BLUE, lw=1))
-        ax.plot([r.med, r.med], [i - 0.28, i + 0.28], color=INK, lw=1.5)
-        ax.text(r.p90 + 3, i, f"{r.med:.0f} s  (n={r.n:,})", va="center", fontsize=7, color=INK2)
-    ax.set_yticks(range(len(S)), [names[k] for k in S.k]); ax.set_ylim(-0.6, len(S) - 0.4)
-    ax.grid(axis="y", visible=False); ax.set_xlim(0, S.p90.max() * 1.55)
-    ax.set_xlabel("seconds of a person's time per label")
-    save(fig, "fig8_labeling_time", exact=True)
+    C = pd.read_csv(REPO / "analysis/codesign/results/labelling_time_claims_physical.csv").set_index("quantity")
+    tasks = [("laser", "laser dot", "laser", "automated 1st"), ("slate", "slate corners", "slate", "automated 2nd"),
+             ("headtail", "snout + fork", "snout/fork", "automated 3rd"), ("species", "species", "species", "not automated")]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(ONE, 1.9), sharey=True, layout="constrained",
+                               gridspec_kw=dict(width_ratios=[1.1, 1]))
+    for i, (k, name, share, order) in enumerate(tasks):
+        v = d[d.kind == k].lead_time_s.to_numpy()
+        p10, q1, med, q3, p90 = np.percentile(v, [10, 25, 50, 75, 90])
+        assert abs(med - C.loc[f"{TASK_NAMES[k]}: median s per label (scripted extract)", "value"]) < 0.01
+        a.plot([p10, p90], [i, i], color=BLUE, lw=1.2, solid_capstyle="round")
+        a.add_patch(plt.Rectangle((q1, i - 0.28), q3 - q1, 0.56, fc="#cde2fb", ec=BLUE, lw=1))
+        a.plot([med, med], [i - 0.28, i + 0.28], color=INK, lw=1.5)
+        a.text(p90 + 4, i, f"{med:.0f} s", va="center", fontsize=7, color=INK2)
+        r = C.loc[f"{share}: median share of a field dive's estimated labelling time"]
+        b.plot([100 * r.ci_lo, 100 * r.ci_hi], [i, i], color=INK, lw=1.2)
+        b.plot(100 * r.value, i, "o", ms=4, color=BLUE if order != "not automated" else MUTED)
+        b.text(100 * r.ci_hi + 2, i, f"{100 * r.value:.0f}%", va="center", fontsize=7, color=INK2)
+    a.set_yticks(range(len(tasks)), [f"{name}\n{order}" for _, name, _, order in tasks], linespacing=1.1)
+    for t, (*_, order) in zip(a.get_yticklabels(), tasks):
+        t.set_color(INK if order != "not automated" else MUTED)
+    a.set_ylim(len(tasks) - 0.5, -0.5); a.tick_params(axis="y", length=0); b.tick_params(axis="y", length=0)
+    a.set_xlim(0, 175); a.set_xlabel("seconds per label")
+    b.set_xlim(0, 50); b.set_xlabel("share of a field\ndive's labeling, %")
+    for ax in (a, b):
+        ax.grid(axis="y", visible=False)
+    save(fig, "fig8_labeling_time", exact=True, bare=True)
+
+
+TASK_NAMES = {"laser": "laser dot", "headtail": "snout/fork", "species": "species", "slate": "slate corners"}
 
 
 # ---------------------------------------------------------------- fig 9
