@@ -151,7 +151,8 @@ Paths are relative to the repository root unless prefixed with a sibling reposit
 | 2026-11-05 | SenSys fig_redgreen from codesign_redgreen panels (a) and (c), physical dives (redgreen.py --physical and before_after.py re-run, both reproduce; `figures.py`) | figure | assistant | ec184547 |
 | 2026-11-05 | SenSys round 3 item 1: deployment scale counts (`deployment_scale.py`, new extract `labeler_counts`, counts only) | analysis | assistant | 166e67fb |
 | 2026-11-05 | SenSys round 3 item 2: figure fig_dive436 (frame 121793 rendered by `dive436_render.py`, one RAW file; overlays from slate_handedness.py's inputs; `figures.py`). The automatic slate pose's per-frame points are not stored, so not drawn (services session, 2026-11-05) | figure | assistant | 99abd883 |
-| 2026-11-05 | Evaluation dives vs the detector's training corpus and the keypoint model's split, per dive and physical dive (`eval_dive_training_overlap.py`, lookup only) | analysis | assistant | this commit |
+| 2026-11-05 | Evaluation dives vs the detector's training corpus and the keypoint model's split, per dive and physical dive (`eval_dive_training_overlap.py`, lookup only) | analysis | assistant | 8b6ab323 |
+| 2026-11-06 | Rejected reef frames the fully automatic pipeline measured: listing and review sheet (`rejected_lengths.py`), images rendered from 22 RAW files (not committed, 21 MB; regenerate with the render step) | review material | assistant | this commit |
 
 Work in sibling repositories that the paper relies on is AI-assisted too, and needs its own entries before submission:
 - slate detector (2026-10-03_slate_detector);
